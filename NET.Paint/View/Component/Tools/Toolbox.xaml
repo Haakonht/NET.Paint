@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Toolbox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:subComponents="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="250" d:Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../../Resources/Controls/SimpleExpander.xaml"/>
+    </UserControl.Resources>
+    
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top">
+                <!-- Shapes -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Shapes" IsExpanded="True" Margin="0,0,0,5">
+                    <subComponents:Shape DataContext="{Binding Tools}"/>
+                </Expander>
+                
+                <!-- Color -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Color" IsExpanded="True" Margin="0,5">
+                    <subComponents:Color DataContext="{Binding Tools}"/>
+                </Expander>
+                
+                <!-- Stroke -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Stroke" IsExpanded="True" Margin="0,5">
+                    <subComponents:Stroke DataContext="{Binding Tools}"/>
+                </Expander>
+
+                <!-- Font -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Font" IsExpanded="True" Margin="0,5">
+                    <subComponents:Font DataContext="{Binding Tools}"/>
+                </Expander>
+
+
+            </StackPanel>
+            <StackPanel VerticalAlignment="Bottom" Margin="5" >
+                <!-- Zoom -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Zoom" IsExpanded="False" Margin="0,5"  VerticalAlignment="Bottom">
+                    <subComponents:Zoom DataContext="{Binding Tools}"/>
+                </Expander>
+
+                <!-- Grid -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Grid" IsExpanded="False" Tag="Invert"  VerticalAlignment="Bottom">
+                    <subComponents:Grid DataContext="{Binding Tools}"/>
+                </Expander>
+            </StackPanel>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

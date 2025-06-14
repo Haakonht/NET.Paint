@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NET.Paint", "NET.Paint\NET.Paint.csproj", "{B66FC5F4-1358-4243-84CC-41DB470D34C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET.Paint.Drawing", "NET.Paint.Drawing\NET.Paint.Drawing.csproj", "{0E8EE810-EC55-4272-8413-FE7BCF67456A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B66FC5F4-1358-4243-84CC-41DB470D34C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66FC5F4-1358-4243-84CC-41DB470D34C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66FC5F4-1358-4243-84CC-41DB470D34C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66FC5F4-1358-4243-84CC-41DB470D34C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8EE810-EC55-4272-8413-FE7BCF67456A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8EE810-EC55-4272-8413-FE7BCF67456A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8EE810-EC55-4272-8413-FE7BCF67456A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8EE810-EC55-4272-8413-FE7BCF67456A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FE55EA5-7C75-4452-86BB-CE19C268A619}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,85 @@
+﻿using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock;
+
+namespace NET.Paint.View.Component
+{
+    /// <summary>
+    /// Interaction logic for Workbench.xaml
+    /// </summary>
+    public partial class Workbench : UserControl
+    {
+        public Workbench()
+        {
+            InitializeComponent();
+        }
+
+        private void ActiveContentChanged(object sender, EventArgs e)
+        {
+            var context = DataContext as XService;
+            var dockingManager = sender as DockingManager;
+            var document = dockingManager.ActiveContent as LayoutDocument;
+
+            if (document != null)
+            {
+                context.ActiveImage = document.Content as XImage;
+                context.ActiveImage.PropertyChanged += ActiveImage_PropertyChanged;
+                UpdatePropertiesVisibility(context.ActiveImage.Selected != null);
+            }
+        }
+
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null)
+                context.PropertyChanged += Service_PropertyChanged;
+        }
+
+        private void ActiveImage_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(XImage.Selected) && sender is XImage image)
+                Dispatcher.Invoke(() => UpdatePropertiesVisibility(image.Selected != null));
+        }
+
+        private void Service_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is XService service)
+            {
+                if (e.PropertyName == nameof(XService.ToolboxVisible))
+                    Dispatcher.Invoke(() => Toolbox.IsVisible = service.ToolboxVisible);
+
+                if (e.PropertyName == nameof(XService.OverviewVisible))
+                {
+                    Dispatcher.Invoke(() => Overview.IsVisible = service.OverviewVisible);
+
+                    if (!service.OverviewVisible)
+                        PropertiesAnchorable.IsVisible = service.OverviewVisible;
+                    else
+                        PropertiesAnchorable.IsVisible = service.ActiveImage.Selected != null;
+                }
+            }
+        }
+
+        private void UpdatePropertiesVisibility(bool visible)
+        {
+            if (PropertiesAnchorable == null) return;
+            PropertiesAnchorable.IsVisible = visible;
+        }
+    }
+}

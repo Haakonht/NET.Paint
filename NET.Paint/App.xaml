@@ -1,0 +1,16 @@
+﻿<Application x:Class="NET.Paint.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:NET.Paint"
+             xmlns:converter="clr-namespace:NET.Paint.Converter"
+             StartupUri="View/MainWindow.xaml">
+    <Application.Resources>
+        <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <converter:ContrastColorConverter x:Key="ContrastColorConverter"/>
+        <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+        <converter:PointsToPointCollectionConverter x:Key="PointsCollectionConverter"/>
+        <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+        <converter:InverseScaleConverter x:Key="InverseScaleConverter"/>
+        <converter:ShapeConverter x:Key="ShapeConverter"/>
+    </Application.Resources>
+</Application>

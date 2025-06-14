@@ -1,0 +1,92 @@
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Utility;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media;
+
+namespace NET.Paint.Drawing.Model.Shape
+{
+    public abstract class XStroked : XRenderable
+    {
+        private Color _strokeColor;
+        [Category("Stroke")]
+        [DisplayName("Color")]
+        public Color StrokeColor
+        {
+            get => _strokeColor;
+            set => SetProperty(ref _strokeColor, value);
+        }
+
+        private double _strokeThickness;
+        [Category("Stroke")]
+        [DisplayName("Thickness")]
+        public double StrokeThickness
+        {
+            get => _strokeThickness;
+            set => SetProperty(ref _strokeThickness, value);
+        }
+
+        private XStrokeStyle _strokeStyle;
+        [Category("Stroke")]
+        [DisplayName("Style")]
+        public XStrokeStyle StrokeStyle
+        {
+            get => _strokeStyle;
+            set => SetProperty(ref _strokeStyle, value);
+        }
+    }
+
+    public class XPencil : XStroked
+    {
+        public override ToolType Type => ToolType.Pencil;
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
+    }
+
+    public class XLine : XStroked
+    {
+        public override ToolType Type => ToolType.Line;
+
+        [Category("Position")]
+        public Point Start
+        {
+            get => Points[0];
+            set => Points[0] = value;
+        }
+        [Category("Position")]
+        public Point End
+        {
+            get => Points[1];
+            set => Points[1] = value;
+        }
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Start));
+            OnPropertyChanged(nameof(End));
+        }
+    }
+
+    public class XBezier : XLine
+    {
+        public override ToolType Type => ToolType.Bezier;
+
+        [Category("Position")]
+        [DisplayName("Control")]
+        public Point Ctrl1
+        {
+            get => Points[2];
+            set => Points[2] = value;
+        }
+
+        [Browsable(false)]
+        public Point Ctrl2 => Points[2];
+        
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Ctrl1));
+            OnPropertyChanged(nameof(Ctrl2));
+        }
+    }
+}

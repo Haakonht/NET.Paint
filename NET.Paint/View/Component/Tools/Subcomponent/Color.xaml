@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Tools.Subcomponent.Color"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             mc:Ignorable="d" 
+             d:DesignHeight="90" d:DesignWidth="250" d:Background="White">
+    <UniformGrid Columns="2">
+        <Grid Height="30">
+            <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding StrokeColor}" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
+            <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding StrokeColor, Converter={StaticResource ContrastColorConverter}}"/>
+        </Grid>
+        <Grid>
+            <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding FillColor}" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
+            <TextBlock Text="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}"/>
+        </Grid>
+    </UniformGrid>
+</UserControl>

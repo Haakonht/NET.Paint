@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Tools.Toolcontext"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="410" d:Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
+    </UserControl.Resources>
+    
+    <Grid Background="LightGray">
+        <Grid Background="White" Margin="5" Width="400" Height="50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ItemsControl ItemsSource="{x:Static options:XConstants.ToolOptions}" Grid.Row="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" GroupName="ActiveTool" Height="25" Width="25" Tag="{Binding}" Click="SelectTool">
+                            <RadioButton.Content>
+                                <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
+                            </RadioButton.Content>
+                        </RadioButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Grid Width="100">
+                    <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding StrokeColor}" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                    <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding StrokeColor, Converter={StaticResource ContrastColorConverter}}"/>
+                </Grid>
+                <Grid Width="100">
+                    <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding FillColor}" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                    <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}"/>
+                </Grid>
+                <Slider Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
