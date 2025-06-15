@@ -8,7 +8,6 @@ namespace NET.Paint.Selector
     {
         public DataTemplate SelectorTemplate { get; set; }
         public DataTemplate PencilTemplate { get; set; }
-        public DataTemplate EraserTemplate { get; set; }
         public DataTemplate LineTemplate { get; set; }
         public DataTemplate BezierTemplate { get; set; }
         public DataTemplate CircleTemplate { get; set; }
@@ -31,8 +30,6 @@ namespace NET.Paint.Selector
                 {
                     case ToolType.Selector:
                         return SelectorTemplate;
-                    case ToolType.Eraser:
-                        return EraserTemplate;
                     case ToolType.Pencil:
                         return PencilTemplate;
                     case ToolType.Line:

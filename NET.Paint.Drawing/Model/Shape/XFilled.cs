@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.Specialized;
@@ -37,10 +38,9 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [Browsable(false)]
-        public Point Center => new Point(Points.Min(p => p.X) + Points.Max(p => p.X) / 2, Points.Min(p => p.Y) + Points.Max(p => p.Y) / 2);
+        public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
 
         private double _rotation = 0;
-
         public double Rotation
         {
             get => _rotation;

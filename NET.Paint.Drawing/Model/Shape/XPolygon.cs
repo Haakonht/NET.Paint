@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.Specialized;
@@ -13,6 +14,7 @@ namespace NET.Paint.Drawing.Model.Shape
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Points));
+            OnPropertyChanged(nameof(Center));
         }
     }
 

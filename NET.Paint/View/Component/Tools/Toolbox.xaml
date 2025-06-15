@@ -37,6 +37,11 @@
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="5" >
                 <!-- Zoom -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Ruler" IsExpanded="False" VerticalAlignment="Bottom">
+                    <subComponents:Ruler DataContext="{Binding Tools}"/>
+                </Expander>
+
+                <!-- Zoom -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Zoom" IsExpanded="False" Margin="0,5"  VerticalAlignment="Bottom">
                     <subComponents:Zoom DataContext="{Binding Tools}"/>
                 </Expander>

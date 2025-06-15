@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model.Utility;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -40,6 +41,21 @@ namespace NET.Paint.Drawing.Model.Shape
     public class XPencil : XStroked
     {
         public override ToolType Type => ToolType.Pencil;
+
+        protected double _spacing = 13.0;
+        [DisplayName("Resolution")]
+        public double Spacing
+        {
+            get => _spacing;
+            set
+            {
+                if (value != _spacing && value > 9)
+                {
+                    XFactory.ResamplePoints(Points, value);
+                    SetProperty(ref _spacing, value);
+                }
+            }
+        }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
     }

@@ -1,22 +1,11 @@
-﻿using NET.Paint.Drawing.Model.Shape;
+﻿using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.View.Component.Tools;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component.Fragment
 {
@@ -25,6 +14,8 @@ namespace NET.Paint.View.Component.Fragment
     /// </summary>
     public partial class Highlighter : UserControl
     {
+        private IRotateable? _rotateable = null;
+
         public Highlighter()
         {
             InitializeComponent();
@@ -63,6 +54,35 @@ namespace NET.Paint.View.Component.Fragment
             Points[index] = newPoint;
         }
 
+        private double _dragStartY;
+
+        private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            if (sender is Thumb thumb)
+            {
+                // Get mouse position relative to the control or screen
+                _dragStartY = Mouse.GetPosition(thumb).Y;
+            }
+        }
+
+        private void RotateThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (sender is Thumb thumb && DataContext is XImage image)
+            {
+                if (image.Selected is IRotateable rotateable)
+                {
+                    double currentY = Mouse.GetPosition(thumb).Y;
+                    double offset = _dragStartY - currentY;  // Positive if moved up, negative if moved down
+
+                    // Rotate 1 degree per 10 pixels offset:
+                    double rotationDegrees = offset / 4;
+
+                    // Set absolute rotation relative to start rotation at drag start (optional)
+                    rotateable.Rotation = rotationDegrees;
+                }
+            }
+        }
+
         private bool isDragging = false;
         private Point lastMousePosition;
 
@@ -79,18 +99,14 @@ namespace NET.Paint.View.Component.Fragment
 
             var presenter = (ContentPresenter)sender;
             Point currentPos = e.GetPosition(presenter);
-
-            // Calculate delta since last mouse move
             Vector delta = currentPos - lastMousePosition;
-
             lastMousePosition = currentPos;
 
-            // Translate all points by delta
             for (int i = 0; i < Points.Count; i++)
             {
                 var p = Points[i];
                 Points[i] = new Point(p.X + delta.X, p.Y + delta.Y);
-            }
+            }           
         }
 
         private void ContentPresenter_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

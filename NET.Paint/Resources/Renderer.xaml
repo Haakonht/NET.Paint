@@ -27,8 +27,8 @@
         <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Ellipse.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
+                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
@@ -42,20 +42,12 @@
         </Ellipse>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XTriangle}">
-        <Polygon Points="{Binding Points, Converter={StaticResource PointsCollectionConverter}}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
-            <Polygon.RenderTransform>
-                <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-            </Polygon.RenderTransform>
-        </Polygon>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type shape:XRectangle}">
         <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
+                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
@@ -65,8 +57,8 @@
         <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" RadiusX="{Binding RadiusX}" RadiusY="{Binding RadiusY}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
+                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>

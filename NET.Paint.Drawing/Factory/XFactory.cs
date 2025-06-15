@@ -215,5 +215,108 @@ namespace NET.Paint.Drawing.Factory
             var secondPoint = new Point(end.X, start.Y + verticalDistance);
             return new ObservableCollection<Point>() { start, secondPoint };
         }
+
+        public static Point? CreatePencilPoints(ObservableCollection<Point> points, Point? lastAddedPoint, Point currentPos, double spacing)
+        {
+            if (lastAddedPoint == null)
+            {
+                points.Add(currentPos);
+                return currentPos;
+            }
+
+            var lastPoint = lastAddedPoint.Value;
+            var distance = (currentPos - lastPoint).Length;
+
+            if (distance >= spacing)
+            {
+                int pointsToAdd = (int)(distance / spacing);
+                Vector direction = (currentPos - lastPoint);
+                direction.Normalize();
+
+                for (int i = 1; i <= pointsToAdd; i++)
+                    points.Add(lastPoint + direction * (i * spacing));
+
+                return currentPos;
+            }
+
+            return lastAddedPoint;
+        }
+
+        public static void ResamplePoints(ObservableCollection<Point> points, double spacing)
+        {
+            if (points == null || points.Count < 2 || spacing <= 0)
+                return;
+
+            // Calculate total length segments and accumulate lengths
+            var segmentLengths = new List<double>();
+            double totalLength = 0;
+
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                double segmentLength = (points[i + 1] - points[i]).Length;
+                segmentLengths.Add(segmentLength);
+                totalLength += segmentLength;
+            }
+
+            var newPoints = new List<Point>();
+            newPoints.Add(points[0]); // always keep first point
+
+            double distanceSoFar = 0;
+            int segmentIndex = 0;
+            double segmentStartDistance = 0;
+
+            while (distanceSoFar + spacing <= totalLength)
+            {
+                distanceSoFar += spacing;
+
+                // Move to correct segment
+                while (segmentIndex < segmentLengths.Count && distanceSoFar > segmentStartDistance + segmentLengths[segmentIndex])
+                {
+                    segmentStartDistance += segmentLengths[segmentIndex];
+                    segmentIndex++;
+                }
+
+                if (segmentIndex >= segmentLengths.Count)
+                    break;
+
+                // Interpolate between points[segmentIndex] and points[segmentIndex+1]
+                double segmentDist = distanceSoFar - segmentStartDistance;
+                double segmentLength = segmentLengths[segmentIndex];
+
+                double t = segmentDist / segmentLength;
+
+                Point p0 = points[segmentIndex];
+                Point p1 = points[segmentIndex + 1];
+
+                Point interpolated = new Point(
+                    p0.X + t * (p1.X - p0.X),
+                    p0.Y + t * (p1.Y - p0.Y));
+
+                newPoints.Add(interpolated);
+            }
+
+            // Always keep the last point
+            newPoints.Add(points[^1]);
+
+            // Replace the points in the ObservableCollection in place
+            points.Clear();
+            foreach (var p in newPoints)
+                points.Add(p);
+        }
+
+        public static Point RotatePointAroundCenter(Point point, Point center, double angleDegrees)
+        {
+            double radians = angleDegrees * Math.PI / 180.0;
+            double cos = Math.Cos(radians);
+            double sin = Math.Sin(radians);
+
+            double dx = point.X - center.X;
+            double dy = point.Y - center.Y;
+
+            double xNew = center.X + dx * cos - dy * sin;
+            double yNew = center.Y + dx * sin + dy * cos;
+
+            return new Point(xNew, yNew);
+        }
     }
 }

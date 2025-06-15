@@ -144,28 +144,52 @@ namespace NET.Paint.Drawing.Model
 
         #region Grid
 
-        private bool _gridEnabled = false;
+        private bool _gridEnabled = true;
         public bool GridEnabled
         {
             get => _gridEnabled;
             set => SetProperty(ref _gridEnabled, value);
         }
 
-        private int _gridHeight = 50;
+        private int _gridHeight = 10;
         public int GridHeight
         {
             get => _gridHeight;
             set => SetProperty(ref _gridHeight, value);
         }
 
-        private int _gridWidth = 50;
+        private int _gridWidth = 10;
         public int GridWidth
         {
             get => _gridWidth;
             set => SetProperty(ref _gridWidth, value);
         }
 
+        private Color _gridColor = Colors.LightGray;
+        public Color GridColor
+        {
+            get => _gridColor;
+            set => SetProperty(ref _gridColor, value);
+        }
+
         #endregion
 
+        #region Ruler
+
+        private bool _rulerEnabled = false;
+        public bool RulerEnabled
+        {
+            get => _rulerEnabled;
+            set => SetProperty(ref _rulerEnabled, value);
+        }
+
+        private double _rulerScale = 5;
+        public double RulerScale
+        {
+            get => _rulerScale;
+            set => SetProperty(ref _rulerScale, value);
+        }
+
+        #endregion
     }
 }

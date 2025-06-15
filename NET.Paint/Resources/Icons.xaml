@@ -121,10 +121,6 @@
         <fa:IconBlock Icon="Pencil"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Eraser">
-        <fa:IconBlock Icon="Eraser"/>
-    </DataTemplate>
-
     <DataTemplate x:Key="Text">
         <fa:IconBlock Icon="Font"/>
     </DataTemplate>
@@ -134,7 +130,7 @@
     </DataTemplate>
 
     <selector:IconSelector x:Key="IconSelector" 
-                           SelectorTemplate="{StaticResource Selector}" PencilTemplate="{StaticResource Pencil}" EraserTemplate="{StaticResource Eraser}" LineTemplate="{StaticResource Line}" BezierTemplate="{StaticResource Bezier}" StarTemplate="{StaticResource Star}"
+                           SelectorTemplate="{StaticResource Selector}" PencilTemplate="{StaticResource Pencil}" LineTemplate="{StaticResource Line}" BezierTemplate="{StaticResource Bezier}" StarTemplate="{StaticResource Star}"
                            EllipseTemplate="{StaticResource Ellipse}" CircleTemplate="{StaticResource Circle}" TriangleTemplate="{StaticResource Triangle}" RectangleTemplate="{StaticResource Rectangle}" RoundedRectangleTemplate="{StaticResource RoundedRectangle}"  
                            PentagonTemplate="{StaticResource Pentagon}" HexagonTemplate="{StaticResource Hexagon}" OctagonTemplate="{StaticResource Octagon}" TextTemplate="{StaticResource Text}" BitmapTemplate="{StaticResource Bitmap}" />
 </ResourceDictionary>

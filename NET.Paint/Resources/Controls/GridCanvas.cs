@@ -19,8 +19,8 @@ namespace NET.Paint.Resources.Controls
                 new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty GridColorProperty =
-            DependencyProperty.Register(nameof(GridColor), typeof(Brush), typeof(GridCanvas),
-                new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register(nameof(GridColor), typeof(Color), typeof(GridCanvas),
+                new FrameworkPropertyMetadata(Colors.LightGray, FrameworkPropertyMetadataOptions.AffectsRender));
 
 
         public double GridWidth
@@ -42,9 +42,9 @@ namespace NET.Paint.Resources.Controls
         }
 
 
-        public Brush GridColor
+        public Color GridColor
         {
-            get => (Brush)GetValue(GridColorProperty);
+            get => (Color)GetValue(GridColorProperty);
             set => SetValue(GridColorProperty, value);
         }
 
@@ -58,7 +58,7 @@ namespace NET.Paint.Resources.Controls
             if (GridWidth <= 0 || GridHeight <= 0)
                 return;
 
-            Pen gridPen = new Pen(GridColor, 0.5);
+            Pen gridPen = new Pen(new SolidColorBrush(GridColor), 0.5);
 
             double width = ActualWidth;
             double height = ActualHeight;

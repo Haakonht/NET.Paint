@@ -61,12 +61,119 @@ namespace NET.Paint.View.Component
             e.Handled = true;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Add(object sender, RoutedEventArgs e)
         {
             var context = DataContext as XImage;
 
             if (context != null)
                 context.Layers.Add(new XLayer() { Title = $"Layer {context.Layers.Count}" });
+        }
+
+        private void Remove(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XImage;
+            var item = sender as MenuItem;
+
+            if (context != null)
+            {
+                if (item.DataContext is XLayer layer && context.Layers.Count > 1)
+                {
+                    context.Layers.Remove(layer);
+                    context.ActiveLayer = context.Layers.First();
+                }
+
+                if (item.DataContext is XRenderable renderable)
+                {
+                    foreach (var xlayer in context.Layers)
+                    {
+                        for (int i = 0; i < context.Layers.Count; i++)
+                        {
+                            if (context.Layers[i].Shapes.Contains(renderable))
+                                context.Layers[i].Shapes.Remove(renderable);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Cut(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XImage;
+            var item = sender as MenuItem;
+
+            if (context != null)
+            {
+                if (item.DataContext is XLayer layer && context.Layers.Count > 1)
+                {
+                    context.Layers.Remove(layer);
+                }
+
+                if (item.DataContext is XRenderable renderable)
+                {
+                    foreach (var xlayer in context.Layers)
+                    {
+                        for (int i = 0; i < context.Layers.Count; i++)
+                        {
+                            if (context.Layers[i].Shapes.Contains(renderable))
+                                context.Layers[i].Shapes.Remove(renderable);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Copy(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XImage;
+            var item = sender as MenuItem;
+
+            if (context != null)
+            {
+                if (item.DataContext is XLayer layer && context.Layers.Count > 1)
+                {
+                    context.Layers.Remove(layer);
+                    context.ActiveLayer = context.Layers.First();
+                }
+
+                if (item.DataContext is XRenderable renderable)
+                {
+                    foreach (var xlayer in context.Layers)
+                    {
+                        for (int i = 0; i < context.Layers.Count; i++)
+                        {
+                            if (context.Layers[i].Shapes.Contains(renderable))
+                                context.Layers[i].Shapes.Remove(renderable);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Paste(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XImage;
+            var item = sender as MenuItem;
+
+            if (context != null)
+            {
+                if (item.DataContext is XLayer layer && context.Layers.Count > 1)
+                {
+                    context.Layers.Remove(layer);
+                    context.ActiveLayer = context.Layers.First();
+                }
+
+                if (item.DataContext is XRenderable renderable)
+                {
+                    foreach (var xlayer in context.Layers)
+                    {
+                        for (int i = 0; i < context.Layers.Count; i++)
+                        {
+                            if (context.Layers[i].Shapes.Contains(renderable))
+                                context.Layers[i].Shapes.Remove(renderable);
+                        }
+                    }
+                }
+            }
         }
     }
 }

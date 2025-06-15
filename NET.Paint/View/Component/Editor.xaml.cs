@@ -4,6 +4,7 @@ using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Resources.Controls;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,9 +18,7 @@ namespace NET.Paint.View.Component
     /// </summary>
     public partial class Editor : UserControl
     {
-        private DateTime _lastAddTime = DateTime.MinValue;
-        private readonly TimeSpan _interval = TimeSpan.FromMilliseconds(50);
-
+        private Point? _lastAddedPoint = null;
         public XPreview Preview { get; } = new XPreview();
 
         public Editor()
@@ -61,13 +60,10 @@ namespace NET.Paint.View.Component
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    if (image.Tools.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil)
+
+                    if (image.Tools.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
                     {
-                        if ((DateTime.Now - _lastAddTime) >= _interval)
-                        {
-                            Preview.Shape.Points.Add(new XPoint(image.Tools.MouseLocation.Value));
-                            _lastAddTime = DateTime.Now;
-                        }
+                        _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, image.Tools.MouseLocation.Value, pencil.Spacing);                        
                     }
                     else
                     {
@@ -88,10 +84,12 @@ namespace NET.Paint.View.Component
                         image.ActiveLayer.Shapes.Add(Preview.Shape);
                         image.Tools.ClickLocation = null;
                         Preview.Shape = null;
+                        _lastAddedPoint = null;
                     }
                 }
             }
         }
+
         private void OpenContext(object sender, MouseButtonEventArgs e)
         {
             Toolcontext.IsOpen = true;

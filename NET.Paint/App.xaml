@@ -12,6 +12,7 @@
         <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
         <converter:InverseScaleConverter x:Key="InverseScaleConverter"/>
         <converter:ToolToCursorConverter x:Key="ToolToCursorConverter"/>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converter:ShapeConverter x:Key="ShapeConverter"/>
     </Application.Resources>

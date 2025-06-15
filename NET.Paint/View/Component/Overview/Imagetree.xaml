@@ -34,13 +34,13 @@
             </HierarchicalDataTemplate>
 
             <ContextMenu x:Key="LayerContextMenu">
-                <MenuItem Header="Add" Click="MenuItem_Click"/>
+                <MenuItem Header="Add" Click="Add"/>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Cut"/>
                     <MenuItem Header="Copy"/>
                     <MenuItem Header="Paste"/>
                 </MenuItem>
-                <MenuItem Header="Remove"/>
+                <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
 
             <ContextMenu x:Key="RenderableContextMenu">
@@ -49,7 +49,7 @@
                     <MenuItem Header="Copy"/>
                     <MenuItem Header="Paste"/>
                 </MenuItem>
-                <MenuItem Header="Remove"/>
+                <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>

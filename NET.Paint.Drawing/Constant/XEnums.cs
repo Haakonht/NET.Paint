@@ -10,7 +10,6 @@ namespace NET.Paint.Drawing.Constant
     {
         Selector,
         Pencil,
-        Eraser,
         Line,
         Bezier,
         Circle,
