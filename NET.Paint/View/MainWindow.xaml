@@ -56,6 +56,6 @@
             </DockPanel>
         </Border>
 
-        <component:Workbench DataContext="{Binding}" DockPanel.Dock="Bottom" Margin="5"/>
+        <component:Desktop DataContext="{Binding}" DockPanel.Dock="Bottom" Margin="5"/>
     </DockPanel>
 </Window>

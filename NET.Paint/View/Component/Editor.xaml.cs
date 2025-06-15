@@ -3,9 +3,12 @@ using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.Resources.Controls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component
 {
@@ -29,7 +32,23 @@ namespace NET.Paint.View.Component
             var image = DataContext as XImage;
             
             if (image != null)
-                image.Tools.ClickLocation = e.GetPosition(sender as UIElement);
+            {
+                image.Tools.ClickLocation = new XPoint(e.GetPosition(sender as UIElement));
+
+                if (image.Tools.ActiveTool == ToolType.Selector)
+                {
+                    if (sender is GridCanvas canvas)
+                    {
+                        var hitResult = VisualTreeHelper.HitTest(canvas, image.Tools.ClickLocation.Value);
+
+                        if (hitResult?.VisualHit is Shape shape)
+                            image.Selected = shape.DataContext;
+                        else
+                            image.Selected = null;
+                    }
+                }
+            }
+
         }
 
         private void MouseMove(object sender, MouseEventArgs e)
@@ -38,7 +57,7 @@ namespace NET.Paint.View.Component
 
             if (image != null)
             {
-                image.Tools.MouseLocation = e.GetPosition(sender as UIElement);
+                image.Tools.MouseLocation = new XPoint(e.GetPosition(sender as UIElement));
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
@@ -46,7 +65,7 @@ namespace NET.Paint.View.Component
                     {
                         if ((DateTime.Now - _lastAddTime) >= _interval)
                         {
-                            Preview.Shape.Points.Add(image.Tools.MouseLocation.Value);
+                            Preview.Shape.Points.Add(new XPoint(image.Tools.MouseLocation.Value));
                             _lastAddTime = DateTime.Now;
                         }
                     }
@@ -73,11 +92,10 @@ namespace NET.Paint.View.Component
                 }
             }
         }
-
         private void OpenContext(object sender, MouseButtonEventArgs e)
         {
             Toolcontext.IsOpen = true;
-            e.Handled = true;          
+            e.Handled = true;
         }
     }
 }

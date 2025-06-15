@@ -32,7 +32,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Bezier:
                     return new XBezier
                     {
-                        Points = CreateBezier(tools.ClickLocation.Value, tools.MouseLocation.Value),
+                        Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation!.Value),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
@@ -40,7 +40,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Circle:
                     return new XCircle
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation!.Value },
+                        Points = CreateCircle(tools.ClickLocation!.Value, tools.MouseLocation!.Value),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -204,9 +204,16 @@ namespace NET.Paint.Drawing.Factory
             if (start == null || end == null)
                 return new ObservableCollection<Point>();
 
-            Point ctrl1 = new Point(start.X + 0.33 * (end.X - start.X), start.Y + 0.33 * (end.Y - start.Y));
-            Point ctrl2 = new Point(start.X + 0.66 * (end.X - start.X), start.Y + 0.66 * (end.Y - start.Y));
-            return new ObservableCollection<Point>() { start, end, ctrl1, ctrl2 };
+            Point ctrl = new Point(start.X + 0.5 * (end.X - start.X), start.Y + 0.5 * (end.Y - start.Y));
+            return new ObservableCollection<Point>() { start, end, ctrl };
+        }
+
+        public static ObservableCollection<Point> CreateCircle(Point start, Point end)
+        {
+            double horizontalDistance = end.X - start.X;
+            double verticalDistance = Math.Sign(end.Y - start.Y) * Math.Abs(horizontalDistance);
+            var secondPoint = new Point(end.X, start.Y + verticalDistance);
+            return new ObservableCollection<Point>() { start, secondPoint };
         }
     }
 }

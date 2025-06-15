@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fragment="clr-namespace:NET.Paint.View.Component.Fragment"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:tools="clr-namespace:NET.Paint.View.Component.Tools"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
@@ -12,6 +13,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../../Resources/Renderer.xaml"/>
     </UserControl.Resources>
+    
     <xctk:Zoombox x:Name="Zoombox" Background="LightGray" IsUsingScrollBars="True" Scale="{Binding Tools.Zoom, Mode=TwoWay}" MinScale="0.1" MaxScale="2.0">
         <Grid Margin="25,20">
             <Grid.RowDefinitions>
@@ -24,25 +26,26 @@
             </Grid.ColumnDefinitions>
             <controls:SimpleRuler Height="40" Margin="10,0" Orientation="Horizontal" Scale="5" Value="{Binding Tools.MouseLocation.X}" Grid.Column="1" Grid.Row="0"/>
             <controls:SimpleRuler Width="40" Margin="0,10" Orientation="Vertical" Scale="5" Value="{Binding Tools.MouseLocation.Y}" Grid.Column="0" Grid.Row="1"/>
-            <controls:GridCanvas Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Tools.GridWidth}" GridHeight="{Binding Tools.GridHeight}" IsGridEnabled="{Binding Tools.GridEnabled}" GridColor="LightGray" Margin="10" Cursor="Cross" MouseDown="MouseDown" MouseMove="MouseMove" MouseRightButtonDown="OpenContext" Grid.Row="1" Grid.Column="1">
+            <controls:GridCanvas Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Tools.GridWidth}" GridHeight="{Binding Tools.GridHeight}" IsGridEnabled="{Binding Tools.GridEnabled}" GridColor="LightGray" Margin="10" Cursor="{Binding Tools.ActiveTool, Converter={StaticResource ToolToCursorConverter}}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseRightButtonDown="OpenContext" Grid.Row="1" Grid.Column="1">
                 <ItemsControl ItemsSource="{Binding Layers}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ItemsControl ItemsSource="{Binding Shapes}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <Canvas>
-                                                <Canvas.RenderTransform>
-                                                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                </Canvas.RenderTransform>
-                                            </Canvas>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ContentPresenter Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Shapes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas>
+                                            <Canvas.RenderTransform>
+                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                            </Canvas.RenderTransform>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <fragment:Highlighter Points="{Binding Selected.Points}" Visibility="{Binding Selected, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <ContentPresenter Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False"/>
                 <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="200" VerticalOffset="-25" LayoutTransform="{Binding ElementName=Zoombox, Path=Scale, Converter={StaticResource InverseScaleConverter}}">
                     <Border BorderBrush="Black" BorderThickness="1" Background="White">
                         <tools:Toolcontext DataContext="{Binding Tools}"/>

@@ -15,20 +15,22 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ItemsControl ItemsSource="{x:Static options:XConstants.ToolOptions}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" GroupName="ActiveTool" Height="25" Tag="{Binding}" Click="SelectTool">
-                    <RadioButton.Content>
-                        <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
-                    </RadioButton.Content>
-                </RadioButton>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <UniformGrid Columns="3"/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+    <UniformGrid Columns="3">
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Selector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Selector}}" GroupName="SelectedTool" Height="25"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Pencil}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Pencil}}" GroupName="SelectedTool"/>
+        <!-- <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Eraser}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Eraser}}" GroupName="SelectedTool"/> -->
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Line}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Line}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Bezier}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bezier}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Circle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Circle}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Ellipse}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Ellipse}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Triangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Triangle}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Rectangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Rectangle}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource RoundedRectangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.RoundedRectangle}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Pentagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Pentagon}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Hexagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Hexagon}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Octagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Octagon}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Star}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Star}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Text}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Text}}" GroupName="SelectedTool"/>
+        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Bitmap}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bitmap}}" GroupName="SelectedTool"/>
+    </UniformGrid>
 </UserControl>

@@ -24,6 +24,6 @@ namespace NET.Paint.Drawing.Model.Shape
             }
         }
 
-        public abstract void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e);
+        public virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
     }
 }

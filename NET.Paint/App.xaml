@@ -11,6 +11,8 @@
         <converter:PointsToPointCollectionConverter x:Key="PointsCollectionConverter"/>
         <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
         <converter:InverseScaleConverter x:Key="InverseScaleConverter"/>
+        <converter:ToolToCursorConverter x:Key="ToolToCursorConverter"/>
+        <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converter:ShapeConverter x:Key="ShapeConverter"/>
     </Application.Resources>
 </Application>

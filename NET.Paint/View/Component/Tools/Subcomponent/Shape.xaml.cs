@@ -33,7 +33,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
             var button = sender as RadioButton;
 
             if (context != null && button != null)
-                context.ActiveTool = (ToolType)button.Tag;
+                context.ActiveTool = (ToolType)button.DataContext;
         }
     }
 }

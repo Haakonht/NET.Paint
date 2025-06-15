@@ -22,9 +22,9 @@ namespace NET.Paint.View.Component
     /// <summary>
     /// Interaction logic for Workbench.xaml
     /// </summary>
-    public partial class Workbench : UserControl
+    public partial class Desktop : UserControl
     {
-        public Workbench()
+        public Desktop()
         {
             InitializeComponent();
         }

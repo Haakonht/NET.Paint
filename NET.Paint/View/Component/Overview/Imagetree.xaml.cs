@@ -1,4 +1,6 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.Drawing.Model.Structure;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
@@ -34,9 +36,10 @@ namespace NET.Paint.View.Component
             if (context != null)
             {
                 context.Selected = e.NewValue;
+                context.Tools.ActiveTool = ToolType.Selector;
 
                 if (e.NewValue is XLayer)
-                    context.ActiveLayer = e.NewValue as XLayer;
+                    context.ActiveLayer = e.NewValue as XLayer;             
             }
         }
 

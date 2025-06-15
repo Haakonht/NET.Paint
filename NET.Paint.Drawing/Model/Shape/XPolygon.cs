@@ -9,6 +9,11 @@ namespace NET.Paint.Drawing.Model.Shape
     public abstract class XPolygon : XFilled
     {
         public abstract override ToolType Type { get; }
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Points));
+        }
     }
 
     public class XTriangle : XPolygon

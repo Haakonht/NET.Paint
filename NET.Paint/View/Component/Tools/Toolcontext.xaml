@@ -12,27 +12,30 @@
     </UserControl.Resources>
     
     <Grid Background="LightGray">
-        <Grid Background="White" Margin="5" Width="400" Height="50">
+        <Grid Background="White" Margin="5" Width="375" Height="50">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{x:Static options:XConstants.ToolOptions}" Grid.Row="0">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" GroupName="ActiveTool" Height="25" Width="25" Tag="{Binding}" Click="SelectTool">
-                            <RadioButton.Content>
-                                <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
-                            </RadioButton.Content>
-                        </RadioButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Selector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Selector}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Pencil}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Pencil}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <!-- <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Eraser}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Eraser}}" GroupName="SelectedTool" Height="25" Width="25"/> -->
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Line}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Line}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Bezier}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bezier}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Circle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Circle}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Ellipse}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Ellipse}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Triangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Triangle}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Rectangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Rectangle}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource RoundedRectangle}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.RoundedRectangle}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Pentagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Pentagon}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Hexagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Hexagon}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Octagon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Octagon}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Star}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Star}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Text}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Text}}" GroupName="SelectedTool" Height="25" Width="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource Bitmap}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bitmap}}" GroupName="SelectedTool" Height="25" Width="25"/>
+            </StackPanel>
+
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <Grid Width="100">
                     <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding StrokeColor}" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
@@ -40,9 +43,9 @@
                 </Grid>
                 <Grid Width="100">
                     <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding FillColor}" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
-                    <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}"/>
+                    <TextBlock Text="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}"/>
                 </Grid>
-                <Slider Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+                <Slider Width="155" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
             </StackPanel>
         </Grid>
     </Grid>
