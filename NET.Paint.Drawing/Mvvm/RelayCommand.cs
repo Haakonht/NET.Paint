@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 
 namespace NET.Paint.Drawing.Mvvm
 {
@@ -11,6 +12,21 @@ namespace NET.Paint.Drawing.Mvvm
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
+        }
+
+        public RelayCommand(Action execute, Func<bool> canExecute, INotifyPropertyChanged notifier, params string[] propertyNames)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+
+            if (notifier != null)
+            {
+                notifier.PropertyChanged += (s, e) =>
+                {
+                    if (propertyNames.Contains(e.PropertyName))
+                        RaiseCanExecuteChanged();
+                };
+            }
         }
 
         public bool CanExecute(object? parameter)

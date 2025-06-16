@@ -1,19 +1,7 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component
 {
@@ -32,11 +20,7 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
 
             if (context != null)
-            {
-                var shape = context.ActiveImage.ActiveLayer.Shapes.Last();
-                context.ActiveImage.ActiveLayer.Shapes.Remove(shape);
-                context.ActiveImage.Undo.Push(shape);
-            }
+                context.Command.Undo();
         }
 
         private void Redo(object sender, RoutedEventArgs e)
@@ -44,11 +28,33 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
 
             if (context != null)
-            {
-                var shape = context.ActiveImage.Undo.History.Last();
-                context.ActiveImage.Undo.History.Remove(shape);
-                context.ActiveImage.ActiveLayer.Shapes.Add(shape);
-            }
+                context.Command.Redo();
+        }
+
+        private void Cut(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null && context.ActiveImage != null)
+                if (context.ActiveImage.Selected is XRenderable renderable)
+                    context.Command.Cut(renderable);
+        }
+
+        private void Copy(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null && context.ActiveImage != null)
+                if (context.ActiveImage.Selected != null)
+                    context.Command.Copy(context.ActiveImage.Selected);
+        }
+
+        private void Paste(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null && context.ActiveImage != null)
+                context.Command.Paste();
         }
     }
 }

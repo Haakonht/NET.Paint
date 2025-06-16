@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public abstract class XRenderable : PropertyNotifier
+    public abstract class XRenderable : PropertyNotifier, ICloneable
     {
         [Browsable(false)]
         public abstract ToolType Type { get; }
@@ -25,5 +25,7 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         public virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
+
+        public abstract object Clone();
     }
 }

@@ -6,7 +6,8 @@ using NET.Paint.Drawing.Mvvm;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    public class XLayer : PropertyNotifier
+    [Serializable]
+    public class XLayer : PropertyNotifier, ICloneable
     {
         private string _title = "Layer";
         public string Title
@@ -33,6 +34,7 @@ namespace NET.Paint.Drawing.Model.Structure
         public ObservableCollection<XRenderable> Shapes
         {
             get => _shapes;
+            set => SetProperty(ref _shapes, value);
         }
 
         #region Volatile
@@ -43,6 +45,14 @@ namespace NET.Paint.Drawing.Model.Structure
             OnPropertyChanged(nameof(CanUndo));
         }
         public XLayer() => _shapes.CollectionChanged += CollectionChanged;
+
+        public object Clone() => new XLayer
+        {
+            Title = Title,
+            OffsetX = OffsetX,
+            OffsetY = OffsetY,
+            Shapes = new ObservableCollection<XRenderable>(Shapes.Select(shape => (XRenderable)shape.Clone()))
+        };
 
         #endregion
     }

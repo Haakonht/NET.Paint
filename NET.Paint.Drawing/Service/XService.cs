@@ -1,8 +1,10 @@
 ﻿using NET.Paint.Drawing.Command;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
+using System.Security.RightsManagement;
 
 namespace NET.Paint.Drawing.Service
 {
@@ -22,6 +24,12 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _project, value);
         }
 
+        public XClipboard Clipboard { get; } = XClipboard.Instance;
+
+        public XPreferences Preferences { get; } = new XPreferences();
+
+        public XCommand Command { get; }
+
         private XImage? _activeImage = null;
         public XImage? ActiveImage
         {
@@ -29,25 +37,6 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _activeImage, value);
         }
 
-        private XClipboard _clipboard = new XClipboard();
-        public XClipboard Clipboard
-        {
-            get => _clipboard;
-            set => SetProperty(ref _clipboard, value);
-        }
-
-        private bool _toolboxVisible = true;
-        public bool ToolboxVisible
-        {
-            get => _toolboxVisible;
-            set => SetProperty(ref _toolboxVisible, value);
-        }
-
-        private bool _overviewVisible = true;
-        public bool OverviewVisible
-        {
-            get => _overviewVisible;
-            set => SetProperty(ref _overviewVisible, value);
-        }
+        public XService() => Command = new XCommand(this);
     }
 }

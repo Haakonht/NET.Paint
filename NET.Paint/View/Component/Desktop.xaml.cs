@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock;
+using NET.Paint.Drawing.Model;
 
 namespace NET.Paint.View.Component
 {
@@ -39,7 +40,7 @@ namespace NET.Paint.View.Component
             {
                 context.ActiveImage = document.Content as XImage;
                 context.ActiveImage.PropertyChanged += ActiveImage_PropertyChanged;
-                UpdatePropertiesVisibility(context.ActiveImage.Selected != null);
+                PropertiesAnchorable.IsVisible = context.ActiveImage.Selected != null;
             }
         }
 
@@ -48,38 +49,33 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
 
             if (context != null)
-                context.PropertyChanged += Service_PropertyChanged;
+                context.Preferences.PropertyChanged += Service_PropertyChanged;
         }
 
         private void ActiveImage_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(XImage.Selected) && sender is XImage image)
-                Dispatcher.Invoke(() => UpdatePropertiesVisibility(image.Selected != null));
+                Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected != null);
         }
 
         private void Service_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (sender is XService service)
+            var context = DataContext as XService;
+            if (sender is XPreferences service)
             {
-                if (e.PropertyName == nameof(XService.ToolboxVisible))
+                if (e.PropertyName == nameof(XService.Preferences.ToolboxVisible))
                     Dispatcher.Invoke(() => Toolbox.IsVisible = service.ToolboxVisible);
 
-                if (e.PropertyName == nameof(XService.OverviewVisible))
+                if (e.PropertyName == nameof(XService.Preferences.OverviewVisible))
                 {
                     Dispatcher.Invoke(() => Overview.IsVisible = service.OverviewVisible);
 
                     if (!service.OverviewVisible)
                         PropertiesAnchorable.IsVisible = service.OverviewVisible;
                     else
-                        PropertiesAnchorable.IsVisible = service.ActiveImage.Selected != null;
+                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected != null;
                 }
             }
-        }
-
-        private void UpdatePropertiesVisibility(bool visible)
-        {
-            if (PropertiesAnchorable == null) return;
-            PropertiesAnchorable.IsVisible = visible;
         }
     }
 }

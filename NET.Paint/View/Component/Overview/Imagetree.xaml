@@ -21,48 +21,82 @@
             <HierarchicalDataTemplate x:Key="TreeViewTemplate" ItemsSource="{Binding Shapes}">
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="Normal"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </HierarchicalDataTemplate.ItemTemplate>
             </HierarchicalDataTemplate>
 
             <ContextMenu x:Key="LayerContextMenu">
-                <MenuItem Header="Add" Click="Add"/>
+                <MenuItem Header="Add" Click="AddLayer"/>
                 <MenuItem Header="Edit">
-                    <MenuItem Header="Cut"/>
-                    <MenuItem Header="Copy"/>
-                    <MenuItem Header="Paste"/>
+                    <MenuItem Header="Cut" Click="Cut"/>
+                    <MenuItem Header="Copy" Click="Copy"/>
+                    <MenuItem Header="Paste" Click="Paste"/>
                 </MenuItem>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
 
             <ContextMenu x:Key="RenderableContextMenu">
                 <MenuItem Header="Edit">
-                    <MenuItem Header="Cut"/>
-                    <MenuItem Header="Copy"/>
-                    <MenuItem Header="Paste"/>
+                    <MenuItem Header="Cut" Click="Cut"/>
+                    <MenuItem Header="Copy" Click="Copy"/>
+                    <MenuItem Header="Paste" Click="Paste"/>
                 </MenuItem>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding ActiveImage}">
         <StackPanel Orientation="Vertical" Margin="5,0,0,0">
             <Border BorderBrush="LightGray"  Margin="0,5,5,0" BorderThickness="1,0,0,1"  Padding="5" MouseDown="SelectImage">
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="Normal"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
             </Border>
-            <TreeView x:Name="ImageTree" ItemsSource="{Binding Layers}" ItemTemplate="{StaticResource TreeViewTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" MouseDown="Unselect">
+            
+            <TreeView x:Name="ImageTree" ItemsSource="{Binding Layers}" ItemTemplate="{StaticResource TreeViewTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="ContextMenu" Value="{StaticResource RenderableContextMenu}"/>

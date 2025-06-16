@@ -1,6 +1,7 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model.Utility;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
@@ -58,6 +59,16 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
+
+        public override object Clone() => new XPencil
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Points = new ObservableCollection<Point>(this.Points),
+            Spacing = this.Spacing
+        };
+
     }
 
     public class XLine : XStroked
@@ -81,11 +92,33 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Start));
             OnPropertyChanged(nameof(End));
         }
+
+        public override object Clone() => new XLine
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 
-    public class XBezier : XLine
+    public class XBezier : XStroked
     {
         public override ToolType Type => ToolType.Bezier;
+
+        [Category("Position")]
+        public Point Start
+        {
+            get => Points[0];
+            set => Points[0] = value;
+        }
+
+        [Category("Position")]
+        public Point End
+        {
+            get => Points[1];
+            set => Points[1] = value;
+        }
 
         [Category("Position")]
         [DisplayName("Control")]
@@ -97,12 +130,25 @@ namespace NET.Paint.Drawing.Model.Shape
 
         [Browsable(false)]
         public Point Ctrl2 => Points[2];
-        
+
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Start));
+            OnPropertyChanged(nameof(End));
             OnPropertyChanged(nameof(Ctrl1));
             OnPropertyChanged(nameof(Ctrl2));
         }
+
+        public override object Clone() => new XBezier
+        {
+            Start = Start,
+            End = End,
+            Ctrl1 = Ctrl1,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 }

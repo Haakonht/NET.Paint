@@ -1,7 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Structure;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
@@ -48,9 +47,19 @@ namespace NET.Paint.Drawing.Model.Shape
         }
     }
 
-    public class XEllipse : XFilled 
+    public class XEllipse : XFilled
     {
         public override ToolType Type => ToolType.Ellipse;
+
+        public override object Clone() => new XEllipse
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            FillColor = this.FillColor,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 
     public class XCircle : XFilled
@@ -58,11 +67,31 @@ namespace NET.Paint.Drawing.Model.Shape
         public override ToolType Type => ToolType.Circle;
 
         public new double Height => Width;
+
+        public override object Clone() => new XCircle
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            FillColor = this.FillColor,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 
-    public class XRectangle : XFilled 
-    { 
-        public override ToolType Type => ToolType.Rectangle; 
+    public class XRectangle : XFilled
+    {
+        public override ToolType Type => ToolType.Rectangle;
+
+        public override object Clone() => new XRectangle
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            FillColor = this.FillColor,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 
     public class XRoundedRectangle : XFilled
@@ -73,6 +102,25 @@ namespace NET.Paint.Drawing.Model.Shape
         public double RadiusX { get; set; } = 10;
 
         [Category("Corner")]
-        public double RadiusY { get; set; } = 10;   
+        public double RadiusY { get; set; } = 10;
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(RadiusX));
+            OnPropertyChanged(nameof(RadiusY));
+        }
+
+        public override object Clone() => new XRoundedRectangle
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            RadiusX = this.RadiusX,
+            RadiusY = this.RadiusY,
+            FillColor = this.FillColor,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
     }
 }

@@ -48,8 +48,16 @@ namespace NET.Paint.Drawing.Model.Structure
         public object? Selected
         {
             get => _selected;
-            set => SetProperty(ref _selected, value);
+            set
+            {
+                SetProperty(ref _selected, value);
+                OnPropertyChanged(nameof(CanCut));
+                OnPropertyChanged(nameof(CanCopy));
+            }
         }
+
+        public bool CanCut => Selected is XLayer ? Layers.Count() > 1 : CanCopy;
+        public bool CanCopy => Selected != null && Selected is not XImage;
 
         public XLayer? _activeLayer = null;
         [Browsable(false)]
@@ -63,8 +71,6 @@ namespace NET.Paint.Drawing.Model.Structure
         public XUndo Undo { get; } = new XUndo();
         [Browsable(false)]
         public XTools Tools { get; } = new XTools();
-        [Browsable(false)]
-        public XCommand Command => new XCommand(this);
 
         #endregion
     }

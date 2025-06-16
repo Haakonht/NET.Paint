@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" d:Background="White">
@@ -41,29 +42,29 @@
                 </Button.Content>
             </Button>
             <Separator Margin="5,0"/>
-            <Button Height="25" Width="25">
+            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCut}" Click="Cut">
                 <Button.Content>
                     <fa:IconBlock Icon="Cut"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25">
+            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCopy}" Click="Copy"> 
                 <Button.Content>
                     <fa:IconBlock Icon="Copy"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25">
+            <Button Height="25" Width="25" IsEnabled="{Binding Source={x:Static utility:XClipboard.Instance}, Path=CanPaste}" Click="Paste">
                 <Button.Content>
                     <fa:IconBlock Icon="Paste"/>
                 </Button.Content>
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <ToggleButton Height="25" Width="25" IsChecked="{Binding ToolboxVisible}">
+            <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.ToolboxVisible}">
                 <ToggleButton.Content>
                     <fa:IconBlock Icon="Palette"/>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton Height="25" Width="25" IsChecked="{Binding OverviewVisible}">
+            <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.OverviewVisible}">
                 <ToggleButton.Content>
                     <fa:IconBlock Icon="Bars"/>
                 </ToggleButton.Content>
