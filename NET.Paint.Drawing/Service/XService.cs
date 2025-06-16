@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Command;
 using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;

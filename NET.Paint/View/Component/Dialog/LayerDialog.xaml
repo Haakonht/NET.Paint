@@ -1,0 +1,47 @@
+﻿<Window x:Class="NET.Paint.View.Component.Dialog.LayerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:local="clr-namespace:NET.Paint.View.Component.Dialog"
+        mc:Ignorable="d"
+        Height="95" Width="200" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Border BorderBrush="LightGray" BorderThickness="5" Background="LightGray">
+        <xcad:DockingManager>
+            <xcad:LayoutRoot>
+                <xcad:LayoutPanel>
+                    <xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorable Title="New Layer" CanFloat="False" CanAutoHide="False" CanClose="True" CanDockAsTabbedDocument="False" CanHide="False" Closing="LayoutAnchorable_Closing">
+                            <Border BorderBrush="LightGray" BorderThickness="1">
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="5"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Content="Title:" Grid.Row="0" Grid.Column="0" Margin="5,5,5,0"/>
+                                    <TextBox Text="{Binding Title}" Grid.Row="0" Grid.Column="1" Margin="5,5,5,0" VerticalContentAlignment="Center"/>
+
+                                    <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="5,0,5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="Create" Grid.Column="0" Margin="0,5,0,0" Command="{Binding CreateCommand}"/>
+                                        <Button Content="Cancel" Grid.Column="1" Margin="0,5,0,0" Click="Cancel"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </Border>
+</Window>

@@ -18,11 +18,18 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _overviewVisible, value);
         }
 
-        private bool _useProjectTree = false;
-        public bool UseProjectTree
+        private bool _imageDialogVisible = false;
+        public bool ImageDialogVisible
         {
-            get => _useProjectTree;
-            set => SetProperty(ref _useProjectTree, value);
+            get => _imageDialogVisible;
+            set => SetProperty(ref _imageDialogVisible, value);
+        }
+
+        private bool _layerDialogVisible = false;
+        public bool LayerDialogVisible
+        {
+            get => _layerDialogVisible;
+            set => SetProperty(ref _layerDialogVisible, value);
         }
     }
 }

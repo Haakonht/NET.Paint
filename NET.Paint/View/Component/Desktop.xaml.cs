@@ -25,6 +25,8 @@ namespace NET.Paint.View.Component
     /// </summary>
     public partial class Desktop : UserControl
     {
+        private bool _dialogsInitialized = false;
+
         public Desktop()
         {
             InitializeComponent();

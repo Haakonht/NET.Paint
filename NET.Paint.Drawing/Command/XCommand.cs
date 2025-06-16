@@ -77,15 +77,8 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
-        public void CreateImage(string title, double width = 1920, double height = 1080)
+        public void CreateImage(XImage image)
         {
-            var image = new XImage
-            {
-                Title = title,
-                Width = width,
-                Height = height
-            };
-
             _service.Project.Images.Add(image);
             _service.ActiveImage = image;
         }

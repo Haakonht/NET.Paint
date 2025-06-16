@@ -1,7 +1,9 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
+using NET.Paint.View.Component.Dialog;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -76,8 +78,17 @@ namespace NET.Paint.View.Component
         {
             var context = DataContext as XService;
 
-            if (context != null)
-                context.Command.CreateLayer();
+            if (context != null && context.ActiveImage != null)
+            {
+                var dialogModel = new XLayerDialog();
+                var layerDialog = new LayerDialog(dialogModel);
+                var result = layerDialog.ShowDialog();
+                if (result == true && layerDialog.Result != null)
+                {
+                    // Use layerDialog.Result (the XLayerDialog object)
+                    context.Command.CreateLayer(layerDialog.Result.Title);
+                }
+            }
         }
 
         private void AddImage(object sender, RoutedEventArgs e)
@@ -85,7 +96,22 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
 
             if (context != null)
-                context.Command.CreateImage("Testimage");
+            {
+                var dialogModel = new XImageDialog();
+                var imageDialog = new ImageDialog(dialogModel);
+                var result = imageDialog.ShowDialog();
+                if (result == true && imageDialog.Result != null)
+                {
+                    // Use imageDialog.Result (the XImageDialog object)
+                    context.Command.CreateImage(new XImage
+                    {
+                        Title = imageDialog.Result.Title,
+                        Width = imageDialog.Result.Width,
+                        Height = imageDialog.Result.Height,
+                        Background = imageDialog.Result.Background
+                    });
+                }
+            }
         }
 
         private void Remove(object sender, RoutedEventArgs e)
