@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
+             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="800" d:Background="White">
+             d:DesignHeight="30" d:DesignWidth="800" d:Background="White" d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <DockPanel Margin="5,0">
         <StackPanel Orientation="Horizontal" ToolTip="New Project">
             <Button Height="25" Width="25">

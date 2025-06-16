@@ -1,7 +1,9 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock;
-using NET.Paint.Drawing.Model;
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace NET.Paint.View.Component
 {
@@ -30,6 +32,12 @@ namespace NET.Paint.View.Component
         public Desktop()
         {
             InitializeComponent();
+
+            if (File.Exists("Layout.config"))
+            {
+                var serializer = new XmlLayoutSerializer(DockingManager);
+                serializer.Deserialize("Layout.config");
+            }
         }
 
         private void ActiveContentChanged(object sender, EventArgs e)

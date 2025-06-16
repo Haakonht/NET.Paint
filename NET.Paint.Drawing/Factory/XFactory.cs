@@ -133,7 +133,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Spiral:
                     return new XSpiral
                     {
-                        Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, 200),
+                        Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, 100),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,

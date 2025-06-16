@@ -18,9 +18,9 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
     /// <summary>
     /// Interaction logic for Contextual.xaml
     /// </summary>
-    public partial class Context : UserControl
+    public partial class Custom : UserControl
     {
-        public Context()
+        public Custom()
         {
             InitializeComponent();
         }

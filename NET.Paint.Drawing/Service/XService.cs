@@ -1,11 +1,10 @@
 ﻿using NET.Paint.Drawing.Command;
 using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
-using System.Security.RightsManagement;
+using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Service
 {
@@ -36,6 +35,63 @@ namespace NET.Paint.Drawing.Service
         public XTools Tools { get; } = XTools.Instance;
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }
-        public XService() => Command = new XCommand(this);
+        //public XService()
+        //{
+        //    Command = new XCommand(this);
+        //    ActiveImage = Project.Images.FirstOrDefault();
+        //}
+
+        public XService()
+        {
+            // Create sample layers and shapes
+            var sampleLayer1 = new XLayer { Title = "Layer 1" };
+            var sampleLayer2 = new XLayer { Title = "Layer 2" };
+            // Optionally add shapes to layers if your UI expects them
+            // sampleLayer1.Shapes.Add(new XShape { ... });
+
+            // Create sample images with layers
+            var sampleImage1 = new XImage
+            {
+                Title = "Sample Image 1",
+                Width = 800,
+                Height = 600,
+                Background = Colors.White,
+                ActiveLayer = sampleLayer1,
+                Selected = sampleLayer1 // or a shape if you want to preview selection
+            };
+
+            sampleImage1.Layers.Add(sampleLayer1);
+            sampleImage1.Layers.Add(sampleLayer2);
+
+            var sampleImage2 = new XImage
+            {
+                Title = "Sample Image 2",
+                Width = 1024,
+                Height = 768,
+                Background = Colors.LightGray,
+            };
+
+            // Set up the project with images
+            Project = new XProject
+            {
+                Title = "Design-Time Project",
+                Description = "Sample project for design-time preview",
+                Author = "Designer",
+                Images = new ObservableCollection<XImage> { sampleImage1, sampleImage2 }
+            };
+
+            // Set the active image and layer
+            ActiveImage = sampleImage1;
+
+            // Set preferences if needed for visibility
+            Preferences = new XPreferences
+            {
+                OverviewVisible = true,
+                ToolboxVisible = true
+            };
+
+            // Initialize the command object
+            Command = new XCommand(this);
+        }
     }
 }

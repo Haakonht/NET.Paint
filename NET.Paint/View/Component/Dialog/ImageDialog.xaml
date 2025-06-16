@@ -7,11 +7,8 @@
              xmlns:local="clr-namespace:NET.Paint.View.Component.Dialog"
              xmlns:dialog="clr-namespace:NET.Paint.Drawing.Model.Dialog;assembly=NET.Paint.Drawing"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=dialog:XImageDialog, IsDesignTimeCreatable=True}"
              Height="205" Width="210" d:Background="White" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Window.DataContext>
-        <dialog:XImageDialog />
-    </Window.DataContext>
     <Border BorderBrush="LightGray" BorderThickness="5" Background="LightGray">
         <xcad:DockingManager>
             <xcad:LayoutRoot>

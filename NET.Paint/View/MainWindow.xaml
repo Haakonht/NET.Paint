@@ -11,7 +11,8 @@
         xmlns:component="clr-namespace:NET.Paint.View.Component"
         xmlns:local="clr-namespace:NET.Paint.View"
         mc:Ignorable="d"
-        Title="{Binding Project.Title}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}"
+        Title="{Binding Project.Title}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
     <Window.DataContext>
         <service:XService />
     </Window.DataContext>
@@ -56,6 +57,6 @@
             </DockPanel>
         </Border>
 
-        <component:Desktop DataContext="{Binding}" DockPanel.Dock="Bottom" Margin="5"/>
+        <component:Desktop x:Name="Desktop" DataContext="{Binding}" DockPanel.Dock="Bottom" Margin="5"/>
     </DockPanel>
 </Window>

@@ -1,9 +1,7 @@
-﻿using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Service;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace NET.Paint.View
 {
@@ -29,5 +27,11 @@ namespace NET.Paint.View
         private void MaximizeRestore_Click(object sender, RoutedEventArgs e) => ToggleMaximizeRestore();        
         private void Close_Click(object sender, RoutedEventArgs e) => Close();     
         private void ToggleMaximizeRestore() => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var serializer = new XmlLayoutSerializer(Desktop.DockingManager);
+            serializer.Serialize("Layout.config");
+        }
     }
 }
