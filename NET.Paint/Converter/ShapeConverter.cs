@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.Drawing.Model.Structure;
 using System.Globalization;
 using System.Windows.Data;
 

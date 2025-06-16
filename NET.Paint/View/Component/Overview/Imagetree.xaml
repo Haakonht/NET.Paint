@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NET.Paint.View.Component.Imagetree"
+﻿<UserControl x:Class="NET.Paint.View.Component.ImageTree"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,45 +15,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
-            <converter:TypeMatchConverter x:Key="IsXLayer" TypeToMatch="{x:Type structure:XLayer}" />
 
-            <HierarchicalDataTemplate x:Key="TreeViewTemplate" ItemsSource="{Binding Shapes}">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="FontWeight" Value="Normal"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </StackPanel>
-                <HierarchicalDataTemplate.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="Normal"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </HierarchicalDataTemplate.ItemTemplate>
-            </HierarchicalDataTemplate>
+            <Style x:Key="HoverStyle" TargetType="TextBlock">
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
             <ContextMenu x:Key="LayerContextMenu">
                 <MenuItem Header="Add" Click="AddLayer"/>
@@ -73,6 +43,22 @@
                 </MenuItem>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
+
+            <HierarchicalDataTemplate x:Key="ImageTreeTemplate" ItemsSource="{Binding Shapes}">
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                </StackPanel>
+                <HierarchicalDataTemplate.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </HierarchicalDataTemplate.ItemTemplate>
+            </HierarchicalDataTemplate>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -96,12 +82,12 @@
                 </StackPanel>
             </Border>
             
-            <TreeView x:Name="ImageTree" ItemsSource="{Binding Layers}" ItemTemplate="{StaticResource TreeViewTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
+            <TreeView ItemsSource="{Binding Layers}" ItemTemplate="{StaticResource ImageTreeTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="ContextMenu" Value="{StaticResource RenderableContextMenu}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Converter={StaticResource IsXLayer}}" Value="True">
+                            <DataTrigger Binding="{Binding}" Value="{x:Type structure:XLayer}">
                                 <Setter Property="ContextMenu" Value="{StaticResource LayerContextMenu}"/>
                             </DataTrigger>
                         </Style.Triggers>

@@ -1,4 +1,4 @@
-﻿using NET.Paint.Drawing.Model.Shape;
+﻿using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
 
 namespace NET.Paint.Drawing.Model.Utility

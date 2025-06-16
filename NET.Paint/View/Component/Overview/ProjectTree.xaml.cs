@@ -1,36 +1,22 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
-using NET.Paint.View.Component.Tools.Subcomponent;
-using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component
 {
     /// <summary>
     /// Interaction logic for Overview.xaml
     /// </summary>
-    public partial class ImageTree : UserControl
+    public partial class ProjectTree : UserControl
     {
         private TreeViewItem _draggedTreeViewItem;
 
-        public ImageTree()
+        public ProjectTree()
         {
             InitializeComponent();
         }
@@ -41,13 +27,32 @@ namespace NET.Paint.View.Component
 
             if (context != null)
             {
-                context.ActiveImage.Selected = e.NewValue;
+                if (e.NewValue is XImage image)
+                    context.ActiveImage = image;
 
-                if (e.NewValue is XLayer)
-                    context.ActiveImage.ActiveLayer = e.NewValue as XLayer;
-                
-                if (e.NewValue is XRenderable)
+                if (e.NewValue is XLayer layer)
+                {
+                    var containingImg = context.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
+                    if (containingImg != null && containingImg != context.ActiveImage)
+                        context.ActiveImage = containingImg;
+
+                    context.ActiveImage.ActiveLayer = layer;
+                }
+
+                if (e.NewValue is XRenderable renderable)
+                {
+                    var containingImage = context.Project.Images.FirstOrDefault(img => img.Layers.Any(l => l.Shapes.Contains(renderable)));
+                    if (containingImage != null && containingImage != context.ActiveImage)
+                        context.ActiveImage = containingImage;
+                    
+                    var containingLayer = context.ActiveImage.Layers.FirstOrDefault(l => l.Shapes.Contains(renderable));
+                    if (containingLayer != null && containingLayer != context.ActiveImage.ActiveLayer)
+                        context.ActiveImage.ActiveLayer = containingLayer;
+
                     XTools.Instance.ActiveTool = ToolType.Selector;
+                }
+
+                context.ActiveImage.Selected = e.NewValue;
             }
         }
 
@@ -73,6 +78,14 @@ namespace NET.Paint.View.Component
 
             if (context != null)
                 context.Command.CreateLayer();
+        }
+
+        private void AddImage(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null)
+                context.Command.CreateImage("Testimage");
         }
 
         private void Remove(object sender, RoutedEventArgs e)
@@ -145,20 +158,29 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
             if (context == null) return;
 
-            var droppedLayer = _draggedTreeViewItem?.DataContext as XLayer;
-            var droppedShape = _draggedTreeViewItem?.DataContext as XRenderable;
+            var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
+            var draggedLayer = _draggedTreeViewItem?.DataContext as XLayer;
             var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
 
             if (targetItem == null) return;
             var targetData = targetItem.DataContext;
 
-            // Layer reordering
-            if (droppedLayer != null && targetData is XLayer targetLayer && !ReferenceEquals(droppedLayer, targetLayer))
+            // 1. Reorder images
+            if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
             {
-                MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
+                MoveImage(context.Project, draggedImage, targetImage);
             }
-            // Shape moving/reordering
-            else if (droppedShape != null)
+            // 2. Move layer into another image
+            else if (draggedLayer != null && targetData is XImage targetImageForLayer)
+            {
+                MoveLayerToImage(context.Project, draggedLayer, targetImageForLayer);
+            }
+            // 3. Existing logic for layer reordering and shape moving
+            else if (draggedLayer != null && targetData is XLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
+            {
+                MoveLayer(context.ActiveImage, draggedLayer, targetLayer);
+            }
+            else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
             {
                 if (targetData is XLayer targetLayerForShape)
                 {
@@ -169,6 +191,36 @@ namespace NET.Paint.View.Component
                     MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
                 }
             }
+        }
+
+        private void MoveImage(XProject project, XImage imageToMove, XImage targetImage)
+        {
+            if (imageToMove == null || targetImage == null || ReferenceEquals(imageToMove, targetImage))
+                return;
+
+            var images = project.Images;
+            int oldIndex = images.IndexOf(imageToMove);
+            int targetIndex = images.IndexOf(targetImage);
+
+            if (oldIndex < 0 || targetIndex < 0 || oldIndex == targetIndex)
+                return;
+
+            images.RemoveAt(oldIndex);
+            if (oldIndex < targetIndex) targetIndex--;
+            images.Insert(targetIndex, imageToMove);
+        }
+
+        private void MoveLayerToImage(XProject project, XLayer layerToMove, XImage targetImage)
+        {
+            if (layerToMove == null || targetImage == null)
+                return;
+
+            // Remove from old image
+            var oldImage = project.Images.FirstOrDefault(img => img.Layers.Contains(layerToMove));
+            oldImage?.Layers.Remove(layerToMove);
+
+            // Add to new image (at end)
+            targetImage.Layers.Add(layerToMove);
         }
 
         private void MoveLayer(XImage context, XLayer layerToMove, XLayer targetLayer)

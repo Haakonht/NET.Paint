@@ -24,7 +24,7 @@
         <selector:LayoutSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
     </UserControl.Resources>
     
-    <xcad:DockingManager DocumentsSource="{Binding Project.Images}"  ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+    <xcad:DockingManager DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage, Mode=TwoWay}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
         <xcad:LayoutRoot>
             <xcad:LayoutPanel Orientation="Vertical">
                 <xcad:LayoutAnchorablePane DockHeight="60">
@@ -36,7 +36,7 @@
                 <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
                     <xcad:LayoutAnchorablePane DockWidth="225" DockMinWidth="225">
                         <xcad:LayoutAnchorable Title="Toolbox" x:Name="Toolbox">
-                            <component:Toolbox DataContext="{Binding ActiveImage}"/>
+                            <component:Toolbox DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
 
@@ -44,8 +44,11 @@
 
                     <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
                         <xcad:LayoutAnchorablePane DockHeight="2*" >
-                            <xcad:LayoutAnchorable Title="Overview" x:Name="Overview" IsVisible="False">
-                                <component:Imagetree DataContext="{Binding}"/>
+                            <xcad:LayoutAnchorable Title="Image" x:Name="ImageTree">
+                                <component:ImageTree DataContext="{Binding}"/>
+                            </xcad:LayoutAnchorable>
+                            <xcad:LayoutAnchorable Title="Project" x:Name="ProjectTree">
+                                <component:ProjectTree DataContext="{Binding}"/>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorablePane DockHeight="*" DockMinHeight="200">

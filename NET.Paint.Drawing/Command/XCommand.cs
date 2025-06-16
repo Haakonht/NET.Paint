@@ -1,5 +1,4 @@
-﻿using NET.Paint.Drawing.Model.Shape;
-using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
 

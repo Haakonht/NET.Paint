@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

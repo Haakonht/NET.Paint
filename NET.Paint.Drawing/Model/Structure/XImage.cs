@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
-using System.Windows.Navigation;
-using NET.Paint.Drawing.Command;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 
@@ -70,7 +68,7 @@ namespace NET.Paint.Drawing.Model.Structure
         [Browsable(false)]
         public XUndo Undo { get; } = new XUndo();
         [Browsable(false)]
-        public XTools Tools { get; } = new XTools();
+        public XConfiguration Configuration { get; } = new XConfiguration();
 
         #endregion
     }

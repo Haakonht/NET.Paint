@@ -24,12 +24,6 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _project, value);
         }
 
-        public XClipboard Clipboard { get; } = XClipboard.Instance;
-
-        public XPreferences Preferences { get; } = new XPreferences();
-
-        public XCommand Command { get; }
-
         private XImage? _activeImage = null;
         public XImage? ActiveImage
         {
@@ -37,6 +31,10 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _activeImage, value);
         }
 
+        public XClipboard Clipboard { get; } = XClipboard.Instance;
+        public XTools Tools { get; } = XTools.Instance;
+        public XPreferences Preferences { get; } = new XPreferences();
+        public XCommand Command { get; }
         public XService() => Command = new XCommand(this);
     }
 }

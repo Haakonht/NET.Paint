@@ -34,7 +34,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
 
         private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(XTools.GridWidth) || e.PropertyName == nameof(XTools.GridHeight) || e.PropertyName == nameof(XTools.GridColor))
+            if (e.PropertyName == nameof(XConfiguration.GridWidth) || e.PropertyName == nameof(XConfiguration.GridHeight) || e.PropertyName == nameof(XConfiguration.GridColor))
             {
                 Dispatcher.Invoke(UpdateGridBackground);
             }
@@ -42,7 +42,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
 
         private void UpdateGridBackground()
         {
-            if (DataContext is not XTools vm) return;
+            if (DataContext is not XConfiguration vm) return;
 
             double cellWidth = vm.GridWidth;
             double cellHeight = vm.GridHeight;

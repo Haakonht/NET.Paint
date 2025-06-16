@@ -35,20 +35,20 @@
 
 
             </StackPanel>
-            <StackPanel VerticalAlignment="Bottom" Margin="5" >
+            <StackPanel VerticalAlignment="Bottom" Margin="5" DataContext="{Binding ActiveImage}">
                 <!-- Zoom -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Ruler" IsExpanded="False" VerticalAlignment="Bottom">
-                    <subComponents:Ruler DataContext="{Binding Tools}"/>
+                    <subComponents:Ruler DataContext="{Binding Configuration}"/>
                 </Expander>
 
                 <!-- Zoom -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Zoom" IsExpanded="False" Margin="0,5"  VerticalAlignment="Bottom">
-                    <subComponents:Zoom DataContext="{Binding Tools}"/>
+                    <subComponents:Zoom DataContext="{Binding Configuration}"/>
                 </Expander>
 
                 <!-- Grid -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Grid" IsExpanded="False" Tag="Invert"  VerticalAlignment="Bottom">
-                    <subComponents:Grid DataContext="{Binding Tools}"/>
+                    <subComponents:Grid DataContext="{Binding Configuration}"/>
                 </Expander>
             </StackPanel>
         </DockPanel>

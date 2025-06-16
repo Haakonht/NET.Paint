@@ -2,6 +2,7 @@
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -24,7 +25,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Line:
                     return new XLine
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation!.Value },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
@@ -32,7 +33,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Bezier:
                     return new XBezier
                     {
-                        Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation!.Value),
+                        Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation ),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
@@ -40,7 +41,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Circle:
                     return new XCircle
                     {
-                        Points = CreateCircle(tools.ClickLocation!.Value, tools.MouseLocation!.Value),
+                        Points = CreateCircle(tools.ClickLocation!.Value, tools.MouseLocation ),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -49,7 +50,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Ellipse:
                     return new XEllipse
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation!.Value },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -67,7 +68,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Rectangle:
                     return new XRectangle
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation!.Value },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -76,7 +77,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.RoundedRectangle:
                     return new XRoundedRectangle
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation!.Value },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,

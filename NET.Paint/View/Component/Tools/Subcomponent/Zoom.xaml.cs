@@ -26,28 +26,12 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
             InitializeComponent();
         }
 
-        private void ZoomIn(object sender, RoutedEventArgs e)
-        {
-            var context = DataContext as XTools;
-
-            if (context != null && context.Zoom < 1.9)
-                context.Zoom += 0.1;
-        }
-
         private void ResetZoom(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XTools;
+            var context = DataContext as XConfiguration;
 
             if (context != null)
                 context.Zoom = 1.0;
-        }
-
-        private void ZoomOut(object sender, RoutedEventArgs e)
-        {
-            var context = DataContext as XTools;
-
-            if (context != null && context.Zoom > 0.1)
-                context.Zoom -= 0.1;
         }
     }
 }

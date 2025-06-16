@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
@@ -32,13 +33,13 @@ namespace NET.Paint.View.Component
             
             if (image != null)
             {
-                image.Tools.ClickLocation = new XPoint(e.GetPosition(sender as UIElement));
+                XTools.Instance.ClickLocation = e.GetPosition(sender as UIElement);
 
-                if (image.Tools.ActiveTool == ToolType.Selector)
+                if (XTools.Instance.ActiveTool == ToolType.Selector)
                 {
                     if (sender is GridCanvas canvas)
                     {
-                        var hitResult = VisualTreeHelper.HitTest(canvas, image.Tools.ClickLocation.Value);
+                        var hitResult = VisualTreeHelper.HitTest(canvas, XTools.Instance.ClickLocation.Value);
 
                         if (hitResult?.VisualHit is Shape shape)
                             image.Selected = shape.DataContext;
@@ -56,25 +57,25 @@ namespace NET.Paint.View.Component
 
             if (image != null)
             {
-                image.Tools.MouseLocation = new XPoint(e.GetPosition(sender as UIElement));
+                XTools.Instance.MouseLocation = e.GetPosition(sender as UIElement);
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
 
-                    if (image.Tools.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
+                    if (XTools.Instance.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
                     {
-                        _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, image.Tools.MouseLocation.Value, pencil.Spacing);                        
+                        _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, XTools.Instance.MouseLocation, pencil.Spacing);                        
                     }
                     else
                     {
-                        if (image.Tools.ClickLocation != null && image.Tools.MouseLocation != null)
-                            Preview.Shape = XFactory.CreateShape(image.Tools);
+                        if (XTools.Instance.ClickLocation != null && XTools.Instance.MouseLocation != null)
+                            Preview.Shape = XFactory.CreateShape(XTools.Instance);
                     }
                 }
                 else if (e.XButton1 == MouseButtonState.Pressed)
                 {
-                    if (image.Tools.ActiveTool == ToolType.Bezier && image.ActiveLayer.Shapes.Last() is XBezier bezier)
-                        bezier.Ctrl1 = image.Tools.MouseLocation.Value;
+                    if (XTools.Instance.ActiveTool == ToolType.Bezier && image.ActiveLayer.Shapes.Last() is XBezier bezier)
+                        bezier.Ctrl1 = XTools.Instance.MouseLocation;
 
                 }
                 else
@@ -82,7 +83,7 @@ namespace NET.Paint.View.Component
                     if (Preview.Shape != null)
                     {
                         image.ActiveLayer.Shapes.Add(Preview.Shape);
-                        image.Tools.ClickLocation = null;
+                        XTools.Instance.ClickLocation = null;
                         Preview.Shape = null;
                         _lastAddedPoint = null;
                     }

@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 
-namespace NET.Paint.Drawing.Model.Shape
+namespace NET.Paint.Drawing.Model.Structure
 {
     public abstract class XRenderable : PropertyNotifier, ICloneable
     {
