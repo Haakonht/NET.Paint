@@ -61,7 +61,7 @@ namespace NET.Paint.Drawing.Model.Structure
         [Browsable(false)]
         public XLayer? ActiveLayer
         {
-            get => _activeLayer == null ? _layers.First() : _activeLayer;
+            get => _activeLayer != null ? _activeLayer : _layers.Any() ? _layers.First() : null;
             set => SetProperty(ref _activeLayer, value);
         }
 

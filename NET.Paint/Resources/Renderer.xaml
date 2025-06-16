@@ -71,4 +71,5 @@
             </Polygon.RenderTransform>
         </Polygon>
     </DataTemplate>
+    
 </ResourceDictionary>

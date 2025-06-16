@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NET.Paint.View.Component.Tools.Subcomponent
 {
     /// <summary>
-    /// Interaction logic for Font.xaml
+    /// Interaction logic for Contextual.xaml
     /// </summary>
-    public partial class Font : UserControl
+    public partial class Context : UserControl
     {
-        public Font()
+        public Context()
         {
             InitializeComponent();
         }

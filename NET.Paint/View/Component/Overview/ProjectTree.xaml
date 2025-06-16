@@ -27,11 +27,6 @@
 
             <ContextMenu x:Key="ImageContextMenu">
                 <MenuItem Header="Add" Click="AddImage"/>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Cut" Click="Cut"/>
-                    <MenuItem Header="Copy" Click="Copy"/>
-                    <MenuItem Header="Paste" Click="Paste"/>
-                </MenuItem>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
 
@@ -56,19 +51,19 @@
             </ContextMenu>
 
             <HierarchicalDataTemplate x:Key="ProjectTreeTemplate" ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource ImageContextMenu}">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                 </StackPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XLayer}">
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
                             <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                         </StackPanel>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
                                     <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                                 </StackPanel>
@@ -83,19 +78,6 @@
 
     <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding Project}">
         <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" ItemTemplate="{StaticResource ProjectTreeTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="ContextMenu" Value="{StaticResource RenderableContextMenu}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding}" Value="{x:Type structure:XImage}">
-                            <Setter Property="ContextMenu" Value="{StaticResource ImageContextMenu}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding}" Value="{x:Type structure:XLayer}">
-                            <Setter Property="ContextMenu" Value="{StaticResource LayerContextMenu}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TreeView.ItemContainerStyle>
             <TreeView.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />

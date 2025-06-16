@@ -75,6 +75,14 @@ namespace NET.Paint.View.Component
                 context.Command.CreateLayer();
         }
 
+        private void AddImage(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XService;
+
+            if (context != null)
+                context.Command.CreateImage("Testimage");
+        }
+
         private void Remove(object sender, RoutedEventArgs e)
         {
             var context = DataContext as XService;

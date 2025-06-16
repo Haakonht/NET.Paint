@@ -1,5 +1,4 @@
-﻿
-using NET.Paint.Drawing.Constant;
+﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
@@ -20,7 +19,8 @@ namespace NET.Paint.Drawing.Factory
                         Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle,
+                        Spacing = tools.Resolution
                     };
                 case ToolType.Line:
                     return new XLine
@@ -81,7 +81,9 @@ namespace NET.Paint.Drawing.Factory
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle,
+                        RadiusX = tools.RadiusX,
+                        RadiusY = tools.RadiusY
                     };
                 case ToolType.Pentagon:
                     return new XPentagon
@@ -114,6 +116,33 @@ namespace NET.Paint.Drawing.Factory
                     return new XStar
                     {
                         Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Corners),
+                        StrokeColor = tools.StrokeColor,
+                        StrokeThickness = tools.StrokeThickness,
+                        FillColor = tools.FillColor,
+                        StrokeStyle = tools.StrokeStyle
+                    };
+                case ToolType.Heart:
+                    return new XHeart
+                    {
+                        Points = CreateHeart(tools.ClickLocation, tools.MouseLocation),
+                        StrokeColor = tools.StrokeColor,
+                        StrokeThickness = tools.StrokeThickness,
+                        FillColor = tools.FillColor,
+                        StrokeStyle = tools.StrokeStyle
+                    };
+                case ToolType.Spiral:
+                    return new XSpiral
+                    {
+                        Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, 200),
+                        StrokeColor = tools.StrokeColor,
+                        StrokeThickness = tools.StrokeThickness,
+                        FillColor = tools.FillColor,
+                        StrokeStyle = tools.StrokeStyle
+                    };
+                case ToolType.Arrow:
+                    return new XArrow
+                    {
+                        Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -196,6 +225,117 @@ namespace NET.Paint.Drawing.Factory
                     centerY + radius * Math.Sin(angle)
                 ));
             }
+
+            return points;
+        }
+
+        private static ObservableCollection<Point> CreateHeart(Point? start, Point? end, int samples = 64)
+        {
+            if (start == null || end == null)
+                return new ObservableCollection<Point>();
+
+            double x1 = Math.Min(start.Value.X, end.Value.X);
+            double y1 = Math.Min(start.Value.Y, end.Value.Y);
+            double x2 = Math.Max(start.Value.X, end.Value.X);
+            double y2 = Math.Max(start.Value.Y, end.Value.Y);
+
+            double width = x2 - x1;
+            double height = y2 - y1;
+            double centerX = (x1 + x2) / 2;
+            double centerY = (y1 + y2) / 2;
+
+            var points = new ObservableCollection<Point>();
+            // Parametric heart: x = 16 sin^3 t, y = 13 cos t - 5 cos 2t - 2 cos 3t - cos 4t
+            // We'll normalize and scale to fit the bounding box
+            for (int i = 0; i < samples; i++)
+            {
+                double t = Math.PI - (2 * Math.PI * i / (samples - 1)); // t from PI to -PI for upright heart
+                double x = 16 * Math.Pow(Math.Sin(t), 3);
+                double y = 13 * Math.Cos(t) - 5 * Math.Cos(2 * t) - 2 * Math.Cos(3 * t) - Math.Cos(4 * t);
+
+                // Normalize to [-1,1] for x and y
+                x /= 17; // max abs(x) is 16
+                y /= 17; // max abs(y) is about 17
+
+                // Scale to bounding box
+                double px = centerX + x * width / 2;
+                double py = centerY - y * height / 2; // minus because y increases downward in screen coords
+
+                points.Add(new Point(px, py));
+            }
+
+            return points;
+        }
+
+        private static ObservableCollection<Point> CreateSpiral(Point? start, Point? end, int turns = 3, int samples = 200)
+        {
+            if (start == null || end == null || turns < 1 || samples < 2)
+                return new ObservableCollection<Point>();
+
+            double x1 = Math.Min(start.Value.X, end.Value.X);
+            double y1 = Math.Min(start.Value.Y, end.Value.Y);
+            double x2 = Math.Max(start.Value.X, end.Value.X);
+            double y2 = Math.Max(start.Value.Y, end.Value.Y);
+
+            double width = x2 - x1;
+            double height = y2 - y1;
+            double centerX = (x1 + x2) / 2;
+            double centerY = (y1 + y2) / 2;
+
+            double maxRadius = Math.Min(width, height) / 2;
+
+            var points = new ObservableCollection<Point>();
+            for (int i = 0; i < samples; i++)
+            {
+                double t = (double)i / (samples - 1); // 0 to 1
+                double angle = t * turns * 2 * Math.PI;
+                double radius = t * maxRadius;
+
+                double px = centerX + radius * Math.Cos(angle);
+                double py = centerY + radius * Math.Sin(angle);
+
+                points.Add(new Point(px, py));
+            }
+
+            return points;
+        }
+
+        private static ObservableCollection<Point> CreateArrow(Point? start, Point? end, double headLengthRatio = 0.25, double headWidthRatio = 0.15)
+        {
+            if (start == null || end == null)
+                return new ObservableCollection<Point>();
+
+            // Main line
+            Point p0 = start.Value;
+            Point p1 = end.Value;
+
+            // Calculate direction and length
+            Vector dir = p1 - p0;
+            double length = dir.Length;
+            if (length < 1e-6)
+                return new ObservableCollection<Point> { p0, p1 };
+
+            dir.Normalize();
+
+            // Arrowhead size
+            double headLength = length * headLengthRatio;
+            double headWidth = length * headWidthRatio;
+
+            // Base of the arrowhead
+            Point baseHead = p1 - dir * headLength;
+
+            // Perpendicular vector for arrowhead width
+            Vector perp = new Vector(-dir.Y, dir.X);
+
+            // Arrowhead points
+            Point left = baseHead + perp * (headWidth / 2);
+            Point right = baseHead - perp * (headWidth / 2);
+
+            // Arrow polygon: shaft start, arrow tip, left base, tip, right base, tip (for closed polygon)
+            var points = new ObservableCollection<Point>
+            {
+                p0, baseHead, left, p1, right, baseHead
+            };
 
             return points;
         }

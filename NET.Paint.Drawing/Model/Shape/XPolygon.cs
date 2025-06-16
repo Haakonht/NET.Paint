@@ -90,4 +90,47 @@ namespace NET.Paint.Drawing.Model.Shape
             Rotation = this.Rotation
         };
     }
+
+    public class XHeart : XPolygon
+    {
+        public override ToolType Type => ToolType.Heart;
+
+        public override object Clone() => new XHeart
+        {
+            Points = new ObservableCollection<Point>(this.Points),
+            FillColor = this.FillColor,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Rotation = this.Rotation
+        };
+    }
+
+    public class XSpiral : XPolygon
+    {
+        public override ToolType Type => ToolType.Spiral;
+        public override object Clone() => new XSpiral
+        {
+            Points = new ObservableCollection<Point>(this.Points),
+            FillColor = this.FillColor,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Rotation = this.Rotation
+        };
+    }
+
+    public class XArrow : XPolygon
+    {
+        public override ToolType Type => ToolType.Arrow;
+        public override object Clone() => new XArrow
+        {
+            Points = new ObservableCollection<Point>(this.Points),
+            FillColor = this.FillColor,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Rotation = this.Rotation
+        };
+    }
 }

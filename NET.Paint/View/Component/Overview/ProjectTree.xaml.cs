@@ -95,6 +95,9 @@ namespace NET.Paint.View.Component
 
             if (context != null)
             {
+                if (item.DataContext is XImage image)
+                    context.Command.RemoveImage(image);
+
                 if (item.DataContext is XLayer layer)
                     context.Command.RemoveLayer(layer);
 

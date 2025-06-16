@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Tools.Subcomponent.Context"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             xmlns:selector="clr-namespace:NET.Paint.Selector"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Empty">
+            <TextBlock Text="No options available for this tool." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StarToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Edges:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Corners}" Minimum="5" Maximum="10"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ArrowToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Head Length:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding HeadLength}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                <Label Content="Head Width:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding HeadWidth}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PencilToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Resolution:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Resolution}" Minimum="10" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TextToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" ItemsSource="{x:Static options:XConstants.FontFamilyOptions}" SelectedValue="{Binding FontFamily, Mode=TwoWay}" Height="25"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{x:Static options:XConstants.FontSizeOptions}" SelectedValue="{Binding FontSize, Mode=TwoWay}" Height="25"/>
+                </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <ToggleButton Content="{fa:Icon Bold}" IsChecked="{Binding IsBold}" Height="25" Width="25"/>
+                    <ToggleButton Content="{fa:Icon Italic}" IsChecked="{Binding IsItalic}" Width="25"/>
+                    <ToggleButton Content="{fa:Icon Underline}" IsChecked="{Binding IsUnderline}" Width="25"/>
+                    <ToggleButton Content="{fa:Icon Strikethrough}" IsChecked="{Binding IsStrikethrough}" Width="25" Margin="0,0,5,0"/>
+                    <RadioButton Content="{fa:Icon AlignLeft}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Left, Mode=TwoWay}" Width="25"/>
+                    <RadioButton Content="{fa:Icon AlignCenter}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Center, Mode=TwoWay}" Width="25"/>
+                    <RadioButton Content="{fa:Icon AlignRight}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Right, Mode=TwoWay}" Width="25"/>
+                    <RadioButton Content="{fa:Icon AlignJustify}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Justify, Mode=TwoWay}" Width="25"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SpiralToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Turns:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Turns}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RoundedRectangleToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Radius X:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding RadiusX}" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Label Content="Radius Y:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding RadiusY}" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SelectorToolTemplate">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <UniformGrid Columns="2">
+                    <RadioButton Content="Single" GroupName="SelectorMode"/>
+                    <RadioButton Content="Multi" GroupName="SelectorMode"/>
+                </UniformGrid>
+            </StackPanel>
+        </DataTemplate>
+
+        <selector:IconSelector x:Key="ToolSelector" 
+                               StarTemplate="{StaticResource StarToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" TextTemplate="{StaticResource TextToolTemplate}" PencilTemplate="{StaticResource PencilToolTemplate}" SelectorTemplate="{StaticResource SelectorToolTemplate}" LineTemplate="{StaticResource Empty}" 
+                               BezierTemplate="{StaticResource Empty}" HeartTemplate="{StaticResource Empty}" EllipseTemplate="{StaticResource Empty}" CircleTemplate="{StaticResource Empty}" TriangleTemplate="{StaticResource Empty}" RectangleTemplate="{StaticResource Empty}" RoundedRectangleTemplate="{StaticResource RoundedRectangleToolTemplate}" 
+                               SpiralTemplate="{StaticResource SpiralToolTemplate}" PentagonTemplate="{StaticResource Empty}" HexagonTemplate="{StaticResource Empty}" OctagonTemplate="{StaticResource Empty}" BitmapTemplate="{StaticResource Empty}" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <ContentControl Content="{Binding ActiveTool}" ContentTemplateSelector="{StaticResource ToolSelector}"/>
+    </Grid>
+</UserControl>

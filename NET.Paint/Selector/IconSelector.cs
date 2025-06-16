@@ -21,6 +21,9 @@ namespace NET.Paint.Selector
         public DataTemplate TextTemplate { get; set; }
         public DataTemplate BitmapTemplate { get; set; }
         public DataTemplate StarTemplate { get; set; }
+        public DataTemplate ArrowTemplate { get; set; }
+        public DataTemplate HeartTemplate { get; set; }
+        public DataTemplate SpiralTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -58,6 +61,12 @@ namespace NET.Paint.Selector
                         return TextTemplate;
                     case ToolType.Bitmap:
                         return BitmapTemplate;
+                    case ToolType.Arrow:
+                        return ArrowTemplate;
+                    case ToolType.Heart:
+                        return HeartTemplate;
+                    case ToolType.Spiral:
+                        return SpiralTemplate;
                 }
             }
 

@@ -1,6 +1,8 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -28,7 +30,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _clickLocation, value);
         }
 
-        private Point _mouseLocation;
+        private Point _mouseLocation = new Point(0, 0);
         public Point MouseLocation
         {
             get => _mouseLocation;
@@ -41,6 +43,49 @@ namespace NET.Paint.Drawing.Model
             get => _corners;
             set => SetProperty(ref _corners, value);
         }
+
+        private double _resolution = 13.0;
+        public double Resolution
+        {
+            get => _resolution;
+            set => SetProperty(ref _resolution, value);
+        }
+
+        private double _headLength = 0.2;
+        public double HeadLength
+        {
+            get => _headLength;
+            set => SetProperty(ref _headLength, value);
+        }
+
+        private double _headWidth = 0.1;
+        public double HeadWidth
+        {
+            get => _headWidth;
+            set => SetProperty(ref _headWidth, value);
+        }
+
+        private int _turns = 3;
+        public int Turns
+        {
+            get => _turns;
+            set => SetProperty(ref _turns, value);
+        }
+
+        private double _radiusX = 10;
+        public double RadiusX 
+        { 
+            get => _radiusX;
+            set => SetProperty(ref _radiusX, value);
+        }
+
+        private double _radiusY = 10;
+        public double RadiusY 
+        {
+            get => _radiusY;
+            set => SetProperty(ref _radiusY, value);
+        }
+
 
         #endregion
 

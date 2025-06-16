@@ -25,6 +25,11 @@
                 </Style.Triggers>
             </Style>
 
+            <ContextMenu x:Key="ImageContextMenu">
+                <MenuItem Header="Add" Click="AddLayer"/>
+                <MenuItem Header="Remove" Click="Remove"/>
+            </ContextMenu>
+
             <ContextMenu x:Key="LayerContextMenu">
                 <MenuItem Header="Add" Click="AddLayer"/>
                 <MenuItem Header="Edit">
@@ -45,13 +50,13 @@
             </ContextMenu>
 
             <HierarchicalDataTemplate x:Key="ImageTreeTemplate" ItemsSource="{Binding Shapes}">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
                     <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                 </StackPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
                             <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                         </StackPanel>
@@ -64,7 +69,7 @@
 
     <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding ActiveImage}">
         <StackPanel Orientation="Vertical" Margin="5,0,0,0">
-            <Border BorderBrush="LightGray"  Margin="0,5,5,0" BorderThickness="1,0,0,1"  Padding="5" MouseDown="SelectImage">
+            <Border BorderBrush="LightGray"  Margin="0,5,5,0" BorderThickness="1,0,0,1" Background="Transparent" Padding="5" MouseDown="SelectImage" ContextMenu="{StaticResource ImageContextMenu}">
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">

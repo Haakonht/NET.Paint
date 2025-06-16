@@ -82,7 +82,9 @@ namespace NET.Paint.View.Component
                 {
                     if (Preview.Shape != null)
                     {
-                        image.ActiveLayer.Shapes.Add(Preview.Shape);
+                        if (image.ActiveLayer != null)
+                            image.ActiveLayer.Shapes.Add(Preview.Shape);
+                        
                         XTools.Instance.ClickLocation = null;
                         Preview.Shape = null;
                         _lastAddedPoint = null;

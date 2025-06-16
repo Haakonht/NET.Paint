@@ -14,7 +14,7 @@
         <DockPanel>
             <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top">
                 <!-- Shapes -->
-                <Expander Style="{StaticResource SimpleExpander}" Header="Shapes" IsExpanded="True" Margin="0,0,0,5">
+                <Expander Style="{StaticResource SimpleExpander}" Header="Shapes" IsExpanded="True">
                     <subComponents:Shape DataContext="{Binding Tools}"/>
                 </Expander>
                 
@@ -24,16 +24,14 @@
                 </Expander>
                 
                 <!-- Stroke -->
-                <Expander Style="{StaticResource SimpleExpander}" Header="Stroke" IsExpanded="True" Margin="0,5">
+                <Expander Style="{StaticResource SimpleExpander}" Header="Stroke" IsExpanded="True">
                     <subComponents:Stroke DataContext="{Binding Tools}"/>
                 </Expander>
 
-                <!-- Font -->
-                <Expander Style="{StaticResource SimpleExpander}" Header="Font" IsExpanded="True" Margin="0,5">
-                    <subComponents:Font DataContext="{Binding Tools}"/>
+                <!-- Custom -->
+                <Expander Style="{StaticResource SimpleExpander}" Header="Custom" IsExpanded="True" Margin="0,5">
+                    <subComponents:Context DataContext="{Binding Tools}"/> 
                 </Expander>
-
-
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="5" DataContext="{Binding ActiveImage}">
                 <!-- Zoom -->

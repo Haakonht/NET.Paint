@@ -37,14 +37,62 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Grid Width="100">
-                    <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding StrokeColor}" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
-                    <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding StrokeColor, Converter={StaticResource ContrastColorConverter}}"/>
-                </Grid>
-                <Grid Width="100">
-                    <xctk:ColorPicker ShowDropDownButton="False" SelectedColor="{Binding FillColor}" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
-                    <TextBlock Text="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}"/>
-                </Grid>
+                <Border BorderBrush="DimGray" BorderThickness="1" Background="Transparent" Width="100">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=StrokeColorPicker}" Value="True">
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <xctk:ColorPicker x:Name="StrokeColorPicker" ShowDropDownButton="False" SelectedColor="{Binding StrokeColor}" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                        <TextBlock Text="Stroke" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding StrokeColor, Converter={StaticResource ContrastColorConverter}}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=StrokeColorPicker}" Value="True">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+
+                <Border BorderBrush="DimGray" BorderThickness="1" Background="Transparent" Width="100">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=FillColorPicker}" Value="True">
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding FillColor}" DisplayColorTooltip="False"/>
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
+                        <TextBlock Text="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=FillColorPicker}" Value="True">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
                 <Slider Width="155" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
             </StackPanel>
         </Grid>

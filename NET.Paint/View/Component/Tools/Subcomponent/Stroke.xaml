@@ -8,7 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="250" d:Background="White">
     <StackPanel>
-        <Slider Margin="0,5" Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+        <Label Content="Thickness:" Padding="0" Margin="2,2,0,2"/>
+        <Slider Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+        <Label Content="Style:" Padding="0" Margin="2,2,0,2"/>
         <ComboBox ItemsSource="{x:Static options:XConstants.StrokeStyleOptions}" SelectedItem="{Binding StrokeStyle}" Height="25">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

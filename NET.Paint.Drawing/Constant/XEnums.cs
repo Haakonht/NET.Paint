@@ -20,7 +20,10 @@ namespace NET.Paint.Drawing.Constant
         Pentagon,
         Hexagon,
         Octagon,
+        Heart,
+        Spiral,
         Star,
+        Arrow,
         Text,
         Bitmap
     }

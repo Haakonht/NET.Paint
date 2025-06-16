@@ -129,8 +129,32 @@
         <fa:IconBlock Icon="Image"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="Heart">
+        <fa:IconBlock Icon="Heart"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Arrow">
+        <fa:IconBlock Icon="ArrowRight"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Spiral">
+        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent" Stretch="Uniform" Width="12" Height="12">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="6,6" IsClosed="False">
+                        <ArcSegment Point="8,6" Size="2,2" SweepDirection="Clockwise" />
+                        <ArcSegment Point="8,8" Size="2,2" SweepDirection="Clockwise" />
+                        <ArcSegment Point="6,8" Size="3,3" SweepDirection="Clockwise" />
+                        <ArcSegment Point="6,4" Size="4,4" SweepDirection="Clockwise" />
+                        <ArcSegment Point="10,4" Size="5,5" SweepDirection="Clockwise" />
+                    </PathFigure>
+                </PathGeometry> 
+            </Path.Data>
+        </Path>
+    </DataTemplate>
+
     <selector:IconSelector x:Key="IconSelector" 
-                           SelectorTemplate="{StaticResource Selector}" PencilTemplate="{StaticResource Pencil}" LineTemplate="{StaticResource Line}" BezierTemplate="{StaticResource Bezier}" StarTemplate="{StaticResource Star}"
-                           EllipseTemplate="{StaticResource Ellipse}" CircleTemplate="{StaticResource Circle}" TriangleTemplate="{StaticResource Triangle}" RectangleTemplate="{StaticResource Rectangle}" RoundedRectangleTemplate="{StaticResource RoundedRectangle}"  
+                           SelectorTemplate="{StaticResource Selector}" PencilTemplate="{StaticResource Pencil}" LineTemplate="{StaticResource Line}" BezierTemplate="{StaticResource Bezier}" StarTemplate="{StaticResource Star}" HeartTemplate="{StaticResource Heart}" ArrowTemplate="{StaticResource Arrow}"
+                           EllipseTemplate="{StaticResource Ellipse}" CircleTemplate="{StaticResource Circle}" TriangleTemplate="{StaticResource Triangle}" RectangleTemplate="{StaticResource Rectangle}" RoundedRectangleTemplate="{StaticResource RoundedRectangle}" SpiralTemplate="{StaticResource Spiral}"
                            PentagonTemplate="{StaticResource Pentagon}" HexagonTemplate="{StaticResource Hexagon}" OctagonTemplate="{StaticResource Octagon}" TextTemplate="{StaticResource Text}" BitmapTemplate="{StaticResource Bitmap}" />
 </ResourceDictionary>
