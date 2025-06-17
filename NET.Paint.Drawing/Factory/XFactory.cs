@@ -20,7 +20,7 @@ namespace NET.Paint.Drawing.Factory
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle,
-                        Spacing = tools.Resolution
+                        Spacing = tools.Spacing
                     };
                 case ToolType.Line:
                     return new XLine
@@ -115,7 +115,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Star:
                     return new XStar
                     {
-                        Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Corners),
+                        Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Points),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -142,7 +142,7 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Arrow:
                     return new XArrow
                     {
-                        Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth),
+                        Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
@@ -300,16 +300,14 @@ namespace NET.Paint.Drawing.Factory
             return points;
         }
 
-        private static ObservableCollection<Point> CreateArrow(Point? start, Point? end, double headLengthRatio = 0.25, double headWidthRatio = 0.15)
+        private static ObservableCollection<Point> CreateArrow(Point? start, Point? end, double headLength = 20, double headWidth = 10, double tailWidth = 4)
         {
             if (start == null || end == null)
                 return new ObservableCollection<Point>();
 
-            // Main line
             Point p0 = start.Value;
             Point p1 = end.Value;
 
-            // Calculate direction and length
             Vector dir = p1 - p0;
             double length = dir.Length;
             if (length < 1e-6)
@@ -317,24 +315,30 @@ namespace NET.Paint.Drawing.Factory
 
             dir.Normalize();
 
-            // Arrowhead size
-            double headLength = length * headLengthRatio;
-            double headWidth = length * headWidthRatio;
-
-            // Base of the arrowhead
-            Point baseHead = p1 - dir * headLength;
-
-            // Perpendicular vector for arrowhead width
+            // Perpendicular vector for width
             Vector perp = new Vector(-dir.Y, dir.X);
 
-            // Arrowhead points
-            Point left = baseHead + perp * (headWidth / 2);
-            Point right = baseHead - perp * (headWidth / 2);
+            // Points for the stem rectangle
+            Point stemStartLeft = p0 + perp * (tailWidth / 2);
+            Point stemStartRight = p0 - perp * (tailWidth / 2);
+            Point stemEndLeft = p1 - dir * headLength + perp * (tailWidth / 2);
+            Point stemEndRight = p1 - dir * headLength - perp * (tailWidth / 2);
 
-            // Arrow polygon: shaft start, arrow tip, left base, tip, right base, tip (for closed polygon)
+            // Points for the arrowhead
+            Point headBaseLeft = p1 - dir * headLength + perp * (headWidth / 2);
+            Point headBaseRight = p1 - dir * headLength - perp * (headWidth / 2);
+
+            // Arrow polygon: stem rectangle + arrowhead triangle
             var points = new ObservableCollection<Point>
             {
-                p0, baseHead, left, p1, right, baseHead
+                stemStartLeft,
+                stemEndLeft,
+                headBaseLeft,
+                p1,
+                headBaseRight,
+                stemEndRight,
+                stemStartRight,
+                stemStartLeft // close the polygon
             };
 
             return points;

@@ -12,7 +12,7 @@ namespace NET.Paint.Drawing.Model
     {
         private static readonly Lazy<XTools> _instance = new(() => new XTools());
         public static XTools Instance => _instance.Value;
-        private XTools() { }
+        public XTools() { }
 
         #region Shape
 
@@ -37,32 +37,50 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _mouseLocation, value);
         }
 
-        private int _corners = 5;
-        public int Corners
+        // Star
+        private int _points = 5;
+        public int Points
         {
-            get => _corners;
-            set => SetProperty(ref _corners, value);
+            get => _points;
+            set => SetProperty(ref _points, value);
         }
 
-        private double _resolution = 13.0;
-        public double Resolution
+        // Pencil
+        private double _spacing = 13.0;
+        public double Spacing
         {
-            get => _resolution;
-            set => SetProperty(ref _resolution, value);
+            get => _spacing;
+            set => SetProperty(ref _spacing, value);
         }
 
-        private double _headLength = 0.2;
+        // Arrow
+        private double _headLength = 30;
         public double HeadLength
         {
             get => _headLength;
             set => SetProperty(ref _headLength, value);
         }
 
-        private double _headWidth = 0.1;
+        private double _headWidth = 20;
         public double HeadWidth
         {
             get => _headWidth;
             set => SetProperty(ref _headWidth, value);
+        }
+
+        public double _tailWidth = 5;
+        public double TailWidth
+        {
+            get => _tailWidth;
+            set => SetProperty(ref _tailWidth, value);
+        }
+
+        // Spiral
+        private int _samples = 100;
+        public int Samples
+        {
+            get => _samples;
+            set => SetProperty(ref _samples, value);
         }
 
         private int _turns = 3;
@@ -72,6 +90,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _turns, value);
         }
 
+        // Rounded Rectangle
         private double _radiusX = 10;
         public double RadiusX 
         { 

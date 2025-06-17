@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             d:DataContext="{d:DesignInstance Type=tools:XTools, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <DataTemplate x:Key="Empty">
             <TextBlock Text="No options available for this tool." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
@@ -16,7 +19,7 @@
 
         <DataTemplate x:Key="StarToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                <Label Content="Edges:" Padding="0" Margin="2,2,0,2"/>
+                <Label Content="Points:" Padding="0" Margin="2,2,0,2"/>
                 <Slider Value="{Binding Corners}" Minimum="5" Maximum="10"/>
             </StackPanel>
         </DataTemplate>
@@ -24,16 +27,18 @@
         <DataTemplate x:Key="ArrowToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                 <Label Content="Head Length:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding HeadLength}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                <Slider Value="{Binding HeadLength}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
                 <Label Content="Head Width:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding HeadWidth}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                <Slider Value="{Binding HeadWidth}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Label Content="Tail Width:" HorizontalAlignment="Center"   Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding TailWidth}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="PencilToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                <Label Content="Resolution:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding Resolution}" Minimum="10" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>
+                <Label Content="Spacing:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Spacing}" Minimum="10" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>
             </StackPanel>
         </DataTemplate>
 
@@ -64,15 +69,15 @@
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                 <Label Content="Turns:" Padding="0" Margin="2,2,0,2"/>
                 <Slider Value="{Binding Turns}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Label Content="Samples:" HorizontalAlignment="Center"   Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Samples}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="RoundedRectangleToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                <Label Content="Radius X:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding RadiusX}" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                <Label Content="Radius Y:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding RadiusY}" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <Label Content="Corner Radius:" Padding="0" Margin="2,2,0,2"/>
+                <Slider Value="{Binding Radius}" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
             </StackPanel>
         </DataTemplate>
 
