@@ -47,6 +47,9 @@ namespace NET.Paint.View.Component
                             image.Selected = null;
                     }
                 }
+
+                if (XTools.Instance.ActiveTool == ToolType.Text)
+                    Preview.Shape = XFactory.CreateShape(XTools.Instance);
             }
 
         }
@@ -78,7 +81,7 @@ namespace NET.Paint.View.Component
                         bezier.Ctrl1 = XTools.Instance.MouseLocation;
 
                 }
-                else
+                else if (XTools.Instance.ActiveTool != ToolType.Text)
                 {
                     if (Preview.Shape != null)
                     {

@@ -148,6 +148,19 @@ namespace NET.Paint.Drawing.Factory
                         FillColor = tools.FillColor,
                         StrokeStyle = tools.StrokeStyle
                     };
+                case ToolType.Text:
+                    return new XText
+                    {
+                        Points = new ObservableCollection<Point> { tools.MouseLocation },
+                        FontFamily = tools.FontFamily,
+                        FontSize = tools.FontSize,
+                        IsBold = tools.IsBold,
+                        IsItalic = tools.IsItalic,
+                        IsStrikethrough = tools.IsStrikethrough,
+                        IsUnderline = tools.IsUnderline,
+                        TextAlignment = tools.TextAlignment,
+                        Text = "Testtext"
+                    };
                 default:
                     return null;
             }
