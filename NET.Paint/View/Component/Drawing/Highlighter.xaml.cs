@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -113,6 +114,24 @@ namespace NET.Paint.View.Component.Fragment
         {
             isDragging = false;
             ((ContentPresenter)sender).ReleaseMouseCapture();
+        }
+
+        private void TextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox text)
+            {
+                text.Focusable = true;
+                text.Focus();
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox text)
+            {
+                if (text.DataContext is XText xText)
+                    xText.Text = text.Text;
+            }
         }
     }
 }

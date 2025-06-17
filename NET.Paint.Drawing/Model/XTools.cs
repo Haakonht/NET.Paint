@@ -16,11 +16,18 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Line;
+        private ToolType _activeTool = ToolType.Text;
         public ToolType ActiveTool
         {
             get => _activeTool;
             set => SetProperty(ref _activeTool, value);
+        }
+
+        private SelectionMode _selectionMode = SelectionMode.Single;
+        public SelectionMode SelectionMode
+        {
+            get => _selectionMode;
+            set => SetProperty(ref _selectionMode, value);
         }
 
         private Point? _clickLocation = null;
@@ -153,7 +160,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _fontFamily, value);
         }
 
-        private double _fontSize = 11;
+        private double _fontSize = 72;
         public double FontSize
         {
             get => _fontSize;

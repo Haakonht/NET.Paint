@@ -24,7 +24,13 @@ namespace NET.Paint.Drawing.Model.Shape
         public string Text
         {
             get => _text;
-            set => SetProperty(ref _text, value);
+            set
+            {
+                SetProperty(ref _text, value);
+                OnPropertyChanged(nameof(Width));
+                OnPropertyChanged(nameof(Height));
+                OnPropertyChanged(nameof(Center));
+            }
         }
 
         private FontFamily _fontFamily = new FontFamily("Arial");
@@ -73,13 +79,6 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _isStrikethrough, value);
         }
 
-        private TextAlignment _textAlignment = TextAlignment.Left;
-        public TextAlignment TextAlignment
-        {
-            get => _textAlignment;
-            set => SetProperty(ref _textAlignment, value);
-        }
-
         private Color _textColor = Colors.Black;
         public Color TextColor
         {
@@ -120,7 +119,6 @@ namespace NET.Paint.Drawing.Model.Shape
             IsItalic = this.IsItalic,
             IsUnderline = this.IsUnderline,
             IsStrikethrough = this.IsStrikethrough,
-            TextAlignment = this.TextAlignment,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };

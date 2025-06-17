@@ -27,4 +27,11 @@ namespace NET.Paint.Drawing.Constant
         Text,
         Bitmap
     }
+
+    public enum SelectionMode
+    {
+        Single,
+        Rectangle,
+        Lasso
+    }
 }

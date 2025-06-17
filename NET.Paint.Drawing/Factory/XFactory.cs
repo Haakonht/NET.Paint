@@ -158,8 +158,7 @@ namespace NET.Paint.Drawing.Factory
                         IsItalic = tools.IsItalic,
                         IsStrikethrough = tools.IsStrikethrough,
                         IsUnderline = tools.IsUnderline,
-                        TextAlignment = tools.TextAlignment,
-                        Text = "Testtext"
+                        Text = ""
                     };
                 default:
                     return null;

@@ -57,10 +57,12 @@
                     <ToggleButton Content="{fa:Icon Italic}" IsChecked="{Binding IsItalic}" Width="25"/>
                     <ToggleButton Content="{fa:Icon Underline}" IsChecked="{Binding IsUnderline}" Width="25"/>
                     <ToggleButton Content="{fa:Icon Strikethrough}" IsChecked="{Binding IsStrikethrough}" Width="25" Margin="0,0,5,0"/>
+                     <!--
                     <RadioButton Content="{fa:Icon AlignLeft}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Left, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignCenter}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Center, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignRight}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Right, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignJustify}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Justify, Mode=TwoWay}" Width="25"/>
+                    -->
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
@@ -84,9 +86,10 @@
         <DataTemplate x:Key="SelectorToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                 <Label Content="Selection Mode:" Padding="0" Margin="2,2,0,2"/>
-                <UniformGrid Columns="2" Height="25">
-                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}"  Content="Single" GroupName="SelectorMode"/>
-                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}"  Content="Multi" GroupName="SelectorMode"/>
+                <UniformGrid Columns="3" Height="25">
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Single}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Rectangle}}" Content="{fa:Icon Square}" GroupName="SelectorMode"/>
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Lasso}}" Content="{fa:Icon DrawPolygon}" GroupName="SelectorMode"/>
                 </UniformGrid>
             </StackPanel>
         </DataTemplate>

@@ -5,12 +5,12 @@ using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Resources.Controls;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace NET.Paint.View.Component
 {
@@ -36,22 +36,31 @@ namespace NET.Paint.View.Component
                 XTools.Instance.ClickLocation = e.GetPosition(sender as UIElement);
 
                 if (XTools.Instance.ActiveTool == ToolType.Selector)
-                {
+                {              
                     if (sender is GridCanvas canvas)
                     {
                         var hitResult = VisualTreeHelper.HitTest(canvas, XTools.Instance.ClickLocation.Value);
 
                         if (hitResult?.VisualHit is Shape shape)
-                            image.Selected = shape.DataContext;
+                            image.Selected = shape.DataContext as XRenderable;
+                        else if (hitResult?.VisualHit is TextBlock textBox)
+                            image.Selected = textBox.DataContext as XRenderable;
                         else
                             image.Selected = null;
                     }
                 }
 
                 if (XTools.Instance.ActiveTool == ToolType.Text)
-                    Preview.Shape = XFactory.CreateShape(XTools.Instance);
+                {
+                    if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
+                    {
+                        image.ActiveLayer.Shapes.Add(Preview.Shape);
+                        Preview.Shape = null;
+                    }
+                    else
+                        Preview.Shape = XFactory.CreateShape(XTools.Instance);
+                }
             }
-
         }
 
         private void MouseMove(object sender, MouseEventArgs e)
@@ -100,6 +109,15 @@ namespace NET.Paint.View.Component
         {
             Toolcontext.IsOpen = true;
             e.Handled = true;
+        }
+
+        private void TextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox text)
+            {
+                text.Focusable = true;
+                text.Focus();
+            }
         }
     }
 }

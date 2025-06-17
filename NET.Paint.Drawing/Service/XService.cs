@@ -35,6 +35,7 @@ namespace NET.Paint.Drawing.Service
         public XTools Tools { get; } = XTools.Instance;
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }
+
         //public XService()
         //{
         //    Command = new XCommand(this);
@@ -46,8 +47,6 @@ namespace NET.Paint.Drawing.Service
             // Create sample layers and shapes
             var sampleLayer1 = new XLayer { Title = "Layer 1" };
             var sampleLayer2 = new XLayer { Title = "Layer 2" };
-            // Optionally add shapes to layers if your UI expects them
-            // sampleLayer1.Shapes.Add(new XShape { ... });
 
             // Create sample images with layers
             var sampleImage1 = new XImage
@@ -56,8 +55,7 @@ namespace NET.Paint.Drawing.Service
                 Width = 800,
                 Height = 600,
                 Background = Colors.White,
-                ActiveLayer = sampleLayer1,
-                Selected = sampleLayer1 // or a shape if you want to preview selection
+                ActiveLayer = sampleLayer1
             };
 
             sampleImage1.Layers.Add(sampleLayer1);
@@ -68,7 +66,7 @@ namespace NET.Paint.Drawing.Service
                 Title = "Sample Image 2",
                 Width = 1024,
                 Height = 768,
-                Background = Colors.LightGray,
+                Background = Colors.Bisque,
             };
 
             // Set up the project with images

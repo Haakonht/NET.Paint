@@ -82,5 +82,5 @@
             </TextBlock.RenderTransform>
         </TextBlock>
     </DataTemplate>
-    
+
 </ResourceDictionary>
