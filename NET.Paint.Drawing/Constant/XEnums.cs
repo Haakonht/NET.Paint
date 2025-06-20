@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NET.Paint.Drawing.Constant
+﻿namespace NET.Paint.Drawing.Constant
 {
     public enum ToolType
     {
@@ -33,5 +27,12 @@ namespace NET.Paint.Drawing.Constant
         Single,
         Rectangle,
         Lasso
+    }
+
+    public enum ImageScaling
+    {
+        Original,
+        Fit,
+        Clip
     }
 }

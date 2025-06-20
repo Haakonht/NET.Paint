@@ -7,6 +7,8 @@ using System.Windows;
 using NET.Paint.Drawing.Interface;
 using System.ComponentModel;
 using System.Globalization;
+using System.Windows.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
@@ -119,6 +121,90 @@ namespace NET.Paint.Drawing.Model.Shape
             IsItalic = this.IsItalic,
             IsUnderline = this.IsUnderline,
             IsStrikethrough = this.IsStrikethrough,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
+    }
+
+    public class XBitmap : XRenderable, IRotateable
+    {
+        public override ToolType Type => ToolType.Bitmap;
+
+        public Point Location
+        {
+            get => Points[0];
+            set => Points[0] = value;
+        }
+
+        [Category("Dimensions")]
+        public double Width
+        {
+            get
+            {
+                if (Scaling == ImageScaling.Original)
+                    return Bitmap?.Width ?? 0;
+                else
+                    return Points.Max(p => p.X) - Points.Min(p => p.X);
+            }
+        }
+
+        [Category("Dimensions")]
+        public double Height
+        {
+            get
+            {
+                if (Scaling == ImageScaling.Original)
+                    return Bitmap?.Width ?? 0;
+                else
+                    return Points.Max(p => p.Y) - Points.Min(p => p.Y);
+            }
+        }
+
+        [Browsable(false)]
+        public Point Center => new Point(Location.X + (Width / 2), Location.Y + (Height / 2));
+
+        private double _rotation = 0;
+        public double Rotation
+        {
+            get => _rotation;
+            set => SetProperty(ref _rotation, value);
+        }
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Location));
+            OnPropertyChanged(nameof(Center));
+            OnPropertyChanged(nameof(Width));
+            OnPropertyChanged(nameof(Height));
+        }
+
+        private Point _clipOffset = new Point(0, 0);
+        public Point ClipOffset
+        {
+            get => _clipOffset;
+            set => SetProperty(ref _clipOffset, value);
+        }
+
+        private ImageSource _source;
+        public ImageSource Bitmap
+        {
+            get => _source;
+            set => SetProperty(ref _source, value);
+        }
+
+        private ImageScaling _scaling = ImageScaling.Original;
+        public ImageScaling Scaling
+        {
+            get => _scaling;
+            set => SetProperty(ref _scaling, value);
+        }
+
+        public override object Clone() => new XBitmap
+        {
+            Bitmap = this.Bitmap,
+            Scaling = this.Scaling,
+            ClipOffset = this.ClipOffset,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };

@@ -30,6 +30,13 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _selectionMode, value);
         }
 
+        private ImageScaling _bitmapScaling = ImageScaling.Fit;
+        public ImageScaling BitmapScaling
+        {
+            get => _bitmapScaling;
+            set => SetProperty(ref _bitmapScaling, value);
+        }
+
         private Point? _clickLocation = null;
         public Point? ClickLocation
         {

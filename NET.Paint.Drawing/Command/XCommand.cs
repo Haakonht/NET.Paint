@@ -1,6 +1,12 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model.Dialog;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -77,6 +83,8 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
+        #region Image Commands
+
         public void CreateImage(XImage image)
         {
             _service.Project.Images.Add(image);
@@ -98,6 +106,61 @@ namespace NET.Paint.Drawing.Command
                 }
             }
         }
+
+        public void ExportImage(Canvas canvas, string filePath, string format)
+        {
+            // Step 1: Measure and arrange the canvas
+            var size = new Size(canvas.ActualWidth, canvas.ActualHeight);
+            canvas.Measure(size);
+            canvas.Arrange(new Rect(size));
+
+            // Step 2: Create a visual to include the background
+            var drawingVisual = new DrawingVisual();
+            using (var drawingContext = drawingVisual.RenderOpen())
+            {
+                if (canvas.Background is SolidColorBrush solidColorBrush)
+                {
+                    drawingContext.DrawRectangle(solidColorBrush, null, new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight));
+                }
+                else if (canvas.Background is ImageBrush imageBrush)
+                {
+                    drawingContext.DrawRectangle(imageBrush, null, new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight));
+                }
+
+                drawingContext.DrawRectangle(new VisualBrush(canvas), null, new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight));
+            }
+
+            // Step 3: Render the visual to a bitmap
+            var renderBitmap = new RenderTargetBitmap((int)canvas.ActualWidth, (int)canvas.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            renderBitmap.Render(drawingVisual);
+
+            // Step 4: Encode the bitmap to the desired format
+            BitmapEncoder encoder;
+            switch (format.ToLower())
+            {
+                case "png":
+                    encoder = new PngBitmapEncoder();
+                    break;
+                case "jpeg":
+                case "jpg":
+                    encoder = new JpegBitmapEncoder();
+                    break;
+                default:
+                    throw new ArgumentException("Unsupported format: " + format);
+            }
+
+            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+            // Step 5: Save the image to a file
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
+
+        #endregion
+
+        #region Layer Commands
 
         public void CreateLayer(string title = null)
         {
@@ -125,6 +188,10 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
+        #endregion
+
+        #region Renderable Commands
+
         public void RemoveRenderable(XRenderable renderable)
         {
             foreach (var image in _service.Project.Images)
@@ -139,5 +206,22 @@ namespace NET.Paint.Drawing.Command
                 }
             }
         }
+
+        #endregion
+
+        #region Project Commands
+
+        public void OpenProject(XProject project)
+        {
+            _service.Project = project;
+        }
+
+        public void SaveProject()
+        {
+
+        }
+
+        #endregion
+
     }
 }

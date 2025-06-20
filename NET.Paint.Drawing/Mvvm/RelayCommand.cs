@@ -10,40 +10,13 @@ namespace NET.Paint.Drawing.Mvvm
 
         public RelayCommand(Action execute, Func<bool> canExecute = null)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _execute = execute;
             _canExecute = canExecute;
         }
 
-        public RelayCommand(Action execute, Func<bool> canExecute, INotifyPropertyChanged notifier, params string[] propertyNames)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-
-            if (notifier != null)
-            {
-                notifier.PropertyChanged += (s, e) =>
-                {
-                    if (propertyNames.Contains(e.PropertyName))
-                        RaiseCanExecuteChanged();
-                };
-            }
-        }
-
-        public bool CanExecute(object? parameter)
-        {
-            return _canExecute == null || _canExecute();
-        }
-
-        public void Execute(object? parameter)
-        {
-            _execute();
-        }
-
-        public event EventHandler? CanExecuteChanged;
-
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
+        public void Execute(object parameter) => _execute();
+        public event EventHandler CanExecuteChanged;
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

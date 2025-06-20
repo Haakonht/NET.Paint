@@ -52,16 +52,7 @@
                     <fragment:Highlighter Width="1920" Height="1080" Points="{Binding Selected.Points}" Visibility="{Binding Selected, Converter={StaticResource NullToVisibilityConverter}}"/>
                     <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
                         <ContentPresenter.Resources>
-                            <DataTemplate DataType="{x:Type shape:XText}">
-                                <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="{Binding FontFamily}" FontSize="{Binding FontSize}" Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}" Loaded="TextBox_Loaded">
-                                    <TextBox.RenderTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
-                                            <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-                                        </TransformGroup>
-                                    </TextBox.RenderTransform>
-                                </TextBox>
-                            </DataTemplate>
+                            <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
                         </ContentPresenter.Resources>
                     </ContentPresenter>
                     <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="200" VerticalOffset="-25" LayoutTransform="{Binding ElementName=Zoombox, Path=Scale, Converter={StaticResource InverseScaleConverter}}">

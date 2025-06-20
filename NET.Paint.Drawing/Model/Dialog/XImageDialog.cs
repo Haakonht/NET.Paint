@@ -34,14 +34,4 @@ namespace NET.Paint.Drawing.Model.Dialog
             set => SetProperty(ref _background, value);
         }
     }
-
-    public class XLayerDialog : PropertyNotifier
-    {
-        private string _title = "";
-        public string Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-    }
 }

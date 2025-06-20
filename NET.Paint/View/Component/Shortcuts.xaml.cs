@@ -1,5 +1,7 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model.Dialog;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
+using NET.Paint.View.Component.Dialog;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -55,6 +57,19 @@ namespace NET.Paint.View.Component
 
             if (context != null && context.ActiveImage != null)
                 context.Command.Paste();
+        }
+
+        private void OpenProject(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                var dialog = new FileDialog();
+                dialog.DataContext = new XFileDialog
+                {
+                    Title = "Open Project"
+                };
+                dialog.Show();
+            }
         }
     }
 }

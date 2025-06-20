@@ -7,16 +7,7 @@
     <Canvas>
         <ContentPresenter Content="{Binding Selected}" MouseMove="ContentPresenter_MouseMove" MouseLeftButtonDown="ContentPresenter_MouseLeftButtonDown" MouseLeftButtonUp="ContentPresenter_MouseLeftButtonUp">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type shapes:XText}">
-                    <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="{Binding FontFamily}" FontSize="{Binding FontSize}" Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}" Loaded="TextBox_Loaded">
-                        <TextBox.RenderTransform>
-                            <TransformGroup>
-                                <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
-                                <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-                            </TransformGroup>
-                        </TextBox.RenderTransform>
-                    </TextBox>
-                </DataTemplate>
+                <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
             </ContentPresenter.Resources>
         </ContentPresenter>
         <ItemsControl ItemsSource="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}">

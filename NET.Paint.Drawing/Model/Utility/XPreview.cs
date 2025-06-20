@@ -1,6 +1,5 @@
 ﻿using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
-using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Utility
 {

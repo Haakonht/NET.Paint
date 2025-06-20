@@ -4,6 +4,8 @@ using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Factory
 {
@@ -159,6 +161,14 @@ namespace NET.Paint.Drawing.Factory
                         IsStrikethrough = tools.IsStrikethrough,
                         IsUnderline = tools.IsUnderline,
                         Text = ""
+                    };
+                case ToolType.Bitmap:
+                    return new XBitmap
+                    {
+                        Bitmap = new WriteableBitmap(500, 500, 96, 96, PixelFormats.Pbgra32, BitmapPalettes.BlackAndWhite),
+                        Scaling = tools.BitmapScaling,
+                        Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
+
                     };
                 default:
                     return null;

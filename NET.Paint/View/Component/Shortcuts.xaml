@@ -16,7 +16,7 @@
                     <fa:IconBlock Icon="PlusSquare" ToolTip="New Project"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Open Project">
+            <Button Height="25" Width="25" ToolTip="Open Project" Click="OpenProject">
                 <Button.Content>
                     <fa:IconBlock Icon="FolderOpen"/>
                 </Button.Content>
