@@ -13,7 +13,9 @@
         <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=ActiveTool}" ContentStringFormat="Tool: {0}"/>
         <Separator Margin="5,2"/>
         <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=MouseLocation}" ContentStringFormat="Mouse: {0:0.00}"/>
-
+        <Separator Margin="5,2"/>
+        <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=ActiveBitmap}" ContentStringFormat="Bitmap: {0}"/>
+        
         <StatusBarItem Content="{Binding ActiveLayer.Title}" ContentStringFormat="Active Layer: {0}" HorizontalAlignment="Right"/>
     </StatusBar>
 </UserControl>

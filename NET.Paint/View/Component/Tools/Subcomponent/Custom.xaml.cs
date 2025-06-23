@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using NET.Paint.Drawing.Service;
+using System.Windows.Controls;
 
 namespace NET.Paint.View.Component.Tools.Subcomponent
 {
@@ -10,6 +11,14 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
         public Custom()
         {
             InitializeComponent();
+        }
+
+        private void SelectBitmap(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (DataContext is not null && DataContext is XService service)
+                if (sender is Button && sender is Button button)
+                    if (button.Content is Image image)
+                        service.Tools.ActiveBitmap = image.Source;
         }
     }
 }

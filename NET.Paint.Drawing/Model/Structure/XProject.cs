@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Media;
 using NET.Paint.Drawing.Mvvm;
 
 namespace NET.Paint.Drawing.Model.Structure
@@ -47,5 +48,11 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _images, value);
         }
 
+        private ObservableCollection<ImageSource> _bitmaps = new ObservableCollection<ImageSource>();
+        public ObservableCollection<ImageSource> Bitmaps
+        {
+            get => _bitmaps;
+            set => SetProperty(ref _bitmaps, value);
+        }
     }
 }

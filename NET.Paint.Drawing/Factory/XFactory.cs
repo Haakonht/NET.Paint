@@ -165,10 +165,9 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Bitmap:
                     return new XBitmap
                     {
-                        Bitmap = new WriteableBitmap(500, 500, 96, 96, PixelFormats.Pbgra32, BitmapPalettes.BlackAndWhite),
+                        Bitmap = tools.ActiveBitmap,
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
-
                     };
                 default:
                     return null;

@@ -16,7 +16,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Text;
+        private ToolType _activeTool = ToolType.Bitmap;
         public ToolType ActiveTool
         {
             get => _activeTool;
@@ -119,6 +119,12 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _radiusY, value);
         }
 
+        private ImageSource? _activeBitmap = null;
+        public ImageSource? ActiveBitmap
+        {
+            get => _activeBitmap;
+            set => SetProperty(ref _activeBitmap, value);
+        }
 
         #endregion
 

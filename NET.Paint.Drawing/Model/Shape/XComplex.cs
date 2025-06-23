@@ -186,11 +186,11 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _clipOffset, value);
         }
 
-        private ImageSource _source;
+        private ImageSource _bitmap;
         public ImageSource Bitmap
         {
-            get => _source;
-            set => SetProperty(ref _source, value);
+            get => _bitmap;
+            set => SetProperty(ref _bitmap, value);
         }
 
         private ImageScaling _scaling = ImageScaling.Original;

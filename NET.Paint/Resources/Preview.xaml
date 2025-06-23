@@ -3,17 +3,6 @@
                     xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
                     x:Class="NET.Paint.Resources.Handlers.EventHandler">
 
-    <DataTemplate DataType="{x:Type shape:XBitmap}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="Black" StrokeThickness="2" Fill="Gray">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type shape:XText}">
         <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="{Binding FontFamily}" FontSize="{Binding FontSize}" Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}" Loaded="Preview_Loaded">
             <TextBox.RenderTransform>

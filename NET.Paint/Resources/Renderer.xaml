@@ -83,4 +83,15 @@
         </TextBlock>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type shape:XBitmap}">
+        <Image Source="{Binding Bitmap}" Width="{Binding Width}" Height="{Binding Height}" Stretch="UniformToFill">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
+                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+    </DataTemplate>
+
 </ResourceDictionary>

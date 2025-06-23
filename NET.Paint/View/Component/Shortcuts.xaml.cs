@@ -1,7 +1,6 @@
 ﻿using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
-using NET.Paint.View.Component.Dialog;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -63,12 +62,33 @@ namespace NET.Paint.View.Component
         {
             if (DataContext != null && DataContext is XService service)
             {
-                var dialog = new FileDialog();
-                dialog.DataContext = new XFileDialog
+                var dialog = new System.Windows.Forms.OpenFileDialog
                 {
-                    Title = "Open Project"
+                    Title = "Open Project",
+                    Filter = "NETPaint Project (*.paint)|*.paint|All Files (*.*)|*.*",
+                    FileName = service.Project.Title
                 };
-                dialog.Show();
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    //service.Command.SaveProject(dialog.FileName);
+                }
+            }
+        }
+
+        private void SaveProject(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                var dialog = new System.Windows.Forms.SaveFileDialog
+                {
+                    Title = "Save Project",
+                    Filter = "NETPaint Project (*.paint)|*.paint|All Files (*.*)|*.*",
+                    FileName = service.Project.Title
+                };
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    //service.Command.SaveProject(dialog.FileName);
+                }
             }
         }
     }

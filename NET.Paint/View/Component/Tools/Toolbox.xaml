@@ -32,7 +32,7 @@
 
                 <!-- Custom -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Custom" IsExpanded="True" Margin="0,5">
-                    <subComponents:Custom DataContext="{Binding Tools}"/> 
+                    <subComponents:Custom DataContext="{Binding}"/> 
                 </Expander>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="5" DataContext="{Binding ActiveImage}">
