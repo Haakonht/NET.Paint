@@ -21,7 +21,7 @@
                     <fa:IconBlock Icon="FolderOpen"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Save Project">
+            <Button Height="25" Width="25" ToolTip="Save Project" Click="SaveProject">
                 <Button.Content>
                     <fa:IconBlock Icon="FloppyDisk"/>
                 </Button.Content>

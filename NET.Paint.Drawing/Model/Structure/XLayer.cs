@@ -1,12 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using NET.Paint.Drawing.Mvvm;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Windows.Media;
-using NET.Paint.Drawing.Model.Shape;
-using NET.Paint.Drawing.Mvvm;
+using System.Text.Json.Serialization;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    [Serializable]
     public class XLayer : PropertyNotifier, ICloneable
     {
         private string _title = "Layer";

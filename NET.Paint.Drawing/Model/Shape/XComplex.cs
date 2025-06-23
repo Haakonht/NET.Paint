@@ -1,14 +1,13 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Windows.Media;
-using System.Windows;
-using NET.Paint.Drawing.Interface;
 using System.ComponentModel;
 using System.Globalization;
-using System.Windows.Media.Imaging;
-using static System.Net.Mime.MediaTypeNames;
+using System.Text.Json.Serialization;
+using System.Windows;
+using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Shape
 {

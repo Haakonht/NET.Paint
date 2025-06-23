@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
-using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 

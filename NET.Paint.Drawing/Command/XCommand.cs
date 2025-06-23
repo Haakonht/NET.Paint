@@ -1,8 +1,10 @@
-﻿using NET.Paint.Drawing.Model.Dialog;
+﻿using Microsoft.Win32;
+using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
 using System.IO;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -211,14 +213,61 @@ namespace NET.Paint.Drawing.Command
 
         #region Project Commands
 
-        public void OpenProject(XProject project)
+        public void OpenProject()
         {
-            _service.Project = project;
+            var dialog = new OpenFileDialog
+            {
+                Filter = "NETPaint Project (*.npaint)|*.npaint|JSON Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = ".npaint"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string filePath = dialog.FileName;
+
+                try
+                {
+                    string json = File.ReadAllText(filePath);
+
+                    var options = new JsonSerializerOptions();
+                    options.Converters.Add(new XRenderableJsonConverter());
+
+                    var opened = JsonSerializer.Deserialize<XProject>(json, options);
+
+                    if (opened != null)
+                        _service.Project = opened;
+                    else
+                        MessageBox.Show("Failed to load project: file is empty or invalid.", "Open Project", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load project:\n{ex.Message}", "Open Project", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         public void SaveProject()
         {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "NETPaint Project (*.npaint)|*.npaint|JSON Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = ".npaint",
+                FileName = _service.Project.Title
+            };
 
+            if (dialog.ShowDialog() == true)
+            {
+                string filePath = dialog.FileName;
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                };
+
+                string json = JsonSerializer.Serialize(_service.Project, options);
+
+                File.WriteAllText(filePath, json);
+            }
         }
 
         #endregion

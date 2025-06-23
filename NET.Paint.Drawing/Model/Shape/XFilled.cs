@@ -3,6 +3,7 @@ using NET.Paint.Drawing.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 
@@ -61,6 +62,7 @@ namespace NET.Paint.Drawing.Model.Shape
             Points = new ObservableCollection<Point>(this.Points)
         };
     }
+
 
     public class XCircle : XFilled
     {

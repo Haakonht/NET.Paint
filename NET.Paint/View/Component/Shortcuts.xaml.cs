@@ -61,35 +61,13 @@ namespace NET.Paint.View.Component
         private void OpenProject(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
-            {
-                var dialog = new System.Windows.Forms.OpenFileDialog
-                {
-                    Title = "Open Project",
-                    Filter = "NETPaint Project (*.paint)|*.paint|All Files (*.*)|*.*",
-                    FileName = service.Project.Title
-                };
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    //service.Command.SaveProject(dialog.FileName);
-                }
-            }
+                service.Command.OpenProject();
         }
 
         private void SaveProject(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
-            {
-                var dialog = new System.Windows.Forms.SaveFileDialog
-                {
-                    Title = "Save Project",
-                    Filter = "NETPaint Project (*.paint)|*.paint|All Files (*.*)|*.*",
-                    FileName = service.Project.Title
-                };
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    //service.Command.SaveProject(dialog.FileName);
-                }
-            }
+                service.Command.SaveProject();
         }
     }
 }

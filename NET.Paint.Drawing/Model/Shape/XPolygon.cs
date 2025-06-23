@@ -1,6 +1,7 @@
 ﻿using NET.Paint.Drawing.Constant;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
@@ -45,6 +46,7 @@ namespace NET.Paint.Drawing.Model.Shape
             Rotation = this.Rotation
         };
     }
+
 
     public class XHexagon : XPolygon
     {

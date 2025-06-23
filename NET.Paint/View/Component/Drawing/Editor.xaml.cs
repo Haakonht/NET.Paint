@@ -45,6 +45,8 @@ namespace NET.Paint.View.Component
                             image.Selected = shape.DataContext as XRenderable;
                         else if (hitResult?.VisualHit is TextBlock textBox)
                             image.Selected = textBox.DataContext as XRenderable;
+                        else if (hitResult?.VisualHit is Image imageControl)
+                            image.Selected = imageControl.DataContext as XRenderable;
                         else
                             image.Selected = null;
                     }

@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using NET.Paint.Drawing.Mvvm;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
-using NET.Paint.Drawing.Mvvm;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
@@ -48,11 +51,46 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _images, value);
         }
 
-        private ObservableCollection<ImageSource> _bitmaps = new ObservableCollection<ImageSource>();
-        public ObservableCollection<ImageSource> Bitmaps
+        [JsonIgnore]
+        public ObservableCollection<ImageSource> Bitmaps { get; set; } = new();
+        
+        public List<string> BitmapBase64
         {
-            get => _bitmaps;
-            set => SetProperty(ref _bitmaps, value);
+            get => Bitmaps.Select(img => ImageSourceToBase64(img)).ToList();
+            set
+            {
+                Bitmaps.Clear();
+                foreach (var b64 in value)
+                    Bitmaps.Add(Base64ToImageSource(b64));
+                OnPropertyChanged(nameof(BitmapBase64));
+
+            }
+        }
+
+        private static string ImageSourceToBase64(ImageSource image)
+        {
+            if (image is BitmapSource bitmapSource)
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                using var ms = new MemoryStream();
+                encoder.Save(ms);
+                return Convert.ToBase64String(ms.ToArray());
+            }
+            return string.Empty;
+        }
+
+        private static ImageSource Base64ToImageSource(string base64)
+        {
+            var bytes = Convert.FromBase64String(base64);
+            var image = new BitmapImage();
+            using var ms = new MemoryStream(bytes);
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.StreamSource = ms;
+            image.EndInit();
+            image.Freeze();
+            return image;
         }
     }
 }

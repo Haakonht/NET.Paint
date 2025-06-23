@@ -24,6 +24,12 @@ namespace NET.Paint.Drawing.Model.Structure
             }
         }
 
+        public XRenderable()
+        {
+            _points = new ObservableCollection<Point>();
+            _points.CollectionChanged += CollectionChanged;
+        }
+
         public virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
 
         public abstract object Clone();
