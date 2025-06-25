@@ -1,4 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing" xmlns:converter="clr-namespace:NET.Paint.Converter">
+
+    <converter:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter"/>
+    <converter:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter"/>
+    <converter:TextDecorationsConverter x:Key="TextDecorationsConverter"/>
+
     <DataTemplate DataType="{x:Type shape:XPencil}">
         <Polyline Points="{Binding Points, Converter={StaticResource PointsCollectionConverter}}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
     </DataTemplate>
@@ -54,7 +59,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XRoundedRectangle}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" RadiusX="{Binding RadiusX}" RadiusY="{Binding RadiusY}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
@@ -73,7 +78,13 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XText}">
-        <TextBlock Text="{Binding Text}" FontFamily="{Binding FontFamily}" FontSize="{Binding FontSize}" Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}">
+        <TextBlock Text="{Binding Text}" FontFamily="{Binding FontFamily}" FontSize="{Binding FontSize}" Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}" FontWeight="{Binding IsBold, Converter={StaticResource BoolToFontWeightConverter}}" FontStyle="{Binding IsItalic, Converter={StaticResource BoolToFontStyleConverter}}">
+            <TextBlock.TextDecorations>
+                <MultiBinding Converter="{StaticResource TextDecorationsConverter}">
+                    <Binding Path="IsUnderline"/>
+                    <Binding Path="IsStrikethrough"/>
+                </MultiBinding>
+            </TextBlock.TextDecorations>
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>

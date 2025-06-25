@@ -84,8 +84,7 @@ namespace NET.Paint.Drawing.Factory
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
                         StrokeStyle = tools.StrokeStyle,
-                        RadiusX = tools.RadiusX,
-                        RadiusY = tools.RadiusY
+                        Radius = tools.Radius,
                     };
                 case ToolType.Pentagon:
                     return new XPentagon

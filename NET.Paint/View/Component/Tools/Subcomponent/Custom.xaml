@@ -21,7 +21,7 @@
         <DataTemplate x:Key="StarToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                 <Label Content="Points:" Padding="0" Margin="2,2,0,2"/>
-                <Slider Value="{Binding Tools.Corners}" Minimum="5" Maximum="10"/>
+                <Slider Value="{Binding Tools.Points}" Minimum="5" Maximum="10"/>
             </StackPanel>
         </DataTemplate>
 
@@ -31,7 +31,7 @@
                 <Slider Value="{Binding Tools.HeadLength}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
                 <Label Content="Head Width:" Padding="0" Margin="2,2,0,2"/>
                 <Slider Value="{Binding Tools.HeadWidth}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                <Label Content="Tail Width:" HorizontalAlignment="Center"   Padding="0" Margin="2,2,0,2"/>
+                <Label Content="Tail Width:" Padding="0" Margin="2,2,0,2"/>
                 <Slider Value="{Binding Tools.TailWidth}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
             </StackPanel>
         </DataTemplate>
@@ -45,6 +45,7 @@
 
         <DataTemplate x:Key="TextToolTemplate">
             <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <Label Content="Font / Size:" Padding="0" Margin="2,2,0,2"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -53,18 +54,19 @@
                     <ComboBox Grid.Column="0" ItemsSource="{x:Static options:XConstants.FontFamilyOptions}" SelectedValue="{Binding Tools.FontFamily, Mode=TwoWay}" Height="25"/>
                     <ComboBox Grid.Column="1" ItemsSource="{x:Static options:XConstants.FontSizeOptions}" SelectedValue="{Binding Tools.FontSize, Mode=TwoWay}" Height="25"/>
                 </Grid>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <ToggleButton Content="{fa:Icon Bold}" IsChecked="{Binding Tools.IsBold}" Height="25" Width="25"/>
-                    <ToggleButton Content="{fa:Icon Italic}" IsChecked="{Binding Tools.IsItalic}" Width="25"/>
-                    <ToggleButton Content="{fa:Icon Underline}" IsChecked="{Binding Tools.IsUnderline}" Width="25"/>
-                    <ToggleButton Content="{fa:Icon Strikethrough}" IsChecked="{Binding Tools.IsStrikethrough}" Width="25" Margin="0,0,5,0"/>
+                <Label Content="Style:" Padding="0" Margin="2,2,0,2"/>
+                <UniformGrid Rows="1" Height="25">
+                    <ToggleButton Content="{fa:Icon Bold}" IsChecked="{Binding Tools.IsBold}"/>
+                    <ToggleButton Content="{fa:Icon Italic}" IsChecked="{Binding Tools.IsItalic}"/>
+                    <ToggleButton Content="{fa:Icon Underline}" IsChecked="{Binding Tools.IsUnderline}"/>
+                    <ToggleButton Content="{fa:Icon Strikethrough}" IsChecked="{Binding Tools.IsStrikethrough}"/>
                      <!--
                     <RadioButton Content="{fa:Icon AlignLeft}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Left, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignCenter}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Center, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignRight}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Right, Mode=TwoWay}" Width="25"/>
                     <RadioButton Content="{fa:Icon AlignJustify}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Justify, Mode=TwoWay}" Width="25"/>
                     -->
-                </StackPanel>
+                </UniformGrid>
             </StackPanel>
         </DataTemplate>
 

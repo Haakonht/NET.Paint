@@ -8,11 +8,14 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:dialog="clr-namespace:NET.Paint.View.Component.Dialog"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
+             xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
+        <converter:LayoutDocumentToDataContextConverter x:Key="LayoutDocumentToDataContextConverter"/>
+
         <DataTemplate x:Key="Header">
             <TextBlock Text="{Binding Content.Title}" Margin="5,0"/>
         </DataTemplate>
@@ -28,7 +31,7 @@
         <selector:LayoutSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
     </UserControl.Resources>
     
-    <xcad:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage, Mode=TwoWay}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+    <xcad:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage, Mode=TwoWay, Converter={StaticResource LayoutDocumentToDataContextConverter}}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
         <xcad:LayoutRoot>
             <xcad:LayoutPanel Orientation="Vertical">
                 <xcad:LayoutAnchorablePane DockHeight="60">

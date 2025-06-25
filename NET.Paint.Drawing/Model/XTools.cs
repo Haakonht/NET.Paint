@@ -1,8 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -20,7 +18,12 @@ namespace NET.Paint.Drawing.Model
         public ToolType ActiveTool
         {
             get => _activeTool;
-            set => SetProperty(ref _activeTool, value);
+            set
+            {
+                SetProperty(ref _activeTool, value);
+                if (value != ToolType.Bitmap)
+                    SetProperty(ref _activeBitmap, null);
+            }
         }
 
         private SelectionMode _selectionMode = SelectionMode.Single;
@@ -50,6 +53,10 @@ namespace NET.Paint.Drawing.Model
             get => _mouseLocation;
             set => SetProperty(ref _mouseLocation, value);
         }
+
+        #endregion
+
+        #region Custom
 
         // Star
         private int _points = 5;
@@ -105,20 +112,14 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Rounded Rectangle
-        private double _radiusX = 10;
-        public double RadiusX 
+        private double _radius = 10;
+        public double Radius 
         { 
-            get => _radiusX;
-            set => SetProperty(ref _radiusX, value);
+            get => _radius;
+            set => SetProperty(ref _radius, value);
         }
 
-        private double _radiusY = 10;
-        public double RadiusY 
-        {
-            get => _radiusY;
-            set => SetProperty(ref _radiusY, value);
-        }
-
+        // Bitmap
         private ImageSource? _activeBitmap = null;
         public ImageSource? ActiveBitmap
         {
@@ -173,7 +174,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _fontFamily, value);
         }
 
-        private double _fontSize = 72;
+        private double _fontSize = 20;
         public double FontSize
         {
             get => _fontSize;
@@ -208,12 +209,12 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _isStrikethrough, value);
         }
 
-        private TextAlignment _textAlignment = TextAlignment.Left;
-        public TextAlignment TextAlignment
-        {
-            get => _textAlignment;
-            set => SetProperty(ref _textAlignment, value);
-        }
+        //private TextAlignment _textAlignment = TextAlignment.Left;
+        //public TextAlignment TextAlignment
+        //{
+        //    get => _textAlignment;
+        //    set => SetProperty(ref _textAlignment, value);
+        //}
 
         #endregion
 

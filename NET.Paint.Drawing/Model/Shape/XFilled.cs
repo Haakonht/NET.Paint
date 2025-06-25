@@ -101,16 +101,12 @@ namespace NET.Paint.Drawing.Model.Shape
         public override ToolType Type => ToolType.RoundedRectangle;
 
         [Category("Corner")]
-        public double RadiusX { get; set; } = 10;
-
-        [Category("Corner")]
-        public double RadiusY { get; set; } = 10;
+        public double Radius { get; set; } = 10;
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             base.CollectionChanged(sender, e);
-            OnPropertyChanged(nameof(RadiusX));
-            OnPropertyChanged(nameof(RadiusY));
+            OnPropertyChanged(nameof(Radius));
         }
 
         public override object Clone() => new XRoundedRectangle
@@ -118,8 +114,7 @@ namespace NET.Paint.Drawing.Model.Shape
             StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            RadiusX = this.RadiusX,
-            RadiusY = this.RadiusY,
+            Radius = this.Radius,
             FillColor = this.FillColor,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)

@@ -38,11 +38,7 @@
                                 <ItemsControl ItemsSource="{Binding Shapes}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <Canvas>
-                                                <Canvas.RenderTransform>
-                                                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                </Canvas.RenderTransform>
-                                            </Canvas>
+                                            <Canvas/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
