@@ -35,4 +35,10 @@
         Fit,
         Clip
     }
+
+    public enum LayerType
+    {
+        Vector,
+        Raster
+    }
 }

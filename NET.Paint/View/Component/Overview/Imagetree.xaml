@@ -94,7 +94,7 @@
                     <Style TargetType="TreeViewItem">
                         <Setter Property="ContextMenu" Value="{StaticResource RenderableContextMenu}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="{x:Type structure:XLayer}">
+                            <DataTrigger Binding="{Binding}" Value="{x:Type structure:XVectorLayer}">
                                 <Setter Property="ContextMenu" Value="{StaticResource LayerContextMenu}"/>
                             </DataTrigger>
                         </Style.Triggers>

@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Mvvm;
+﻿using NET.Paint.Drawing.Helper;
+using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json.Serialization;
@@ -52,45 +53,18 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         [JsonIgnore]
-        public ObservableCollection<ImageSource> Bitmaps { get; set; } = new();
-        
+        public ObservableCollection<ImageSource> Bitmaps { get; set; } = new();      
         public List<string> BitmapBase64
         {
-            get => Bitmaps.Select(img => ImageSourceToBase64(img)).ToList();
+            get => Bitmaps.Select(XHelper.ImageSourceToBase64).ToList();
             set
             {
                 Bitmaps.Clear();
                 foreach (var b64 in value)
-                    Bitmaps.Add(Base64ToImageSource(b64));
+                    Bitmaps.Add(XHelper.Base64ToImageSource(b64));
                 OnPropertyChanged(nameof(BitmapBase64));
 
             }
-        }
-
-        private static string ImageSourceToBase64(ImageSource image)
-        {
-            if (image is BitmapSource bitmapSource)
-            {
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-                using var ms = new MemoryStream();
-                encoder.Save(ms);
-                return Convert.ToBase64String(ms.ToArray());
-            }
-            return string.Empty;
-        }
-
-        private static ImageSource Base64ToImageSource(string base64)
-        {
-            var bytes = Convert.FromBase64String(base64);
-            var image = new BitmapImage();
-            using var ms = new MemoryStream(bytes);
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.StreamSource = ms;
-            image.EndInit();
-            image.Freeze();
-            return image;
         }
     }
 }

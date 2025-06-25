@@ -1,12 +1,18 @@
-﻿using NET.Paint.Drawing.Mvvm;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text.Json.Serialization;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    public class XLayer : PropertyNotifier, ICloneable
+    public abstract class XLayer : PropertyNotifier, ICloneable
     {
+        [JsonIgnore]
+        public abstract LayerType Type { get; }
+
         private string _title = "Layer";
         public string Title
         {
@@ -28,6 +34,13 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _offsetY, value);
         }
 
+        public abstract object Clone();
+    }
+
+    public class XVectorLayer : XLayer
+    {
+        public override LayerType Type => LayerType.Vector;
+
         private ObservableCollection<XRenderable> _shapes = new ObservableCollection<XRenderable>();
         public ObservableCollection<XRenderable> Shapes
         {
@@ -42,14 +55,38 @@ namespace NET.Paint.Drawing.Model.Structure
         {
             OnPropertyChanged(nameof(CanUndo));
         }
-        public XLayer() => _shapes.CollectionChanged += CollectionChanged;
+        public XVectorLayer() => _shapes.CollectionChanged += CollectionChanged;
 
-        public object Clone() => new XLayer
+        public override object Clone() => new XVectorLayer
         {
             Title = Title,
             OffsetX = OffsetX,
             OffsetY = OffsetY,
             Shapes = new ObservableCollection<XRenderable>(Shapes.Select(shape => (XRenderable)shape.Clone()))
+        };
+
+        #endregion
+    }
+
+    public class XRasterLayer : XLayer
+    {
+        public override LayerType Type => LayerType.Raster;
+
+        private WriteableBitmap _bitmap = new WriteableBitmap(100, 100, 96, 96, PixelFormats.Bgr32, BitmapPalettes.WebPaletteTransparent);
+        public WriteableBitmap Bitmap
+        {
+            get => _bitmap;
+            set => SetProperty(ref _bitmap, value);
+        }
+
+        #region Volatile
+
+        public override object Clone() => new XRasterLayer
+        {
+            Title = Title,
+            OffsetX = OffsetX,
+            OffsetY = OffsetY,
+            Bitmap = new WriteableBitmap(Bitmap)
         };
 
         #endregion

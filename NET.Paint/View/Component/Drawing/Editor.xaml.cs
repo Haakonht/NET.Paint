@@ -97,8 +97,16 @@ namespace NET.Paint.View.Component
                     if (Preview.Shape != null)
                     {
                         if (image.ActiveLayer != null)
-                            image.ActiveLayer.Shapes.Add(Preview.Shape);
-                        
+                        {
+                            if (XTools.Instance.ActiveTool == ToolType.Bitmap)
+                            {
+                                if (XTools.Instance.ActiveBitmap != null)
+                                    image.ActiveLayer.Shapes.Add(Preview.Shape);
+                            }
+                            else
+                                image.ActiveLayer.Shapes.Add(Preview.Shape);
+                        }
+
                         XTools.Instance.ClickLocation = null;
                         Preview.Shape = null;
                         _lastAddedPoint = null;

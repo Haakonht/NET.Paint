@@ -1,10 +1,8 @@
-﻿using Microsoft.Win32;
-using NET.Paint.Drawing.Model.Dialog;
+﻿using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
 using System.IO;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,7 +19,7 @@ namespace NET.Paint.Drawing.Command
 
         public void Copy(object elementToCopy)
         {
-            if (elementToCopy is XRenderable || elementToCopy is XLayer)
+            if (elementToCopy is XRenderable || elementToCopy is XVectorLayer)
             {
                 XClipboard.Instance.Data = elementToCopy;
                 XClipboard.Instance.IsCut = false;
@@ -33,7 +31,7 @@ namespace NET.Paint.Drawing.Command
             XClipboard.Instance.Data = elementToCut;
             XClipboard.Instance.IsCut = true;
 
-            if (elementToCut is XLayer layer)
+            if (elementToCut is XVectorLayer layer)
                 _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
             else if (elementToCut is XRenderable renderable)
@@ -48,14 +46,14 @@ namespace NET.Paint.Drawing.Command
                 {
                     if (XClipboard.Instance.Data is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
                     {
-                        if (target != null && target is XLayer targetLayer)
+                        if (target != null && target is XVectorLayer targetLayer)
                             targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
                         else
                             _service.ActiveImage.ActiveLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
                     }
 
-                    else if (XClipboard.Instance.Data is XLayer layer && _service.ActiveImage != null)
-                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? layer : layer.Clone() as XLayer);
+                    else if (XClipboard.Instance.Data is XVectorLayer layer && _service.ActiveImage != null)
+                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? layer : layer.Clone() as XVectorLayer);
 
                     if (XClipboard.Instance.IsCut)
                         XClipboard.Instance.Data = null;
@@ -168,13 +166,13 @@ namespace NET.Paint.Drawing.Command
         {
             if (_service.ActiveImage != null)
             {
-                var layer = new XLayer { Title = title != null ? title : "Layer " + _service.ActiveImage.Layers.Count };
+                var layer = new XVectorLayer { Title = title != null ? title : "Layer " + _service.ActiveImage.Layers.Count };
                 _service.ActiveImage.Layers.Add(layer);
                 _service.ActiveImage.ActiveLayer = layer;
             }
         }
 
-        public void RemoveLayer(XLayer layer)
+        public void RemoveLayer(XVectorLayer layer)
         {
             foreach (var image in _service.Project.Images)
             {
@@ -215,59 +213,12 @@ namespace NET.Paint.Drawing.Command
 
         public void OpenProject()
         {
-            var dialog = new OpenFileDialog
-            {
-                Filter = "NETPaint Project (*.npaint)|*.npaint|JSON Files (*.json)|*.json|All Files (*.*)|*.*",
-                DefaultExt = ".npaint"
-            };
 
-            if (dialog.ShowDialog() == true)
-            {
-                string filePath = dialog.FileName;
-
-                try
-                {
-                    string json = File.ReadAllText(filePath);
-
-                    var options = new JsonSerializerOptions();
-                    options.Converters.Add(new XRenderableJsonConverter());
-
-                    var opened = JsonSerializer.Deserialize<XProject>(json, options);
-
-                    if (opened != null)
-                        _service.Project = opened;
-                    else
-                        MessageBox.Show("Failed to load project: file is empty or invalid.", "Open Project", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Failed to load project:\n{ex.Message}", "Open Project", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
         }
 
         public void SaveProject()
         {
-            var dialog = new SaveFileDialog
-            {
-                Filter = "NETPaint Project (*.npaint)|*.npaint|JSON Files (*.json)|*.json|All Files (*.*)|*.*",
-                DefaultExt = ".npaint",
-                FileName = _service.Project.Title
-            };
 
-            if (dialog.ShowDialog() == true)
-            {
-                string filePath = dialog.FileName;
-
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                };
-
-                string json = JsonSerializer.Serialize(_service.Project, options);
-
-                File.WriteAllText(filePath, json);
-            }
         }
 
         #endregion

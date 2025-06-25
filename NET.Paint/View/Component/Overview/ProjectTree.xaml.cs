@@ -32,7 +32,7 @@ namespace NET.Paint.View.Component
                 if (e.NewValue is XImage image)
                     context.ActiveImage = image;
 
-                if (e.NewValue is XLayer layer)
+                if (e.NewValue is XVectorLayer layer)
                 {
                     var containingImg = context.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
                     if (containingImg != null && containingImg != context.ActiveImage)
@@ -124,7 +124,7 @@ namespace NET.Paint.View.Component
                 if (item.DataContext is XImage image)
                     context.Command.RemoveImage(image);
 
-                if (item.DataContext is XLayer layer)
+                if (item.DataContext is XVectorLayer layer)
                     context.Command.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
@@ -188,7 +188,7 @@ namespace NET.Paint.View.Component
             if (context == null) return;
 
             var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
-            var draggedLayer = _draggedTreeViewItem?.DataContext as XLayer;
+            var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
             var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
 
             if (targetItem == null) return;
@@ -205,13 +205,13 @@ namespace NET.Paint.View.Component
                 MoveLayerToImage(context.Project, draggedLayer, targetImageForLayer);
             }
             // 3. Existing logic for layer reordering and shape moving
-            else if (draggedLayer != null && targetData is XLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
+            else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
             {
                 MoveLayer(context.ActiveImage, draggedLayer, targetLayer);
             }
             else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
             {
-                if (targetData is XLayer targetLayerForShape)
+                if (targetData is XVectorLayer targetLayerForShape)
                 {
                     MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
                 }
@@ -239,7 +239,7 @@ namespace NET.Paint.View.Component
             images.Insert(targetIndex, imageToMove);
         }
 
-        private void MoveLayerToImage(XProject project, XLayer layerToMove, XImage targetImage)
+        private void MoveLayerToImage(XProject project, XVectorLayer layerToMove, XImage targetImage)
         {
             if (layerToMove == null || targetImage == null)
                 return;
@@ -252,7 +252,7 @@ namespace NET.Paint.View.Component
             targetImage.Layers.Add(layerToMove);
         }
 
-        private void MoveLayer(XImage context, XLayer layerToMove, XLayer targetLayer)
+        private void MoveLayer(XImage context, XVectorLayer layerToMove, XVectorLayer targetLayer)
         {
             if (layerToMove == null || targetLayer == null || ReferenceEquals(layerToMove, targetLayer))
                 return;
@@ -272,7 +272,7 @@ namespace NET.Paint.View.Component
             layers.Insert(targetIndex, layerToMove);
         }
 
-        private void MoveShapeToLayer(XImage context, XRenderable shapeToMove, XLayer targetLayer)
+        private void MoveShapeToLayer(XImage context, XRenderable shapeToMove, XVectorLayer targetLayer)
         {
             if (shapeToMove == null || targetLayer == null)
                 return;

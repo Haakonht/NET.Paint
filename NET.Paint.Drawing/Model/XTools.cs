@@ -82,7 +82,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _headWidth, value);
         }
 
-        public double _tailWidth = 5;
+        private double _tailWidth = 5;
         public double TailWidth
         {
             get => _tailWidth;
