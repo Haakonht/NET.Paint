@@ -16,58 +16,66 @@ namespace NET.Paint.View.Component
             InitializeComponent();
         }
 
+        #region Edit Handlers
+
         private void Undo(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
-                context.Command.Undo();
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.Undo();
         }
 
         private void Redo(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
-                context.Command.Redo();
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.Redo();
         }
 
         private void Cut(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                if (context.ActiveImage.Selected is XRenderable renderable)
-                    context.Command.Cut(renderable);
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null && service.ActiveImage is XImage image)
+                    if (image.Selected is XRenderable renderable)
+                        service.Command.Operations.Cut(renderable);
+            }
         }
 
         private void Copy(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null && service.ActiveImage is XImage image)
+                    if (image.Selected != null)
+                        service.Command.Operations.Copy(image.Selected);
+            }
 
-            if (context != null && context.ActiveImage != null)
-                if (context.ActiveImage.Selected != null)
-                    context.Command.Copy(context.ActiveImage.Selected);
         }
 
         private void Paste(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                context.Command.Paste();
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null)
+                    service.Command.Operations.Paste();
+            }
         }
+
+        #endregion
+
+        #region Project Handlers
 
         private void OpenProject(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
-                service.Command.OpenProject();
+                service.Command.Operations.OpenProject();
         }
 
         private void SaveProject(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
-                service.Command.SaveProject();
+                service.Command.Operations.SaveProject();
         }
+
+        #endregion
     }
 }

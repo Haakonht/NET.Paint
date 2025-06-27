@@ -66,7 +66,7 @@ namespace NET.Paint.View.Component
                 var result = layerDialog.ShowDialog();
                 if (result == true && layerDialog.Result != null)
                 {
-                    context.Command.CreateLayer(layerDialog.Result.Title);
+                    context.Command.Operations.CreateLayer(layerDialog.Result.Title);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace NET.Paint.View.Component
                 var result = imageDialog.ShowDialog();
                 if (result == true && imageDialog.Result != null)
                 {
-                    context.Command.CreateImage(new XImage
+                    context.Command.Operations.CreateImage(new XImage
                     {
                         Title = imageDialog.Result.Title,
                         Width = imageDialog.Result.Width,
@@ -107,17 +107,17 @@ namespace NET.Paint.View.Component
             if (DataContext is XService service && sender is MenuItem item)
             {
                 if (item.DataContext is XLayer layer)
-                    service.Command.RemoveLayer(layer);
+                    service.Command.Operations.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
-                    service.Command.RemoveRenderable(renderable);
+                    service.Command.Operations.RemoveRenderable(renderable);
             }
         }
 
         private void Cut(object sender, RoutedEventArgs e)
         {
             if (DataContext is XService service && sender is MenuItem item)
-                service.Command.Cut(item.DataContext);
+                service.Command.Operations.Cut(item.DataContext);
         }
 
         private void Copy(object sender, RoutedEventArgs e)
@@ -126,7 +126,7 @@ namespace NET.Paint.View.Component
             var item = sender as MenuItem;
 
             if (context != null)
-                context.Command.Copy(item.DataContext);
+                context.Command.Operations.Copy(item.DataContext);
         }
 
         private void Paste(object sender, RoutedEventArgs e)
@@ -135,7 +135,7 @@ namespace NET.Paint.View.Component
             var item = sender as MenuItem;
 
             if (context != null)
-                context.Command.Paste(item.DataContext);
+                context.Command.Operations.Paste(item.DataContext);
         }
 
         private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -176,18 +176,18 @@ namespace NET.Paint.View.Component
             // Layer reordering
             if (droppedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(droppedLayer, targetLayer))
             {
-                context.Command.MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
+                context.Command.Operations.MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
             }
             // Shape moving/reordering
             else if (droppedShape != null)
             {
                 if (targetData is XVectorLayer targetLayerForShape)
                 {
-                    context.Command.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
+                    context.Command.Operations.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
                 }
                 else if (targetData is XRenderable targetShape)
                 {
-                    context.Command.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
+                    context.Command.Operations.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
                 }
             }
         }

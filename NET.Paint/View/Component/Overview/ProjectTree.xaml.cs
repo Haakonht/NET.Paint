@@ -86,7 +86,7 @@ namespace NET.Paint.View.Component
                 if (result == true && layerDialog.Result != null)
                 {
                     // Use layerDialog.Result (the XLayerDialog object)
-                    context.Command.CreateLayer(layerDialog.Result.Title);
+                    context.Command.Operations.CreateLayer(layerDialog.Result.Title);
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace NET.Paint.View.Component
                 if (result == true && imageDialog.Result != null)
                 {
                     // Use imageDialog.Result (the XImageDialog object)
-                    context.Command.CreateImage(new XImage
+                    context.Command.Operations.CreateImage(new XImage
                     {
                         Title = imageDialog.Result.Title,
                         Width = imageDialog.Result.Width,
@@ -122,13 +122,13 @@ namespace NET.Paint.View.Component
             if (context != null)
             {
                 if (item.DataContext is XImage image)
-                    context.Command.RemoveImage(image);
+                    context.Command.Operations.RemoveImage(image);
 
                 if (item.DataContext is XVectorLayer layer)
-                    context.Command.RemoveLayer(layer);
+                    context.Command.Operations.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
-                    context.Command.RemoveRenderable(renderable);
+                    context.Command.Operations.RemoveRenderable(renderable);
             }
         }
 
@@ -138,7 +138,7 @@ namespace NET.Paint.View.Component
             var item = sender as MenuItem;
 
             if (context != null)
-                context.Command.Cut(item.DataContext);
+                context.Command.Operations.Cut(item.DataContext);
         }
 
         private void Copy(object sender, RoutedEventArgs e)
@@ -147,7 +147,7 @@ namespace NET.Paint.View.Component
             var item = sender as MenuItem;
 
             if (context != null)
-                context.Command.Copy(item.DataContext);
+                context.Command.Operations.Copy(item.DataContext);
         }
 
         private void Paste(object sender, RoutedEventArgs e)
@@ -156,7 +156,7 @@ namespace NET.Paint.View.Component
             var item = sender as MenuItem;
 
             if (context != null)
-                context.Command.Paste(item.DataContext);
+                context.Command.Operations.Paste(item.DataContext);
         }
 
         private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -197,27 +197,27 @@ namespace NET.Paint.View.Component
             // 1. Reorder images
             if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
             {
-                context.Command.MoveImage(context.Project, draggedImage, targetImage);
+                context.Command.Operations.MoveImage(context.Project, draggedImage, targetImage);
             }
             // 2. Move layer into another image
             else if (draggedLayer != null && targetData is XImage targetImageForLayer)
             {
-                context.Command.MoveLayerToImage(context.Project, draggedLayer, targetImageForLayer);
+                context.Command.Operations.MoveLayerToImage(context.Project, draggedLayer, targetImageForLayer);
             }
             // 3. Existing logic for layer reordering and shape moving
             else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
             {
-                context.Command.MoveLayer(context.ActiveImage, draggedLayer, targetLayer);
+                context.Command.Operations.MoveLayer(context.ActiveImage, draggedLayer, targetLayer);
             }
             else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
             {
                 if (targetData is XVectorLayer targetLayerForShape)
                 {
-                    context.Command.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
+                    context.Command.Operations.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
                 }
                 else if (targetData is XRenderable targetShape)
                 {
-                    context.Command.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
+                    context.Command.Operations.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
                 }
             }
         }
