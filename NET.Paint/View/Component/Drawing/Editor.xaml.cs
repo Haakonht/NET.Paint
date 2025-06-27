@@ -56,7 +56,9 @@ namespace NET.Paint.View.Component
                 {
                     if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
                     {
-                        image.ActiveLayer.Shapes.Add(Preview.Shape);
+                        if (image.ActiveLayer is XVectorLayer vectorLayer)
+                            vectorLayer.Shapes.Add(Preview.Shape);
+                        
                         Preview.Shape = null;
                     }
                     else
@@ -73,43 +75,47 @@ namespace NET.Paint.View.Component
             {
                 XTools.Instance.MouseLocation = e.GetPosition(sender as UIElement);
 
-                if (e.LeftButton == MouseButtonState.Pressed)
+                // Vector tools
+                if (image.ActiveLayer != null && image.ActiveLayer is XVectorLayer vectorLayer)
                 {
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                    {
 
-                    if (XTools.Instance.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
-                    {
-                        _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, XTools.Instance.MouseLocation, pencil.Spacing);                        
-                    }
-                    else
-                    {
-                        if (XTools.Instance.ClickLocation != null && XTools.Instance.MouseLocation != null)
-                            Preview.Shape = XFactory.CreateShape(XTools.Instance);
-                    }
-                }
-                else if (e.XButton1 == MouseButtonState.Pressed)
-                {
-                    if (XTools.Instance.ActiveTool == ToolType.Bezier && image.ActiveLayer.Shapes.Last() is XBezier bezier)
-                        bezier.Ctrl1 = XTools.Instance.MouseLocation;
-
-                }
-                else if (XTools.Instance.ActiveTool != ToolType.Text)
-                {
-                    if (Preview.Shape != null)
-                    {
-                        if (image.ActiveLayer != null)
+                        if (XTools.Instance.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
                         {
-                            if (XTools.Instance.ActiveTool == ToolType.Bitmap)
-                            {
-                                if (XTools.Instance.ActiveBitmap != null)
-                                    image.ActiveLayer.Shapes.Add(Preview.Shape);
-                            }
-                            else
-                                image.ActiveLayer.Shapes.Add(Preview.Shape);
+                            _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, XTools.Instance.MouseLocation, pencil.Spacing);
                         }
+                        else
+                        {
+                            if (XTools.Instance.ClickLocation != null && XTools.Instance.MouseLocation != null)
+                                Preview.Shape = XFactory.CreateShape(XTools.Instance);
+                        }
+                    }
+                    else if (e.XButton1 == MouseButtonState.Pressed)
+                    {
+                        if (XTools.Instance.ActiveTool == ToolType.Bezier && vectorLayer.Shapes.Last() is XBezier bezier)
+                            bezier.Ctrl1 = XTools.Instance.MouseLocation;
 
-                        XTools.Instance.ClickLocation = null;
-                        Preview.Shape = null;
-                        _lastAddedPoint = null;
+                    }
+                    else if (XTools.Instance.ActiveTool != ToolType.Text)
+                    {
+                        if (Preview.Shape != null)
+                        {
+                            if (image.ActiveLayer != null)
+                            {
+                                if (XTools.Instance.ActiveTool == ToolType.Bitmap)
+                                {
+                                    if (XTools.Instance.ActiveBitmap != null)
+                                        vectorLayer.Shapes.Add(Preview.Shape);
+                                }
+                                else
+                                    vectorLayer.Shapes.Add(Preview.Shape);
+                            }
+
+                            XTools.Instance.ClickLocation = null;
+                            Preview.Shape = null;
+                            _lastAddedPoint = null;
+                        }
                     }
                 }
             }
@@ -119,15 +125,6 @@ namespace NET.Paint.View.Component
         {
             Toolcontext.IsOpen = true;
             e.Handled = true;
-        }
-
-        private void TextBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox text)
-            {
-                text.Focusable = true;
-                text.Focus();
-            }
         }
     }
 }

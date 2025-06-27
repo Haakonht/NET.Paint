@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NET.Paint.Resources.Handlers
 {
-    public partial class EventHandler : ResourceDictionary
+    public partial class PreviewHandler : ResourceDictionary
     {
         private void Preview_Loaded(object sender, RoutedEventArgs e)
         {

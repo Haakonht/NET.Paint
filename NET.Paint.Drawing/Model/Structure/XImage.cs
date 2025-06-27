@@ -37,8 +37,8 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _background, value);
         }
 
-        private ObservableCollection<XVectorLayer> _layers = new ObservableCollection<XVectorLayer>() { new XVectorLayer { Title = "Background" } };
-        public ObservableCollection<XVectorLayer> Layers => _layers;
+        private ObservableCollection<XLayer> _layers = new ObservableCollection<XLayer>() { new XVectorLayer { Title = "Background" } };
+        public ObservableCollection<XLayer> Layers => _layers;
 
         #region Volatile
 
@@ -58,9 +58,9 @@ namespace NET.Paint.Drawing.Model.Structure
         public bool CanCut => Selected is XVectorLayer ? Layers.Count() > 1 : CanCopy;
         public bool CanCopy => Selected != null && Selected is not XImage;
 
-        public XVectorLayer? _activeLayer = null;
+        public XLayer? _activeLayer = null;
         [Browsable(false)]
-        public XVectorLayer? ActiveLayer
+        public XLayer? ActiveLayer
         {
             get => _activeLayer != null ? _activeLayer : _layers.Any() ? _layers.First() : null;
             set => SetProperty(ref _activeLayer, value);

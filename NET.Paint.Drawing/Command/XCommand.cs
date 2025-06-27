@@ -35,7 +35,7 @@ namespace NET.Paint.Drawing.Command
                 _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
             else if (elementToCut is XRenderable renderable)
-                _service.Project.Images.First(x => x.Layers.Any(l => l.Shapes.Contains(renderable))).Layers.First(l => l.Shapes.Contains(renderable)).Shapes.Remove(renderable);
+                (_service.Project.Images.First(x => x.Layers.Any(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable))).Layers.First(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)) as XVectorLayer).Shapes.Remove(renderable);
         }
 
         public void Paste(object? target = null)
@@ -48,8 +48,8 @@ namespace NET.Paint.Drawing.Command
                     {
                         if (target != null && target is XVectorLayer targetLayer)
                             targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
-                        else
-                            _service.ActiveImage.ActiveLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                        else if (_service.ActiveImage.ActiveLayer is XVectorLayer activeLayer)
+                            activeLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
                     }
 
                     else if (XClipboard.Instance.Data is XVectorLayer layer && _service.ActiveImage != null)
@@ -63,21 +63,27 @@ namespace NET.Paint.Drawing.Command
 
         public void Undo()
         {
-            if (_service.ActiveImage?.ActiveLayer?.Shapes.Any() == true)
+            if (_service.ActiveImage is XImage activeImage)
             {
-                var shape = _service.ActiveImage.ActiveLayer.Shapes.Last();
-                _service.ActiveImage.ActiveLayer.Shapes.Remove(shape);
-                _service.ActiveImage.Undo.Push(shape);
+                if (activeImage.ActiveLayer is XVectorLayer activeLayer)
+                {
+                    var shape = activeLayer.Shapes.Last();
+                    activeLayer.Shapes.Remove(shape);
+                    activeImage.Undo.Push(shape);
+                }
             }
         }
 
         public void Redo()
         {
-            if (_service.ActiveImage?.Undo?.History.Any() == true && _service.ActiveImage != null && _service.ActiveImage.ActiveLayer != null)
+            if (_service.ActiveImage is XImage activeImage && activeImage.Undo.History.Any())
             {
-                var shape = _service.ActiveImage.Undo.History.Last();
-                _service.ActiveImage.Undo.History.Remove(shape);
-                _service.ActiveImage.ActiveLayer.Shapes.Add(shape);
+                if (activeImage.ActiveLayer is XVectorLayer activeLayer)
+                {
+                    var shape = activeImage.Undo.History.Last();
+                    activeImage.Undo.History.Remove(shape);
+                    activeLayer.Shapes.Add(shape);
+                }
             }
         }
 
@@ -160,6 +166,95 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
+        #region Tree Commands
+
+        public void MoveImage(XProject project, XImage imageToMove, XImage targetImage)
+        {
+            if (imageToMove == null || targetImage == null || ReferenceEquals(imageToMove, targetImage))
+                return;
+
+            var images = project.Images;
+            int oldIndex = images.IndexOf(imageToMove);
+            int targetIndex = images.IndexOf(targetImage);
+
+            if (oldIndex < 0 || targetIndex < 0 || oldIndex == targetIndex)
+                return;
+
+            images.RemoveAt(oldIndex);
+            if (oldIndex < targetIndex) targetIndex--;
+            images.Insert(targetIndex, imageToMove);
+        }
+
+        public void MoveLayerToImage(XProject project, XVectorLayer layerToMove, XImage targetImage)
+        {
+            if (layerToMove == null || targetImage == null)
+                return;
+
+            // Remove from old image
+            var oldImage = project.Images.FirstOrDefault(img => img.Layers.Contains(layerToMove));
+            oldImage?.Layers.Remove(layerToMove);
+
+            // Add to new image (at end)
+            targetImage.Layers.Add(layerToMove);
+        }
+
+        public void MoveLayer(XImage context, XVectorLayer layerToMove, XVectorLayer targetLayer)
+        {
+            if (layerToMove == null || targetLayer == null || ReferenceEquals(layerToMove, targetLayer))
+                return;
+
+            var layers = context.Layers;
+            int oldIndex = layers.IndexOf(layerToMove);
+            int targetIndex = layers.IndexOf(targetLayer);
+
+            if (oldIndex < 0 || targetIndex < 0 || oldIndex == targetIndex)
+                return;
+
+            layers.RemoveAt(oldIndex);
+
+            // Adjust target index if removing an earlier item shifts the target
+            if (oldIndex < targetIndex) targetIndex--;
+
+            layers.Insert(targetIndex, layerToMove);
+        }
+
+        public void MoveShapeToLayer(XImage context, XRenderable shapeToMove, XVectorLayer targetLayer)
+        {
+            if (shapeToMove == null || targetLayer == null)
+                return;
+
+            // Remove from old layer
+            var oldLayer = context.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(shapeToMove)) as XVectorLayer;
+            oldLayer?.Shapes.Remove(shapeToMove);
+
+            // Add to new layer (at end)
+            targetLayer.Shapes.Add(shapeToMove);
+        }
+
+        public void MoveShapeInFrontOfShape(XImage context, XRenderable shapeToMove, XRenderable targetShape)
+        {
+            if (shapeToMove == null || targetShape == null)
+                return;
+
+            // Find the layer containing the target shape
+            var targetLayer = context.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(targetShape)) as XVectorLayer;
+            if (targetLayer == null)
+                return;
+
+            // Remove from old layer
+            var oldLayer = context.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(shapeToMove)) as XVectorLayer;
+            oldLayer?.Shapes.Remove(shapeToMove);
+
+            // Insert before the target shape
+            int targetIndex = targetLayer.Shapes.IndexOf(targetShape);
+            if (targetIndex >= 0)
+                targetLayer.Shapes.Insert(targetIndex, shapeToMove);
+            else
+                targetLayer.Shapes.Add(shapeToMove);
+        }
+
+        #endregion
+
         #region Layer Commands
 
         public void CreateLayer(string title = null)
@@ -172,7 +267,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void RemoveLayer(XVectorLayer layer)
+        public void RemoveLayer(XLayer layer)
         {
             foreach (var image in _service.Project.Images)
             {
@@ -196,7 +291,7 @@ namespace NET.Paint.Drawing.Command
         {
             foreach (var image in _service.Project.Images)
             {
-                foreach (var layer in image.Layers)
+                foreach (XVectorLayer layer in image.Layers.Where(x => x.Type == Constant.LayerType.Vector))
                 {
                     if (layer.Shapes.Contains(renderable))
                     {

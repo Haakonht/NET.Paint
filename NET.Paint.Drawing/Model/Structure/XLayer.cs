@@ -72,8 +72,8 @@ namespace NET.Paint.Drawing.Model.Structure
     {
         public override LayerType Type => LayerType.Raster;
 
-        private WriteableBitmap _bitmap = new WriteableBitmap(100, 100, 96, 96, PixelFormats.Bgr32, BitmapPalettes.WebPaletteTransparent);
-        public WriteableBitmap Bitmap
+        private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Bgra32);
+        public BitmapSource Bitmap
         {
             get => _bitmap;
             set => SetProperty(ref _bitmap, value);
@@ -83,10 +83,10 @@ namespace NET.Paint.Drawing.Model.Structure
 
         public override object Clone() => new XRasterLayer
         {
-            Title = Title,
-            OffsetX = OffsetX,
-            OffsetY = OffsetY,
-            Bitmap = new WriteableBitmap(Bitmap)
+            Title = this.Title,
+            OffsetX = this.OffsetX,
+            OffsetY = this.OffsetY,
+            Bitmap = this.Bitmap.Clone()
         };
 
         #endregion

@@ -26,52 +26,12 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
-            <ContextMenu x:Key="ImageContextMenu">
-                <MenuItem Header="Add" Click="AddLayer"/>
-                <MenuItem Header="Remove" Click="Remove"/>
-            </ContextMenu>
-
-            <ContextMenu x:Key="LayerContextMenu">
-                <MenuItem Header="Add" Click="AddLayer"/>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Cut" Click="Cut"/>
-                    <MenuItem Header="Copy" Click="Copy"/>
-                    <MenuItem Header="Paste" Click="Paste"/>
-                </MenuItem>
-                <MenuItem Header="Remove" Click="Remove"/>
-            </ContextMenu>
-
-            <ContextMenu x:Key="RenderableContextMenu">
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Cut" Click="Cut"/>
-                    <MenuItem Header="Copy" Click="Copy"/>
-                    <MenuItem Header="Paste" Click="Paste"/>
-                </MenuItem>
-                <MenuItem Header="Remove" Click="Remove"/>
-            </ContextMenu>
-
-            <HierarchicalDataTemplate x:Key="ImageTreeTemplate" ItemsSource="{Binding Shapes}">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
-                    <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
-                </StackPanel>
-                <HierarchicalDataTemplate.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
-                            <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </HierarchicalDataTemplate.ItemTemplate>
-            </HierarchicalDataTemplate>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding ActiveImage}">
+    <ScrollViewer x:Name="ImageScroll" MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding ActiveImage}">
         <StackPanel Orientation="Vertical" Margin="5,0,0,0">
-            <Border BorderBrush="LightGray"  Margin="0,5,5,0" BorderThickness="1,0,0,1" Background="Transparent" Padding="5" MouseDown="SelectImage" ContextMenu="{StaticResource ImageContextMenu}">
+            <Border BorderBrush="LightGray"  Margin="0,5,5,0" BorderThickness="1,0,0,1" Background="Transparent" Padding="5" MouseDown="SelectImage">
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
@@ -86,20 +46,54 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Click="AddImage"/>
+                            <MenuItem Header="Remove" Click="Remove"/>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
                 </StackPanel>
             </Border>
-            
-            <TreeView ItemsSource="{Binding Layers}" ItemTemplate="{StaticResource ImageTreeTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
-                        <Setter Property="ContextMenu" Value="{StaticResource RenderableContextMenu}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="{x:Type structure:XVectorLayer}">
-                                <Setter Property="ContextMenu" Value="{StaticResource LayerContextMenu}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TreeView.ItemContainerStyle>
+
+            <TreeView ItemsSource="{Binding Layers}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Shapes}">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add" Click="AddLayer"/>
+                                    <MenuItem Header="Edit">
+                                        <MenuItem Header="Cut" Click="Cut"/>
+                                        <MenuItem Header="Copy" Click="Copy"/>
+                                        <MenuItem Header="Paste" Click="Paste"/>
+                                    </MenuItem>
+                                    <MenuItem Header="Flatten" Click="Flatten"/>
+                                    <MenuItem Header="Remove" Click="Remove"/>
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit">
+                                                <MenuItem Header="Cut" Click="Cut"/>
+                                                <MenuItem Header="Copy" Click="Copy"/>
+                                                <MenuItem Header="Paste" Click="Paste"/>
+                                            </MenuItem>
+                                            <MenuItem Header="Remove" Click="Remove"/>
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                </StackPanel>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />

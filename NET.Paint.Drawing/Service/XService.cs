@@ -37,6 +37,8 @@ namespace NET.Paint.Drawing.Service
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }
 
+        public ZCommand BindCommand { get; }
+
         //public XService()
         //{
         //    Command = new XCommand(this);
@@ -95,6 +97,7 @@ namespace NET.Paint.Drawing.Service
 
             // Initialize the command object
             Command = new XCommand(this);
+            BindCommand = new ZCommand(Command);
         }
     }
 }

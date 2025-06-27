@@ -9,7 +9,10 @@ namespace NET.Paint.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null && value is XRenderable ? Visibility.Visible : Visibility.Collapsed;
+            if (value != null && value is XRenderable)
+                return Visibility.Visible;
+                    
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

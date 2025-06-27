@@ -1,27 +1,13 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Dialog;
-using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
 using NET.Paint.View.Component.Dialog;
-using NET.Paint.View.Component.Tools.Subcomponent;
-using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component
 {
@@ -85,6 +71,15 @@ namespace NET.Paint.View.Component
             }
         }
 
+        private void Flatten(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (sender is MenuItem item && item.DataContext is XVectorLayer layer) { }
+                    //service.Command.FlattenLayer(layer);
+            }
+        }
+
         private void AddImage(object sender, RoutedEventArgs e)
         {
             var context = DataContext as XService;
@@ -109,26 +104,20 @@ namespace NET.Paint.View.Component
 
         private void Remove(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
+            if (DataContext is XService service && sender is MenuItem item)
             {
-                if (item.DataContext is XVectorLayer layer)
-                    context.Command.RemoveLayer(layer);
+                if (item.DataContext is XLayer layer)
+                    service.Command.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
-                    context.Command.RemoveRenderable(renderable);
+                    service.Command.RemoveRenderable(renderable);
             }
         }
 
         private void Cut(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Cut(item.DataContext);
+            if (DataContext is XService service && sender is MenuItem item)
+                service.Command.Cut(item.DataContext);
         }
 
         private void Copy(object sender, RoutedEventArgs e)
@@ -187,75 +176,20 @@ namespace NET.Paint.View.Component
             // Layer reordering
             if (droppedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(droppedLayer, targetLayer))
             {
-                MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
+                context.Command.MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
             }
             // Shape moving/reordering
             else if (droppedShape != null)
             {
                 if (targetData is XVectorLayer targetLayerForShape)
                 {
-                    MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
+                    context.Command.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
                 }
                 else if (targetData is XRenderable targetShape)
                 {
-                    MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
+                    context.Command.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
                 }
             }
-        }
-
-        private void MoveLayer(XImage context, XVectorLayer layerToMove, XVectorLayer targetLayer)
-        {
-            if (layerToMove == null || targetLayer == null || ReferenceEquals(layerToMove, targetLayer))
-                return;
-
-            var layers = context.Layers;
-            int oldIndex = layers.IndexOf(layerToMove);
-            int targetIndex = layers.IndexOf(targetLayer);
-
-            if (oldIndex < 0 || targetIndex < 0 || oldIndex == targetIndex)
-                return;
-
-            layers.RemoveAt(oldIndex);
-
-            // Adjust target index if removing an earlier item shifts the target
-            if (oldIndex < targetIndex) targetIndex--;
-
-            layers.Insert(targetIndex, layerToMove);
-        }
-
-        private void MoveShapeToLayer(XImage context, XRenderable shapeToMove, XVectorLayer targetLayer)
-        {
-            if (shapeToMove == null || targetLayer == null)
-                return;
-
-            // Remove from old layer
-            var oldLayer = context.Layers.FirstOrDefault(l => l.Shapes.Contains(shapeToMove));
-            oldLayer?.Shapes.Remove(shapeToMove);
-
-            // Add to new layer (at end)
-            targetLayer.Shapes.Add(shapeToMove);
-        }
-
-        private void MoveShapeInFrontOfShape(XImage context, XRenderable shapeToMove, XRenderable targetShape)
-        {
-            if (shapeToMove == null || targetShape == null)
-                return;
-
-            // Find the layer containing the target shape
-            var targetLayer = context.Layers.FirstOrDefault(l => l.Shapes.Contains(targetShape));
-            if (targetLayer == null)
-                return;
-
-            // Remove from old layer
-            var oldLayer = context.Layers.FirstOrDefault(l => l.Shapes.Contains(shapeToMove));
-            oldLayer?.Shapes.Remove(shapeToMove);
-
-            // Insert before the target shape
-            int targetIndex = targetLayer.Shapes.IndexOf(targetShape);
-            if (targetIndex >= 0)
-                targetLayer.Shapes.Insert(targetIndex, shapeToMove);
-            else
-                targetLayer.Shapes.Add(shapeToMove);
         }
 
         // Helper to find TreeViewItem
