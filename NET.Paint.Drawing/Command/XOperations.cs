@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Model.Dialog;
+﻿using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
@@ -15,7 +16,7 @@ namespace NET.Paint.Drawing.Command
         public XService _service;
         public XOperations(XService service) => _service = service;
 
-        #region Edit Commands
+        #region Edit Operations
 
         public void Copy(object elementToCopy)
         {
@@ -89,7 +90,7 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
-        #region Image Commands
+        #region Image Operations
 
         public void CreateImage(XImage image)
         {
@@ -166,7 +167,7 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
-        #region Tree Commands
+        #region Tree Operations
 
         public void MoveImage(XProject project, XImage imageToMove, XImage targetImage)
         {
@@ -255,7 +256,7 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
-        #region Layer Commands
+        #region Layer Operations
 
         public void CreateLayer(string title = null)
         {
@@ -283,9 +284,28 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
+        public void FlattenLayer(XImage image, XLayer layer)
+        {
+            if (layer is XVectorLayer vectorLayer)
+            {
+                XRasterLayer flattenedLayer = new XRasterLayer
+                {
+                    Title = vectorLayer.Title,
+                    OffsetX = vectorLayer.OffsetX,
+                    OffsetY = vectorLayer.OffsetY,
+                    Bitmap = XFactory.RenderToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                };
+
+                int index = image.Layers.IndexOf(vectorLayer);
+                image.Layers.Insert(index, flattenedLayer);
+                image.Layers.Remove(vectorLayer);
+            }
+
+        }
+
         #endregion
 
-        #region Renderable Commands
+        #region Renderable Operations
 
         public void RemoveRenderable(XRenderable renderable)
         {
@@ -304,7 +324,7 @@ namespace NET.Paint.Drawing.Command
 
         #endregion
 
-        #region Project Commands
+        #region Project Operations
 
         public void OpenProject()
         {

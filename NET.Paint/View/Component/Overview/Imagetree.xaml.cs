@@ -25,48 +25,48 @@ namespace NET.Paint.View.Component
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
+            if (DataContext != null && DataContext is XService service)
             {
-                context.ActiveImage.Selected = e.NewValue;
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
+                {
+                    activeImage.Selected = e.NewValue;
 
-                if (e.NewValue is XVectorLayer)
-                    context.ActiveImage.ActiveLayer = e.NewValue as XVectorLayer;
-                
-                if (e.NewValue is XRenderable)
-                    XTools.Instance.ActiveTool = ToolType.Selector;
+                    if (e.NewValue is XVectorLayer)
+                        activeImage.ActiveLayer = e.NewValue as XVectorLayer;
+
+                    if (e.NewValue is XRenderable)
+                        XTools.Instance.ActiveTool = ToolType.Selector;
+                }
             }
         }
 
         private void Unselect(object sender, MouseButtonEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                context.ActiveImage.Selected = null;             
+            if (DataContext != null && DataContext is XService service)
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
+                    activeImage.Selected = null;             
         }
 
         private void SelectImage(object sender, MouseButtonEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                context.ActiveImage.Selected = context.ActiveImage;
+            if (DataContext != null && DataContext is XService service)
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
+                    activeImage.Selected = activeImage;
         }
 
         private void AddLayer(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
+            if (DataContext != null && DataContext is XService service)
             {
-                var dialogModel = new XLayerDialog();
-                var layerDialog = new LayerDialog(dialogModel);
-                var result = layerDialog.ShowDialog();
-                if (result == true && layerDialog.Result != null)
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
                 {
-                    context.Command.Operations.CreateLayer(layerDialog.Result.Title);
+                    var dialogModel = new XLayerDialog();
+                    var layerDialog = new LayerDialog(dialogModel);
+                    var result = layerDialog.ShowDialog();
+                    if (result == true && layerDialog.Result != null)
+                    {
+                        service.Command.Operations.CreateLayer(layerDialog.Result.Title);
+                    }
                 }
             }
         }
@@ -75,23 +75,25 @@ namespace NET.Paint.View.Component
         {
             if (DataContext != null && DataContext is XService service)
             {
-                if (sender is MenuItem item && item.DataContext is XVectorLayer layer) { }
-                    //service.Command.FlattenLayer(layer);
+                if (sender is MenuItem item && item.DataContext is XVectorLayer layer)
+                {
+                    var containingImage = service.Project.Images.First(x => x.Layers.Contains(layer));
+                    if (containingImage != null)
+                        service.Command.Operations.FlattenLayer(containingImage, layer);
+                }
             }
         }
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
             {
                 var dialogModel = new XImageDialog();
                 var imageDialog = new ImageDialog(dialogModel);
                 var result = imageDialog.ShowDialog();
                 if (result == true && imageDialog.Result != null)
                 {
-                    context.Command.Operations.CreateImage(new XImage
+                    service.Command.Operations.CreateImage(new XImage
                     {
                         Title = imageDialog.Result.Title,
                         Width = imageDialog.Result.Width,
@@ -104,7 +106,7 @@ namespace NET.Paint.View.Component
 
         private void Remove(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && sender is MenuItem item)
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
             {
                 if (item.DataContext is XLayer layer)
                     service.Command.Operations.RemoveLayer(layer);
@@ -116,26 +118,20 @@ namespace NET.Paint.View.Component
 
         private void Cut(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && sender is MenuItem item)
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
                 service.Command.Operations.Cut(item.DataContext);
         }
 
         private void Copy(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Operations.Copy(item.DataContext);
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
+                service.Command.Operations.Copy(item.DataContext);
         }
 
         private void Paste(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Operations.Paste(item.DataContext);
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
+                service.Command.Operations.Paste(item.DataContext);
         }
 
         private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -25,77 +25,76 @@ namespace NET.Paint.View.Component
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
+            if (DataContext != null && DataContext is XService service)
             {
                 if (e.NewValue is XImage image)
-                    context.ActiveImage = image;
+                    service.ActiveImage = image;
 
                 if (e.NewValue is XVectorLayer layer)
                 {
-                    var containingImg = context.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
-                    if (containingImg != null && containingImg != context.ActiveImage)
-                        context.ActiveImage = containingImg;
+                    var containingImg = service.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
+                    if (containingImg != null && containingImg != service.ActiveImage)
+                        service.ActiveImage = containingImg;
 
-                    context.ActiveImage.ActiveLayer = layer;
+                    service.ActiveImage.ActiveLayer = layer;
                 }
 
                 if (e.NewValue is XRenderable renderable)
                 {
-                    var containingImage = context.Project.Images.FirstOrDefault(img => img.Layers.Any(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)));
-                    if (containingImage != null && containingImage != context.ActiveImage)
-                        context.ActiveImage = containingImage;
+                    var containingImage = service.Project.Images.FirstOrDefault(img => img.Layers.Any(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)));
+                    if (containingImage != null && containingImage != service.ActiveImage)
+                        service.ActiveImage = containingImage;
                     
-                    var containingLayer = context.ActiveImage.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)) as XVectorLayer;
-                    if (containingLayer != null && containingLayer != context.ActiveImage.ActiveLayer)
-                        context.ActiveImage.ActiveLayer = containingLayer;
+                    var containingLayer = service.ActiveImage.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)) as XVectorLayer;
+                    if (containingLayer != null && containingLayer != service.ActiveImage.ActiveLayer)
+                        service.ActiveImage.ActiveLayer = containingLayer;
 
                     XTools.Instance.ActiveTool = ToolType.Selector;
                 }
 
-                context.ActiveImage.Selected = e.NewValue;
+                service.ActiveImage.Selected = e.NewValue;
             }
         }
 
         private void Unselect(object sender, MouseButtonEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                context.ActiveImage.Selected = null;             
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
+                    activeImage.Selected = null;
+            }
         }
 
         private void SelectImage(object sender, MouseButtonEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
-                context.ActiveImage.Selected = context.ActiveImage;
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
+                    activeImage.Selected = service.ActiveImage;
+            }
         }
 
         private void AddLayer(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null && context.ActiveImage != null)
+            if (DataContext != null && DataContext is XService service)
             {
-                var dialogModel = new XLayerDialog();
-                var layerDialog = new LayerDialog(dialogModel);
-                var result = layerDialog.ShowDialog();
-                if (result == true && layerDialog.Result != null)
+                if (service.ActiveImage != null && service.ActiveImage is XImage image)
                 {
-                    // Use layerDialog.Result (the XLayerDialog object)
-                    context.Command.Operations.CreateLayer(layerDialog.Result.Title);
+                    var dialogModel = new XLayerDialog();
+                    var layerDialog = new LayerDialog(dialogModel);
+                    var result = layerDialog.ShowDialog();
+                    if (result == true && layerDialog.Result != null)
+                    {
+                        // Use layerDialog.Result (the XLayerDialog object)
+                        service.Command.Operations.CreateLayer(layerDialog.Result.Title);
+                    }
                 }
             }
         }
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-
-            if (context != null)
+            if (DataContext != null && DataContext is XService service)
             {
                 var dialogModel = new XImageDialog();
                 var imageDialog = new ImageDialog(dialogModel);
@@ -103,7 +102,7 @@ namespace NET.Paint.View.Component
                 if (result == true && imageDialog.Result != null)
                 {
                     // Use imageDialog.Result (the XImageDialog object)
-                    context.Command.Operations.CreateImage(new XImage
+                    service.Command.Operations.CreateImage(new XImage
                     {
                         Title = imageDialog.Result.Title,
                         Width = imageDialog.Result.Width,
@@ -116,47 +115,35 @@ namespace NET.Paint.View.Component
 
         private void Remove(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
             {
                 if (item.DataContext is XImage image)
-                    context.Command.Operations.RemoveImage(image);
+                    service.Command.Operations.RemoveImage(image);
 
                 if (item.DataContext is XVectorLayer layer)
-                    context.Command.Operations.RemoveLayer(layer);
+                    service.Command.Operations.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
-                    context.Command.Operations.RemoveRenderable(renderable);
+                    service.Command.Operations.RemoveRenderable(renderable);
             }
         }
 
         private void Cut(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Operations.Cut(item.DataContext);
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
+                service.Command.Operations.Cut(item.DataContext);
         }
 
         private void Copy(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Operations.Copy(item.DataContext);
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
+                service.Command.Operations.Copy(item.DataContext);
         }
 
         private void Paste(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XService;
-            var item = sender as MenuItem;
-
-            if (context != null)
-                context.Command.Operations.Paste(item.DataContext);
+            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
+                service.Command.Operations.Paste(item.DataContext);
         }
 
         private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -184,40 +171,40 @@ namespace NET.Paint.View.Component
 
         private void TreeView_Drop(object sender, DragEventArgs e)
         {
-            var context = DataContext as XService;
-            if (context == null) return;
+            if (DataContext != null && DataContext is XService service)
+            {
+                var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
+                var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
+                var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
 
-            var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
-            var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
-            var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
+                if (targetItem == null) return;
+                var targetData = targetItem.DataContext;
 
-            if (targetItem == null) return;
-            var targetData = targetItem.DataContext;
-
-            // 1. Reorder images
-            if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
-            {
-                context.Command.Operations.MoveImage(context.Project, draggedImage, targetImage);
-            }
-            // 2. Move layer into another image
-            else if (draggedLayer != null && targetData is XImage targetImageForLayer)
-            {
-                context.Command.Operations.MoveLayerToImage(context.Project, draggedLayer, targetImageForLayer);
-            }
-            // 3. Existing logic for layer reordering and shape moving
-            else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
-            {
-                context.Command.Operations.MoveLayer(context.ActiveImage, draggedLayer, targetLayer);
-            }
-            else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
-            {
-                if (targetData is XVectorLayer targetLayerForShape)
+                // 1. Reorder images
+                if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
                 {
-                    context.Command.Operations.MoveShapeToLayer(context.ActiveImage, droppedShape, targetLayerForShape);
+                    service.Command.Operations.MoveImage(service.Project, draggedImage, targetImage);
                 }
-                else if (targetData is XRenderable targetShape)
+                // 2. Move layer into another image
+                else if (draggedLayer != null && targetData is XImage targetImageForLayer)
                 {
-                    context.Command.Operations.MoveShapeInFrontOfShape(context.ActiveImage, droppedShape, targetShape);
+                    service.Command.Operations.MoveLayerToImage(service.Project, draggedLayer, targetImageForLayer);
+                }
+                // 3. Existing logic for layer reordering and shape moving
+                else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
+                {
+                    service.Command.Operations.MoveLayer(service.ActiveImage, draggedLayer, targetLayer);
+                }
+                else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
+                {
+                    if (targetData is XVectorLayer targetLayerForShape)
+                    {
+                        service.Command.Operations.MoveShapeToLayer(service.ActiveImage, droppedShape, targetLayerForShape);
+                    }
+                    else if (targetData is XRenderable targetShape)
+                    {
+                        service.Command.Operations.MoveShapeInFrontOfShape(service.ActiveImage, droppedShape, targetShape);
+                    }
                 }
             }
         }
