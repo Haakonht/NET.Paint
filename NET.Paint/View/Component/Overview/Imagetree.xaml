@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <converter:LayerIsActiveConverter x:Key="LayerIsActiveConverter"/>
+            <converter:IsActiveConverter x:Key="IsActiveConverter"/>
             <converter:LayerTypeToIconConverter x:Key="LayerTypeToIconConverter"/>
 
             <Style x:Key="HoverStyle" TargetType="TextBlock">
@@ -99,7 +99,7 @@
                                         <Style.Triggers>
                                             <DataTrigger Value="True">
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{StaticResource LayerIsActiveConverter}">
+                                                    <MultiBinding Converter="{StaticResource IsActiveConverter}">
                                                         <Binding />
                                                         <Binding Path="DataContext.ActiveLayer" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
                                                     </MultiBinding>

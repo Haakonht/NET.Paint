@@ -18,6 +18,8 @@
                 <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <converter:IsActiveConverter x:Key="IsActiveConverter"/>
+
             <Style TargetType="TextBlock" x:Key="HoverStyle">
                 <Setter Property="FontWeight" Value="Normal"/>
                 <Style.Triggers>
@@ -52,16 +54,86 @@
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
 
+
+            <Style x:Key="VisibilityToggleStyle" TargetType="ToggleButton" x:Shared="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border BorderThickness="1" BorderBrush="Transparent" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <fa:IconBlock Icon="Eye" Foreground="Black" FontSize="12"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <fa:IconBlock Icon="EyeSlash" Foreground="Black" FontSize="12"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <fa:IconBlock Icon="Eye" Foreground="Black" FontSize="12"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
             <HierarchicalDataTemplate x:Key="ProjectTreeTemplate" ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource ImageContextMenu}">
+                <StackPanel x:Name="ImageNode" Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource ImageContextMenu}">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                    <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource IsActiveConverter}">
+                                                <Binding />
+                                                <Binding Path="ActiveImage" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XVectorLayer}">
+                    <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XLayer}">
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
                             <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                            <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Value="True">
+                                                <DataTrigger.Binding>
+                                                    <MultiBinding Converter="{StaticResource IsActiveConverter}">
+                                                        <Binding />
+                                                        <Binding Path="DataContext.ActiveLayer" ElementName="ImageNode"/>
+                                                    </MultiBinding>
+                                                </DataTrigger.Binding>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <ToggleButton IsChecked="{Binding IsVisible}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" Grid.Column="2" Style="{StaticResource VisibilityToggleStyle}"/>
                         </StackPanel>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
