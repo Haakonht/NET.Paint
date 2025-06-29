@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -7,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
@@ -76,10 +78,11 @@ namespace NET.Paint.Drawing.Model.Structure
             }
         }
 
+        public abstract bool CanUndo { get; }
         public abstract object Clone();
     }
 
-    public class XVectorLayer : XLayer
+    public class XVectorLayer : XLayer, IShapeLayer
     {
         public override LayerType Type => LayerType.Vector;
 
@@ -92,11 +95,8 @@ namespace NET.Paint.Drawing.Model.Structure
 
         #region Volatile
 
-        public bool CanUndo => Shapes.Count > 0;
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(CanUndo));
-        }
+        public override bool CanUndo => Shapes.Count > 0;
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(CanUndo));
         public XVectorLayer() => _shapes.CollectionChanged += CollectionChanged;
 
         public override object Clone() => new XVectorLayer
@@ -110,16 +110,20 @@ namespace NET.Paint.Drawing.Model.Structure
         #endregion
     }
 
-    public class XRasterLayer : XLayer
+    public class XRasterLayer : XLayer, IBitmapLayer
     {
         public override LayerType Type => LayerType.Raster;
 
-        private BitmapSource _bitmap;
+        private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
+        [Browsable(false)]
         public BitmapSource Bitmap
         {
             get => _bitmap;
             set => SetProperty(ref _bitmap, value);
         }
+
+        [Browsable(false)]
+        public override bool CanUndo => false;
 
         #region Volatile
 
@@ -128,6 +132,52 @@ namespace NET.Paint.Drawing.Model.Structure
             Title = this.Title,
             OffsetX = this.OffsetX,
             OffsetY = this.OffsetY,
+            Bitmap = this.Bitmap.Clone()
+        };
+
+        #endregion
+    }
+
+    public class XHybridLayer : XLayer, IShapeLayer, IBitmapLayer
+    {
+        public override LayerType Type => LayerType.Hybrid;
+
+        private ObservableCollection<XRenderable> _shapes = new ObservableCollection<XRenderable>();
+        public ObservableCollection<XRenderable> Shapes
+        {
+            get => _shapes;
+            set => SetProperty(ref _shapes, value);
+        }
+
+        private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
+        [Browsable(false)]  
+        public BitmapSource Bitmap
+        {
+            get => _bitmap;
+            set => SetProperty(ref _bitmap, value);
+        }
+
+        [Category("Configuration")]
+        private int _history = 5;
+        public int History
+        {
+            get => _history;
+            set => SetProperty(ref _history, value);
+        }
+
+        #region Volatile
+
+        [Browsable(false)]
+        public override bool CanUndo => Shapes.Count > 0;
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(CanUndo));
+        public XHybridLayer() => _shapes.CollectionChanged += CollectionChanged;
+
+        public override object Clone() => new XHybridLayer
+        {
+            Title = Title,
+            OffsetX = OffsetX,
+            OffsetY = OffsetY,
+            Shapes = new ObservableCollection<XRenderable>(Shapes.Select(shape => (XRenderable)shape.Clone())),
             Bitmap = this.Bitmap.Clone()
         };
 

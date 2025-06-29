@@ -39,6 +39,7 @@
     public enum LayerType
     {
         Vector,
-        Raster
+        Raster,
+        Hybrid
     }
 }

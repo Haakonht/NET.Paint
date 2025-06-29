@@ -30,7 +30,7 @@ namespace NET.Paint.View.Component.Overview
                 if (e.NewValue is XImage image)
                     service.ActiveImage = image;
 
-                if (e.NewValue is XVectorLayer layer)
+                if (e.NewValue is XLayer layer)
                 {
                     var containingImg = service.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
                     if (containingImg != null && containingImg != service.ActiveImage)

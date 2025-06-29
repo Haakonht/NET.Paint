@@ -163,6 +163,8 @@ namespace NET.Paint.Drawing.Factory
                         Text = ""
                     };
                 case ToolType.Bitmap:
+                    if (tools.ActiveBitmap == null)
+                        return null;
                     return new XBitmap
                     {
                         Bitmap = tools.ActiveBitmap,
@@ -485,7 +487,7 @@ namespace NET.Paint.Drawing.Factory
             return new Point(xNew, yNew);
         }
 
-        public static RenderTargetBitmap FlattenLayerToBitmap(IEnumerable<XRenderable> shapes, int width, int height, double dpi = 96)
+        public static RenderTargetBitmap FlattenLayerToBitmap(IEnumerable<XRenderable> shapes, double width, double height, double dpi = 96)
         {
             if (shapes == null)
                 throw new ArgumentNullException(nameof(shapes));
@@ -521,13 +523,54 @@ namespace NET.Paint.Drawing.Factory
             root.UpdateLayout();
 
             var renderTargetBitmap = new RenderTargetBitmap(
-                width,
-                height,
+                (int)width,
+                (int)height,
                 dpi,
                 dpi,
                 PixelFormats.Pbgra32);
 
             renderTargetBitmap.Render(itemsControl);
+
+            return renderTargetBitmap;
+        }
+
+        public static RenderTargetBitmap AddShapeToBitmap(ImageSource bitmap, XRenderable shape, double width, double height, double dpi = 96)
+        {
+            if (shape == null)
+                throw new ArgumentNullException(nameof(shape));
+
+            var root = new Canvas
+            {
+                Width = width,
+                Height = height,
+                Background = bitmap == null ? Brushes.Transparent : new ImageBrush(bitmap)
+            };
+
+            var contentPresenter = new ContentPresenter
+            {
+                Content = shape
+            };
+            root.Children.Add(contentPresenter);
+
+            // Use a pack URI if needed
+            var resourceDictionary = new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Resources/Renderer.xaml", UriKind.Absolute)
+            };
+            root.Resources.MergedDictionaries.Add(resourceDictionary);
+
+            root.Measure(new Size(width, height));
+            root.Arrange(new Rect(0, 0, width, height));
+            root.UpdateLayout();
+
+            var renderTargetBitmap = new RenderTargetBitmap(
+                (int)width,
+                (int)height,
+                dpi,
+                dpi,
+                PixelFormats.Pbgra32);
+
+            renderTargetBitmap.Render(root);
 
             return renderTargetBitmap;
         }

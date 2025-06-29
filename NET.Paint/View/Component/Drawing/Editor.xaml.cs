@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
@@ -82,7 +83,7 @@ namespace NET.Paint.View.Component
                 XTools.Instance.MouseLocation = new Point(XTools.Instance.MouseLocation.X - image.ActiveLayer!.OffsetX, XTools.Instance.MouseLocation.Y - image.ActiveLayer!.OffsetY);
 
                 // Vector tools
-                if (image.ActiveLayer != null && image.ActiveLayer is XVectorLayer vectorLayer)
+                if (image.ActiveLayer != null && image.ActiveLayer is XLayer layer)
                 {
                     if (e.LeftButton == MouseButtonState.Pressed)
                     {
@@ -116,7 +117,7 @@ namespace NET.Paint.View.Component
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
-                        if (XTools.Instance.ActiveTool == ToolType.Bezier && vectorLayer.Shapes.Last() is XBezier bezier)
+                        if (XTools.Instance.ActiveTool == ToolType.Bezier && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is XBezier bezier)
                             bezier.Ctrl1 = XTools.Instance.MouseLocation;
 
                     }
@@ -124,16 +125,23 @@ namespace NET.Paint.View.Component
                     {
                         if (Preview.Shape != null)
                         {
-                            if (image.ActiveLayer != null)
+                            if (image.ActiveLayer is XHybridLayer hybridLayer)
                             {
-                                if (XTools.Instance.ActiveTool == ToolType.Bitmap)
+                                if (hybridLayer.Shapes.Count > hybridLayer.History - 1)
                                 {
-                                    if (XTools.Instance.ActiveBitmap != null)
-                                        vectorLayer.Shapes.Add(Preview.Shape);
+                                    var shape = hybridLayer.Shapes.FirstOrDefault();
+                                    if (shape != null)
+                                    {
+                                        hybridLayer.Bitmap = XFactory.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height);
+                                        hybridLayer.Shapes.Remove(shape);
+                                    }
                                 }
-                                else
-                                    vectorLayer.Shapes.Add(Preview.Shape);
                             }
+                            
+                            if (image.ActiveLayer is IShapeLayer vectorLayer)
+                                vectorLayer.Shapes.Add(Preview.Shape);
+                            else if (image.ActiveLayer is XRasterLayer rasterLayer)
+                                rasterLayer.Bitmap = XFactory.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height);
 
                             XTools.Instance.ClickLocation = null;
                             Preview.Shape = null;

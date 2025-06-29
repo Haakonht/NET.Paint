@@ -26,9 +26,35 @@
                     <fa:IconBlock Icon="FloppyDisk"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Export Image">
+            <Separator Margin="5,0"/>
+            <Button Height="25" Width="25">
+                <Button.Content>
+                    <Grid>
+                        <fa:IconBlock Icon="Image"/>
+                        <TextBlock Text="+" Background="LightGray" Margin="10,10,0,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Height="25" Width="25" ToolTip="Export Image" Click="ExportImage">
                 <Button.Content>
                     <fa:IconBlock Icon="FileImage"/>
+                </Button.Content>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Height="25" Width="25">
+                <Button.Content>
+                    <Grid>
+                        <fa:IconBlock Icon="LayerGroup"/>
+                        <TextBlock Text="+" Background="LightGray" Margin="10,10,0,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Height="25" Width="25">
+                <Button.Content>
+                    <Grid>
+                        <fa:IconBlock Icon="LayerGroup"/>
+                        <TextBlock Text="-" Background="LightGray" Margin="10,10,0,0" Padding="1.4,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
+                    </Grid>
                 </Button.Content>
             </Button>
             <Separator Margin="5,0"/>

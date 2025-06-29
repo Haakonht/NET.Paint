@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
+using NET.Paint.Drawing.Interface;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -159,6 +161,103 @@ namespace NET.Paint.Drawing.Command
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
             // Step 5: Save the image to a file
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
+
+        public void ExportImage(XImage image)
+        {
+            // 1. Show SaveFileDialog
+            var dialog = new SaveFileDialog
+            {
+                Filter = "PNG Image (*.png)|*.png|JPEG Image (*.jpg;*.jpeg)|*.jpg;*.jpeg",
+                FileName = image.Title,
+                DefaultExt = ".png"
+            };
+            if (dialog.ShowDialog() != true)
+                return;
+
+            string filePath = dialog.FileName;
+            string format = Path.GetExtension(filePath).TrimStart('.').ToLower();
+
+            // 2. Create a Canvas and set its size/background
+            var canvas = new Canvas
+            {
+                Width = image.Width,
+                Height = image.Height,
+                Background = new SolidColorBrush(image.Background)
+            };
+
+            var resourceDictionary = new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Resources/Renderer.xaml", UriKind.Absolute)
+            };
+            canvas.Resources.MergedDictionaries.Add(resourceDictionary);
+
+            // 3. Add each visible layer as a ContentPresenter
+            foreach (var layer in image.Layers)
+            {
+                if (layer.IsVisible)
+                {
+                    var layerCanvas = new Canvas();
+                    Canvas.SetLeft(layerCanvas, layer.OffsetX);
+                    Canvas.SetTop(layerCanvas, layer.OffsetY);
+
+                    if (layer is IShapeLayer shapeLayer)
+                    {
+                        foreach (var shape in shapeLayer.Shapes)
+                        {
+                            var shapePresenter = new ContentPresenter
+                            {
+                                Content = shape
+                            };
+                            layerCanvas.Children.Add(shapePresenter);
+                        }
+                    }
+
+                    if (layer is IBitmapLayer bitmapLayer)
+                    {
+                       layerCanvas.Background = new ImageBrush(bitmapLayer.Bitmap)
+                       {
+                           Stretch = Stretch.None
+                       };
+                    }
+                    canvas.Children.Add(layerCanvas);
+                }
+            }
+
+            // 4. Measure and arrange the canvas
+            var size = new Size(image.Width, image.Height);
+            canvas.Measure(size);
+            canvas.Arrange(new Rect(size));
+            canvas.UpdateLayout();
+
+            // 5. Render the canvas to a bitmap
+            var renderBitmap = new RenderTargetBitmap(
+                (int)image.Width, (int)image.Height, 96, 96, PixelFormats.Pbgra32);
+            renderBitmap.Render(canvas);
+
+            // 6. Encode the bitmap to the desired format
+            BitmapEncoder encoder;
+            switch (format)
+            {
+                case "png":
+                    encoder = new PngBitmapEncoder();
+                    break;
+                case "jpeg":
+                case "jpg":
+                    encoder = new JpegBitmapEncoder();
+                    break;
+                default:
+                    encoder = new PngBitmapEncoder();
+                    break;
+            }
+
+            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+            // 7. Save the image to a file
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 encoder.Save(fileStream);

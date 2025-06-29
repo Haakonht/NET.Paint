@@ -76,6 +76,12 @@ namespace NET.Paint.View.Component
                 service.Command.Operations.SaveProject();
         }
 
+        private void ExportImage(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.ExportImage(service.ActiveImage);
+        }
+
         #endregion
     }
 }

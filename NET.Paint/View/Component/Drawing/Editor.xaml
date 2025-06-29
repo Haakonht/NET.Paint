@@ -62,6 +62,32 @@
                                     </Image>
                                 </Canvas>
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                                <Canvas Visibility="{Binding Visibility}">
+                                    <Image Source="{Binding Bitmap}">
+                                        <Image.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                            </TransformGroup>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                    <ItemsControl ItemsSource="{Binding Shapes}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Canvas>
+                                                    <Canvas.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                            <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                                        </TransformGroup>
+                                                    </Canvas.RenderTransform>
+                                                </Canvas>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Canvas>
+                            </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>
                     <ContentControl Visibility="{Binding Selected, Converter={StaticResource NullToVisibilityConverter}}">

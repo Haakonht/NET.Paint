@@ -6,6 +6,7 @@ using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Service
 {
@@ -46,8 +47,7 @@ namespace NET.Paint.Drawing.Service
         public XService()
         {
             // Create sample layers and shapes
-            var sampleLayer1 = new XVectorLayer { Title = "Layer 1" };
-            var sampleLayer2 = new XVectorLayer { Title = "Layer 2" };
+            var sampleLayer1 = new XHybridLayer { Title = "Layer 1" };
 
             // Create sample images with layers
             var sampleImage1 = new XImage
@@ -59,16 +59,10 @@ namespace NET.Paint.Drawing.Service
                 ActiveLayer = sampleLayer1
             };
 
+            var sampleLayer2 = new XRasterLayer { Title = "Layer 2" };
+
             sampleImage1.Layers.Add(sampleLayer1);
             sampleImage1.Layers.Add(sampleLayer2);
-
-            var sampleImage2 = new XImage
-            {
-                Title = "Sample Image 2",
-                Width = 1024,
-                Height = 768,
-                Background = Colors.Bisque,
-            };
 
             // Set up the project with images
             Project = new XProject
@@ -76,7 +70,7 @@ namespace NET.Paint.Drawing.Service
                 Title = "Design-Time Project",
                 Description = "Sample project for design-time preview",
                 Author = "Designer",
-                Images = new ObservableCollection<XImage> { sampleImage1, sampleImage2 }
+                Images = new ObservableCollection<XImage> { sampleImage1 }
             };
 
             // Add some random bitmaps
