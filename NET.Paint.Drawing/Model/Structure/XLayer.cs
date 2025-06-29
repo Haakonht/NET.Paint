@@ -26,14 +26,32 @@ namespace NET.Paint.Drawing.Model.Structure
         public double OffsetX
         {
             get => _offsetX;
-            set => SetProperty(ref _offsetX, value);
+            set
+            {
+                SetProperty(ref _offsetX, value);
+                OnPropertyChanged(nameof(Offset));
+            }
         }
 
         private double _offsetY = 0;
         public double OffsetY
         {
             get => _offsetY;
-            set => SetProperty(ref _offsetY, value);
+            set
+            {
+                SetProperty(ref _offsetY, value);
+                OnPropertyChanged(nameof(Offset));
+            }
+        }
+
+        [Browsable(false)]
+        public Point Offset => new Point(OffsetX, OffsetY);
+
+        private double _rotation = 0;
+        public double Rotation
+        {
+            get => _rotation;
+            set => SetProperty(ref _rotation, value);
         }
 
         private bool _isVisible = true;
@@ -48,6 +66,7 @@ namespace NET.Paint.Drawing.Model.Structure
             }
         }
 
+        [Browsable(false)]
         public Visibility Visibility
         {
             get

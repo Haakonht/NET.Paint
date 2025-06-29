@@ -8,6 +8,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
+             xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200" d:Background="White"
@@ -19,6 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converter:IsActiveConverter x:Key="IsActiveConverter"/>
+            <converter:BothActiveConverter x:Key="BothActiveConverter"/>
 
             <Style TargetType="TextBlock" x:Key="HoverStyle">
                 <Setter Property="FontWeight" Value="Normal"/>
@@ -41,6 +43,7 @@
                     <MenuItem Header="Copy" Click="Copy"/>
                     <MenuItem Header="Paste" Click="Paste"/>
                 </MenuItem>
+                <MenuItem Header="Flatten" Click="Flatten"/>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
 
@@ -56,40 +59,62 @@
 
 
             <Style x:Key="VisibilityToggleStyle" TargetType="ToggleButton" x:Shared="False">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ToggleButton">
-                                <Border BorderThickness="1" BorderBrush="Transparent" Background="Transparent">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <fa:IconBlock Icon="Eye" Foreground="Black" FontSize="12"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                    <Trigger Property="IsChecked" Value="False">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <fa:IconBlock Icon="EyeSlash" Foreground="Black" FontSize="12"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                    <Trigger Property="IsChecked" Value="{x:Null}">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <fa:IconBlock Icon="Eye" Foreground="Black" FontSize="12"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border BorderThickness="1" BorderBrush="Transparent" Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fa:IconBlock Icon="Eye" Foreground="Gray" FontSize="{TemplateBinding FontSize}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fa:IconBlock Icon="EyeSlash" Foreground="Gray" FontSize="{TemplateBinding FontSize}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="{x:Null}">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fa:IconBlock Icon="Eye" Foreground="Gray" FontSize="{TemplateBinding FontSize}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                        <Condition Property="IsChecked" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fa:IconBlock Icon="EyeSlash" Foreground="Black" FontSize="{TemplateBinding FontSize}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                        <Condition Property="IsChecked" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fa:IconBlock Icon="Eye" Foreground="Black" FontSize="{TemplateBinding FontSize}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
             <HierarchicalDataTemplate x:Key="ProjectTreeTemplate" ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
                 <StackPanel x:Name="ImageNode" Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource ImageContextMenu}">
@@ -102,7 +127,7 @@
                                         <DataTrigger.Binding>
                                             <MultiBinding Converter="{StaticResource IsActiveConverter}">
                                                 <Binding />
-                                                <Binding Path="ActiveImage" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
+                                                <Binding Path="DataContext.ActiveImage" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                             </MultiBinding>
                                         </DataTrigger.Binding>
                                         <Setter Property="FontWeight" Value="Bold"/>
@@ -114,17 +139,33 @@
                 </StackPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XLayer}">
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
-                            <fa:IconBlock Icon="LayerGroup" VerticalAlignment="Center"/>
+                        <Grid Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentControl Content="{Binding}" VerticalAlignment="Center" Grid.Column="0">
+                                <ContentControl.Resources>
+                                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                                        <fa:IconBlock Icon="LayerGroup"/>
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                                        <fa:IconBlock Icon="R"/>
+                                    </DataTemplate>
+                                </ContentControl.Resources>
+                            </ContentControl>
                             <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
                                         <Style.Triggers>
                                             <DataTrigger Value="True">
                                                 <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{StaticResource IsActiveConverter}">
+                                                    <MultiBinding Converter="{StaticResource BothActiveConverter}">
                                                         <Binding />
-                                                        <Binding Path="DataContext.ActiveLayer" ElementName="ImageNode"/>
+                                                        <Binding Path="DataContext.ActiveLayer" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
+                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
+                                                        <Binding Path="DataContext.ActiveImage" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                                     </MultiBinding>
                                                 </DataTrigger.Binding>
                                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -133,8 +174,8 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <ToggleButton IsChecked="{Binding IsVisible}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" Grid.Column="2" Style="{StaticResource VisibilityToggleStyle}"/>
-                        </StackPanel>
+                            <ToggleButton IsChecked="{Binding IsVisible}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" Grid.Column="2" FontSize="12" Style="{StaticResource VisibilityToggleStyle}"/>
+                        </Grid>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
                                 <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">

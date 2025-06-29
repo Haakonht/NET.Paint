@@ -38,25 +38,51 @@
                                 <ItemsControl ItemsSource="{Binding Shapes}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <Canvas Visibility="{Binding Visibility}"/>
+                                            <Canvas Visibility="{Binding Visibility}">
+                                                <Canvas.RenderTransform>
+                                                    <TransformGroup>
+                                                        <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                        <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                                    </TransformGroup>
+                                                </Canvas.RenderTransform>
+                                            </Canvas>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type structure:XRasterLayer}">
                                 <Canvas>
-                                    <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}" Canvas.Top="{Binding OffsetY}" Canvas.Left="{Binding OffsetX}"/>
+                                    <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}">
+                                        <Image.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                            </TransformGroup>
+                                        </Image.RenderTransform>
+                                    </Image>
                                 </Canvas>
                             </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>
                     <ContentControl Visibility="{Binding Selected, Converter={StaticResource NullToVisibilityConverter}}">
                         <fragment:Highlighter Width="1920" Height="1080" Points="{Binding Selected.Points}"/>
+                        <ContentControl.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="{Binding ActiveLayer.Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TranslateTransform X="{Binding ActiveLayer.OffsetX}" Y="{Binding ActiveLayer.OffsetY}"/>
+                            </TransformGroup>
+                        </ContentControl.RenderTransform>
                     </ContentControl>
                     <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
                         <ContentPresenter.Resources>
                             <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
                         </ContentPresenter.Resources>
+                        <ContentPresenter.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                            </TransformGroup>
+                        </ContentPresenter.RenderTransform>
                     </ContentPresenter>
                     <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="200" VerticalOffset="-25" LayoutTransform="{Binding ElementName=Zoombox, Path=Scale, Converter={StaticResource InverseScaleConverter}}">
                         <Border BorderBrush="Black" BorderThickness="1" Background="White">

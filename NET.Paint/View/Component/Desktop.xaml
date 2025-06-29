@@ -52,10 +52,7 @@
 
                     <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
                         <xcad:LayoutAnchorablePane DockHeight="2*" >
-                            <xcad:LayoutAnchorable Title="Image" x:Name="ImageTree">
-                                <overview:ImageTree DataContext="{Binding}"/>
-                            </xcad:LayoutAnchorable>
-                            <xcad:LayoutAnchorable Title="Project" x:Name="ProjectTree">
+                            <xcad:LayoutAnchorable Title="Overview" x:Name="ProjectTree">
                                 <overview:ProjectTree DataContext="{Binding}"/>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>

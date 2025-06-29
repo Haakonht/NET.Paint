@@ -72,7 +72,7 @@ namespace NET.Paint.View.Component
 
                 if (e.PropertyName == nameof(XService.Preferences.OverviewVisible))
                 {
-                    Dispatcher.Invoke(() => ImageTree.IsVisible = service.OverviewVisible);
+                    //Dispatcher.Invoke(() => ImageTree.IsVisible = service.OverviewVisible);
                     Dispatcher.Invoke(() => ProjectTree.IsVisible = service.OverviewVisible);
 
                     if (!service.OverviewVisible)

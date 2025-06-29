@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
@@ -20,15 +21,26 @@ namespace NET.Paint.Drawing.Model.Structure
         public double Width
         {
             get => _width;
-            set => SetProperty(ref _width, value);
+            set
+            {
+                SetProperty(ref _width, value);
+                OnPropertyChanged(nameof(Center));
+            }
         }
 
         private double _height = 1080;
         public double Height
         {
             get => _height;
-            set => SetProperty(ref _height, value);
+            set
+            {
+                SetProperty(ref _height, value);
+                OnPropertyChanged(nameof(Center));
+            }
         }
+
+        [Browsable(false)]
+        public Point Center => new Point(Width / 2, Height / 2);
 
         private Color _background = Colors.White;
         public Color Background

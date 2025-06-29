@@ -34,12 +34,13 @@ namespace NET.Paint.View.Component
             if (image != null)
             {
                 XTools.Instance.ClickLocation = e.GetPosition(sender as UIElement);
+                XTools.Instance.ClickLocation = new Point(XTools.Instance.ClickLocation.Value.X - image.ActiveLayer!.OffsetX, XTools.Instance.ClickLocation.Value.Y - image.ActiveLayer!.OffsetY);
 
                 if (XTools.Instance.ActiveTool == ToolType.Selector)
                 {              
                     if (sender is GridCanvas canvas)
                     {
-                        var hitResult = VisualTreeHelper.HitTest(canvas, XTools.Instance.ClickLocation.Value);
+                        var hitResult = VisualTreeHelper.HitTest(canvas, e.GetPosition(sender as UIElement));
 
                         if (hitResult?.VisualHit is Shape shape)
                             image.Selected = shape.DataContext as XRenderable;
@@ -50,10 +51,14 @@ namespace NET.Paint.View.Component
                         else
                             image.Selected = null;
                     }
+
+                    if (image.Selected == null)
+                        _lastAddedPoint = e.GetPosition(sender as UIElement);
                 }
 
                 if (XTools.Instance.ActiveTool == ToolType.Text)
                 {
+
                     if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
                     {
                         if (image.ActiveLayer is XVectorLayer vectorLayer)
@@ -74,6 +79,7 @@ namespace NET.Paint.View.Component
             if (image != null)
             {
                 XTools.Instance.MouseLocation = e.GetPosition(sender as UIElement);
+                XTools.Instance.MouseLocation = new Point(XTools.Instance.MouseLocation.X - image.ActiveLayer!.OffsetX, XTools.Instance.MouseLocation.Y - image.ActiveLayer!.OffsetY);
 
                 // Vector tools
                 if (image.ActiveLayer != null && image.ActiveLayer is XVectorLayer vectorLayer)
@@ -84,6 +90,23 @@ namespace NET.Paint.View.Component
                         if (XTools.Instance.ActiveTool == ToolType.Pencil && Preview.Shape is XPencil pencil)
                         {
                             _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, XTools.Instance.MouseLocation, pencil.Spacing);
+                        }
+                        else if (XTools.Instance.ActiveTool == ToolType.Selector && image.Selected == null)
+                        {
+                            if (_lastAddedPoint != null)
+                            {
+                                Vector? delta = null;
+                                if (_lastAddedPoint != null)
+                                    delta = e.GetPosition(sender as UIElement) - _lastAddedPoint.Value;
+
+                                if (delta != null)
+                                {
+                                    image.ActiveLayer.OffsetX += delta.Value.X;
+                                    image.ActiveLayer.OffsetY += delta.Value.Y;
+                                }
+                            }
+                            _lastAddedPoint = e.GetPosition(sender as UIElement);
+
                         }
                         else
                         {

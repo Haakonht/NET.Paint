@@ -146,6 +146,19 @@ namespace NET.Paint.View.Component.Overview
                 service.Command.Operations.Paste(item.DataContext);
         }
 
+        private void Flatten(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (sender is MenuItem item && item.DataContext is XVectorLayer layer)
+                {
+                    var containingImage = service.Project.Images.First(x => x.Layers.Contains(layer));
+                    if (containingImage != null)
+                        service.Command.Operations.FlattenLayer(containingImage, layer);
+                }
+            }
+        }
+
         private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _draggedTreeViewItem = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
