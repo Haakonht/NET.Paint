@@ -1,10 +1,8 @@
 ﻿using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Model.Structure
 {

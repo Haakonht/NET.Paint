@@ -2,7 +2,9 @@
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -32,6 +34,27 @@ namespace NET.Paint.Drawing.Model.Structure
         {
             get => _offsetY;
             set => SetProperty(ref _offsetY, value);
+        }
+
+        private bool _isVisible = true;
+        [Browsable(false)]
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                SetProperty(ref _isVisible, value);
+                OnPropertyChanged(nameof(Visibility));
+            }
+        }
+
+        public Visibility Visibility
+        {
+            get
+            {
+                if (!_isVisible) return Visibility.Collapsed;
+                return Visibility.Visible;
+            }
         }
 
         public abstract object Clone();
@@ -72,7 +95,7 @@ namespace NET.Paint.Drawing.Model.Structure
     {
         public override LayerType Type => LayerType.Raster;
 
-        private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Bgra32);
+        private BitmapSource _bitmap;
         public BitmapSource Bitmap
         {
             get => _bitmap;

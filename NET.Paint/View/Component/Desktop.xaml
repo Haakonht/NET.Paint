@@ -10,6 +10,7 @@
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"
+             xmlns:overview="clr-namespace:NET.Paint.View.Component.Overview"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
@@ -52,15 +53,15 @@
                     <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
                         <xcad:LayoutAnchorablePane DockHeight="2*" >
                             <xcad:LayoutAnchorable Title="Image" x:Name="ImageTree">
-                                <component:ImageTree DataContext="{Binding}"/>
+                                <overview:ImageTree DataContext="{Binding}"/>
                             </xcad:LayoutAnchorable>
                             <xcad:LayoutAnchorable Title="Project" x:Name="ProjectTree">
-                                <component:ProjectTree DataContext="{Binding}"/>
+                                <overview:ProjectTree DataContext="{Binding}"/>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorablePane DockHeight="*" DockMinHeight="200">
                             <xcad:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" IsVisible="False">
-                                <component:Properties DataContext="{Binding ActiveImage}"/>
+                                <overview:Properties DataContext="{Binding ActiveImage}"/>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                     </xcad:LayoutAnchorablePaneGroup>

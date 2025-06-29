@@ -485,33 +485,41 @@ namespace NET.Paint.Drawing.Factory
             return new Point(xNew, yNew);
         }
 
-        public static RenderTargetBitmap RenderToBitmap(IEnumerable<XRenderable> shapes, int width, int height, double dpi = 96)
+        public static RenderTargetBitmap FlattenLayerToBitmap(IEnumerable<XRenderable> shapes, int width, int height, double dpi = 96)
         {
             if (shapes == null)
                 throw new ArgumentNullException(nameof(shapes));
 
-            // Create an ItemsControl
-            var itemsControl = new ItemsControl
+            var root = new Canvas
             {
-                ItemsSource = shapes
+                Width = width,
+                Height = height,
+                Background = new SolidColorBrush(Colors.Transparent)
             };
 
-            // Set the ItemsPanel to a Canvas
+            var itemsControl = new ItemsControl
+            {
+                ItemsSource = shapes,
+                Width = width,
+                Height = height
+            };
+
             var itemsPanelTemplate = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(Canvas)));
             itemsControl.ItemsPanel = itemsPanelTemplate;
 
-            // Load the Renderer.xaml ResourceDictionary
+            root.Children.Add(itemsControl);
+
+            // Use a pack URI if needed
             var resourceDictionary = new ResourceDictionary
             {
-                Source = new Uri("pack://application:,,,/NET.Paint.Drawing;component/Renderer.xaml", UriKind.Absolute)
+                Source = new Uri("pack://application:,,,/Resources/Renderer.xaml", UriKind.Absolute)
             };
             itemsControl.Resources.MergedDictionaries.Add(resourceDictionary);
 
-            // Measure and arrange the ItemsControl
-            itemsControl.Measure(new Size(width, height));
-            itemsControl.Arrange(new Rect(0, 0, width, height));
+            root.Measure(new Size(width, height));
+            root.Arrange(new Rect(0, 0, width, height));
+            root.UpdateLayout();
 
-            // Create a RenderTargetBitmap
             var renderTargetBitmap = new RenderTargetBitmap(
                 width,
                 height,
@@ -519,7 +527,6 @@ namespace NET.Paint.Drawing.Factory
                 dpi,
                 PixelFormats.Pbgra32);
 
-            // Render the ItemsControl to the bitmap
             renderTargetBitmap.Render(itemsControl);
 
             return renderTargetBitmap;

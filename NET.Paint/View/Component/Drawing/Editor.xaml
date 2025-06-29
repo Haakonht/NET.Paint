@@ -38,13 +38,15 @@
                                 <ItemsControl ItemsSource="{Binding Shapes}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <Canvas/>
+                                            <Canvas Visibility="{Binding Visibility}"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type structure:XRasterLayer}">
-                                <Image Source="{Binding Bitmap}"/>
+                                <Canvas>
+                                    <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}" Canvas.Top="{Binding OffsetY}" Canvas.Left="{Binding OffsetX}"/>
+                                </Canvas>
                             </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>

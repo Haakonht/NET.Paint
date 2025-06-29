@@ -199,7 +199,7 @@ namespace NET.Paint.Drawing.Command
             targetImage.Layers.Add(layerToMove);
         }
 
-        public void MoveLayer(XImage context, XVectorLayer layerToMove, XVectorLayer targetLayer)
+        public void MoveLayer(XImage context, XLayer layerToMove, XLayer targetLayer)
         {
             if (layerToMove == null || targetLayer == null || ReferenceEquals(layerToMove, targetLayer))
                 return;
@@ -293,7 +293,7 @@ namespace NET.Paint.Drawing.Command
                     Title = vectorLayer.Title,
                     OffsetX = vectorLayer.OffsetX,
                     OffsetY = vectorLayer.OffsetY,
-                    Bitmap = XFactory.RenderToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                    Bitmap = XFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
                 };
 
                 int index = image.Layers.IndexOf(vectorLayer);

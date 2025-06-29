@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Overview
 {
     /// <summary>
     /// Interaction logic for Properties.xaml

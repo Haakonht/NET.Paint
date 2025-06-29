@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Overview
 {
     /// <summary>
     /// Interaction logic for Overview.xaml
@@ -162,7 +162,7 @@ namespace NET.Paint.View.Component
             var context = DataContext as XService;
             if (context == null) return;
 
-            var droppedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
+            var droppedLayer = _draggedTreeViewItem?.DataContext as XLayer;
             var droppedShape = _draggedTreeViewItem?.DataContext as XRenderable;
             var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
 
@@ -170,7 +170,7 @@ namespace NET.Paint.View.Component
             var targetData = targetItem.DataContext;
 
             // Layer reordering
-            if (droppedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(droppedLayer, targetLayer))
+            if (droppedLayer != null && targetData is XLayer targetLayer && !ReferenceEquals(droppedLayer, targetLayer))
             {
                 context.Command.Operations.MoveLayer(context.ActiveImage, droppedLayer, targetLayer);
             }

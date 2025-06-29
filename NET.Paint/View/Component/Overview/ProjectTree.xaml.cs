@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Overview
 {
     /// <summary>
     /// Interaction logic for Overview.xaml
