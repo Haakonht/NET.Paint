@@ -63,7 +63,7 @@
                     <fa:IconBlock Icon="Undo"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.Undo.CanRedo}" Click="Redo">
+            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.History.CanRedo}" Click="Redo">
                 <Button.Content>
                     <fa:IconBlock Icon="Redo"/>
                 </Button.Content>

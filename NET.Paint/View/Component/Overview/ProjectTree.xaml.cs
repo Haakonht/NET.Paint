@@ -1,9 +1,7 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
-using NET.Paint.View.Component.Dialog;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +20,8 @@ namespace NET.Paint.View.Component.Overview
         {
             InitializeComponent();
         }
+
+        #region Item Selection
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -65,6 +65,92 @@ namespace NET.Paint.View.Component.Overview
             }
         }
 
+        private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _draggedTreeViewItem = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
+        }
+
+        private void TreeView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && _draggedTreeViewItem != null)
+            {
+                {
+                    var data = _draggedTreeViewItem.DataContext;
+                    DragDrop.DoDragDrop(_draggedTreeViewItem, data, DragDropEffects.Move);
+                    _draggedTreeViewItem = null; // Reset after drag
+                }
+            }
+        }
+
+        private void TreeView_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Move;
+            e.Handled = true;
+        }
+
+        private void TreeView_Drop(object sender, DragEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
+                var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
+                var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
+
+                if (targetItem == null) return;
+                var targetData = targetItem.DataContext;
+
+                if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
+                {
+                    service.Command.Operations.MoveImage(service.Project, draggedImage, targetImage);
+                }
+                else if (draggedLayer != null && targetData is XImage targetImageForLayer)
+                {
+                    service.Command.Operations.MoveLayerToImage(service.Project, draggedLayer, targetImageForLayer);
+                }
+                else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
+                {
+                    service.Command.Operations.MoveLayer(service.ActiveImage, draggedLayer, targetLayer);
+                }
+                else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
+                {
+                    if (targetData is XVectorLayer targetLayerForShape)
+                    {
+                        service.Command.Operations.MoveShapeToLayer(service.ActiveImage, droppedShape, targetLayerForShape);
+                    }
+                    else if (targetData is XRenderable targetShape)
+                    {
+                        service.Command.Operations.MoveShapeInFrontOfShape(service.ActiveImage, droppedShape, targetShape);
+                    }
+                }
+            }
+        }
+
+        private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            while (current != null)
+            {
+                if (current is T)
+                    return (T)current;
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return null;
+        }
+
+        private TreeViewItem GetNearestContainer(UIElement element) => FindAncestor<TreeViewItem>(element);
+
+        #endregion
+
+        #region Image Management
+
+        private void AddImage(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                XImage image = new XImage() { Title = "", IsEditing = true };
+                service.Project.Images.Add(image);
+            }
+        }
+
         private void SelectImage(object sender, MouseButtonEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
@@ -74,44 +160,49 @@ namespace NET.Paint.View.Component.Overview
             }
         }
 
-        private void AddLayer(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Layer Management
+
+        private void AddVectorLayer(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is XImage image)
                 {
-                    var dialogModel = new XLayerDialog();
-                    var layerDialog = new LayerDialog(dialogModel);
-                    var result = layerDialog.ShowDialog();
-                    if (result == true && layerDialog.Result != null)
-                    {
-                        // Use layerDialog.Result (the XLayerDialog object)
-                        service.Command.Operations.CreateLayer(layerDialog.Result.Title);
-                    }
+                    XLayer layer = new XVectorLayer() { Title = "", IsEditing = true };
+                    service.ActiveImage.Layers.Add(layer);
                 }
             }
         }
 
-        private void AddImage(object sender, RoutedEventArgs e)
+        private void AddHybridLayer(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
             {
-                var dialogModel = new XImageDialog();
-                var imageDialog = new ImageDialog(dialogModel);
-                var result = imageDialog.ShowDialog();
-                if (result == true && imageDialog.Result != null)
+                if (service.ActiveImage != null && service.ActiveImage is XImage image)
                 {
-                    // Use imageDialog.Result (the XImageDialog object)
-                    service.Command.Operations.CreateImage(new XImage
-                    {
-                        Title = imageDialog.Result.Title,
-                        Width = imageDialog.Result.Width,
-                        Height = imageDialog.Result.Height,
-                        Background = imageDialog.Result.Background
-                    });
+                    XLayer layer = new XHybridLayer() { Title = "", IsEditing = true };
+                    service.ActiveImage.Layers.Add(layer);
                 }
             }
         }
+
+        private void AddRasterLayer(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+            {
+                if (service.ActiveImage != null && service.ActiveImage is XImage image)
+                {
+                    XLayer layer = new XVectorLayer() { Title = "", IsEditing = true };
+                    service.ActiveImage.Layers.Add(layer);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Item Management
 
         private void Remove(object sender, RoutedEventArgs e)
         {
@@ -120,13 +211,17 @@ namespace NET.Paint.View.Component.Overview
                 if (item.DataContext is XImage image)
                     service.Command.Operations.RemoveImage(image);
 
-                if (item.DataContext is XVectorLayer layer)
+                if (item.DataContext is XLayer layer)
                     service.Command.Operations.RemoveLayer(layer);
 
                 if (item.DataContext is XRenderable renderable)
                     service.Command.Operations.RemoveRenderable(renderable);
             }
         }
+
+        #endregion
+
+        #region Edit Management
 
         private void Cut(object sender, RoutedEventArgs e)
         {
@@ -159,86 +254,42 @@ namespace NET.Paint.View.Component.Overview
             }
         }
 
-        private void TreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _draggedTreeViewItem = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
-        }
+        #endregion
 
-        private void TreeView_MouseMove(object sender, MouseEventArgs e)
+
+        private void OnAddComplete(object sender, RoutedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && _draggedTreeViewItem != null)
+            if (sender is TextBox tb)
             {
-                {
-                    var data = _draggedTreeViewItem.DataContext;
-                    DragDrop.DoDragDrop(_draggedTreeViewItem, data, DragDropEffects.Move);  
-                    _draggedTreeViewItem = null; // Reset after drag
-                }
+                if (tb.DataContext is XLayer layer)
+                    layer.IsEditing = false;
+
+                if (tb.DataContext is XImage image)
+                    image.IsEditing = false;
             }
         }
 
-        private void TreeView_DragOver(object sender, DragEventArgs e)
+        private void OnAddStarted(object sender, RoutedEventArgs e)
         {
-            e.Effects = DragDropEffects.Move;
-            e.Handled = true;
-        }
-
-        private void TreeView_Drop(object sender, DragEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service)
+            if (sender is TextBox tb)
             {
-                var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
-                var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
-                var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
-
-                if (targetItem == null) return;
-                var targetData = targetItem.DataContext;
-
-                // 1. Reorder images
-                if (draggedImage != null && targetData is XImage targetImage && !ReferenceEquals(draggedImage, targetImage))
-                {
-                    service.Command.Operations.MoveImage(service.Project, draggedImage, targetImage);
-                }
-                // 2. Move layer into another image
-                else if (draggedLayer != null && targetData is XImage targetImageForLayer)
-                {
-                    service.Command.Operations.MoveLayerToImage(service.Project, draggedLayer, targetImageForLayer);
-                }
-                // 3. Existing logic for layer reordering and shape moving
-                else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
-                {
-                    service.Command.Operations.MoveLayer(service.ActiveImage, draggedLayer, targetLayer);
-                }
-                else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
-                {
-                    if (targetData is XVectorLayer targetLayerForShape)
-                    {
-                        service.Command.Operations.MoveShapeToLayer(service.ActiveImage, droppedShape, targetLayerForShape);
-                    }
-                    else if (targetData is XRenderable targetShape)
-                    {
-                        service.Command.Operations.MoveShapeInFrontOfShape(service.ActiveImage, droppedShape, targetShape);
-                    }
-                }
+                tb.Focusable = true;
+                tb.Focus();
             }
         }
 
-        // Helper to find TreeViewItem
-        private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        private void OnAdd(object sender, KeyEventArgs e)
         {
-            while (current != null)
+            if ((e.Key == Key.Enter || e.Key == Key.Escape) && sender is TextBox tb)
             {
-                if (current is T)
-                    return (T)current;
-                current = VisualTreeHelper.GetParent(current);
-            }
-            return null;
-        }
+                if (tb.DataContext is XLayer layer)
+                    layer.IsEditing = false;
 
-        // Helper to get nearest TreeViewItem
-        private TreeViewItem GetNearestContainer(UIElement element)
-        {
-            // Traverse up the visual tree to find the TreeViewItem
-            return FindAncestor<TreeViewItem>(element);
+                if (tb.DataContext is XImage image)
+                    image.IsEditing = false;
+
+                e.Handled = true;
+            }
         }
     }
 }

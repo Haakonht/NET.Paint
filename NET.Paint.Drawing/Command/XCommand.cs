@@ -10,6 +10,36 @@ namespace NET.Paint.Drawing.Command
         public XOperations Operations { get; set; }
         public XCommand(XService service) => Operations = new XOperations(service);
 
+        #region History Commands
+
+        private ICommand _undo;
+        public ICommand Undo
+        {
+            get
+            {
+                if (_undo == null)
+                    _undo = new RelayCommand(ExecuteUndo, CanExecuteUndo);
+                return _undo;
+            }
+        }
+        private void ExecuteUndo(object parameter) => Operations.Undo();
+        private bool CanExecuteUndo(object parameter) => parameter is XLayer layer && layer.CanUndo;
+
+        private ICommand _redo;
+        public ICommand Redo
+        {
+            get
+            {
+                if (_redo == null)
+                    _redo = new RelayCommand(ExecuteRedo, CanExecuteRedo);
+                return _redo;
+            }
+        }
+        private void ExecuteRedo(object parameter) => Operations.Redo();
+        private bool CanExecuteRedo(object parameter) => parameter is XImage image && image.History.CanRedo;
+
+        #endregion
+
         #region Edit Commands
 
         private ICommand _copy;

@@ -1,5 +1,4 @@
 ﻿using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Model.Dialog;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
@@ -49,14 +48,16 @@ namespace NET.Paint.Drawing.Command
                 {
                     if (XClipboard.Instance.Data is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
                     {
-                        if (target != null && target is XVectorLayer targetLayer)
+                        if (target != null && target is IShapeLayer targetLayer)
                             targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
-                        else if (_service.ActiveImage.ActiveLayer is XVectorLayer activeLayer)
+                        else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
                             activeLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
                     }
 
-                    else if (XClipboard.Instance.Data is XVectorLayer layer && _service.ActiveImage != null)
-                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? layer : layer.Clone() as XVectorLayer);
+                    else if (XClipboard.Instance.Data is XVectorLayer vectorLayer && _service.ActiveImage != null)
+                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? vectorLayer : vectorLayer.Clone() as XVectorLayer);
+                    else if (XClipboard.Instance.Data is XHybridLayer hybridLayer && _service.ActiveImage != null)
+                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? hybridLayer : hybridLayer.Clone() as XHybridLayer);
 
                     if (XClipboard.Instance.IsCut)
                         XClipboard.Instance.Data = null;
@@ -68,24 +69,24 @@ namespace NET.Paint.Drawing.Command
         {
             if (_service.ActiveImage is XImage activeImage)
             {
-                if (activeImage.ActiveLayer is XVectorLayer activeLayer)
+                if (activeImage.ActiveLayer is IShapeLayer shapeLayer)
                 {
-                    var shape = activeLayer.Shapes.Last();
-                    activeLayer.Shapes.Remove(shape);
-                    activeImage.Undo.Push(shape);
+                    var shape = shapeLayer.Shapes.Last();
+                    shapeLayer.Shapes.Remove(shape);
+                    activeImage.History.Push(shape);
                 }
             }
         }
 
         public void Redo()
         {
-            if (_service.ActiveImage is XImage activeImage && activeImage.Undo.History.Any())
+            if (_service.ActiveImage is XImage activeImage && activeImage.History.History.Any())
             {
-                if (activeImage.ActiveLayer is XVectorLayer activeLayer)
+                if (activeImage.ActiveLayer is IShapeLayer shapeLayer)
                 {
-                    var shape = activeImage.Undo.History.Last();
-                    activeImage.Undo.History.Remove(shape);
-                    activeLayer.Shapes.Add(shape);
+                    var shape = activeImage.History.History.Last();
+                    activeImage.History.History.Remove(shape);
+                    shapeLayer.Shapes.Add(shape);
                 }
             }
         }

@@ -6,7 +6,6 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
-             xmlns:dialog="clr-namespace:NET.Paint.View.Component.Dialog"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"

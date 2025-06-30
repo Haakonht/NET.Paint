@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
@@ -76,6 +75,14 @@ namespace NET.Paint.Drawing.Model.Structure
                 if (!_isVisible) return Visibility.Collapsed;
                 return Visibility.Visible;
             }
+        }
+
+        private bool _isEditing = false;
+        [Browsable(false)]
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set => SetProperty(ref _isEditing, value);
         }
 
         public abstract bool CanUndo { get; }

@@ -54,6 +54,14 @@ namespace NET.Paint.Drawing.Model.Structure
 
         #region Volatile
 
+        private bool _isEditing = false;
+        [Browsable(false)]
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set => SetProperty(ref _isEditing, value);
+        }
+
         private object? _selected = null;
         [Browsable(false)]
         public object? Selected
@@ -70,7 +78,7 @@ namespace NET.Paint.Drawing.Model.Structure
         public bool CanCut => Selected is XVectorLayer ? Layers.Count() > 1 : CanCopy;
         public bool CanCopy => Selected != null && Selected is not XImage;
 
-        public XLayer? _activeLayer = null;
+        private XLayer? _activeLayer = null;
         [Browsable(false)]
         public XLayer? ActiveLayer
         {
@@ -79,7 +87,7 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         [Browsable(false)]
-        public XUndo Undo { get; } = new XUndo();
+        public XUndo History { get; } = new XUndo();
         [Browsable(false)]
         public XConfiguration Configuration { get; } = new XConfiguration();
 
