@@ -112,7 +112,7 @@
                     </ContentPresenter>
                     <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="200" VerticalOffset="-25" LayoutTransform="{Binding ElementName=Zoombox, Path=Scale, Converter={StaticResource InverseScaleConverter}}">
                         <Border BorderBrush="Black" BorderThickness="1" Background="White">
-                            <tools:Toolcontext DataContext="{Binding Source={x:Static active:XTools.Instance}}"/>
+                            <tools:ToolContext DataContext="{Binding Source={x:Static active:XTools.Instance}}"/>
                         </Border>
                     </Popup>
                 </controls:GridCanvas>

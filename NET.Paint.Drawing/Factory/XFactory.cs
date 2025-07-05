@@ -33,21 +33,20 @@ namespace NET.Paint.Drawing.Factory
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
                     };
+                case ToolType.Curve:
+                    return new XCurve
+                    {
+                        Points = CreateCurve(tools.ClickLocation!.Value, tools.MouseLocation),
+                        StrokeColor = tools.StrokeColor,
+                        StrokeThickness = tools.StrokeThickness,
+                        StrokeStyle = tools.StrokeStyle
+                    };
                 case ToolType.Bezier:
                     return new XBezier
                     {
                         Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation ),
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Circle:
-                    return new XCircle
-                    {
-                        Points = CreateCircle(tools.ClickLocation!.Value, tools.MouseLocation ),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
                         StrokeStyle = tools.StrokeStyle
                     };
                 case ToolType.Ellipse:
@@ -75,81 +74,76 @@ namespace NET.Paint.Drawing.Factory
                         StrokeColor = tools.StrokeColor,
                         StrokeThickness = tools.StrokeThickness,
                         FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.RoundedRectangle:
-                    return new XRoundedRectangle
-                    {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
                         StrokeStyle = tools.StrokeStyle,
                         Radius = tools.Radius,
                     };
-                case ToolType.Pentagon:
-                    return new XPentagon
+                case ToolType.Polygon:
+                    switch (tools.ActivePolygon)
                     {
-                        Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 5),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Hexagon:
-                    return new XHexagon
-                    {
-                        Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 6),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Octagon:
-                    return new XOctagon
-                    {
-                        Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 8),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Star:
-                    return new XStar
-                    {
-                        Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Points),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Heart:
-                    return new XHeart
-                    {
-                        Points = CreateHeart(tools.ClickLocation, tools.MouseLocation),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Spiral:
-                    return new XSpiral
-                    {
-                        Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, 100),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
-                case ToolType.Arrow:
-                    return new XArrow
-                    {
-                        Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
-                        StrokeColor = tools.StrokeColor,
-                        StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
-                        StrokeStyle = tools.StrokeStyle
-                    };
+                        case PolygonType.Pentagon:
+                            return new XPentagon
+                            {
+                                Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 5),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        case PolygonType.Hexagon:
+                            return new XHexagon
+                            {
+                                Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 6),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        case PolygonType.Octagon:
+                            return new XOctagon
+                            {
+                                Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 8),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        case PolygonType.Star:
+                            return new XStar
+                            {
+                                Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Points),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        case PolygonType.Heart:
+                            return new XHeart
+                            {
+                                Points = CreateHeart(tools.ClickLocation, tools.MouseLocation),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        case PolygonType.Spiral:
+                            return new XSpiral
+                            {
+                                Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, 100),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                        default:
+                            return new XArrow
+                            {
+                                Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
+                    }
                 case ToolType.Text:
                     return new XText
                     {
@@ -367,21 +361,23 @@ namespace NET.Paint.Drawing.Factory
             return points;
         }
 
+        public static ObservableCollection<Point> CreateCurve(Point start, Point end)
+        {
+            if (start == null || end == null)
+                return new ObservableCollection<Point>();
+
+            Point ctrl1 = new Point(start.X + 0.55 * (end.X - start.X), start.Y + 0.55 * (end.Y - start.Y));
+            return new ObservableCollection<Point>() { start, end, ctrl1 };
+        }
+
         public static ObservableCollection<Point> CreateBezier(Point start, Point end)
         {
             if (start == null || end == null)
                 return new ObservableCollection<Point>();
 
-            Point ctrl = new Point(start.X + 0.5 * (end.X - start.X), start.Y + 0.5 * (end.Y - start.Y));
-            return new ObservableCollection<Point>() { start, end, ctrl };
-        }
-
-        public static ObservableCollection<Point> CreateCircle(Point start, Point end)
-        {
-            double horizontalDistance = end.X - start.X;
-            double verticalDistance = Math.Sign(end.Y - start.Y) * Math.Abs(horizontalDistance);
-            var secondPoint = new Point(end.X, start.Y + verticalDistance);
-            return new ObservableCollection<Point>() { start, secondPoint };
+            Point ctrl1 = new Point(start.X + 0.33 * (end.X - start.X), start.Y + 0.33 * (end.Y - start.Y));
+            Point ctrl2 = new Point(start.X + 0.66 * (end.X - start.X), start.Y + 0.66 * (end.Y - start.Y));
+            return new ObservableCollection<Point>() { start, end, ctrl1, ctrl2 };
         }
 
         public static Point? CreatePencilPoints(ObservableCollection<Point> points, Point? lastAddedPoint, Point currentPos, double spacing)

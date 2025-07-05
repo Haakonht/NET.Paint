@@ -20,20 +20,16 @@ namespace NET.Paint.View.Component.Tools
     /// <summary>
     /// Interaction logic for Toolcontext.xaml
     /// </summary>
-    public partial class Toolcontext : UserControl
+    public partial class ToolContext : UserControl
     {
-        public Toolcontext()
+        public ToolContext()
         {
             InitializeComponent();
         }
 
-        private void SelectTool(object sender, RoutedEventArgs e)
+        private void PolygonRadioBtn_Click(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XTools;
-            var button = sender as RadioButton;
-
-            if (context != null && button != null)
-                context.ActiveTool = (ToolType)button.Tag;
+            MyPopup.IsOpen = true;
         }
     }
 }

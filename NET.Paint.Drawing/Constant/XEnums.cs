@@ -2,24 +2,30 @@
 {
     public enum ToolType
     {
+        Pointer,
         Selector,
         Pencil,
         Line,
+        Curve,
         Bezier,
-        Circle,
         Ellipse,
         Triangle,
         Rectangle,
-        RoundedRectangle,
+        Polygon,
+        Text,
+        Bitmap
+    }
+
+    public enum PolygonType
+    {
+        Triangle,
         Pentagon,
         Hexagon,
         Octagon,
         Heart,
         Spiral,
         Star,
-        Arrow,
-        Text,
-        Bitmap
+        Arrow
     }
 
     public enum SelectionMode

@@ -4,11 +4,11 @@ using System.Windows;
 
 namespace NET.Paint.Converter
 {
-    public class BoolToFontWeightConverter : IValueConverter
+    public class IsTextItalicConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is bool isBold && isBold ? FontWeights.Bold : FontWeights.Normal;
+            return value is bool isItalic && isItalic ? FontStyles.Italic : FontStyles.Normal;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

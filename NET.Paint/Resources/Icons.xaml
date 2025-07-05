@@ -1,160 +1,60 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp" xmlns:selector="clr-namespace:NET.Paint.Selector" xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing" xmlns:type="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing">
-    <DataTemplate x:Key="Line">
-        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2"/>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+                    xmlns:selector="clr-namespace:NET.Paint.Selector"
+                    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing" 
+                    xmlns:type="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing">
+    <DataTemplate x:Key="LineToolIcon">
+        <icons:PackIconMaterial Kind="VectorLine"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Bezier">
-        <Path Stroke="Black" StrokeThickness="2">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="0,0" IsClosed="False">
-                        <BezierSegment Point1="0,10" Point2="10,0" Point3="10,10" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="CurveToolIcon">
+        <icons:PackIconMaterial Kind="VectorCurve"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Ellipse">
-        <Ellipse Width="12" Height="8" Stroke="Black" Fill="Transparent" StrokeThickness="2"/>
+    <DataTemplate x:Key="BezierToolIcon">
+        <icons:PackIconMaterial Kind="VectorBezier"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Circle">
-        <Ellipse Width="10" Height="10" Stroke="Black" Fill="Transparent" StrokeThickness="2"/>
+    <DataTemplate x:Key="EllipseToolIcon">
+        <icons:PackIconMaterial Kind="VectorEllipse"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Triangle">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="0,10" IsClosed="True">
-                        <LineSegment Point="5,0" />
-                        <LineSegment Point="10,10" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="TriangleToolIcon">
+        <icons:PackIconMaterial Kind="VectorTriangle"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Rectangle">
-        <Rectangle Width="10" Height="10" Stroke="Black" Fill="Transparent" StrokeThickness="2"/>
+    <DataTemplate x:Key="RectangleToolIcon">
+        <icons:PackIconMaterial Kind="VectorRectangle"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="RoundedRectangle">
-        <Rectangle Width="10" Height="10" Stroke="Black" Fill="Transparent" StrokeThickness="2" RadiusX="1" RadiusY="1"/>
+    <DataTemplate x:Key="PolygonToolIcon">
+        <icons:PackIconMaterial Kind="VectorPolygon"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Pentagon">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="5,0" IsClosed="True">
-                        <LineSegment Point="9.51,3.09" />
-                        <LineSegment Point="7.72,9.51" />
-                        <LineSegment Point="2.28,9.51" />
-                        <LineSegment Point="0.49,3.09" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="PencilToolIcon">
+        <icons:PackIconMaterial Kind="VectorPolyline"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Hexagon">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="5,0" IsClosed="True">
-                        <LineSegment Point="9.33,2.5" />
-                        <LineSegment Point="9.33,7.5" />
-                        <LineSegment Point="5,10" />
-                        <LineSegment Point="0.67,7.5" />
-                        <LineSegment Point="0.67,2.5" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="TextToolIcon">
+        <icons:PackIconMaterialDesign Kind="FontDownloadOutline"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Octagon">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="3.54,0" IsClosed="True">
-                        <LineSegment Point="7.46,0" />
-                        <LineSegment Point="10,2.54" />
-                        <LineSegment Point="10,6.46" />
-                        <LineSegment Point="7.46,9" />
-                        <LineSegment Point="3.54,9" />
-                        <LineSegment Point="1,6.46" />
-                        <LineSegment Point="1,2.54" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-    </DataTemplate>
-    
-    <DataTemplate x:Key="Star">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent" Stretch="Uniform" Width="12" Height="12">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="6,0" IsClosed="True">
-                        <LineSegment Point="7.18,4.02" />
-                        <LineSegment Point="11.76,4.02" />
-                        <LineSegment Point="8.06,6.5" />
-                        <LineSegment Point="9.54,10.98" />
-                        <LineSegment Point="6,8.25" />
-                        <LineSegment Point="2.46,10.98" />
-                        <LineSegment Point="3.94,6.5" />
-                        <LineSegment Point="0.24,4.02" />
-                        <LineSegment Point="4.82,4.02" />
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="BitmapToolIcon">
+        <icons:PackIconMaterialDesign Kind="ImageOutline"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Selector">
-        <fa:IconBlock Icon="MousePointer"/>
+    <DataTemplate x:Key="SelectorToolIcon">
+        <icons:PackIconMaterial Kind="Selection"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="Pencil">
-        <fa:IconBlock Icon="Pencil"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Text">
-        <fa:IconBlock Icon="Font"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Bitmap">
-        <fa:IconBlock Icon="Image"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Heart">
-        <fa:IconBlock Icon="Heart"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Arrow">
-        <fa:IconBlock Icon="ArrowRight"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Spiral">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent" Stretch="Uniform" Width="12" Height="12">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="6,6" IsClosed="False">
-                        <ArcSegment Point="8,6" Size="2,2" SweepDirection="Clockwise" />
-                        <ArcSegment Point="8,8" Size="2,2" SweepDirection="Clockwise" />
-                        <ArcSegment Point="6,8" Size="3,3" SweepDirection="Clockwise" />
-                        <ArcSegment Point="6,4" Size="4,4" SweepDirection="Clockwise" />
-                        <ArcSegment Point="10,4" Size="5,5" SweepDirection="Clockwise" />
-                    </PathFigure>
-                </PathGeometry> 
-            </Path.Data>
-        </Path>
+    <DataTemplate x:Key="PointerToolIcon">
+        <icons:PackIconMaterial Kind="CursorDefaultOutline"/>
     </DataTemplate>
 
     <selector:IconSelector x:Key="IconSelector" 
-                           SelectorTemplate="{StaticResource Selector}" PencilTemplate="{StaticResource Pencil}" LineTemplate="{StaticResource Line}" BezierTemplate="{StaticResource Bezier}" StarTemplate="{StaticResource Star}" HeartTemplate="{StaticResource Heart}" ArrowTemplate="{StaticResource Arrow}"
-                           EllipseTemplate="{StaticResource Ellipse}" CircleTemplate="{StaticResource Circle}" TriangleTemplate="{StaticResource Triangle}" RectangleTemplate="{StaticResource Rectangle}" RoundedRectangleTemplate="{StaticResource RoundedRectangle}" SpiralTemplate="{StaticResource Spiral}"
-                           PentagonTemplate="{StaticResource Pentagon}" HexagonTemplate="{StaticResource Hexagon}" OctagonTemplate="{StaticResource Octagon}" TextTemplate="{StaticResource Text}" BitmapTemplate="{StaticResource Bitmap}" />
+                           SelectorTemplate="{StaticResource SelectorToolIcon}" PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}"
+                           CurveTemplate="{StaticResource CurveToolIcon}" EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" 
+                           PolygonTemplate="{StaticResource PolygonToolIcon}" TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}" PointerTemplate="{StaticResource PointerToolIcon}"/>
 </ResourceDictionary>

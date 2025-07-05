@@ -20,9 +20,9 @@ namespace NET.Paint.View.Component
     /// <summary>
     /// Interaction logic for Tools.xaml
     /// </summary>
-    public partial class Toolbox : UserControl
+    public partial class ToolBox : UserControl
     {
-        public Toolbox()
+        public ToolBox()
         {
             InitializeComponent();
         }

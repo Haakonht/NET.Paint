@@ -16,13 +16,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
+                <ResourceDictionary Source="../../../Resources/Shapes.xaml"/>
                 <ResourceDictionary Source="../../../Resources/Controls/StretchingTreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converter:IsActiveConverter x:Key="IsActiveConverter"/>
-            <converter:BothActiveConverter x:Key="BothActiveConverter"/>
+            <converter:LayerActiveConverter x:Key="LayerActiveConverter"/>
+            <converter:ImageActiveConverter x:Key="ImageActiveConverter"/>
 
             <Style TargetType="TextBlock" x:Key="HoverStyle">
                 <Setter Property="FontWeight" Value="Normal"/>
@@ -130,7 +130,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Value="True">
                                         <DataTrigger.Binding>
-                                            <MultiBinding Converter="{StaticResource IsActiveConverter}">
+                                            <MultiBinding Converter="{StaticResource ImageActiveConverter}">
                                                 <Binding />
                                                 <Binding Path="DataContext.ActiveImage" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                             </MultiBinding>
@@ -156,7 +156,7 @@
                                     </DataTrigger>
                                     <DataTrigger Value="True">
                                         <DataTrigger.Binding>
-                                            <MultiBinding Converter="{StaticResource BothActiveConverter}">
+                                            <MultiBinding Converter="{StaticResource LayerActiveConverter}">
                                                 <Binding />
                                                 <Binding Path="DataContext.ActiveLayer" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
                                                 <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
@@ -199,7 +199,7 @@
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
                                 <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
-                                    <ContentControl Content="{Binding Type}" ContentTemplateSelector="{StaticResource IconSelector}" VerticalAlignment="Center"/>
+                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
                                 </StackPanel>
                             </DataTemplate>

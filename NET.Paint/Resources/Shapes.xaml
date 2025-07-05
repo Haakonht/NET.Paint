@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:selector="clr-namespace:NET.Paint.Selector">
+
+    <DataTemplate x:Key="LineShape">
+        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CurveShape">
+        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="0,0">
+                        <QuadraticBezierSegment Point1="10,0" Point2="10,10"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BezierShape">
+        <Canvas Width="100" Height="100">
+            <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="0,0">
+                            <BezierSegment Point1="0,10" Point2="10,0" Point3="10,10"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EllipseShape">
+        <icons:PackIconMaterial Kind="EllipseOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TriangleShape">
+        <icons:PackIconMaterial Kind="TriangleOutline"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="RectangleShape">
+        <icons:PackIconMaterial Kind="SquareOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RoundedRectangleShape">
+        <icons:PackIconMaterial Kind="SquareRoundedOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PentagonShape">
+        <icons:PackIconMaterial Kind="PentagonOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="HexagonShape">
+        <icons:PackIconMaterial Kind="HexagonOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OctagonShape">
+        <icons:PackIconMaterial Kind="OctagonOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="StarShape">
+        <icons:PackIconMaterial Kind="StarOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BitmapShape">
+        <icons:PackIconMaterial Kind="ImageOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="HeartShape">
+        <icons:PackIconMaterial Kind="HeartOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ArrowShape">
+        <icons:PackIconMaterial Kind="ArrowRight"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SpiralShape">
+        <Path Stroke="Black" StrokeThickness="1.5" Fill="Transparent" Stretch="Uniform" Width="18">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="20,10" IsFilled="False">
+
+                        <ArcSegment Point="0,10"
+                                Size="5,5"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="17,10"
+                                Size="4.5,4.5"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="3,10"
+                                Size="4,4"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="14,10"
+                                Size="3.5,3.5"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="6,10"
+                                Size="3.5,3.5"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="11,10"
+                                Size="2.5,2.5"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="True" />
+                        <ArcSegment Point="8,10"
+                                Size="2,2"
+                                SweepDirection="Counterclockwise"
+                                IsLargeArc="False" />
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PencilShape">
+        <icons:PackIconMaterialDesign Kind="PolylineOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TextShape">
+        <icons:PackIconMaterialDesign Kind="TitleOutline"/>
+    </DataTemplate>
+
+    <selector:ShapeSelector x:Key="ShapeSelector" 
+                           PencilTemplate="{StaticResource PencilShape}" LineTemplate="{StaticResource LineShape}" CurveTemplate="{StaticResource CurveShape}" BezierTemplate="{StaticResource BezierShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
+                           ArrowTemplate="{StaticResource ArrowShape}"  EllipseTemplate="{StaticResource EllipseShape}" TriangleTemplate="{StaticResource TriangleShape}" RectangleTemplate="{StaticResource RectangleShape}" SpiralTemplate="{StaticResource SpiralShape}"
+                           PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" OctagonTemplate="{StaticResource OctagonShape}" TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"/>
+
+</ResourceDictionary>

@@ -43,7 +43,7 @@
                 <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
                     <xcad:LayoutAnchorablePane DockWidth="225" DockMinWidth="225">
                         <xcad:LayoutAnchorable Title="Toolbox" x:Name="Toolbox">
-                            <component:Toolbox DataContext="{Binding}"/>
+                            <component:ToolBox DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
 

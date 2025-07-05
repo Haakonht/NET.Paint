@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Bitmap;
+        private ToolType _activeTool = ToolType.Polygon;
         public ToolType ActiveTool
         {
             get => _activeTool;
@@ -24,6 +24,13 @@ namespace NET.Paint.Drawing.Model
                 if (value != ToolType.Bitmap)
                     SetProperty(ref _activeBitmap, null);
             }
+        }
+
+        private PolygonType _activePolygon = PolygonType.Star;
+        public PolygonType ActivePolygon
+        {
+            get => _activePolygon;
+            set => SetProperty(ref _activePolygon, value);
         }
 
         private SelectionMode _selectionMode = SelectionMode.Single;
@@ -64,6 +71,14 @@ namespace NET.Paint.Drawing.Model
         {
             get => _points;
             set => SetProperty(ref _points, value);
+        }
+
+        // Regular polygon
+        private int _corners = 5;
+        public int Corners
+        {
+            get => _corners;
+            set => SetProperty(ref _corners, value);
         }
 
         // Pencil
@@ -112,7 +127,7 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Rounded Rectangle
-        private double _radius = 10;
+        private double _radius = 0;
         public double Radius 
         { 
             get => _radius;

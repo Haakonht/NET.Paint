@@ -4,8 +4,8 @@
                     xmlns:converter="clr-namespace:NET.Paint.Converter"
                     x:Class="NET.Paint.Resources.Handlers.PreviewHandler">
 
-    <converter:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter"/>
-    <converter:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter"/>
+    <converter:IsTextBoldConverter x:Key="BoolToFontWeightConverter"/>
+    <converter:IsTextItalicConverter x:Key="BoolToFontStyleConverter"/>
     <converter:TextDecorationsConverter x:Key="TextDecorationsConverter"/>
 
     <DataTemplate DataType="{x:Type shape:XText}">

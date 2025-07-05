@@ -63,45 +63,12 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-
-    public class XCircle : XFilled
-    {
-        public override ToolType Type => ToolType.Circle;
-
-        public new double Height => Width;
-
-        public override object Clone() => new XCircle
-        {
-            StrokeColor = this.StrokeColor,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            FillColor = this.FillColor,
-            Rotation = this.Rotation,
-            Points = new ObservableCollection<Point>(this.Points)
-        };
-    }
-
     public class XRectangle : XFilled
     {
         public override ToolType Type => ToolType.Rectangle;
 
-        public override object Clone() => new XRectangle
-        {
-            StrokeColor = this.StrokeColor,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            FillColor = this.FillColor,
-            Rotation = this.Rotation,
-            Points = new ObservableCollection<Point>(this.Points)
-        };
-    }
-
-    public class XRoundedRectangle : XFilled
-    {
-        public override ToolType Type => ToolType.RoundedRectangle;
-
         [Category("Corner")]
-        public double Radius { get; set; } = 10;
+        public double Radius { get; set; } = 0;
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -109,7 +76,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Radius));
         }
 
-        public override object Clone() => new XRoundedRectangle
+        public override object Clone() => new XRectangle
         {
             StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,

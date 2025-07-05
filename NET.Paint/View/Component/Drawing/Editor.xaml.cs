@@ -117,8 +117,14 @@ namespace NET.Paint.View.Component
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
+                        if ((XTools.Instance.ActiveTool == ToolType.Bezier || XTools.Instance.ActiveTool == ToolType.Curve) && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is IControlPoints cps)
+                            cps.Ctrl1 = XTools.Instance.MouseLocation;
+
+                    }
+                    else if (e.XButton2 == MouseButtonState.Pressed)
+                    {
                         if (XTools.Instance.ActiveTool == ToolType.Bezier && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is XBezier bezier)
-                            bezier.Ctrl1 = XTools.Instance.MouseLocation;
+                            bezier.Ctrl2 = XTools.Instance.MouseLocation;
 
                     }
                     else if (XTools.Instance.ActiveTool != ToolType.Text)

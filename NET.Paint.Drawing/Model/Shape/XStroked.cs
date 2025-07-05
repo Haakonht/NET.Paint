@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using System.Collections.ObjectModel;
@@ -105,9 +106,9 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XBezier : XStroked
+    public class XCurve : XStroked, IControlPoints
     {
-        public override ToolType Type => ToolType.Bezier;
+        public override ToolType Type => ToolType.Curve;
 
         [Category("Position")]
         public Point Start
@@ -131,8 +132,34 @@ namespace NET.Paint.Drawing.Model.Shape
             set => Points[2] = value;
         }
 
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Start));
+            OnPropertyChanged(nameof(End));
+            OnPropertyChanged(nameof(Ctrl1));
+        }
+
+        public override object Clone() => new XCurve
+        {
+            Start = this.Start,
+            End = this.End,
+            Ctrl1 = this.Ctrl1,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
+    }
+
+    public class XBezier : XCurve
+    {
         [Browsable(false)]
-        public Point Ctrl2 => Points[2];
+        public Point Ctrl2
+        {
+            get => Points[3];
+            set => Points[3] = value;
+        }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -145,9 +172,10 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XBezier
         {
-            Start = Start,
-            End = End,
-            Ctrl1 = Ctrl1,
+            Start = this.Start,
+            End = this.End,
+            Ctrl1 = this.Ctrl1,
+            Ctrl2 = this.Ctrl2,
             StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,

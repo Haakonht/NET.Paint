@@ -8,7 +8,8 @@ namespace NET.Paint.Drawing.Model.Shape
 {
     public abstract class XPolygon : XFilled
     {
-        public abstract override ToolType Type { get; }
+        public override ToolType Type => ToolType.Polygon;
+        public abstract PolygonType Style { get; }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -20,6 +21,7 @@ namespace NET.Paint.Drawing.Model.Shape
     public class XTriangle : XPolygon
     {
         public override ToolType Type => ToolType.Triangle;
+        public override PolygonType Style => PolygonType.Triangle;
 
         public override object Clone() => new XTriangle
         {
@@ -34,7 +36,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XPentagon : XPolygon
     {
-        public override ToolType Type => ToolType.Pentagon;
+        public override PolygonType Style => PolygonType.Pentagon;
 
         public override object Clone() => new XPentagon
         {
@@ -50,7 +52,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XHexagon : XPolygon
     {
-        public override ToolType Type => ToolType.Hexagon;
+        public override PolygonType Style => PolygonType.Hexagon;
 
         public override object Clone() => new XHexagon
         {
@@ -65,7 +67,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XOctagon : XPolygon
     {
-        public override ToolType Type => ToolType.Octagon;
+        public override PolygonType Style => PolygonType.Octagon;
 
         public override object Clone() => new XOctagon
         {
@@ -80,7 +82,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XStar : XPolygon
     {
-        public override ToolType Type => ToolType.Star;
+        public override PolygonType Style => PolygonType.Star;
 
         public override object Clone() => new XStar
         {
@@ -95,7 +97,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XHeart : XPolygon
     {
-        public override ToolType Type => ToolType.Heart;
+        public override PolygonType Style => PolygonType.Heart;
 
         public override object Clone() => new XHeart
         {
@@ -110,7 +112,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XSpiral : XPolygon
     {
-        public override ToolType Type => ToolType.Spiral;
+        public override PolygonType Style => PolygonType.Spiral;
         public override object Clone() => new XSpiral
         {
             Points = new ObservableCollection<Point>(this.Points),
@@ -124,7 +126,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XArrow : XPolygon
     {
-        public override ToolType Type => ToolType.Arrow;
+        public override PolygonType Style => PolygonType.Arrow;
         public override object Clone() => new XArrow
         {
             Points = new ObservableCollection<Point>(this.Points),

@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace NET.Paint.Converter
 {
-    public class BothActiveConverter : IMultiValueConverter
+    public class LayerActiveConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
