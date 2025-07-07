@@ -317,7 +317,7 @@ namespace NET.Paint.Drawing.Factory
             return points;
         }
 
-        private static ObservableCollection<Point> CreateArrow(Point? start, Point? end, double headLength = 20, double headWidth = 10, double tailWidth = 4)
+        public static ObservableCollection<Point> CreateArrow(Point? start, Point? end, double headLength = 20, double headWidth = 10, double tailWidth = 4)
         {
             if (start == null || end == null)
                 return new ObservableCollection<Point>();

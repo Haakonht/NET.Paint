@@ -26,7 +26,7 @@ namespace NET.Paint.Drawing.Model
             }
         }
 
-        private PolygonType _activePolygon = PolygonType.Star;
+        private PolygonType _activePolygon = PolygonType.Arrow;
         public PolygonType ActivePolygon
         {
             get => _activePolygon;
@@ -40,12 +40,30 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _selectionMode, value);
         }
 
+        private bool __isPolylineAdd = true;
+        public bool IsPolylineAdd
+        {
+            get => __isPolylineAdd;
+            set => SetProperty(ref __isPolylineAdd, value);
+        }
+
+        private bool _isCircle = false;
+        public bool IsCircle
+        {
+            get => _isCircle;
+            set => SetProperty(ref _isCircle, value);
+        }
+
         private ImageScaling _bitmapScaling = ImageScaling.Fit;
         public ImageScaling BitmapScaling
         {
             get => _bitmapScaling;
             set => SetProperty(ref _bitmapScaling, value);
         }
+
+        #endregion
+
+        #region Mouse
 
         private Point? _clickLocation = null;
         public Point? ClickLocation
@@ -127,7 +145,7 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Rounded Rectangle
-        private double _radius = 0;
+        private double _radius = 1;
         public double Radius 
         { 
             get => _radius;

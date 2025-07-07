@@ -36,6 +36,10 @@
     <DataTemplate x:Key="EllipseShape">
         <icons:PackIconMaterial Kind="EllipseOutline"/>
     </DataTemplate>
+    
+    <DataTemplate x:Key="CircleShape">
+        <icons:PackIconMaterial Kind="CircleOutline"/> 
+    </DataTemplate>
 
     <DataTemplate x:Key="TriangleShape">
         <icons:PackIconMaterial Kind="TriangleOutline"/>

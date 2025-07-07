@@ -8,8 +8,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="250" d:Background="White">
     <StackPanel>
-        <Label Content="Thickness:" Padding="0" Margin="2,2,0,2"/>
-        <Slider Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+        <Label Content="Thickness:" Padding="0" Margin="2,0,0,2"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <Slider Value="{Binding StrokeThickness}" TickFrequency="0.1" Minimum="0.1" Maximum="20"/>
+            <TextBlock Grid.Column="1" Text="{Binding StrokeThickness, StringFormat='{}{0:F1}'}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </Grid>
         <Label Content="Style:" Padding="0" Margin="2,2,0,2"/>
         <ComboBox ItemsSource="{x:Static options:XConstants.StrokeStyleOptions}" SelectedItem="{Binding StrokeStyle}" Height="25">
             <ComboBox.ItemTemplate>

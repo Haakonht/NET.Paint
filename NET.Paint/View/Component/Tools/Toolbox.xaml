@@ -27,12 +27,16 @@
                 
                 <!-- Stroke -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Stroke" IsExpanded="True">
-                    <subComponents:Stroke DataContext="{Binding Tools}"/>
+                    <Border BorderBrush="#FFACACAC" BorderThickness="1" Padding="0,5">
+                        <subComponents:Stroke DataContext="{Binding Tools}" Margin="5"/>
+                    </Border>
                 </Expander>
 
                 <!-- Custom -->
                 <Expander Style="{StaticResource SimpleExpander}" Header="Custom" IsExpanded="True" Margin="0,5">
-                    <subComponents:Custom DataContext="{Binding}"/> 
+                    <Border BorderBrush="#FFACACAC" BorderThickness="1" Padding="0,5">
+                        <subComponents:Custom DataContext="{Binding}" Margin="5"/>
+                    </Border>
                 </Expander>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="5" DataContext="{Binding ActiveImage}">
