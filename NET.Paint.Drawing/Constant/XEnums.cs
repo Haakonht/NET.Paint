@@ -1,5 +1,12 @@
 ﻿namespace NET.Paint.Drawing.Constant
 {
+    public enum  ObjectType
+    {
+        Image,
+        Layer,
+        Shape
+    }
+
     public enum ToolType
     {
         Pointer,
@@ -19,6 +26,7 @@
     public enum PolygonType
     {
         Triangle,
+        Regular,
         Pentagon,
         Hexagon,
         Octagon,

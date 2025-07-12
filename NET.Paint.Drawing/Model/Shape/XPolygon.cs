@@ -34,6 +34,28 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
+    public class XRegular : XPolygon
+    {
+        public override PolygonType Style => PolygonType.Regular;
+
+        private int _corners = 5;
+        public int Corners
+        {
+            get => _corners;
+            set => SetProperty(ref _corners, value);
+        }
+
+        public override object Clone() => new XRegular
+        {
+            Points = new ObservableCollection<Point>(this.Points),
+            FillColor = this.FillColor,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Rotation = this.Rotation
+        };
+    }
+
     public class XPentagon : XPolygon
     {
         public override PolygonType Style => PolygonType.Pentagon;

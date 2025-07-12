@@ -1,6 +1,4 @@
-﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +16,13 @@ using System.Windows.Shapes;
 namespace NET.Paint.View.Component
 {
     /// <summary>
-    /// Interaction logic for Toolcontext.xaml
+    /// Interaction logic for ToolContextSlim.xaml
     /// </summary>
-    public partial class ToolContext : UserControl
+    public partial class ToolContextSlim : UserControl
     {
-        public ToolContext()
+        public ToolContextSlim()
         {
             InitializeComponent();
-        }
-
-        private void PolygonRadioBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MyPopup.IsOpen = true;
         }
     }
 }

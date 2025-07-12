@@ -80,6 +80,16 @@ namespace NET.Paint.Drawing.Factory
                 case ToolType.Polygon:
                     switch (tools.ActivePolygon)
                     {
+                        case PolygonType.Regular:
+                            return new XRegular
+                            {
+                                Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, tools.PolygonCorners),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle,
+                                Corners = tools.PolygonCorners
+                            };
                         case PolygonType.Pentagon:
                             return new XPentagon
                             {
@@ -110,7 +120,7 @@ namespace NET.Paint.Drawing.Factory
                         case PolygonType.Star:
                             return new XStar
                             {
-                                Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.Points),
+                                Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.StarPoints),
                                 StrokeColor = tools.StrokeColor,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillColor = tools.FillColor,
@@ -170,7 +180,7 @@ namespace NET.Paint.Drawing.Factory
             }
         }
 
-        private static ObservableCollection<Point> CreateRegularPolygon(Point? start, Point? end, int corners)
+        public static ObservableCollection<Point> CreateRegularPolygon(Point? start, Point? end, int corners)
         {
             if (start == null || end == null || corners < 3)
                 return new ObservableCollection<Point>();
@@ -203,7 +213,7 @@ namespace NET.Paint.Drawing.Factory
             );
         }
 
-        private static ObservableCollection<Point> CreateStar(Point? start, Point? end, int corners, double innerRadiusRatio = 0.5)
+        public static ObservableCollection<Point> CreateStar(Point? start, Point? end, int corners, double innerRadiusRatio = 0.5)
         {
             if (start == null || end == null || corners < 2 || innerRadiusRatio <= 0 || innerRadiusRatio >= 1)
                 return new ObservableCollection<Point>();
@@ -246,7 +256,7 @@ namespace NET.Paint.Drawing.Factory
             return points;
         }
 
-        private static ObservableCollection<Point> CreateHeart(Point? start, Point? end, int samples = 64)
+        public static ObservableCollection<Point> CreateHeart(Point? start, Point? end, int samples = 64)
         {
             if (start == null || end == null)
                 return new ObservableCollection<Point>();
@@ -284,7 +294,7 @@ namespace NET.Paint.Drawing.Factory
             return points;
         }
 
-        private static ObservableCollection<Point> CreateSpiral(Point? start, Point? end, int turns = 3, int samples = 200)
+        public static ObservableCollection<Point> CreateSpiral(Point? start, Point? end, int turns = 3, int samples = 200)
         {
             if (start == null || end == null || turns < 1 || samples < 2)
                 return new ObservableCollection<Point>();

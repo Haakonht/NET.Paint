@@ -26,7 +26,7 @@ namespace NET.Paint.Drawing.Model
             }
         }
 
-        private PolygonType _activePolygon = PolygonType.Arrow;
+        private PolygonType _activePolygon = PolygonType.Regular;
         public PolygonType ActivePolygon
         {
             get => _activePolygon;
@@ -84,19 +84,26 @@ namespace NET.Paint.Drawing.Model
         #region Custom
 
         // Star
-        private int _points = 5;
-        public int Points
+        private int _starPoints = 5;
+        public int StarPoints
         {
-            get => _points;
-            set => SetProperty(ref _points, value);
+            get => _starPoints;
+            set => SetProperty(ref _starPoints, value);
+        }
+
+        private double _starInnerRadiusRatio = 0.5;
+        public double StarInnerRadiusRatio
+        {
+            get => _starInnerRadiusRatio;
+            set => SetProperty(ref _starInnerRadiusRatio, value);
         }
 
         // Regular polygon
-        private int _corners = 5;
-        public int Corners
+        private int _polygonCorners = 5;
+        public int PolygonCorners
         {
-            get => _corners;
-            set => SetProperty(ref _corners, value);
+            get => _polygonCorners;
+            set => SetProperty(ref _polygonCorners, value);
         }
 
         // Pencil
@@ -130,11 +137,11 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Spiral
-        private int _samples = 100;
-        public int Samples
+        private int _spiralSamples = 100;
+        public int SpiralSamples
         {
-            get => _samples;
-            set => SetProperty(ref _samples, value);
+            get => _spiralSamples;
+            set => SetProperty(ref _spiralSamples, value);
         }
 
         private int _turns = 3;
@@ -142,6 +149,14 @@ namespace NET.Paint.Drawing.Model
         {
             get => _turns;
             set => SetProperty(ref _turns, value);
+        }
+
+        // Heart
+        private int _heartSamples = 64;
+        public int HeartSamples
+        {
+            get => _heartSamples;
+            set => SetProperty(ref _heartSamples, value);
         }
 
         // Rounded Rectangle

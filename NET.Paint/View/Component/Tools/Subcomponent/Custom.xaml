@@ -13,7 +13,7 @@
              xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="220" d:Background="White"
+             d:DesignHeight="260" d:DesignWidth="220" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -27,7 +27,7 @@
             <converter:InvertedBoolenConverter x:Key="InvertedBooleanConverter"/>
 
             <DataTemplate x:Key="Empty">
-                <TextBlock Text="No options available for this tool." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                <TextBlock Text="No options available." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
             </DataTemplate>
 
             <DataTemplate x:Key="SelectorToolTemplate">
@@ -43,36 +43,48 @@
 
             <DataTemplate x:Key="StarToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Label Content="Points:" Padding="0" Margin="2,2,0,2"/>
+                    <Grid Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                            <ContentPresenter Content="{Binding StarPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <Label Content="Points" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.Points}" Minimum="3" Maximum="10"/>
-                        <TextBlock Text="{Binding Tools.Points}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        <Slider Value="{Binding Tools.StarPoints}" Minimum="5" Maximum="15" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="StarPreviewChanged" Margin="5,0,0,0"/>
+                        <TextBlock Text="{Binding Tools.StarPoints}" Width="20" Margin="5,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
+                    <Label Content="Inner Radius" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Value="{Binding Tools.StarInnerRadiusRatio}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" ValueChanged="StarPreviewChanged" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Tools.StarInnerRadiusRatio}" Width="20" Margin="5,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="ArrowToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-
-                    <Grid Height="125">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="24"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="24"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Height="80">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15"/>
+                            <RowDefinition Height="5"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="24"/>
                         </Grid.RowDefinitions>
-                        <Slider Orientation="Vertical" Grid.Column="0" Grid.Row="1" IsDirectionReversed="True" Value="{Binding Tools.TailWidth}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="ArrowPreviewChanged" HorizontalAlignment="Right" Margin="0,0,5,0"/>
-                        <Slider Orientation="Horizontal" Grid.Column="1" Grid.Row="2" IsDirectionReversed="True" Value="{Binding Tools.HeadLength}" Minimum="5" Maximum="100" TickFrequency="1" ValueChanged="ArrowPreviewChanged" Margin="0,5,0,0"/>
-                        <Slider Orientation="Vertical" Grid.Column="2" Grid.Row="1" IsDirectionReversed="True" Value="{Binding Tools.HeadWidth}" Minimum="5" Maximum="50" TickFrequency="1" ValueChanged="ArrowPreviewChanged" Margin="5,0,0,0"/>
-
                         <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
                             <ContentPresenter Content="{Binding ArrowPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <ContentPresenter.Resources>
@@ -81,34 +93,33 @@
                             </ContentPresenter>
                         </Border>
                     </Grid>
-
-                    <!--<Label Content="Head Length:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Head Length" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.HeadLength}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                        <TextBlock Text="{Binding Tools.HeadLength}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.HeadLength}" Minimum="5" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="ArrowPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.HeadLength}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
-                    <Label Content="Head Width:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Head Width" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.HeadWidth}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                        <TextBlock Text="{Binding Tools.HeadWidth}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.HeadWidth}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="ArrowPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.HeadWidth}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
-                    <Label Content="Tail Width:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Tail Width" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.TailWidth}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                        <TextBlock Text="{Binding Tools.TailWidth}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
-                    </Grid>-->
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.TailWidth}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="ArrowPreviewChanged"  Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.TailWidth}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
                 </StackPanel>
             </DataTemplate>
 
@@ -169,23 +180,90 @@
 
             <DataTemplate x:Key="SpiralToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Label Content="Turns:" Padding="0" Margin="2,2,0,2"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
-                        </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.Turns}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Stretch"/>
-                        <TextBlock Text="{Binding Tools.Turns}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <Grid Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                            <ContentPresenter Content="{Binding SpiralPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
                     </Grid>
-                    <Label Content="Samples:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Turns" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Value="{Binding Tools.Samples}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
-                        <TextBlock Text="{Binding Tools.Samples}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.Turns}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SpiralPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.Turns}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                    <Label Content="Samples" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.SpiralSamples}" Minimum="10" Maximum="150" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="SpiralPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.SpiralSamples}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeartToolTemplate">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Grid Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                            <ContentPresenter Content="{Binding HeartPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <Label Content="Samples" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.HeartSamples}" Minimum="12" Maximum="64" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="HeartPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.HeartSamples}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RegularToolTemplate">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Grid Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Row="1">
+                            <ContentPresenter Content="{Binding RegularPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <Label Content="Corners" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.PolygonCorners}" Minimum="5" Maximum="16" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RegularPreviewchanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.PolygonCorners}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
             </DataTemplate>
@@ -251,32 +329,16 @@
                 </StackPanel>
             </DataTemplate>
 
-            <selector:PolygonSelector x:Key="PolygonSelector" StarTemplate="{StaticResource StarToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
+            <selector:PolygonSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
 
             <DataTemplate x:Key="PolygonToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <ComboBox SelectedValue="{Binding Tools.ActivePolygon}" SelectedValuePath="Tag" Height="25">
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Pentagon}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Regular}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Margin="5,0,0,0"/>
-                                    <TextBlock Text="Pentagon" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </ComboBoxItem.Content>
-                        </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Hexagon}">
-                            <ComboBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource HexagonShape}" Margin="5,0,0,0"/>
-                                    <TextBlock Text="Hexagon" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </ComboBoxItem.Content>
-                        </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Octagon}">
-                            <ComboBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource OctagonShape}" Margin="5,0,0,0"/>
-                                    <TextBlock Text="Octagon" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Regular" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>

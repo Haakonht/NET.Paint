@@ -25,6 +25,9 @@
     <Compile Update="View\Component\Tools\Subcomponent\Color.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\Component\Tools\ToolBoxSlim.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -50,4 +50,36 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="NoCaretExpander" TargetType="Expander">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
+                        <DockPanel>
+                            <!-- Header: Use ContentPresenter so you can put any control, e.g. ToggleButton -->
+                            <ContentPresenter
+                            ContentSource="Header"
+                            RecognizesAccessKey="True"
+                            Margin="0"
+                            DockPanel.Dock="Top"/>
+                            <!-- Content -->
+                            <ContentPresenter
+                            x:Name="ExpandSite"
+                            Margin="{TemplateBinding Padding}"
+                            Visibility="Collapsed"
+                            DockPanel.Dock="Bottom"/>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

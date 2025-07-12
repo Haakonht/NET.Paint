@@ -1,0 +1,33 @@
+﻿using System;
+using System.Globalization;
+using System.Windows.Data;
+using NET.Paint.Drawing.Constant;
+
+namespace NET.Paint.Converter
+{
+    public class ActiveToolMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length < 2 || values[0] is not ToolType activeTool)
+                return false;
+
+            ToolType? thisTool = values[1] as ToolType?;
+            if (thisTool == null && values[1] != null && Enum.TryParse(values[1].ToString(), out ToolType parsedTool))
+                thisTool = parsedTool;
+
+            return activeTool.Equals(thisTool);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            if (value is bool isChecked && isChecked)
+            {
+                // The second targetType is the ToolType for this RadioButton
+                // Set ActiveTool to this tool type
+                return new object[] { parameter, Binding.DoNothing };
+            }
+            return new object[] { Binding.DoNothing, Binding.DoNothing };
+        }
+    }
+}

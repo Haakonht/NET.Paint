@@ -157,11 +157,5 @@ namespace NET.Paint.View.Component
                 }
             }
         }
-
-        private void OpenContext(object sender, MouseButtonEventArgs e)
-        {
-            Toolcontext.IsOpen = true;
-            e.Handled = true;
-        }
     }
 }

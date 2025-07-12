@@ -14,12 +14,20 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
     /// </summary>
     public partial class Custom : UserControl
     {
+        public XPreview RegularPreview { get; set; } = new XPreview();
         public XPreview ArrowPreview { get; set; } = new XPreview();
+        public XPreview StarPreview { get; set; } = new XPreview();
+        public XPreview SpiralPreview { get; set; } = new XPreview();
+        public XPreview HeartPreview { get; set; } = new XPreview();
 
         public Custom()
         {
             InitializeComponent();
+            CreateRegularPreview();
             CreateArrowPreview();
+            CreateSpiralPreview();
+            CreateStarPreview();
+            CreateHeartPreview();
         }
 
         private void SelectBitmap(object sender, System.Windows.RoutedEventArgs e)
@@ -28,6 +36,23 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
                 if (sender is Button && sender is Button button)
                     if (button.Content is Image image)
                         service.Tools.ActiveBitmap = image.Source;
+        }
+
+        private void RegularPreviewchanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateRegularPreview();
+        private void CreateRegularPreview()
+        {
+            RegularPreview.Shape = new XRegular
+            {
+                Points = XFactory.CreateRegularPolygon(
+                    new Point(0, 10),
+                    new Point(50, 50),
+                    XTools.Instance.PolygonCorners
+                ),
+                FillColor = Colors.LightGray,
+                StrokeColor = Colors.Black,
+                StrokeThickness = XTools.Instance.StrokeThickness,
+                StrokeStyle = XTools.Instance.StrokeStyle
+            };
         }
 
         private void ArrowPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateArrowPreview();
@@ -41,6 +66,59 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
                     XTools.Instance.HeadLength,
                     XTools.Instance.HeadWidth,
                     XTools.Instance.TailWidth
+                ),
+                FillColor = Colors.LightGray,
+                StrokeColor = Colors.Black,
+                StrokeThickness = XTools.Instance.StrokeThickness,
+                StrokeStyle = XTools.Instance.StrokeStyle
+            };
+        }
+
+        private void SpiralPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateSpiralPreview();
+        private void CreateSpiralPreview()
+        {
+            SpiralPreview.Shape = new XSpiral
+            {
+                Points = XFactory.CreateSpiral(
+                    new Point(0, 0),
+                    new Point(70, 70),
+                    XTools.Instance.Turns,
+                    XTools.Instance.SpiralSamples
+                ),
+                FillColor = Colors.LightGray,
+                StrokeColor = Colors.Black,
+                StrokeThickness = XTools.Instance.StrokeThickness,
+                StrokeStyle = XTools.Instance.StrokeStyle
+            };
+        }
+
+        private void StarPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateStarPreview();
+        private void CreateStarPreview()
+        {
+            StarPreview.Shape = new XStar
+            {
+                Points = XFactory.CreateStar(
+                    new Point(0, 10),
+                    new Point(60, 60),
+                    XTools.Instance.StarPoints,
+                    XTools.Instance.StarInnerRadiusRatio
+                ),
+                FillColor = Colors.LightGray,
+                StrokeColor = Colors.Black,
+                StrokeThickness = XTools.Instance.StrokeThickness,
+                StrokeStyle = XTools.Instance.StrokeStyle
+            };
+        }
+
+        private void HeartPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateHeartPreview();
+        private void CreateHeartPreview()
+        {
+            HeartPreview.Shape = new XHeart
+            {
+                Points = XFactory.CreateHeart(
+                    new Point(0, 0),
+                    new Point(60, 60),
+                    XTools.Instance.HeartSamples
                 ),
                 FillColor = Colors.LightGray,
                 StrokeColor = Colors.Black,

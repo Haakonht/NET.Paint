@@ -7,6 +7,7 @@ namespace NET.Paint.Drawing.Constant
     {
         public static List<ToolType> ToolOptions => new List<ToolType>
         {
+            ToolType.Pointer,
             ToolType.Selector,
             ToolType.Pencil,
             ToolType.Line,

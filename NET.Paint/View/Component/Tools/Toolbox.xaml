@@ -9,7 +9,7 @@
              d:DesignHeight="900" d:DesignWidth="250" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
-        <ResourceDictionary Source="../../../Resources/Controls/SimpleExpander.xaml"/>
+        <ResourceDictionary Source="../../../Resources/Controls/Expanders.xaml"/>
     </UserControl.Resources>
     
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">

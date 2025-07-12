@@ -73,7 +73,7 @@ namespace NET.Paint.View.Component
                 if (e.PropertyName == nameof(XService.Preferences.OverviewVisible))
                 {
                     //Dispatcher.Invoke(() => ImageTree.IsVisible = service.OverviewVisible);
-                    Dispatcher.Invoke(() => ProjectTree.IsVisible = service.OverviewVisible);
+                    Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = service.OverviewVisible);
 
                     if (!service.OverviewVisible)
                         PropertiesAnchorable.IsVisible = service.OverviewVisible;
@@ -81,6 +81,12 @@ namespace NET.Paint.View.Component
                         PropertiesAnchorable.IsVisible = context?.ActiveImage?.Selected != null;
                 }
             }
+        }
+
+        private void OpenContext(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Toolcontext.IsOpen = true;
+            e.Handled = true;
         }
     }
 }

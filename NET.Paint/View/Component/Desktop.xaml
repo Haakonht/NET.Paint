@@ -7,6 +7,7 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
+             xmlns:model="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"
              xmlns:overview="clr-namespace:NET.Paint.View.Component.Overview"
@@ -25,50 +26,70 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Editor">
-            <component:Editor DataContext="{Binding}"/>
+            <component:Editor DataContext="{Binding}" MouseRightButtonDown="OpenContext"/>
         </DataTemplate>
 
         <selector:LayoutSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
     </UserControl.Resources>
-    
-    <xcad:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage, Mode=TwoWay, Converter={StaticResource LayoutDocumentToDataContextConverter}}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
-        <xcad:LayoutRoot>
-            <xcad:LayoutPanel Orientation="Vertical">
-                <xcad:LayoutAnchorablePane DockHeight="60">
-                    <xcad:LayoutAnchorable Title="Shortcuts">
-                        <component:Shortcuts DataContext="{Binding}"/>
-                    </xcad:LayoutAnchorable>
-                </xcad:LayoutAnchorablePane>
 
-                <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
-                    <xcad:LayoutAnchorablePane DockWidth="225" DockMinWidth="225">
-                        <xcad:LayoutAnchorable Title="Toolbox" x:Name="Toolbox">
-                            <component:ToolBox DataContext="{Binding}"/>
+    <Grid>
+        <xcad:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage, Mode=TwoWay, Converter={StaticResource LayoutDocumentToDataContextConverter}}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+            <xcad:LayoutRoot>
+                <xcad:LayoutPanel Orientation="Vertical">
+                    <xcad:LayoutAnchorablePane DockHeight="60">
+                        <xcad:LayoutAnchorable Title="Shortcuts">
+                            <component:Shortcuts DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
 
-                    <xcad:LayoutDocumentPane DockWidth="*"/>
+                    <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
+                        <xcad:LayoutAnchorablePane DockWidth="50" DockMinWidth="50">
+                            <xcad:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tool">
+                                <component:ToolBox DataContext="{Binding}"/>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
 
-                    <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
-                        <xcad:LayoutAnchorablePane DockHeight="2*" >
-                            <xcad:LayoutAnchorable Title="Overview" x:Name="ProjectTree">
-                                <overview:ProjectTree DataContext="{Binding}"/>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
-                        <xcad:LayoutAnchorablePane DockHeight="*" DockMinHeight="200">
-                            <xcad:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" IsVisible="False">
-                                <overview:Properties DataContext="{Binding ActiveImage}"/>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
-                    </xcad:LayoutAnchorablePaneGroup>
+                        <xcad:LayoutDocumentPane DockWidth="*"/>
+
+                        <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
+                            <xcad:LayoutAnchorablePane DockHeight="6*" >
+                                <xcad:LayoutAnchorable Title="Overview" x:Name="ProjectTreeAnchorable">
+                                    <overview:ProjectTree DataContext="{Binding}"/>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorablePane DockHeight="1.5*">
+                                <xcad:LayoutAnchorable Title="History" x:Name="HistoryAnchorable">
+                                    <overview:History DataContext="{Binding ActiveImage}"/>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorablePane DockHeight="1.5*">
+                                <xcad:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable">
+                                    <Grid DataContext="{Binding Clipboard}">
+                                        <Label Content="{Binding Data}"/>
+                                    </Grid>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorablePane DockHeight="2*" DockMinHeight="200">
+                                <xcad:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" IsVisible="False">
+                                    <overview:Properties DataContext="{Binding ActiveImage}"/>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutAnchorablePane>
+                        </xcad:LayoutAnchorablePaneGroup>
+                    </xcad:LayoutPanel>
+
+                    <xcad:LayoutAnchorablePane DockHeight="50">
+                        <xcad:LayoutAnchorable Title="Status">
+                            <component:Status DataContext="{Binding ActiveImage}"/>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
 
-                <xcad:LayoutAnchorablePane DockHeight="50">
-                    <xcad:LayoutAnchorable Title="Status">
-                        <component:Status DataContext="{Binding ActiveImage}"/>
-                    </xcad:LayoutAnchorable>
-                </xcad:LayoutAnchorablePane>
-            </xcad:LayoutPanel>
-        </xcad:LayoutRoot>
-    </xcad:DockingManager>
+        <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-5">
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <component:ToolContext DataContext="{Binding}"/>
+            </Border>
+        </Popup>
+    </Grid>
 </UserControl>

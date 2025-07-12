@@ -13,7 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../../Resources/Icons.xaml"/>
                 <ResourceDictionary Source="../../../../Resources/Shapes.xaml"/>
-                <ResourceDictionary Source="../../../../Resources/Controls/SimpleExpander.xaml"/>
+                <ResourceDictionary Source="../../../../Resources/Controls/Expanders.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converter:RectangleTypeConverter x:Key="RectangleTypeConverter"/>

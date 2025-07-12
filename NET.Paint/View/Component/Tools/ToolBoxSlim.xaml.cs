@@ -1,5 +1,7 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +20,22 @@ using System.Windows.Shapes;
 namespace NET.Paint.View.Component
 {
     /// <summary>
-    /// Interaction logic for Toolcontext.xaml
+    /// Interaction logic for Tools.xaml
     /// </summary>
-    public partial class ToolContext : UserControl
+    public partial class ToolBoxSlim : UserControl
     {
-        public ToolContext()
+        public ToolBoxSlim()
         {
             InitializeComponent();
         }
 
-        private void PolygonRadioBtn_Click(object sender, RoutedEventArgs e)
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
-            MyPopup.IsOpen = true;
+            if (DataContext is XService service)
+            {
+                if (sender is RadioButton radioButton && radioButton.DataContext is ToolType toolType)
+                    service.Tools.ActiveTool = toolType;
+            }
         }
     }
 }

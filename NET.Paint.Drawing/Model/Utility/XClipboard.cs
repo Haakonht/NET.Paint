@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model.Utility
         public bool IsCut = false;
         public bool CanPaste => Data != null;
 
-        private object? _data = null;
+        private object? _data = new XRasterLayer();
         public object? Data
         {
             get => _data;

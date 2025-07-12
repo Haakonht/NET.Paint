@@ -18,7 +18,7 @@
         <ResourceDictionary Source="../../../Resources/Renderer.xaml"/>
     </UserControl.Resources>
 
-    <xctk:Zoombox x:Name="Zoombox" Background="LightGray" IsUsingScrollBars="True" Scale="{Binding Configuration.Zoom, Mode=TwoWay}" MinScale="0.1" MaxScale="2.0">
+    <xctk:Zoombox x:Name="Zoombox" Background="LightGray" IsUsingScrollBars="True" Scale="{Binding Configuration.Zoom, Mode=TwoWay}" MinScale="0.1" MaxScale="2.0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
         <Grid Margin="25,20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -31,7 +31,7 @@
             <controls:SimpleRuler Height="40" Margin="11,0" Orientation="Horizontal" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <controls:SimpleRuler Width="40" Margin="0,11" Orientation="Vertical" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1"  Margin="10">
-                <controls:GridCanvas Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" Cursor="{Binding Source={x:Static active:XTools.Instance}, Path=ActiveTool, Converter={StaticResource ToolToCursorConverter}}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseRightButtonDown="OpenContext" ClipToBounds="True">
+                <controls:GridCanvas Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" Cursor="{Binding Source={x:Static active:XTools.Instance}, Path=ActiveTool, Converter={StaticResource ToolToCursorConverter}}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" ClipToBounds="True">
                     <ItemsControl ItemsSource="{Binding Layers}">
                         <ItemsControl.Resources>
                             <DataTemplate DataType="{x:Type structure:XVectorLayer}">
@@ -110,11 +110,6 @@
                             </TransformGroup>
                         </ContentPresenter.RenderTransform>
                     </ContentPresenter>
-                    <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="200" VerticalOffset="-25" LayoutTransform="{Binding ElementName=Zoombox, Path=Scale, Converter={StaticResource InverseScaleConverter}}">
-                        <Border BorderBrush="Black" BorderThickness="1" Background="White">
-                            <tools:ToolContext DataContext="{Binding Source={x:Static active:XTools.Instance}}"/>
-                        </Border>
-                    </Popup>
                 </controls:GridCanvas>
             </Border>
         </Grid>
