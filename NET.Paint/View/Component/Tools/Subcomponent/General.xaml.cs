@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Tools.Subcomponent
 {
     /// <summary>
-    /// Interaction logic for ToolContextSlim.xaml
+    /// Interaction logic for CombinedColor.xaml
     /// </summary>
-    public partial class ToolContextSlim : UserControl
+    public partial class General : UserControl
     {
-        public ToolContextSlim()
+        public General()
         {
             InitializeComponent();
         }

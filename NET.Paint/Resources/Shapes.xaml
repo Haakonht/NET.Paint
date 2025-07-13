@@ -53,16 +53,8 @@
         <icons:PackIconMaterial Kind="SquareRoundedOutline"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="PentagonShape">
+    <DataTemplate x:Key="RegularShape">
         <icons:PackIconMaterial Kind="PentagonOutline"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="HexagonShape">
-        <icons:PackIconMaterial Kind="HexagonOutline"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="OctagonShape">
-        <icons:PackIconMaterial Kind="OctagonOutline"/>
     </DataTemplate>
 
     <DataTemplate x:Key="StarShape">
@@ -132,6 +124,6 @@
     <selector:ShapeSelector x:Key="ShapeSelector" 
                            PencilTemplate="{StaticResource PencilShape}" LineTemplate="{StaticResource LineShape}" CurveTemplate="{StaticResource CurveShape}" BezierTemplate="{StaticResource BezierShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
                            ArrowTemplate="{StaticResource ArrowShape}"  EllipseTemplate="{StaticResource EllipseShape}" TriangleTemplate="{StaticResource TriangleShape}" RectangleTemplate="{StaticResource RectangleShape}" SpiralTemplate="{StaticResource SpiralShape}"
-                           PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" OctagonTemplate="{StaticResource OctagonShape}" TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"/>
+                           RegularTemplate="{StaticResource RegularShape}" TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"/>
 
 </ResourceDictionary>

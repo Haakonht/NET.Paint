@@ -6,14 +6,14 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="220" d:DesignWidth="250" d:Background="White">
-    <Grid Height="220">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,5" Minimum="10" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding GridWidth}"/>
         <Slider Grid.Row="1" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Minimum="10" Maximum="100" Value="{Binding GridHeight}" TickFrequency="5" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>

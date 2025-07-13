@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
@@ -93,7 +94,7 @@ namespace NET.Paint.View.Component.Overview
             if (DataContext != null && DataContext is XService service)
             {
                 var draggedImage = _draggedTreeViewItem?.DataContext as XImage;
-                var draggedLayer = _draggedTreeViewItem?.DataContext as XVectorLayer;
+                var draggedLayer = _draggedTreeViewItem?.DataContext as XLayer;
                 var targetItem = GetNearestContainer(e.OriginalSource as UIElement);
 
                 if (targetItem == null) return;
@@ -107,15 +108,15 @@ namespace NET.Paint.View.Component.Overview
                 {
                     service.Command.Operations.MoveLayerToImage(service.Project, draggedLayer, targetImageForLayer);
                 }
-                else if (draggedLayer != null && targetData is XVectorLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
+                else if (draggedLayer != null && targetData is XLayer targetLayer && !ReferenceEquals(draggedLayer, targetLayer))
                 {
                     service.Command.Operations.MoveLayer(service.ActiveImage, draggedLayer, targetLayer);
                 }
                 else if (_draggedTreeViewItem?.DataContext is XRenderable droppedShape)
                 {
-                    if (targetData is XVectorLayer targetLayerForShape)
+                    if (targetData is IShapeLayer targetLayerForShape)
                     {
-                        service.Command.Operations.MoveShapeToLayer(service.ActiveImage, droppedShape, targetLayerForShape);
+                        service.Command.Operations.MoveShapeToLayer(service.ActiveImage, droppedShape, targetLayerForShape as XLayer);
                     }
                     else if (targetData is XRenderable targetShape)
                     {
@@ -255,7 +256,6 @@ namespace NET.Paint.View.Component.Overview
         }
 
         #endregion
-
 
         private void OnAddComplete(object sender, RoutedEventArgs e)
         {

@@ -10,11 +10,16 @@ namespace NET.Paint.Drawing.Model.Utility
         public static XClipboard Instance => _instance.Value;
         private XClipboard() { }
 
+        private bool _isCut = false;
+        public bool IsCut
+        {
+            get => _isCut;
+            set => SetProperty(ref _isCut, value);
+        }
 
-        public bool IsCut = false;
         public bool CanPaste => Data != null;
 
-        private object? _data = new XRasterLayer();
+        private object? _data = null;
         public object? Data
         {
             get => _data;

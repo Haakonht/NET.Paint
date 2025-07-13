@@ -37,7 +37,7 @@ namespace NET.Paint.View.Component
                 XTools.Instance.ClickLocation = e.GetPosition(sender as UIElement);
                 XTools.Instance.ClickLocation = new Point(XTools.Instance.ClickLocation.Value.X - image.ActiveLayer!.OffsetX, XTools.Instance.ClickLocation.Value.Y - image.ActiveLayer!.OffsetY);
 
-                if (XTools.Instance.ActiveTool == ToolType.Selector)
+                if (XTools.Instance.ActiveTool == ToolType.Pointer)
                 {              
                     if (sender is GridCanvas canvas)
                     {
@@ -92,7 +92,7 @@ namespace NET.Paint.View.Component
                         {
                             _lastAddedPoint = XFactory.CreatePencilPoints(pencil.Points, _lastAddedPoint, XTools.Instance.MouseLocation, pencil.Spacing);
                         }
-                        else if (XTools.Instance.ActiveTool == ToolType.Selector && image.Selected == null)
+                        else if (XTools.Instance.ActiveTool == ToolType.Pointer && image.Selected == null)
                         {
                             if (_lastAddedPoint != null)
                             {

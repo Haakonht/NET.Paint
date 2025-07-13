@@ -43,8 +43,8 @@
                     </xcad:LayoutAnchorablePane>
 
                     <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
-                        <xcad:LayoutAnchorablePane DockWidth="50" DockMinWidth="50">
-                            <xcad:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tool">
+                        <xcad:LayoutAnchorablePane DockWidth="55" DockMinWidth="55">
+                            <xcad:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools">
                                 <component:ToolBox DataContext="{Binding}"/>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
@@ -62,11 +62,9 @@
                                     <overview:History DataContext="{Binding ActiveImage}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="1.5*">
-                                <xcad:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable">
-                                    <Grid DataContext="{Binding Clipboard}">
-                                        <Label Content="{Binding Data}"/>
-                                    </Grid>
+                            <xcad:LayoutAnchorablePane DockHeight="0.5*" DockMinHeight="50">
+                                <xcad:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable" IsVisible="False">
+                                    <overview:Clipboard DataContext="{Binding Clipboard}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorablePane DockHeight="2*" DockMinHeight="200">

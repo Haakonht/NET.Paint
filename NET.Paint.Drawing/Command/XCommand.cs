@@ -36,7 +36,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
         private void ExecuteRedo(object parameter) => Operations.Redo();
-        private bool CanExecuteRedo(object parameter) => parameter is XImage image && image.History.CanRedo;
+        private bool CanExecuteRedo(object parameter) => parameter is XImage image && image.Undo.CanRedo;
 
         #endregion
 

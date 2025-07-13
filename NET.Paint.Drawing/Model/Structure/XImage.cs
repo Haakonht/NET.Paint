@@ -87,7 +87,7 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         [Browsable(false)]
-        public XUndo History { get; } = new XUndo();
+        public XUndo Undo { get; } = new XUndo();
         [Browsable(false)]
         public XConfiguration Configuration { get; } = new XConfiguration();
 

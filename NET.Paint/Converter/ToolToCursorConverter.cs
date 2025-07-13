@@ -18,7 +18,7 @@ namespace NET.Paint.Converter
             {
                 switch (tool)
                 {
-                    case ToolType.Selector:
+                    case ToolType.Pointer:
                         return Cursors.Arrow;
                     case ToolType.Pencil:
                         return Cursors.Pen;

@@ -7,7 +7,6 @@
              xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
-             xmlns:tools="clr-namespace:NET.Paint.View.Component.Tools"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:controls="clr-namespace:NET.Paint.Resources.Controls"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"

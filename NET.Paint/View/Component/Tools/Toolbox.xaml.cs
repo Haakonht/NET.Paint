@@ -1,5 +1,7 @@
-﻿using NET.Paint.Drawing.Model;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,15 @@ namespace NET.Paint.View.Component
         public ToolBox()
         {
             InitializeComponent();
+        }
+
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+            {
+                if (sender is RadioButton radioButton && radioButton.DataContext is ToolType toolType)
+                    service.Tools.ActiveTool = toolType;
+            }
         }
     }
 }

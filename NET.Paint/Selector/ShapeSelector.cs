@@ -14,9 +14,7 @@ namespace NET.Paint.Selector
         public DataTemplate TriangleTemplate { get; set; }
         public DataTemplate RectangleTemplate { get; set; }
         public DataTemplate RoundedRectangleTemplate { get; set; }
-        public DataTemplate PentagonTemplate { get; set; }
-        public DataTemplate HexagonTemplate { get; set; }
-        public DataTemplate OctagonTemplate { get; set; }
+        public DataTemplate RegularTemplate { get; set; }
         public DataTemplate TextTemplate { get; set; }
         public DataTemplate BitmapTemplate { get; set; }
         public DataTemplate StarTemplate { get; set; }
@@ -42,12 +40,8 @@ namespace NET.Paint.Selector
                 return RectangleTemplate;
             if (item is XRectangle)
                 return RoundedRectangleTemplate;
-            if (item is XPentagon)
-                return PentagonTemplate;
-            if (item is XHexagon)
-                return HexagonTemplate;
-            if (item is XOctagon)
-                return OctagonTemplate;
+            if (item is XRegular)
+                return RegularTemplate;
             if (item is XStar)
                 return StarTemplate;
             if (item is XText)

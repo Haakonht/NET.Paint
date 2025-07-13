@@ -21,6 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converter:ShapeSelectedConverter x:Key="ShapeSelectedConverter"/>
             <converter:LayerActiveConverter x:Key="LayerActiveConverter"/>
             <converter:ImageActiveConverter x:Key="ImageActiveConverter"/>
 
@@ -200,7 +201,23 @@
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
                                 <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
                                     <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>
+                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Value="True">
+                                                        <DataTrigger.Binding>
+                                                            <MultiBinding Converter="{StaticResource ImageActiveConverter}">
+                                                                <Binding />
+                                                                <Binding Path="DataContext.Selected" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=3}" />
+                                                            </MultiBinding>
+                                                        </DataTrigger.Binding>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>
