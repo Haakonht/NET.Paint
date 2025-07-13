@@ -34,6 +34,20 @@
                 </Style.Triggers>
             </Style>
 
+            <Style x:Key="ActiveHoverStyle" TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
+                <Style.Triggers>
+                    <DataTrigger Value="True">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource ImageActiveConverter}">
+                                <Binding />
+                                <Binding Path="DataContext.Selected" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=3}" />
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
             <ContextMenu x:Key="ImageContextMenu">
                 <MenuItem Header="Add" Click="AddImage"/>
                 <MenuItem Header="Remove" Click="Remove"/>
@@ -174,24 +188,24 @@
             </DataTemplate>
 
             <HierarchicalDataTemplate x:Key="ProjectTreeTemplate" ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
-                <DockPanel x:Name="ImageNode" LastChildFill="True" Margin="0,5,0,0" ContextMenu="{StaticResource ImageContextMenu}">
+                <DockPanel x:Name="ImageNode" LastChildFill="True" Margin="0,5,0,2" ContextMenu="{StaticResource ImageContextMenu}" MouseDown="SelectNode">
                     <fa:IconBlock Icon="Image" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                     <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ImageTitleTemplate}"/>
                 </DockPanel>
                 <HierarchicalDataTemplate.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XLayer}">
-                        <DockPanel LastChildFill="True" Margin="0,5,0,0" ContextMenu="{StaticResource LayerContextMenu}">
+                        <DockPanel LastChildFill="True" Margin="0,2" ContextMenu="{StaticResource LayerContextMenu}" MouseDown="SelectNode">
                             <ToggleButton IsChecked="{Binding IsVisible}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" FontSize="12" Style="{StaticResource VisibilityToggleStyle}" DockPanel.Dock="Right" Margin="5,0"/>
                             <ContentControl Content="{Binding}" VerticalAlignment="Center">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type structure:XVectorLayer}">
-                                        <fa:IconBlock Icon="V"/>
+                                        <fa:IconBlock Icon="V" Margin="0,2,0,0"/>
                                     </DataTemplate>
                                     <DataTemplate DataType="{x:Type structure:XRasterLayer}">
-                                        <fa:IconBlock Icon="R"/>
+                                        <fa:IconBlock Icon="R" Margin="0,2,0,0"/>
                                     </DataTemplate>
                                     <DataTemplate DataType="{x:Type structure:XHybridLayer}">
-                                        <fa:IconBlock Icon="H"/>
+                                        <fa:IconBlock Icon="H" Margin="0,2,0,0"/>
                                     </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
@@ -199,38 +213,22 @@
                         </DockPanel>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
-                                <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}">
-                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Value="True">
-                                                        <DataTrigger.Binding>
-                                                            <MultiBinding Converter="{StaticResource ImageActiveConverter}">
-                                                                <Binding />
-                                                                <Binding Path="DataContext.Selected" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=3}" />
-                                                            </MultiBinding>
-                                                        </DataTrigger.Binding>
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}" MouseDown="SelectNode" Margin="0,1">
+                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource ActiveHoverStyle}"/>
+                                    <TextBlock Text="{Binding Style, Mode=OneWay, StringFormat=[{0}]}" VerticalAlignment="Center" Margin="3,0,0,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>
                     </HierarchicalDataTemplate>
                 </HierarchicalDataTemplate.ItemTemplate>
             </HierarchicalDataTemplate>
-            
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch">
         <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding Project}">
-            <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" ItemTemplate="{StaticResource ProjectTreeTemplate}" SelectedItemChanged="SelectedItemChanged" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
+            <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" ItemTemplate="{StaticResource ProjectTreeTemplate}" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />

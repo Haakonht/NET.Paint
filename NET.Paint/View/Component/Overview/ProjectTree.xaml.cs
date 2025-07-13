@@ -25,37 +25,40 @@ namespace NET.Paint.View.Component.Overview
 
         #region Item Selection
 
-        private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void SelectNode(object sender, MouseButtonEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
             {
-                if (e.NewValue is XImage image)
-                    service.ActiveImage = image;
-
-                if (e.NewValue is XLayer layer)
+                if (sender is FrameworkElement element)
                 {
-                    var containingImg = service.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
-                    if (containingImg != null && containingImg != service.ActiveImage)
-                        service.ActiveImage = containingImg;
+                    if (element.DataContext is XImage image)
+                        service.ActiveImage = image;
 
-                    service.ActiveImage.ActiveLayer = layer;
+                    if (element.DataContext is XLayer layer)
+                    {
+                        var containingImg = service.Project.Images.FirstOrDefault(img => img.Layers.Contains(layer));
+                        if (containingImg != null && containingImg != service.ActiveImage)
+                            service.ActiveImage = containingImg;
+
+                        service.ActiveImage.ActiveLayer = layer;
+                    }
+
+                    if (element.DataContext is XRenderable renderable)
+                    {
+                        var containingImage = service.Project.Images.FirstOrDefault(img => img.Layers.Any(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)));
+                        if (containingImage != null && containingImage != service.ActiveImage)
+                            service.ActiveImage = containingImage;
+
+                        var containingLayer = service.ActiveImage.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)) as XVectorLayer;
+                        if (containingLayer != null && containingLayer != service.ActiveImage.ActiveLayer)
+                            service.ActiveImage.ActiveLayer = containingLayer;
+
+                        XTools.Instance.ActiveTool = ToolType.Selector;
+                        XTools.Instance.SelectionMode = SelectionMode.Single;
+                    }
+
+                    service.ActiveImage.Selected = element.DataContext;
                 }
-
-                if (e.NewValue is XRenderable renderable)
-                {
-                    var containingImage = service.Project.Images.FirstOrDefault(img => img.Layers.Any(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)));
-                    if (containingImage != null && containingImage != service.ActiveImage)
-                        service.ActiveImage = containingImage;
-                    
-                    var containingLayer = service.ActiveImage.Layers.FirstOrDefault(l => l is XVectorLayer vectorLayer && vectorLayer.Shapes.Contains(renderable)) as XVectorLayer;
-                    if (containingLayer != null && containingLayer != service.ActiveImage.ActiveLayer)
-                        service.ActiveImage.ActiveLayer = containingLayer;
-
-                    XTools.Instance.ActiveTool = ToolType.Selector;
-                    XTools.Instance.SelectionMode = SelectionMode.Single;
-                }
-
-                service.ActiveImage.Selected = e.NewValue;
             }
         }
 
@@ -80,7 +83,7 @@ namespace NET.Paint.View.Component.Overview
                 {
                     var data = _draggedTreeViewItem.DataContext;
                     DragDrop.DoDragDrop(_draggedTreeViewItem, data, DragDropEffects.Move);
-                    _draggedTreeViewItem = null; // Reset after drag
+                    _draggedTreeViewItem = null;
                 }
             }
         }

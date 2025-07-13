@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Controls;
 using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
 
 namespace NET.Paint.View.Component
@@ -162,47 +163,38 @@ namespace NET.Paint.View.Component
 
         private void LassoSelect(object sender, XImage image)
         {
-            if (Preview.Shape.Points.Count > 2 && Preview.Shape.Points[0] != Preview.Shape.Points[^1])
+            if (Preview.Shape.Points.Count < 3)
+                return;
+
+            // Ensure the lasso polygon is closed
+            if (Preview.Shape.Points[0] != Preview.Shape.Points[^1])
                 Preview.Shape.Points.Add(Preview.Shape.Points[0]);
 
-            var lassoPolygon = new Polygon { Points = new PointCollection(Preview.Shape.Points) };
-
-            if (sender is GridCanvas imageCanvas)
+            var lassoGeometry = new PathGeometry()
             {
-                if (imageCanvas.Children.Count > 0 && imageCanvas.Children[0] is ItemsControl layersControl)
+                Figures = new PathFigureCollection()
                 {
-                    var layerContainer = layersControl.ItemContainerGenerator.ContainerFromItem(image.ActiveLayer) as ContentPresenter;
-                    if (layerContainer == null)
-                        return;
-
-                    ItemsControl? shapesControl = null;
-                    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(layerContainer); i++)
-                    {
-                        var child = VisualTreeHelper.GetChild(layerContainer, i);
-                        if (child is Canvas canvas)
-                        {
-                            shapesControl = canvas.Children[1] as ItemsControl;
-                            break;
-                        }
+                    new PathFigure {
+                        StartPoint = Preview.Shape.Points[0],
+                        Segments = new PathSegmentCollection() { new PolyLineSegment(Preview.Shape.Points.Skip(1).ToList(), true) },
+                        IsClosed = true
                     }
-                    if (shapesControl == null)
-                        return;
-
-                    List<object> selectedShapes = new List<object>();
-                    foreach (var item in shapesControl.Items)
-                    {
-                        var shapeContainer = shapesControl.ItemContainerGenerator.ContainerFromItem(item) as ContentPresenter;
-                        if (shapeContainer == null)
-                            continue;
-
-                        var shapeBounds = VisualTreeHelper.GetDescendantBounds(shapeContainer);
-                        if (lassoPolygon.RenderedGeometry.Bounds.Contains(shapeBounds))
-                        {
-                            selectedShapes.Add(shapeContainer.Content);
-                        }
-                    }
-                    image.Selected = selectedShapes;
                 }
+            };
+
+            if (image.ActiveLayer is IShapeLayer shapeLayer && shapeLayer.Shapes.Count > 0)
+            {
+                List<object> selectedShapes = new List<object>();
+                foreach (var renderable in shapeLayer.Shapes)
+                {
+                    // Check if any point of the shape is inside the lasso polygon
+                    var anyPointInside = renderable.Points.Any(lassoGeometry.FillContains);
+                    if (anyPointInside)
+                        selectedShapes.Add(renderable);
+                }
+
+                if (selectedShapes.Count > 0)
+                    image.Selected = selectedShapes;
             }
         }
     }

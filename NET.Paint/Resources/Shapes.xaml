@@ -4,7 +4,7 @@
                     xmlns:selector="clr-namespace:NET.Paint.Selector">
 
     <DataTemplate x:Key="LineShape">
-        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2"/>
+        <Line X1="0" Y1="0" X2="15" Y2="15" Stroke="Black" StrokeThickness="2"/>
     </DataTemplate>
 
     <DataTemplate x:Key="CurveShape">
@@ -12,7 +12,7 @@
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="0,0">
-                        <QuadraticBezierSegment Point1="10,0" Point2="10,10"/>
+                        <QuadraticBezierSegment Point1="15,0" Point2="15,15"/>
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
@@ -25,7 +25,7 @@
                 <Path.Data>
                     <PathGeometry>
                         <PathFigure StartPoint="0,0">
-                            <BezierSegment Point1="0,10" Point2="10,0" Point3="10,10"/>
+                            <BezierSegment Point1="0,15" Point2="15,0" Point3="15,15"/>
                         </PathFigure>
                     </PathGeometry>
                 </Path.Data>

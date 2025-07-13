@@ -9,15 +9,20 @@
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance Type={x:Static utility:XClipboard.Instance}, IsDesignTimeCreatable=True}">
+             d:DataContext="{x:Static utility:XClipboard.Instance}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/Shapes.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <ContextMenu x:Key="ClipboardContextMenu">
+                <MenuItem Header="Paste" Click="Paste"/>
+                <MenuItem Header="Clear" Click="ClearClipboard"/>
+            </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid DataContext="{Binding Clipboard}" ContextMenu="{StaticResource ClipboardContextMenu}">
         <DockPanel LastChildFill="True">
             <fa:IconBlock Icon="Cut" DockPanel.Dock="Right" Margin="0,0,5,0" Visibility="{Binding IsCut, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <ContentControl Content="{Binding Data}" VerticalAlignment="Center" Margin="5,0,0,0">

@@ -64,7 +64,7 @@
                             </xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorablePane DockHeight="0.5*" DockMinHeight="50">
                                 <xcad:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable" IsVisible="False">
-                                    <overview:Clipboard DataContext="{Binding Clipboard}"/>
+                                    <overview:Clipboard DataContext="{Binding}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorablePane DockHeight="2*" DockMinHeight="200">
@@ -75,7 +75,7 @@
                         </xcad:LayoutAnchorablePaneGroup>
                     </xcad:LayoutPanel>
 
-                    <xcad:LayoutAnchorablePane DockHeight="50">
+                    <xcad:LayoutAnchorablePane DockHeight="55">
                         <xcad:LayoutAnchorable Title="Status">
                             <component:Status DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>

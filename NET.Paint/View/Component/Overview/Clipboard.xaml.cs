@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.Drawing.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,18 @@ namespace NET.Paint.View.Component.Overview
         public Clipboard()
         {
             InitializeComponent();
+        }
+
+        private void Paste(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service && service.Clipboard.Data != null)
+                service.Command.Operations.Paste();
+        }
+
+        private void ClearClipboard(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+                service.Command.Operations.ClearClipboard();
         }
     }
 }

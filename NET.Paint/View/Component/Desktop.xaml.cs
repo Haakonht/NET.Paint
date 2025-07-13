@@ -66,7 +66,7 @@ namespace NET.Paint.View.Component
         private void ActiveImage_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(XImage.Selected) && sender is XImage image)
-                Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected != null);
+                Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected != null && image.Selected is not IEnumerable<object>);
         }
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)

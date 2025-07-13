@@ -65,6 +65,12 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
+        public void ClearClipboard()
+        {
+            XClipboard.Instance.Data = null;
+            XClipboard.Instance.IsCut = false;
+        }
+
         public void Undo()
         {
             if (_service.ActiveImage is XImage activeImage)

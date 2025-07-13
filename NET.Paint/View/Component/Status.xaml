@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NET.Paint.View"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:constant="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -37,6 +38,12 @@
             </TextBlock>
         </StatusBarItem>
         <Separator Margin="5,2"/>
+        <StatusBarItem Margin="-1,0">
+            <Grid Width="20" Height="20">
+                <xctk:ColorPicker Background="{Binding Tools.StrokeColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.StrokeColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0"/>
+                <xctk:ColorPicker Background="{Binding Tools.FillColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.FillColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="4"/>
+            </Grid>
+        </StatusBarItem>
 
         <StatusBarItem Margin="0,0,5,0" HorizontalAlignment="Right">
             <TextBlock FontSize="13">

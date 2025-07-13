@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Selector;
+        private ToolType _activeTool = ToolType.Line;
         public ToolType ActiveTool
         {
             get => _activeTool;
