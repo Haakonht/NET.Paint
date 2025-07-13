@@ -5,17 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NET.Paint.View"
              xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
+             xmlns:constant="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:converter="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+            <converter:ToolTypeVisibilityConverter x:Key="ToolTypeVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <StatusBar Background="Transparent">
-        <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=ActiveTool}" ContentStringFormat="Tool: {0}"/>
+        <StatusBarItem Margin="5,0,-1,0">
+            <TextBlock FontSize="13">
+                    <Bold>Tool:</Bold>
+                    <Run Text="{Binding Tools.ActiveTool}" FontWeight="SemiBold"/>
+            </TextBlock>
+        </StatusBarItem>
+        <StatusBarItem Margin="-1,0" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:ToolType.Polygon}}">
+            <TextBlock FontSize="13">
+                [<Run Text="{Binding Tools.ActivePolygon}"/>]
+            </TextBlock>
+        </StatusBarItem>
+        <StatusBarItem Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:ToolType.Bitmap}}"/>
         <Separator Margin="5,2"/>
-        <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=MouseLocation}" ContentStringFormat="Mouse: {0:0.00}"/>
+        <StatusBarItem Margin="-1,0">
+            <TextBlock FontSize="13" FontWeight="SemiBold">
+                    <Bold>Mouse:</Bold>
+                    [X: <Run Text="{Binding Tools.MouseLocation.X, StringFormat=0.00}"/>,
+                    Y: <Run Text="{Binding Tools.MouseLocation.Y, StringFormat=0.00}"/>]
+            </TextBlock>
+        </StatusBarItem>
         <Separator Margin="5,2"/>
-        <StatusBarItem Content="{Binding Source={x:Static tools:XTools.Instance}, Path=ActiveBitmap}" ContentStringFormat="Bitmap: {0}"/>
-        
-        <StatusBarItem Content="{Binding ActiveLayer.Title}" ContentStringFormat="Active Layer: {0}" HorizontalAlignment="Right"/>
+
+        <StatusBarItem Margin="0,0,5,0" HorizontalAlignment="Right">
+            <TextBlock FontSize="13">
+                <Bold>Active:</Bold>
+                <Run Text="{Binding ActiveImage.Title}" FontWeight="SemiBold"/>
+                [<Run Text="{Binding ActiveImage.ActiveLayer.Title}" />]
+            </TextBlock>
+        </StatusBarItem>
     </StatusBar>
 </UserControl>

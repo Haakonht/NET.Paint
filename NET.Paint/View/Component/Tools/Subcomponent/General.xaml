@@ -30,7 +30,7 @@
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="2" Height="20">
-                            <Line X1="5" Y1="10" X2="85" Y2="10" Stroke="Black" StrokeThickness="2" Margin="0,0,20,0">
+                            <Line X1="5" Y1="10" X2="55" Y2="10" Stroke="Black" StrokeThickness="2" Margin="0,0,20,0">
                                 <Line.StrokeDashArray>
                                     <Binding Path="DashArray" />
                                 </Line.StrokeDashArray>

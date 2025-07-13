@@ -5,8 +5,10 @@ using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
 
 namespace NET.Paint.Drawing.Factory
 {
@@ -175,6 +177,31 @@ namespace NET.Paint.Drawing.Factory
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
                     };
+                case ToolType.Selector:
+                    switch (tools.SelectionMode)
+                    {
+                        case SelectionMode.Rectangle:
+                            return new XRectangle
+                            {
+                                Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                                StrokeColor = Colors.Black,
+                                StrokeThickness = 2,
+                                FillColor = Colors.Transparent,
+                                StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                Radius = 0,
+                            };
+                        case SelectionMode.Lasso:
+                            return new XPencil
+                            {
+                                Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
+                                StrokeColor = Colors.Black,
+                                StrokeThickness = 2,
+                                StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                Spacing = 20
+                            };
+                        default:
+                            return null;
+                    }
                 default:
                     return null;
             }

@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Polygon;
+        private ToolType _activeTool = ToolType.Selector;
         public ToolType ActiveTool
         {
             get => _activeTool;
@@ -33,7 +33,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _activePolygon, value);
         }
 
-        private SelectionMode _selectionMode = SelectionMode.Single;
+        private SelectionMode _selectionMode = SelectionMode.Lasso;
         public SelectionMode SelectionMode
         {
             get => _selectionMode;
@@ -204,7 +204,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Fill
 
-        private Color _fillColor = Colors.White;
+        private Color _fillColor = Colors.LightGray;
         public Color FillColor
         {
             get => _fillColor;

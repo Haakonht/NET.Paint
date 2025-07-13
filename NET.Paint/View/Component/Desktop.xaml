@@ -77,7 +77,7 @@
 
                     <xcad:LayoutAnchorablePane DockHeight="50">
                         <xcad:LayoutAnchorable Title="Status">
-                            <component:Status DataContext="{Binding ActiveImage}"/>
+                            <component:Status DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
@@ -85,7 +85,7 @@
         </xcad:DockingManager>
 
         <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-5">
-            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+            <Border BorderBrush="Black" BorderThickness="1" Background="White" MouseLeave="CloseContext">
                 <component:ToolContext DataContext="{Binding}"/>
             </Border>
         </Popup>

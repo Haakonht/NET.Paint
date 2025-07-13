@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
 
 namespace NET.Paint.View.Component.Overview
 {
@@ -51,6 +52,7 @@ namespace NET.Paint.View.Component.Overview
                         service.ActiveImage.ActiveLayer = containingLayer;
 
                     XTools.Instance.ActiveTool = ToolType.Selector;
+                    XTools.Instance.SelectionMode = SelectionMode.Single;
                 }
 
                 service.ActiveImage.Selected = e.NewValue;

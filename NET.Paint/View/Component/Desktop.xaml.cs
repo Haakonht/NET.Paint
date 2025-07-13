@@ -115,5 +115,11 @@ namespace NET.Paint.View.Component
             Toolcontext.IsOpen = true;
             e.Handled = true;
         }
+
+        private void CloseContext(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Toolcontext.IsOpen = false;
+            e.Handled = true;
+        }
     }
 }

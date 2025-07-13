@@ -29,13 +29,7 @@ namespace NET.Paint.View.Component
             InitializeComponent();
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is XService service)
-            {
-                if (sender is RadioButton radioButton && radioButton.DataContext is ToolType toolType)
-                    service.Tools.ActiveTool = toolType;
-            }
-        }
+        private void OpenPolygonQuickSelect(object sender, RoutedEventArgs e) => PolygonQuickSelect.IsOpen = true;
+        private void ClosePolygonQuickSelect(object sender, MouseEventArgs e) => PolygonQuickSelect.IsOpen = false;
     }
 }

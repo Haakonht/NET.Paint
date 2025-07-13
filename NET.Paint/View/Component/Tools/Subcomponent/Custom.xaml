@@ -337,7 +337,7 @@
                         <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Regular}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource RegularShape}" Margin="5,0,0,0"/>
                                     <TextBlock Text="Regular" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
