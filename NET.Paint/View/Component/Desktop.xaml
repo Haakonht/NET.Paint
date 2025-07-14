@@ -10,6 +10,7 @@
              xmlns:model="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"
+             xmlns:dialog="clr-namespace:NET.Paint.View.Component.Dialog"
              xmlns:overview="clr-namespace:NET.Paint.View.Component.Overview"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged"
@@ -89,6 +90,20 @@
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
+
+                <xcad:LayoutRoot.FloatingWindows>
+                    <xcad:LayoutAnchorableFloatingWindow>
+                        <xcad:LayoutAnchorablePaneGroup>
+                            <xcad:LayoutAnchorablePane>
+                                <xcad:LayoutAnchorable x:Name="PreferencesAnchorable" Title="Preferences" IsVisible="False"
+                                                   CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" CanDockAsTabbedDocument="False"
+                                                   FloatingHeight="540" FloatingWidth="250">
+                                    <dialog:Preferences DataContext="{Binding}"/>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutAnchorablePane>
+                        </xcad:LayoutAnchorablePaneGroup>
+                    </xcad:LayoutAnchorableFloatingWindow>
+                </xcad:LayoutRoot.FloatingWindows>
             </xcad:LayoutRoot>
         </xcad:DockingManager>
 

@@ -100,11 +100,11 @@
                     <fa:IconBlock Icon="Bars"/>
                 </ToggleButton.Content>
             </ToggleButton>
-            <Button Height="25" Width="25">
-                <Button.Content>
+            <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.PreferencesVisible}">
+                <ToggleButton.Content>
                     <fa:IconBlock Icon="Gear"/>
-                </Button.Content>
-            </Button>
+                </ToggleButton.Content>
+            </ToggleButton>
 
             <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="30">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseLayerQuickSelect">

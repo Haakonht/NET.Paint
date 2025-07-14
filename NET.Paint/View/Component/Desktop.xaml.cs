@@ -2,9 +2,12 @@
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace NET.Paint.View.Component
@@ -33,6 +36,7 @@ namespace NET.Paint.View.Component
 
                     if (context.ActiveImage != null)
                     {
+                        PreferencesAnchorable.IsVisible = context.Preferences.PreferencesVisible;
                         PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                         ClipboardAnchorable.IsVisible = context.Clipboard.Data.Count > 0;
                         HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0;
@@ -72,9 +76,27 @@ namespace NET.Paint.View.Component
                 if (e.PropertyName == nameof(XService.Preferences.ToolboxVisible))
                     Dispatcher.Invoke(() => Toolbox.IsVisible = service.ToolboxVisible);
 
+                if (e.PropertyName == nameof(XService.Preferences.PreferencesVisible))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        if (service.PreferencesVisible)
+                        {
+                            CenterAnchorable(PreferencesAnchorable);
+                            PreferencesAnchorable.IsVisible = true;
+                            if (!PreferencesAnchorable.IsFloating)
+                                PreferencesAnchorable.Float();
+                        }
+                        else
+                        {
+                            PreferencesAnchorable.Dock();
+                            PreferencesAnchorable.IsVisible = false;
+                        }
+                    });
+                }
+
                 if (e.PropertyName == nameof(XService.Preferences.OverviewVisible))
                 {
-                    //Dispatcher.Invoke(() => ImageTree.IsVisible = service.OverviewVisible);
                     Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = service.OverviewVisible);
 
                     if (!service.OverviewVisible)
@@ -99,6 +121,24 @@ namespace NET.Paint.View.Component
         {
             Toolcontext.IsOpen = false;
             e.Handled = true;
+        }
+
+        private void CenterAnchorable(LayoutAnchorable anchorable)
+        {
+            var mainWindow = Application.Current.MainWindow;
+            if (mainWindow != null)
+            {
+                // Calculate center position for a 250x570 window (from XAML)
+                double centerX = mainWindow.Left + (mainWindow.ActualWidth / 2); 
+                double centerY = mainWindow.Top + (mainWindow.ActualHeight / 2);  
+
+                // Ensure the window doesn't go off-screen
+                centerX = Math.Max(0, centerX);
+                centerY = Math.Max(0, centerY);
+
+                anchorable.FloatingLeft = centerX - (anchorable.FloatingWidth / 2);
+                anchorable.FloatingTop = centerY - (anchorable.FloatingHeight / 2);
+            }
         }
     }
 }
