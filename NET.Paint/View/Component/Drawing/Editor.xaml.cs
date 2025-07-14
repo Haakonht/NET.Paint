@@ -6,13 +6,11 @@ using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Resources.Controls;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Xceed.Wpf.AvalonDock.Controls;
 using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
 
 namespace NET.Paint.View.Component
@@ -39,7 +37,7 @@ namespace NET.Paint.View.Component
                 tools.ClickLocation = new Point(tools.ClickLocation.Value.X - image.ActiveLayer!.OffsetX, tools.ClickLocation.Value.Y - image.ActiveLayer!.OffsetY);
 
                 if (tools.ActiveTool == ToolType.Pointer || (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Single))
-                    SingleSelect(sender, tools.ClickLocation.Value, image);
+                    SingleSelect(sender, tools, image);
 
                 if (tools.ActiveTool == ToolType.Text)
                 {
@@ -59,6 +57,7 @@ namespace NET.Paint.View.Component
             }
         }
 
+        private void MouseUp(object sender, MouseButtonEventArgs e) => MouseMove(sender, e);
         private void MouseMove(object sender, MouseEventArgs e)
         {
             var image = DataContext as XImage;
@@ -78,30 +77,21 @@ namespace NET.Paint.View.Component
                             if (tools.IsPolylineAdd || tools.ActiveTool == ToolType.Selector)
                                 XFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
 
+                            else if (tools.ActiveTool == ToolType.Pencil && !tools.IsPolylineAdd)
+                                XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
                         }
-                        else if (tools.ActiveTool == ToolType.Pencil && !tools.IsPolylineAdd)
-                            XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
 
-                        else if (tools.ActiveTool == ToolType.Pointer && image.Selected == null)
+                        else if (tools.ActiveTool == ToolType.Pointer)
                         {
-                            if (tools.ClickLocation != null)
-                            {
-                                Vector? delta = delta = tools.MouseLocation - tools.ClickLocation;
-
-                                if (delta != null)
-                                {
-                                    image.ActiveLayer.OffsetX += delta.Value.X;
-                                    image.ActiveLayer.OffsetY += delta.Value.Y;
-                                }
-                            }
-                            tools.ClickLocation = tools.MouseLocation;
-
+                            if (image.Selected.Count == 0)
+                                MoveLayer(tools, image);
+                            else
+                                MoveSelected(tools, image);
                         }
+
                         else
-                        {
-                            if (tools.ClickLocation != null && tools.MouseLocation != null)
+                            if (tools.ClickLocation != null)
                                 Preview.Shape = XFactory.CreateShape(tools);
-                        }
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
@@ -126,6 +116,8 @@ namespace NET.Paint.View.Component
                                 else if (tools.SelectionMode == SelectionMode.Rectangle)
                                     RectangleSelect(image);
 
+                                if (image.Selected.Count > 0)
+                                    tools.ActiveTool = ToolType.Pointer;
                             }
 
                             if (image.ActiveLayer is XHybridLayer hybridLayer)
@@ -141,7 +133,7 @@ namespace NET.Paint.View.Component
                                 }
                             }
 
-                            if (tools.ActiveTool != ToolType.Selector)
+                            if (tools.ActiveTool != ToolType.Selector && tools.ActiveTool != ToolType.Pointer)
                             {
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
@@ -157,22 +149,59 @@ namespace NET.Paint.View.Component
             }
         }
 
-        private void MouseUp(object sender, MouseButtonEventArgs e) => MouseMove(sender, e);
+        private void MoveLayer(XTools tools, XImage image)
+        {
+            if (tools.ClickLocation == null) return;
+            Vector? delta = delta = tools.MouseLocation - tools.ClickLocation;
 
-        private void SingleSelect(object sender, Point clickLocation, XImage image)
+            if (delta != null)
+            {
+                image.ActiveLayer.OffsetX += delta.Value.X;
+                image.ActiveLayer.OffsetY += delta.Value.Y;
+            }
+        }
+
+        private void MoveSelected(XTools tools, XImage image)
+        {
+            if (tools.ClickLocation == null) return;
+            Vector delta = tools.MouseLocation - tools.ClickLocation.Value;
+            
+            foreach (XRenderable selected in image.Selected.OfType<XRenderable>())
+            {
+                for (int i = 0; i < selected.Points.Count; i++)
+                {
+                    var currentPoint = selected.Points[i];
+                    selected.Points[i] = new Point(
+                        currentPoint.X + delta.X, 
+                        currentPoint.Y + delta.Y
+                    );
+                }
+            }
+            tools.ClickLocation = tools.MouseLocation;
+        }
+
+        private void SingleSelect(object sender, XTools tools, XImage image)
         {
             if (sender is GridCanvas canvas)
             {
-                var hitResult = VisualTreeHelper.HitTest(canvas, clickLocation);
+                if (tools.ActiveTool == ToolType.Selector)
+                {
+                    image.Selected.Clear();
+                    var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
 
-                if (hitResult?.VisualHit is Shape shape)
-                    image.Selected = shape.DataContext as XRenderable;
-                else if (hitResult?.VisualHit is TextBlock textBox)
-                    image.Selected = textBox.DataContext as XRenderable;
-                else if (hitResult?.VisualHit is Image imageControl)
-                    image.Selected = imageControl.DataContext as XRenderable;
-                else
-                    image.Selected = null;
+                    if (hitResult?.VisualHit is Shape shape)
+                        image.Selected.Add(shape.DataContext as XRenderable);
+                    else if (hitResult?.VisualHit is TextBlock textBox)
+                        image.Selected.Add(textBox.DataContext as XRenderable);
+                    else if (hitResult?.VisualHit is Image imageControl)
+                        image.Selected.Add(imageControl.DataContext as XRenderable);
+                }
+                else if (tools.ActiveTool == ToolType.Pointer)
+                {
+                    var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
+                    if (hitResult?.VisualHit is GridCanvas)
+                        image.Selected.Clear();
+                }
             }
         }
 
@@ -185,23 +214,11 @@ namespace NET.Paint.View.Component
 
             if (image.ActiveLayer is IShapeLayer shapeLayer && shapeLayer.Shapes.Count > 0)
             {
-                List<object> selectedShapes = new List<object>();
-
+                image.Selected.Clear();
                 foreach (var renderable in shapeLayer.Shapes)
-                {
-                    // Check if any point of the shape is inside the lasso polygon
-                    var anyPointInside = renderable.Points.Any(rectangle.Contains);
-                    if (anyPointInside)
-                        selectedShapes.Add(renderable);
-                }
-
-                if (selectedShapes.Count > 0)
-                    image.Selected = selectedShapes;
-                else
-                    image.Selected = null;
+                    if (renderable.Points.Any(rectangle.Contains))
+                        image.Selected.Add(renderable);
             }
-            else
-                image.Selected = null;
         }
 
         private void LassoSelect(XImage image)
@@ -227,23 +244,11 @@ namespace NET.Paint.View.Component
 
             if (image.ActiveLayer is IShapeLayer shapeLayer && shapeLayer.Shapes.Count > 0)
             {
-                List<object> selectedShapes = new List<object>();
-                
+                image.Selected.Clear();
                 foreach (var renderable in shapeLayer.Shapes)
-                {
-                    // Check if any point of the shape is inside the lasso polygon
-                    var anyPointInside = renderable.Points.Any(lassoGeometry.FillContains);
-                    if (anyPointInside)
-                        selectedShapes.Add(renderable);
-                }
-
-                if (selectedShapes.Count > 0)
-                    image.Selected = selectedShapes;
-                else
-                    image.Selected = null;
+                    if (renderable.Points.Any(lassoGeometry.FillContains))
+                        image.Selected.Add(renderable);
             }
-            else
-                image.Selected = null;
         }
     }
 }

@@ -42,8 +42,11 @@ namespace NET.Paint.View.Component
 
                     if (context.ActiveImage != null)
                     {
-                        context.ActiveImage.PropertyChanged += ActiveImage_PropertyChanged;
-                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected != null;
+                        context.ActiveImage.Selected.CollectionChanged += (s, e) =>
+                        {
+                            Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
+                        };
+                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                         ClipboardAnchorable.IsVisible = context.Clipboard.Data != null;
                         HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0;
                     }
@@ -61,12 +64,6 @@ namespace NET.Paint.View.Component
                 context.Clipboard.PropertyChanged += Clipboard_PropertyChanged;
                 context.ActiveImage.Undo.PropertyChanged += Undo_PropertyChanged;
             }
-        }
-
-        private void ActiveImage_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(XImage.Selected) && sender is XImage image)
-                Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected != null && image.Selected is not IEnumerable<object>);
         }
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)

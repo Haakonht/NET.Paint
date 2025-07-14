@@ -4,11 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converter="clr-namespace:NET.Paint.Converter"
+             xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
-    <xctk:PropertyGrid SelectedObject="{Binding Selected, Mode=OneWay}" NameColumnWidth="100" ShowSearchBox="False" ShowSortOptions="False" ShowSummary="False">
-
-    </xctk:PropertyGrid>
+    <Grid>
+        <TabControl ItemsSource="{Binding Selected}" TabStripPlacement="Bottom" x:Name="PropertiesTabControl" Loaded="PropertiesTabControl_Loaded">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Type}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <xctk:PropertyGrid SelectedObject="{Binding}" NameColumnWidth="100" ShowSearchBox="False" ShowSortOptions="False" ShowSummary="False"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
 </UserControl>

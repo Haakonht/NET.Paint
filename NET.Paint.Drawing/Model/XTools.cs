@@ -33,7 +33,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _activePolygon, value);
         }
 
-        private SelectionMode _selectionMode = SelectionMode.Lasso;
+        private SelectionMode _selectionMode = SelectionMode.Rectangle;
         public SelectionMode SelectionMode
         {
             get => _selectionMode;

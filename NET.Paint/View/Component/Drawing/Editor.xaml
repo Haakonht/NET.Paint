@@ -89,15 +89,26 @@
                             </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>
-                    <ContentControl Visibility="{Binding Selected, Converter={StaticResource NullToVisibilityConverter}}">
-                        <fragment:Highlighter Width="1920" Height="1080" Points="{Binding Selected.Points}"/>
-                        <ContentControl.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform Angle="{Binding ActiveLayer.Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                <TranslateTransform X="{Binding ActiveLayer.OffsetX}" Y="{Binding ActiveLayer.OffsetY}"/>
-                            </TransformGroup>
-                        </ContentControl.RenderTransform>
-                    </ContentControl>
+                    <ItemsControl ItemsSource="{Binding Selected}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl>
+                                    <fragment:Highlighter Width="{Binding DataContext.Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding DataContext.Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Points="{Binding Points}"/>
+                                    <ContentControl.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                            <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        </TransformGroup>
+                                    </ContentControl.RenderTransform>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
                         <ContentPresenter.Resources>
                             <ResourceDictionary Source="../../../Resources/Preview.xaml"/>

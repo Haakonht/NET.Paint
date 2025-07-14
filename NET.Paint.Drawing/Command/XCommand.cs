@@ -65,7 +65,7 @@ namespace NET.Paint.Drawing.Command
                 return _cut;
             }
         }
-        private void ExecuteCut(object parameter) => Operations.Cut(parameter);
+        private void ExecuteCut(object parameter) => Operations.Cut([parameter]);
         private bool CanExecuteCut(object parameter) => parameter is XRenderable || parameter is XLayer;
 
         private ICommand _paste;

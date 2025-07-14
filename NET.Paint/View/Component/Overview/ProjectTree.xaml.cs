@@ -57,7 +57,8 @@ namespace NET.Paint.View.Component.Overview
                         XTools.Instance.SelectionMode = SelectionMode.Single;
                     }
 
-                    service.ActiveImage.Selected = element.DataContext;
+                    service.ActiveImage.Selected.Clear();
+                    service.ActiveImage.Selected.Add(element.DataContext);
                 }
             }
         }
@@ -67,7 +68,7 @@ namespace NET.Paint.View.Component.Overview
             if (DataContext != null && DataContext is XService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
-                    activeImage.Selected = null;
+                    service.ActiveImage.Selected.Clear();
             }
         }
 
@@ -162,7 +163,10 @@ namespace NET.Paint.View.Component.Overview
             if (DataContext != null && DataContext is XService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
-                    activeImage.Selected = service.ActiveImage;
+                {
+                    activeImage.Selected.Clear();
+                    activeImage.Selected.Add(service.ActiveImage);
+                }
             }
         }
 
@@ -232,7 +236,7 @@ namespace NET.Paint.View.Component.Overview
         private void Cut(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-                service.Command.Operations.Cut(item.DataContext);
+                service.Command.Operations.Cut([item.DataContext]);
         }
 
         private void Copy(object sender, RoutedEventArgs e)

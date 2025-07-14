@@ -4,6 +4,7 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:interfaces="clr-namespace:NET.Paint.Drawing.Interface;assembly=NET.Paint.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              xmlns:shapes="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
              x:Name="Root">
     <UserControl.Resources>
@@ -20,9 +21,25 @@
         <converter:IsRotateableConverter x:Key="IsRotateableConverter"/>
     </UserControl.Resources>
     <Canvas>
-        <ContentPresenter Content="{Binding Selected}" MouseMove="ContentPresenter_MouseMove" MouseLeftButtonDown="ContentPresenter_MouseLeftButtonDown" MouseLeftButtonUp="ContentPresenter_MouseLeftButtonUp">
+        <ContentPresenter Content="{Binding}">
             <ContentPresenter.Resources>
-                <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type structure:XImage}">
+                        <Label Background="Transparent" IsHitTestVisible="False"/>
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type structure:XLayer}">
+                        <Label Background="Transparent" IsHitTestVisible="False"/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type structure:XRenderable}">
+                        <ContentPresenter Content="{Binding}">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </DataTemplate>
+                </ResourceDictionary>
             </ContentPresenter.Resources>
         </ContentPresenter>
         
@@ -31,7 +48,7 @@
                 <ItemsPanelTemplate>
                     <Canvas>
                         <Canvas.RenderTransform>
-                            <RotateTransform Angle="{Binding Selected.Rotation}" CenterX="{Binding Selected.Center.X}" CenterY="{Binding Selected.Center.Y}"/>
+                            <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
                         </Canvas.RenderTransform>
                     </Canvas>
                 </ItemsPanelTemplate>
@@ -53,12 +70,12 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Selected.Center.Y}" Canvas.Left="{Binding Selected.Center.X}">
+        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Center.Y}" Canvas.Left="{Binding Center.X}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Selected, Converter={StaticResource IsRotateableConverter}}" Value="True">
+                        <DataTrigger Binding="{Binding Path=. ,Converter={StaticResource IsRotateableConverter}}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>

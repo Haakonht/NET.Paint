@@ -29,16 +29,19 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void Cut(object elementToCut)
+        public void Cut(IEnumerable<object> elementToCut)
         {
             XClipboard.Instance.Data = elementToCut;
             XClipboard.Instance.IsCut = true;
 
-            if (elementToCut is XLayer layer)
-                _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
+            foreach (var element in elementToCut)
+            {
+                if (elementToCut is XLayer layer)
+                    _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-            else if (elementToCut is XRenderable renderable)
-                (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+                else if (elementToCut is XRenderable renderable)
+                    (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+            }
         }
 
         public void Paste(object? target = null)

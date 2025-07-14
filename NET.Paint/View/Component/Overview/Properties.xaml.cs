@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NET.Paint.Drawing.Model.Structure;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace NET.Paint.View.Component.Overview
 {
@@ -23,6 +13,24 @@ namespace NET.Paint.View.Component.Overview
         public Properties()
         {
             InitializeComponent();
+        }
+
+        private void PropertiesTabControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TabControl tabControl)
+            {
+                if (DataContext is XImage image)
+                {
+                    if (image.Selected.Count == 1)
+                        foreach (TabItem item in tabControl.FindVisualChildren<TabItem>())
+                            item.Visibility = Visibility.Collapsed;
+                    else if (image.Selected.Count > 1)
+                        foreach (TabItem item in tabControl.FindVisualChildren<TabItem>())
+                            item.Visibility = Visibility.Visible;
+                }
+
+                tabControl.SelectedIndex = 0;
+            }
         }
     }
 }

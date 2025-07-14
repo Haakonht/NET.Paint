@@ -47,8 +47,8 @@ namespace NET.Paint.View.Component
             if (DataContext != null && DataContext is XService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is XImage image)
-                    if (image.Selected is XRenderable renderable)
-                        service.Command.Operations.Cut(renderable);
+                    if (image.Selected.All(x => x is XRenderable renderable))
+                        service.Command.Operations.Cut(image.Selected);
             }
         }
 

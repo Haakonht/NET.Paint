@@ -1,11 +1,13 @@
 ﻿using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Resources.Controls;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NET.Paint.View.Component.Fragment
@@ -15,8 +17,6 @@ namespace NET.Paint.View.Component.Fragment
     /// </summary>
     public partial class Highlighter : UserControl
     {
-        private IRotateable? _rotateable = null;
-
         public Highlighter()
         {
             InitializeComponent();
@@ -68,9 +68,9 @@ namespace NET.Paint.View.Component.Fragment
 
         private void RotateThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (sender is Thumb thumb && DataContext is XImage image)
+            if (sender is Thumb thumb && DataContext is XRenderable renderable)
             {
-                if (image.Selected is IRotateable rotateable)
+                if (renderable is IRotateable rotateable)
                 {
                     double currentY = Mouse.GetPosition(thumb).Y;
                     double offset = _dragStartY - currentY;  // Positive if moved up, negative if moved down
@@ -85,13 +85,18 @@ namespace NET.Paint.View.Component.Fragment
         }
 
         private bool isDragging = false;
-        private Point lastMousePosition;
+        private Point dragStartMousePosition;
+        private List<Point> dragStartPoints = new();
 
         private void ContentPresenter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             isDragging = true;
-            lastMousePosition = e.GetPosition((ContentPresenter)sender);
-            ((ContentPresenter)sender).CaptureMouse();
+            var presenter = (ContentPresenter)sender;          
+            var canvas = presenter.FindVisualParent<Canvas>(); 
+            
+            dragStartMousePosition = e.GetPosition(canvas);
+            dragStartPoints = Points.Select(p => p).ToList();
+            presenter.CaptureMouse();
         }
 
         private void ContentPresenter_MouseMove(object sender, MouseEventArgs e)
@@ -99,21 +104,25 @@ namespace NET.Paint.View.Component.Fragment
             if (!isDragging) return;
 
             var presenter = (ContentPresenter)sender;
-            Point currentPos = e.GetPosition(presenter);
-            Vector delta = currentPos - lastMousePosition;
-            lastMousePosition = currentPos;
 
-            for (int i = 0; i < Points.Count; i++)
+            // Get mouse position relative to the same parent Canvas
+            var canvas = presenter.FindVisualParent<GridCanvas>();
+            
+            Point currentPos = e.GetPosition(canvas);
+            Vector offset = currentPos - dragStartMousePosition;
+
+            for (int i = 0; i < Points.Count && i < dragStartPoints.Count; i++)
             {
-                var p = Points[i];
-                Points[i] = new Point(p.X + delta.X, p.Y + delta.Y);
-            }           
+                var startPoint = dragStartPoints[i];
+                Points[i] = new Point(startPoint.X + offset.X, startPoint.Y + offset.Y);
+            }
         }
 
         private void ContentPresenter_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             isDragging = false;
             ((ContentPresenter)sender).ReleaseMouseCapture();
+            dragStartPoints.Clear();
         }
 
         private void TextBox_Loaded(object sender, RoutedEventArgs e)
@@ -132,6 +141,16 @@ namespace NET.Paint.View.Component.Fragment
                 if (text.DataContext is XText xText)
                     xText.Text = text.Text;
             }
+        }
+    }
+
+    public static class VisualTreeExtensions
+    {
+        public static T FindVisualParent<T>(this DependencyObject child) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+            if (parent == null) return null;
+            return parent is T ? (T)parent : parent.FindVisualParent<T>();
         }
     }
 }
