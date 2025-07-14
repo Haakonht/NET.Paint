@@ -137,15 +137,26 @@
                             </RadioButton.Content>
                         </RadioButton>
                     </UniformGrid>
-                    <StackPanel>
+                    <StackPanel Visibility="{Binding Tools.IsPolylineAdd, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Label Content="Spacing:" Padding="0" Margin="2,2,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <Slider Value="{Binding Tools.Spacing}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                            <TextBlock Text="{Binding Tools.Spacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                            <Slider Value="{Binding Tools.PencilSpacing}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            <TextBlock Text="{Binding Tools.PencilSpacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Tools.IsPolylineAdd, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+                        <Label Content="Tolerance:" Padding="0" Margin="2,2,0,2"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider Value="{Binding Tools.EraserTolerance}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            <TextBlock Text="{Binding Tools.EraserTolerance}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
                         </Grid>
                     </StackPanel>
                 </StackPanel>

@@ -2,6 +2,7 @@
 using NET.Paint.Drawing.Service;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NET.Paint.View.Component
 {
@@ -13,6 +14,18 @@ namespace NET.Paint.View.Component
         public Shortcuts()
         {
             InitializeComponent();
+        }
+
+        private void OpenLayerQuickSelect(object sender, RoutedEventArgs e)
+        {
+            LayerQuickSelect.IsOpen = true;
+            e.Handled = true;
+        }
+
+        private void CloseLayerQuickSelect(object sender, MouseEventArgs e)
+        {
+            LayerQuickSelect.IsOpen = false;
+            e.Handled = true;
         }
 
         #region Edit Handlers
@@ -63,6 +76,12 @@ namespace NET.Paint.View.Component
 
         #region Project Handlers
 
+        private void NewProject(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.CreateProject();
+        }
+
         private void OpenProject(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
@@ -75,6 +94,19 @@ namespace NET.Paint.View.Component
                 service.Command.Operations.SaveProject();
         }
 
+        #endregion
+
+        #region Image Handlers 
+
+        private void AddImage(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.CreateImage(new XImage
+                {
+                    Title = $"Image {service.Project.Images.Count + 1}"
+                });
+        }
+
         private void ExportImage(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service)
@@ -82,5 +114,43 @@ namespace NET.Paint.View.Component
         }
 
         #endregion
+
+        #region Layer Handlers
+
+        private void AddVectorLayer(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.CreateLayer(new XVectorLayer
+                {
+                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                });
+        }
+
+        private void AddHybridLayer(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.CreateLayer(new XHybridLayer
+                {
+                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                });
+        }
+
+        private void AddRasterLayer(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.CreateLayer(new XRasterLayer
+                {
+                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                });
+        }
+
+        private void RemoveActiveLayer(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null && DataContext is XService service)
+                service.Command.Operations.RemoveLayer(service.ActiveImage.ActiveLayer);
+        }
+
+        #endregion
+
     }
 }

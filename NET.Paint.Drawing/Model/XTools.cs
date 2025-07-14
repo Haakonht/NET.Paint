@@ -107,11 +107,18 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Pencil
-        private double _spacing = 13.0;
-        public double Spacing
+        private double _pencilSpacing = 13.0;
+        public double PencilSpacing
         {
-            get => _spacing;
-            set => SetProperty(ref _spacing, value);
+            get => _pencilSpacing;
+            set => SetProperty(ref _pencilSpacing, value);
+        }
+
+        private double _eraserTolerance = 10.0;
+        public double EraserTolerance
+        {
+            get => _eraserTolerance;
+            set => SetProperty(ref _eraserTolerance, value);
         }
 
         // Arrow

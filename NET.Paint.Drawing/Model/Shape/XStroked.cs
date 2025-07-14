@@ -49,7 +49,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         protected double _spacing = 13.0;
         [DisplayName("Resolution")]
-        public double Spacing
+        public double PointSpacing
         {
             get => _spacing;
             set
@@ -70,7 +70,7 @@ namespace NET.Paint.Drawing.Model.Shape
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points),
-            Spacing = this.Spacing
+            PointSpacing = this.PointSpacing
         };
 
     }

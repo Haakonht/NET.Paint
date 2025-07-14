@@ -27,9 +27,6 @@
     {
         Triangle,
         Regular,
-        Pentagon,
-        Hexagon,
-        Octagon,
         Heart,
         Spiral,
         Star,

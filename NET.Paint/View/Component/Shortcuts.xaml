@@ -10,8 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" d:Background="White" d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <DockPanel Margin="5,0">
-        <StackPanel Orientation="Horizontal" ToolTip="New Project">
-            <Button Height="25" Width="25">
+        <StackPanel Orientation="Horizontal">
+            <Button Height="25" Width="25" Click="NewProject">
                 <Button.Content>
                     <fa:IconBlock Icon="PlusSquare" ToolTip="New Project"/>
                 </Button.Content>
@@ -26,8 +26,14 @@
                     <fa:IconBlock Icon="FloppyDisk"/>
                 </Button.Content>
             </Button>
+            <Button Height="25" Width="25" ToolTip="Export Image" Click="ExportImage">
+                <Button.Content>
+                    <fa:IconBlock Icon="FileImage"/>
+                </Button.Content>
+            </Button>
             <Separator Margin="5,0"/>
-            <Button Height="25" Width="25">
+
+            <Button Height="25" Width="25" Click="AddImage">
                 <Button.Content>
                     <Grid>
                         <fa:IconBlock Icon="Image"/>
@@ -35,13 +41,7 @@
                     </Grid>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Export Image" Click="ExportImage">
-                <Button.Content>
-                    <fa:IconBlock Icon="FileImage"/>
-                </Button.Content>
-            </Button>
-            <Separator Margin="5,0"/>
-            <Button Height="25" Width="25">
+            <Button x:Name="AddLayerBtn" Height="25" Width="25" Click="OpenLayerQuickSelect">
                 <Button.Content>
                     <Grid>
                         <fa:IconBlock Icon="LayerGroup"/>
@@ -49,7 +49,8 @@
                     </Grid>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25">
+            <!--
+            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.Layers, Converter={StaticResource IsNotNullConverter}}" Click="RemoveActiveLayer">
                 <Button.Content>
                     <Grid>
                         <fa:IconBlock Icon="LayerGroup"/>
@@ -57,18 +58,21 @@
                     </Grid>
                 </Button.Content>
             </Button>
+            -->
             <Separator Margin="5,0"/>
+
             <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.ActiveLayer.CanUndo}" Click="Undo">
                 <Button.Content>
                     <fa:IconBlock Icon="Undo"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.History.CanRedo}" Click="Redo">
+            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.Undo.CanRedo}" Click="Redo">
                 <Button.Content>
                     <fa:IconBlock Icon="Redo"/>
                 </Button.Content>
             </Button>
             <Separator Margin="5,0"/>
+
             <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCut}" Click="Cut">
                 <Button.Content>
                     <fa:IconBlock Icon="Cut"/>
@@ -101,6 +105,16 @@
                     <fa:IconBlock Icon="Gear"/>
                 </Button.Content>
             </Button>
+
+            <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="30">
+                <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseLayerQuickSelect">
+                    <UniformGrid Rows="1" Height="25">
+                        <Button Width="25" Content="{fa:Icon V}" Click="AddVectorLayer"/>
+                        <Button Width="25" Content="{fa:Icon H}" Click="AddHybridLayer"/>
+                        <Button Width="25" Content="{fa:Icon R}" Click="AddRasterLayer"/>
+                    </UniformGrid>
+                </Border>
+            </Popup>
         </StackPanel>
     </DockPanel>
 </UserControl>

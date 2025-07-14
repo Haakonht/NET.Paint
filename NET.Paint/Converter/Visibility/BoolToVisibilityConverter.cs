@@ -19,6 +19,9 @@ namespace NET.Paint.Converter
             if (value is bool)
                 b = (bool)value;
 
+            if (parameter is string str && str.Equals("Invert", StringComparison.OrdinalIgnoreCase))
+                b = !b;
+
             return b ? Visibility.Visible : Visibility.Collapsed;
         }
 

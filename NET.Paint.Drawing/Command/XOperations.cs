@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using NET.Paint.Drawing.Interface;
+using System.Collections.ObjectModel;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -367,11 +368,10 @@ namespace NET.Paint.Drawing.Command
 
         #region Layer Operations
 
-        public void CreateLayer(string title = null)
+        public void CreateLayer(XLayer layer)
         {
             if (_service.ActiveImage != null)
             {
-                var layer = new XVectorLayer { Title = title != null ? title : "Layer " + _service.ActiveImage.Layers.Count };
                 _service.ActiveImage.Layers.Add(layer);
                 _service.ActiveImage.ActiveLayer = layer;
             }
@@ -434,6 +434,16 @@ namespace NET.Paint.Drawing.Command
         #endregion
 
         #region Project Operations
+
+        public void CreateProject()
+        {
+            _service.Project = new XProject
+            {
+                Title = "New Project",
+                Images = new ObservableCollection<XImage>()
+            };
+            _service.ActiveImage = null;
+        }
 
         public void OpenProject()
         {

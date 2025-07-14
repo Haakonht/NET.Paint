@@ -127,7 +127,7 @@ namespace NET.Paint.Drawing.Command
                 Operations.CreateImage(image);
 
             if (parameter is XLayer layer)
-                Operations.CreateLayer();
+                Operations.CreateLayer(layer);
         }
 
         private bool CanExecuteAddItem(object parameter) => parameter is XImage || parameter is XLayer;

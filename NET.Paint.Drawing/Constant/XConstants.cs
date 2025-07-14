@@ -22,9 +22,6 @@ namespace NET.Paint.Drawing.Constant
 
         public static List<PolygonType> PolygonOptions => new List<PolygonType>
         {
-            PolygonType.Pentagon,
-            PolygonType.Hexagon,
-            PolygonType.Octagon,
             PolygonType.Heart,
             PolygonType.Spiral,
             PolygonType.Star,

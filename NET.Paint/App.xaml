@@ -15,6 +15,7 @@
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converter:ImageScalingToStretchConverter x:Key="ImageScalingToStretchConverter"/>
+        <converter:IsNotNullConverter x:Key="IsNotNullConverter"/>
         <converter:ShapeConverter x:Key="ShapeConverter"/>
     </Application.Resources>
 </Application>

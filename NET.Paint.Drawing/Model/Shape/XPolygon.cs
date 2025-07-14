@@ -56,52 +56,6 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XPentagon : XPolygon
-    {
-        public override PolygonType Style => PolygonType.Pentagon;
-
-        public override object Clone() => new XPentagon
-        {
-            Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Rotation = this.Rotation
-        };
-    }
-
-
-    public class XHexagon : XPolygon
-    {
-        public override PolygonType Style => PolygonType.Hexagon;
-
-        public override object Clone() => new XHexagon
-        {
-            Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Rotation = this.Rotation
-        };
-    }
-
-    public class XOctagon : XPolygon
-    {
-        public override PolygonType Style => PolygonType.Octagon;
-
-        public override object Clone() => new XOctagon
-        {
-            Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Rotation = this.Rotation
-        };
-    }
-
     public class XStar : XPolygon
     {
         public override PolygonType Style => PolygonType.Star;
