@@ -52,7 +52,7 @@ namespace NET.Paint.Drawing.Command
                 return _copy;
             }
         }
-        private void ExecuteCopy(object parameter) => Operations.Copy(parameter);
+        private void ExecuteCopy(object parameter) => Operations.Copy([parameter]);
         private bool CanExecuteCopy(object parameter) => parameter is XRenderable || parameter is XLayer;
 
         private ICommand _cut;

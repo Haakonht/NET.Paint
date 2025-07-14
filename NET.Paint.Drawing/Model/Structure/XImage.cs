@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 
@@ -57,6 +55,7 @@ namespace NET.Paint.Drawing.Model.Structure
         #region Volatile
 
         private bool _isEditing = false;
+        
         [Browsable(false)]
         public bool IsEditing
         {
@@ -65,6 +64,7 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         private ObservableCollection<object> _selected = new ObservableCollection<object>();
+
         [Browsable(false)]
         public ObservableCollection<object> Selected
         {
@@ -72,9 +72,10 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         public bool CanCut => Selected is IShapeLayer ? Layers.Count() > 1 : CanCopy;
-        public bool CanCopy => Selected != null && !Selected.Any(x => x is XImage);
+        public bool CanCopy => Selected.Count > 0 && !Selected.Any(item => item is XImage);
 
         private XLayer? _activeLayer = null;
+
         [Browsable(false)]
         public XLayer? ActiveLayer
         {
@@ -84,16 +85,14 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [Browsable(false)]
         public XUndo Undo { get; } = new XUndo();
+
         [Browsable(false)]
         public XConfiguration Configuration { get; } = new XConfiguration();
 
-        public XImage() => _selected.CollectionChanged += SelectionChanged;
-        
-        private void SelectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
+        public XImage() => _selected.CollectionChanged += (s, e) => {
             OnPropertyChanged(nameof(CanCut));
             OnPropertyChanged(nameof(CanCopy));
-        }
+        };
 
         #endregion
     }

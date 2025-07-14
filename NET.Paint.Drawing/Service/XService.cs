@@ -57,11 +57,15 @@ namespace NET.Paint.Drawing.Service
                 Background = Colors.White,
                 ActiveLayer = sampleLayer1
             };
-
-            var sampleLayer2 = new XRasterLayer { Title = "Layer 2" };
-
             sampleImage1.Layers.Add(sampleLayer1);
-            sampleImage1.Layers.Add(sampleLayer2);
+
+            var sampleImage2 = new XImage
+            {
+                Title = "Sample Image 2",
+                Width = 1400,
+                Height = 1000,
+                Background = Colors.White
+            };
 
             // Set up the project with images
             Project = new XProject
@@ -69,7 +73,7 @@ namespace NET.Paint.Drawing.Service
                 Title = "Design-Time Project",
                 Description = "Sample project for design-time preview",
                 Author = "Designer",
-                Images = new ObservableCollection<XImage> { sampleImage1 }
+                Images = new ObservableCollection<XImage> { sampleImage1, sampleImage2 }
             };
 
             // Add some random bitmaps

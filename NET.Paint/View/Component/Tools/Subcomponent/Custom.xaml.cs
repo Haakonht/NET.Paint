@@ -35,7 +35,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
             if (DataContext is not null && DataContext is XService service)
                 if (sender is Button && sender is Button button)
                     if (button.Content is Image image)
-                        service.Tools.ActiveBitmap = image.Source;
+                        service.Tools.ActiveBitmap = service.Project.Bitmaps.IndexOf(image.Source);
         }
 
         private void RegularPreviewchanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateRegularPreview();

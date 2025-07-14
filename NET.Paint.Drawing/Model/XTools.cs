@@ -175,8 +175,8 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Bitmap
-        private ImageSource? _activeBitmap = null;
-        public ImageSource? ActiveBitmap
+        private int? _activeBitmap = null;
+        public int? ActiveBitmap
         {
             get => _activeBitmap;
             set => SetProperty(ref _activeBitmap, value);

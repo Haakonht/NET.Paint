@@ -22,25 +22,31 @@
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{Binding Clipboard}" ContextMenu="{StaticResource ClipboardContextMenu}">
-        <DockPanel LastChildFill="True">
-            <fa:IconBlock Icon="Cut" DockPanel.Dock="Right" Margin="0,0,5,0" Visibility="{Binding IsCut, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <ContentControl Content="{Binding Data}" VerticalAlignment="Center" Margin="5,0,0,0">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type structure:XLayer}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <fa:IconBlock Icon="LayerGroup" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
-                        </StackPanel>
+    <DockPanel LastChildFill="True" DataContext="{Binding Clipboard}" ContextMenu="{StaticResource ClipboardContextMenu}">
+        <fa:IconBlock Icon="Cut" DockPanel.Dock="Right" Margin="0,0,5,0" Visibility="{Binding IsCut, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Data}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type structure:XLayer}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <fa:IconBlock Icon="LayerGroup" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type structure:XRenderable}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type structure:XRenderable}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ContentControl.Resources>
-            </ContentControl>
-        </DockPanel>
-    </Grid>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

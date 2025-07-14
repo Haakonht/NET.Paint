@@ -1,6 +1,7 @@
 ﻿using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace NET.Paint.Drawing.Model.Utility
 {
@@ -8,26 +9,17 @@ namespace NET.Paint.Drawing.Model.Utility
     {
         private static readonly Lazy<XClipboard> _instance = new(() => new XClipboard());
         public static XClipboard Instance => _instance.Value;
-        private XClipboard() { }
+        private XClipboard() => Data.CollectionChanged += (s, e) => OnPropertyChanged(nameof(CanPaste));
+        
+        public ObservableCollection<object> Data { get; } = new ObservableCollection<object>();
+
+        public bool CanPaste => Data.Count > 0 && !Data.Any(item => item is XImage);
 
         private bool _isCut = false;
         public bool IsCut
         {
             get => _isCut;
             set => SetProperty(ref _isCut, value);
-        }
-
-        public bool CanPaste => Data != null;
-
-        private object? _data = null;
-        public object? Data
-        {
-            get => _data;
-            set
-            {
-                SetProperty(ref _data, value);
-                OnPropertyChanged(nameof(CanPaste));
-            }
         }
     }
 }

@@ -31,5 +31,7 @@ namespace NET.Paint.View.Component
 
         private void OpenPolygonQuickSelect(object sender, RoutedEventArgs e) => PolygonQuickSelect.IsOpen = true;
         private void ClosePolygonQuickSelect(object sender, MouseEventArgs e) => PolygonQuickSelect.IsOpen = false;
+        private void OpenSelectorQuickSelect(object sender, RoutedEventArgs e) => SelectorQuickSelect.IsOpen = true;
+        private void CloseSelectorQuickSelect(object sender, MouseEventArgs e) => SelectorQuickSelect.IsOpen = false;
     }
 }

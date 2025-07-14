@@ -6,7 +6,6 @@ namespace NET.Paint.Selector
 {
     public class IconSelector : DataTemplateSelector
     {
-        public DataTemplate PointerTemplate { get; set; }
         public DataTemplate SelectorTemplate { get; set; }
         public DataTemplate PencilTemplate { get; set; }
         public DataTemplate LineTemplate { get; set; }
@@ -25,8 +24,6 @@ namespace NET.Paint.Selector
             {
                 switch (type)
                 {
-                    case ToolType.Pointer:
-                        return PointerTemplate;
                     case ToolType.Selector:
                         return SelectorTemplate;
                     case ToolType.Pencil:

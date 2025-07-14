@@ -9,7 +9,6 @@
 
     public enum ToolType
     {
-        Pointer,
         Selector,
         Pencil,
         Line,
@@ -35,7 +34,8 @@
 
     public enum SelectionMode
     {
-        Single,
+        Manipulator,
+        Pointer,
         Rectangle,
         Lasso
     }

@@ -54,7 +54,7 @@ namespace NET.Paint.View.Component.Overview
                             service.ActiveImage.ActiveLayer = containingLayer;
 
                         XTools.Instance.ActiveTool = ToolType.Selector;
-                        XTools.Instance.SelectionMode = SelectionMode.Single;
+                        XTools.Instance.SelectionMode = SelectionMode.Pointer;
                     }
 
                     service.ActiveImage.Selected.Clear();
@@ -242,7 +242,7 @@ namespace NET.Paint.View.Component.Overview
         private void Copy(object sender, RoutedEventArgs e)
         {
             if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-                service.Command.Operations.Copy(item.DataContext);
+                service.Command.Operations.Copy([item.DataContext]);
         }
 
         private void Paste(object sender, RoutedEventArgs e)

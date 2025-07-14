@@ -1,14 +1,11 @@
 ﻿using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace NET.Paint.View.Component
 {
@@ -20,12 +17,6 @@ namespace NET.Paint.View.Component
         public Desktop()
         {
             InitializeComponent();
-
-            /*if (File.Exists("Layout.config"))
-            {
-                var serializer = new XmlLayoutSerializer(DockingManager);
-                serializer.Deserialize("Layout.config");
-            }*/
         }
 
         private void ActiveContentChanged(object sender, EventArgs e)
@@ -42,13 +33,22 @@ namespace NET.Paint.View.Component
 
                     if (context.ActiveImage != null)
                     {
+                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
+                        ClipboardAnchorable.IsVisible = context.Clipboard.Data.Count > 0;
+                        HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0;
+
                         context.ActiveImage.Selected.CollectionChanged += (s, e) =>
                         {
                             Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
                         };
-                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
-                        ClipboardAnchorable.IsVisible = context.Clipboard.Data != null;
-                        HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0;
+                        context.Clipboard.Data.CollectionChanged += (s, e) =>
+                        {
+                            Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = context.Clipboard.Data.Count > 0);
+                        };
+                        context.ActiveImage.Undo.History.CollectionChanged += (s, e) =>
+                        {
+                            Dispatcher.Invoke(() => HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0);
+                        };
                     }
                 }
             }
@@ -61,8 +61,6 @@ namespace NET.Paint.View.Component
             if (context != null)
             {
                 context.Preferences.PropertyChanged += Service_PropertyChanged;
-                context.Clipboard.PropertyChanged += Clipboard_PropertyChanged;
-                context.ActiveImage.Undo.PropertyChanged += Undo_PropertyChanged;
             }
         }
 
@@ -80,30 +78,14 @@ namespace NET.Paint.View.Component
                     Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = service.OverviewVisible);
 
                     if (!service.OverviewVisible)
+                    {
                         PropertiesAnchorable.IsVisible = service.OverviewVisible;
+                        HistoryAnchorable.IsVisible = service.OverviewVisible;
+                        ClipboardAnchorable.IsVisible = service.OverviewVisible;
+                    }
                     else
-                        PropertiesAnchorable.IsVisible = context?.ActiveImage?.Selected != null;
+                        PropertiesAnchorable.IsVisible = context?.ActiveImage?.Selected.Count > 0;
                 }
-            }
-        }
-
-        private void Clipboard_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            var context = DataContext as XService;
-            if (sender is XClipboard clipboard)
-            {
-                if (e.PropertyName == nameof(clipboard.Data))
-                    ClipboardAnchorable.IsVisible = clipboard.Data != null;
-            }
-        }
-
-        private void Undo_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            var context = DataContext as XService;
-            if (sender is XUndo undo)
-            {
-                if (e.PropertyName == nameof(XUndo.History))
-                    HistoryAnchorable.IsVisible = undo.History.Count > 0;
             }
         }
 

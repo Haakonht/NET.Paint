@@ -9,7 +9,10 @@
              x:Name="Root">
     <UserControl.Resources>
         <DataTemplate x:Key="RotateThumb">
-            <Thumb Margin="-7,-7,0,0" Cursor="Hand" DragDelta="RotateThumb_DragDelta" DragStarted="RotateThumb_DragStarted">
+            <Thumb Margin="-7,-7,0,0" Cursor="Hand" 
+                   DragDelta="RotateThumb_DragDelta" 
+                   DragStarted="RotateThumb_DragStarted"
+                   DragCompleted="RotateThumb_DragCompleted">
                 <Thumb.Template>
                     <ControlTemplate TargetType="Thumb">
                         <Ellipse Fill="Red" StrokeThickness="1" Stroke="Black" Width="14" Height="14"/>
@@ -43,6 +46,14 @@
             </ContentPresenter.Resources>
         </ContentPresenter>
         
+        <!-- Rotation guide line (only visible during rotation) -->
+        <Line x:Name="RotationGuideLine" 
+              Stroke="Red" 
+              StrokeThickness="2" 
+              StrokeDashArray="3,3"
+              Visibility="Collapsed"
+              IsHitTestVisible="False" />
+        
         <ItemsControl ItemsSource="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -65,7 +76,9 @@
                 <DataTemplate>
                     <Thumb Width="12" Height="12" Background="White" BorderBrush="Black" BorderThickness="1"
                            Margin="-6,-6,0,0" Cursor="SizeAll"
-                           DragDelta="Thumb_DragDelta" />
+                           DragDelta="Thumb_DragDelta" 
+                           MouseEnter="Thumb_MouseEnter"
+                           MouseLeave="Thumb_MouseLeave"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

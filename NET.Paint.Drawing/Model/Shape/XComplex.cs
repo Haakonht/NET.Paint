@@ -140,10 +140,7 @@ namespace NET.Paint.Drawing.Model.Shape
         {
             get
             {
-                if (Scaling == ImageScaling.Original)
-                    return Bitmap?.Width ?? 0;
-                else
-                    return Points.Max(p => p.X) - Points.Min(p => p.X);
+                return Points.Max(p => p.X) - Points.Min(p => p.X);
             }
         }
 
@@ -152,10 +149,7 @@ namespace NET.Paint.Drawing.Model.Shape
         {
             get
             {
-                if (Scaling == ImageScaling.Original)
-                    return Bitmap?.Width ?? 0;
-                else
-                    return Points.Max(p => p.Y) - Points.Min(p => p.Y);
+                return Points.Max(p => p.Y) - Points.Min(p => p.Y);
             }
         }
 
@@ -185,11 +179,11 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _clipOffset, value);
         }
 
-        private ImageSource _bitmap;
-        public ImageSource Bitmap
+        private int _bitmapIndex = 0;
+        public int BitmapIndex
         {
-            get => _bitmap;
-            set => SetProperty(ref _bitmap, value);
+            get => _bitmapIndex;
+            set => SetProperty(ref _bitmapIndex, value);
         }
 
         private ImageScaling _scaling = ImageScaling.Original;
@@ -201,7 +195,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XBitmap
         {
-            Bitmap = this.Bitmap,
+            BitmapIndex = this.BitmapIndex,
             Scaling = this.Scaling,
             ClipOffset = this.ClipOffset,
             Rotation = this.Rotation,

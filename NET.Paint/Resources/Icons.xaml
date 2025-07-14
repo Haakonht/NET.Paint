@@ -53,8 +53,16 @@
         <icons:PackIconMaterial Kind="CursorDefaultOutline"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="LassoToolIcon">
+        <icons:PackIconMaterial Kind="SelectionEllipseArrowInside"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ManipulatorToolIcon">
+        <icons:PackIconMaterial Kind="ArrowAll"/>
+    </DataTemplate>
+
     <selector:IconSelector x:Key="IconSelector" 
                            SelectorTemplate="{StaticResource SelectorToolIcon}" PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}"
                            CurveTemplate="{StaticResource CurveToolIcon}" EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" 
-                           PolygonTemplate="{StaticResource PolygonToolIcon}" TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}" PointerTemplate="{StaticResource PointerToolIcon}"/>
+                           PolygonTemplate="{StaticResource PolygonToolIcon}" TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}"/>
 </ResourceDictionary>

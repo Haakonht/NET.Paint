@@ -34,7 +34,7 @@
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Selection Mode:" Padding="0" Margin="2,2,0,2"/>
                     <UniformGrid Columns="3" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Single}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Pointer}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Rectangle}}" Content="{fa:Icon Square}" GroupName="SelectorMode"/>
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Lasso}}" Content="{fa:Icon DrawPolygon}" GroupName="SelectorMode"/>
                     </UniformGrid>
@@ -340,7 +340,7 @@
                 </StackPanel>
             </DataTemplate>
 
-            <selector:PolygonSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
+            <selector:PolygonTemplateSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
 
             <DataTemplate x:Key="PolygonToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
@@ -394,7 +394,7 @@
                                    SelectorTemplate="{StaticResource SelectorToolTemplate}" TextTemplate="{StaticResource TextToolTemplate}" PencilTemplate="{StaticResource PencilToolTemplate}" 
                                    LineTemplate="{StaticResource Empty}" BezierTemplate="{StaticResource Empty}" CurveTemplate="{StaticResource Empty}"
                                    EllipseTemplate="{StaticResource EllipseToolTemplate}" TriangleTemplate="{StaticResource Empty}" RectangleTemplate="{StaticResource RectangleToolTemplate}"
-                                   PolygonTemplate="{StaticResource PolygonToolTemplate}" BitmapTemplate="{StaticResource BitmapToolTemplate}" PointerTemplate="{StaticResource Empty}" />
+                                   PolygonTemplate="{StaticResource PolygonToolTemplate}" BitmapTemplate="{StaticResource BitmapToolTemplate}" />
         </ResourceDictionary>
     </UserControl.Resources>
     

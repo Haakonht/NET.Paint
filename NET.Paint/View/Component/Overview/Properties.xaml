@@ -11,7 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="250"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
     <Grid>
-        <TabControl ItemsSource="{Binding Selected}" TabStripPlacement="Bottom" x:Name="PropertiesTabControl" Loaded="PropertiesTabControl_Loaded">
+        <TabControl ItemsSource="{Binding Selected}" TabStripPlacement="Bottom" Loaded="SetTabItemVisibility">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Type}"/>

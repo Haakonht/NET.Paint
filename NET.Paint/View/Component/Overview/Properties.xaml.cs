@@ -15,7 +15,7 @@ namespace NET.Paint.View.Component.Overview
             InitializeComponent();
         }
 
-        private void PropertiesTabControl_Loaded(object sender, RoutedEventArgs e)
+        private void SetTabItemVisibility(object sender, RoutedEventArgs e)
         {
             if (sender is TabControl tabControl)
             {

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace NET.Paint.Selector
 {
-    public class PolygonSelector : DataTemplateSelector
+    public class PolygonTemplateSelector : DataTemplateSelector
     {
         public DataTemplate RegularTemplate { get; set; }
         public DataTemplate HeartTemplate { get; set; }

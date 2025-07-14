@@ -36,9 +36,6 @@ namespace NET.Paint.View.Component
                 tools.ClickLocation = e.GetPosition(sender as UIElement);
                 tools.ClickLocation = new Point(tools.ClickLocation.Value.X - image.ActiveLayer!.OffsetX, tools.ClickLocation.Value.Y - image.ActiveLayer!.OffsetY);
 
-                if (tools.ActiveTool == ToolType.Pointer || (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Single))
-                    SingleSelect(sender, tools, image);
-
                 if (tools.ActiveTool == ToolType.Text)
                 {
                     if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
@@ -53,7 +50,13 @@ namespace NET.Paint.View.Component
                 }
 
                 if (tools.ActiveTool == ToolType.Selector)
-                    Preview.Shape = XFactory.CreateShape(tools);
+                {
+                    if (tools.SelectionMode == SelectionMode.Pointer)
+                        SingleSelect(sender, tools, image);
+                    else
+                        Preview.Shape = XFactory.CreateShape(tools);
+                }
+
             }
         }
 
@@ -81,7 +84,7 @@ namespace NET.Paint.View.Component
                                 XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
                         }
 
-                        else if (tools.ActiveTool == ToolType.Pointer)
+                        else if (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Pointer)
                         {
                             if (image.Selected.Count == 0)
                                 MoveLayer(tools, image);
@@ -117,7 +120,7 @@ namespace NET.Paint.View.Component
                                     RectangleSelect(image);
 
                                 if (image.Selected.Count > 0)
-                                    tools.ActiveTool = ToolType.Pointer;
+                                    tools.SelectionMode = SelectionMode.Pointer;
                             }
 
                             if (image.ActiveLayer is XHybridLayer hybridLayer)
@@ -133,7 +136,7 @@ namespace NET.Paint.View.Component
                                 }
                             }
 
-                            if (tools.ActiveTool != ToolType.Selector && tools.ActiveTool != ToolType.Pointer)
+                            if (tools.ActiveTool != ToolType.Selector)
                             {
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
@@ -184,23 +187,29 @@ namespace NET.Paint.View.Component
         {
             if (sender is GridCanvas canvas)
             {
-                if (tools.ActiveTool == ToolType.Selector)
+                if (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Pointer)
                 {
-                    image.Selected.Clear();
                     var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
+                    XRenderable hitObject = null;
 
                     if (hitResult?.VisualHit is Shape shape)
-                        image.Selected.Add(shape.DataContext as XRenderable);
+                        hitObject = shape.DataContext as XRenderable;
                     else if (hitResult?.VisualHit is TextBlock textBox)
-                        image.Selected.Add(textBox.DataContext as XRenderable);
+                        hitObject = textBox.DataContext as XRenderable;
                     else if (hitResult?.VisualHit is Image imageControl)
-                        image.Selected.Add(imageControl.DataContext as XRenderable);
-                }
-                else if (tools.ActiveTool == ToolType.Pointer)
-                {
-                    var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
-                    if (hitResult?.VisualHit is GridCanvas)
+                        hitObject = imageControl.DataContext as XRenderable;
+
+                    bool hitSelectedObject = hitObject != null && image.Selected.Contains(hitObject);
+
+                    if (!hitSelectedObject)
+                    {
                         image.Selected.Clear();
+                        
+                        if (hitObject != null)
+                        {
+                            image.Selected.Add(hitObject);
+                        }
+                    }
                 }
             }
         }

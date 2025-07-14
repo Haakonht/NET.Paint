@@ -1,14 +1,14 @@
 ﻿using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Resources.Controls;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
 
 namespace NET.Paint.View.Component.Fragment
 {
@@ -31,20 +31,30 @@ namespace NET.Paint.View.Component.Fragment
         public static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(nameof(Points), typeof(ObservableCollection<Point>), typeof(Highlighter), new PropertyMetadata(new ObservableCollection<Point>()));
 
+        #region Point Thumbs
+
+        private SelectionMode _lastSelectionMode;
+        private void Thumb_MouseLeave(object sender, MouseEventArgs e) => XTools.Instance.SelectionMode = _lastSelectionMode;
+        private void Thumb_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _lastSelectionMode = XTools.Instance.SelectionMode;
+            XTools.Instance.SelectionMode = SelectionMode.Manipulator;
+        }
+
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             if (sender is Thumb thumb && thumb.DataContext is Point pt)
             {
-                var points = Points; 
+                var points = Points;
 
                 int index = points.IndexOf(pt);
                 if (index < 0) return;
 
                 MovePoint(index, e.HorizontalChange, e.VerticalChange);
+                e.Handled = true;
             }
         }
-
-        void MovePoint(int index, double dx, double dy)
+        private void MovePoint(int index, double dx, double dy)
         {
             if (index < 0 || index >= Points.Count)
                 return;
@@ -55,14 +65,26 @@ namespace NET.Paint.View.Component.Fragment
             Points[index] = newPoint;
         }
 
-        private double _dragStartY;
+        #endregion
+
+        #region Rotation Thumb
+
+        private Point _dragStartMousePos;
+        private double _initialRotation;
 
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            if (sender is Thumb thumb)
+            if (sender is Thumb thumb && DataContext is XRenderable renderable)
             {
-                // Get mouse position relative to the control or screen
-                _dragStartY = Mouse.GetPosition(thumb).Y;
+                if (renderable is IRotateable rotateable)
+                {
+                    // Get mouse position relative to the main Canvas (not affected by rotation)
+                    _dragStartMousePos = Mouse.GetPosition(this);
+                    _initialRotation = rotateable.Rotation;
+                    
+                    // Show the rotation guide line
+                    ShowRotationGuideLine(rotateable.Center, _dragStartMousePos);
+                }
             }
         }
 
@@ -72,58 +94,62 @@ namespace NET.Paint.View.Component.Fragment
             {
                 if (renderable is IRotateable rotateable)
                 {
-                    double currentY = Mouse.GetPosition(thumb).Y;
-                    double offset = _dragStartY - currentY;  // Positive if moved up, negative if moved down
-
-                    // Rotate 1 degree per 10 pixels offset:
-                    double rotationDegrees = offset / 4;
-
-                    // Set absolute rotation relative to start rotation at drag start (optional)
-                    rotateable.Rotation = rotationDegrees;
+                    var currentMousePos = Mouse.GetPosition(this);
+                    var centerInCanvas = rotateable.Center;
+                    
+                    double deltaX = currentMousePos.X - centerInCanvas.X;
+                    double deltaY = currentMousePos.Y - centerInCanvas.Y;
+                    
+                    // Use Atan2 to get angle, then adjust so 0 degrees points up
+                    double currentAngleRadians = Math.Atan2(deltaX, -deltaY); // Note: -deltaY to make up = 0
+                    double currentAngleDegrees = currentAngleRadians * (180.0 / Math.PI);
+                    
+                    // Normalize to 0-360 range
+                    if (currentAngleDegrees < 0)
+                        currentAngleDegrees += 360;
+                    
+                    // Set the rotation to the absolute angle (not relative to initial rotation)
+                    rotateable.Rotation = currentAngleDegrees;
+                    
+                    // Update the guide line
+                    UpdateRotationGuideLine(centerInCanvas, currentMousePos);
                 }
             }
         }
 
-        private bool isDragging = false;
-        private Point dragStartMousePosition;
-        private List<Point> dragStartPoints = new();
-
-        private void ContentPresenter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void RotateThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            isDragging = true;
-            var presenter = (ContentPresenter)sender;          
-            var canvas = presenter.FindVisualParent<Canvas>(); 
-            
-            dragStartMousePosition = e.GetPosition(canvas);
-            dragStartPoints = Points.Select(p => p).ToList();
-            presenter.CaptureMouse();
+            // Hide the rotation guide line
+            HideRotationGuideLine();
         }
 
-        private void ContentPresenter_MouseMove(object sender, MouseEventArgs e)
+        private void ShowRotationGuideLine(Point center, Point thumbPosition)
         {
-            if (!isDragging) return;
-
-            var presenter = (ContentPresenter)sender;
-
-            // Get mouse position relative to the same parent Canvas
-            var canvas = presenter.FindVisualParent<GridCanvas>();
-            
-            Point currentPos = e.GetPosition(canvas);
-            Vector offset = currentPos - dragStartMousePosition;
-
-            for (int i = 0; i < Points.Count && i < dragStartPoints.Count; i++)
-            {
-                var startPoint = dragStartPoints[i];
-                Points[i] = new Point(startPoint.X + offset.X, startPoint.Y + offset.Y);
-            }
+            var line = RotationGuideLine;
+            line.X1 = center.X;
+            line.Y1 = center.Y;
+            line.X2 = thumbPosition.X;
+            line.Y2 = thumbPosition.Y;
+            line.Visibility = Visibility.Visible;
         }
 
-        private void ContentPresenter_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void UpdateRotationGuideLine(Point center, Point currentPosition)
         {
-            isDragging = false;
-            ((ContentPresenter)sender).ReleaseMouseCapture();
-            dragStartPoints.Clear();
+            var line = RotationGuideLine;
+            line.X1 = center.X;
+            line.Y1 = center.Y;
+            line.X2 = currentPosition.X;
+            line.Y2 = currentPosition.Y;
         }
+
+        private void HideRotationGuideLine()
+        {
+            RotationGuideLine.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region Text Focus
 
         private void TextBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -142,15 +168,8 @@ namespace NET.Paint.View.Component.Fragment
                     xText.Text = text.Text;
             }
         }
-    }
 
-    public static class VisualTreeExtensions
-    {
-        public static T FindVisualParent<T>(this DependencyObject child) where T : DependencyObject
-        {
-            var parent = VisualTreeHelper.GetParent(child);
-            if (parent == null) return null;
-            return parent is T ? (T)parent : parent.FindVisualParent<T>();
-        }
+        #endregion
+
     }
 }

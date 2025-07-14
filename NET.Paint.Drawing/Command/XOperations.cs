@@ -20,26 +20,34 @@ namespace NET.Paint.Drawing.Command
 
         #region Edit Operations
 
-        public void Copy(object elementToCopy)
+        public void Copy(IEnumerable<object> elementToCopy)
         {
-            if (elementToCopy is XRenderable || elementToCopy is XLayer)
+            XClipboard.Instance.IsCut = false;
+            XClipboard.Instance.Data.Clear();
+
+            foreach (var element in elementToCopy)
             {
-                XClipboard.Instance.Data = elementToCopy;
-                XClipboard.Instance.IsCut = false;
+                if (element is XRenderable || element is XLayer)
+                {
+                    XClipboard.Instance.Data.Add(element);
+                }
             }
         }
 
         public void Cut(IEnumerable<object> elementToCut)
         {
-            XClipboard.Instance.Data = elementToCut;
             XClipboard.Instance.IsCut = true;
+            XClipboard.Instance.Data.Clear();
 
             foreach (var element in elementToCut)
             {
-                if (elementToCut is XLayer layer)
+                if (element is XRenderable || element is XLayer)
+                    XClipboard.Instance.Data.Add(element);
+
+                if (element is XLayer layer)
                     _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-                else if (elementToCut is XRenderable renderable)
+                else if (element is XRenderable renderable)
                     (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
             }
         }
@@ -50,28 +58,31 @@ namespace NET.Paint.Drawing.Command
             {
                 if (_service.ActiveImage != null)
                 {
-                    if (XClipboard.Instance.Data is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
+                    foreach (object item in XClipboard.Instance.Data)
                     {
-                        if (target != null && target is IShapeLayer targetLayer)
-                            targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
-                        else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
-                            activeLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                        if (item is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
+                        {
+                            if (target != null && target is IShapeLayer targetLayer)
+                                targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                            else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
+                                activeLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                        }
+
+                        else if (item is XVectorLayer vectorLayer && _service.ActiveImage != null)
+                            _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? vectorLayer : vectorLayer.Clone() as XVectorLayer);
+                        else if (item is XHybridLayer hybridLayer && _service.ActiveImage != null)
+                            _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? hybridLayer : hybridLayer.Clone() as XHybridLayer);
+
+                        if (XClipboard.Instance.IsCut)
+                            XClipboard.Instance.Data.Clear();
                     }
-
-                    else if (XClipboard.Instance.Data is XVectorLayer vectorLayer && _service.ActiveImage != null)
-                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? vectorLayer : vectorLayer.Clone() as XVectorLayer);
-                    else if (XClipboard.Instance.Data is XHybridLayer hybridLayer && _service.ActiveImage != null)
-                        _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? hybridLayer : hybridLayer.Clone() as XHybridLayer);
-
-                    if (XClipboard.Instance.IsCut)
-                        XClipboard.Instance.Data = null;
                 }
             }
         }
 
         public void ClearClipboard()
         {
-            XClipboard.Instance.Data = null;
+            XClipboard.Instance.Data.Clear();
             XClipboard.Instance.IsCut = false;
         }
 

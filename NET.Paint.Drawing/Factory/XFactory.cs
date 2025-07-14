@@ -150,7 +150,7 @@ namespace NET.Paint.Drawing.Factory
                                 return null;
                             return new XBitmap
                             {
-                                Bitmap = tools.ActiveBitmap,
+                                BitmapIndex = tools.ActiveBitmap.Value,
                                 Scaling = tools.BitmapScaling,
                                 Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
                             };
