@@ -1,7 +1,7 @@
 ﻿using NET.Paint.Drawing.Constant;
 using System.Windows;
 using System.Windows.Controls;
-using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
+using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.Selector
 {
@@ -15,17 +15,17 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is SelectionMode mode)
+            if (item is XSelectionMode mode)
             {
                 switch (mode)
                 {
-                    case SelectionMode.Pointer:
+                    case XSelectionMode.Pointer:
                         return PointerTemplate;
-                    case SelectionMode.Rectangle:
+                    case XSelectionMode.Rectangle:
                         return RectangleTemplate;
-                    case SelectionMode.Manipulator:
+                    case XSelectionMode.Manipulator:
                         return ManipulatorTemplate;
-                    case SelectionMode.Lasso:
+                    case XSelectionMode.Lasso:
                         return LassoTemplate;
                 }
             }

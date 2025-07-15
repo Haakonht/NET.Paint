@@ -4,7 +4,7 @@ using NET.Paint.Drawing.Constant;
 
 namespace NET.Paint.Selector
 {
-    public class IconSelector : DataTemplateSelector
+    public class ToolCustomTemplateSelector : DataTemplateSelector
     {
         public DataTemplate SelectorTemplate { get; set; }
         public DataTemplate PencilTemplate { get; set; }
@@ -20,31 +20,29 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is ToolType type)
+            if (item is XToolType type)
             {
                 switch (type)
                 {
-                    case ToolType.Selector:
-                        return SelectorTemplate;
-                    case ToolType.Pencil:
+                    case XToolType.Pencil:
                         return PencilTemplate;
-                    case ToolType.Line:
+                    case XToolType.Line:
                         return LineTemplate;
-                    case ToolType.Curve:
+                    case XToolType.Curve:
                         return CurveTemplate;
-                    case ToolType.Bezier:
+                    case XToolType.Bezier:
                         return BezierTemplate;
-                    case ToolType.Ellipse:
+                    case XToolType.Ellipse:
                         return EllipseTemplate;
-                    case ToolType.Triangle:
+                    case XToolType.Triangle:
                         return TriangleTemplate;
-                    case ToolType.Rectangle:
+                    case XToolType.Rectangle:
                         return RectangleTemplate;
-                    case ToolType.Polygon:
+                    case XToolType.Polygon:
                         return PolygonTemplate;
-                    case ToolType.Text:
+                    case XToolType.Text:
                         return TextTemplate;
-                    case ToolType.Bitmap:
+                    case XToolType.Bitmap:
                         return BitmapTemplate;
                 }
             }

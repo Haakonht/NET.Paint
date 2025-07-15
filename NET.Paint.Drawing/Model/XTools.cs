@@ -14,27 +14,41 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private ToolType _activeTool = ToolType.Line;
-        public ToolType ActiveTool
+        private XToolType _activeTool = XToolType.Line;
+        public XToolType ActiveTool
         {
             get => _activeTool;
             set
             {
                 SetProperty(ref _activeTool, value);
-                if (value != ToolType.Bitmap)
+                if (value != XToolType.Bitmap)
                     SetProperty(ref _activeBitmap, null);
             }
         }
 
-        private PolygonType _activePolygon = PolygonType.Regular;
-        public PolygonType ActivePolygon
+        private XPolygonStyle _activePolygon = XPolygonStyle.Regular;
+        public XPolygonStyle ActivePolygon
         {
             get => _activePolygon;
             set => SetProperty(ref _activePolygon, value);
         }
 
-        private SelectionMode _selectionMode = SelectionMode.Rectangle;
-        public SelectionMode SelectionMode
+        private XRectangleStyle _activeRectangle = XRectangleStyle.Rectangle;
+        public XRectangleStyle ActiveRectangle
+        {
+            get => _activeRectangle;
+            set => SetProperty(ref _activeRectangle, value);
+        }
+
+        private XEllipseStyle _activeEllipse = XEllipseStyle.Ellipse;
+        public XEllipseStyle ActiveEllipse
+        {
+            get => _activeEllipse;
+            set => SetProperty(ref _activeEllipse, value);
+        }
+
+        private XSelectionMode _selectionMode = XSelectionMode.Rectangle;
+        public XSelectionMode SelectionMode
         {
             get => _selectionMode;
             set => SetProperty(ref _selectionMode, value);
@@ -47,15 +61,8 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref __isPolylineAdd, value);
         }
 
-        private bool _isCircle = false;
-        public bool IsCircle
-        {
-            get => _isCircle;
-            set => SetProperty(ref _isCircle, value);
-        }
-
-        private ImageScaling _bitmapScaling = ImageScaling.Fit;
-        public ImageScaling BitmapScaling
+        private XScalingMode _bitmapScaling = XScalingMode.Fit;
+        public XScalingMode BitmapScaling
         {
             get => _bitmapScaling;
             set => SetProperty(ref _bitmapScaling, value);

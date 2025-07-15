@@ -45,7 +45,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XPencil : XStroked
     {
-        public override ToolType Type => ToolType.Pencil;
+        public override XToolType Type => XToolType.Pencil;
 
         protected double _spacing = 13.0;
         [DisplayName("Resolution")]
@@ -77,7 +77,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XLine : XStroked
     {
-        public override ToolType Type => ToolType.Line;
+        public override XToolType Type => XToolType.Line;
 
         [Category("Position")]
         public Point Start
@@ -108,7 +108,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XCurve : XStroked, IControlPoints
     {
-        public override ToolType Type => ToolType.Curve;
+        public override XToolType Type => XToolType.Curve;
 
         [Category("Position")]
         public Point Start

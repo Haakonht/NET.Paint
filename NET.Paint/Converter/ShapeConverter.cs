@@ -14,11 +14,11 @@ namespace NET.Paint.Converter
             {
                 switch (renderable.Type)
                 {
-                    case ToolType.Line:
+                    case XToolType.Line:
                         return renderable as XLine;
-                    case ToolType.Rectangle:
+                    case XToolType.Rectangle:
                         return renderable as XRectangle;
-                    case ToolType.Ellipse:
+                    case XToolType.Ellipse:
                         return renderable as XEllipse;
                 }
             }

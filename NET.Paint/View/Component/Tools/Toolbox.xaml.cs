@@ -1,21 +1,6 @@
-﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component
 {
@@ -33,5 +18,9 @@ namespace NET.Paint.View.Component
         private void ClosePolygonQuickSelect(object sender, MouseEventArgs e) => PolygonQuickSelect.IsOpen = false;
         private void OpenSelectorQuickSelect(object sender, RoutedEventArgs e) => SelectorQuickSelect.IsOpen = true;
         private void CloseSelectorQuickSelect(object sender, MouseEventArgs e) => SelectorQuickSelect.IsOpen = false;
+        private void OpenRectangleQuickSelect(object sender, RoutedEventArgs e) => RectangleQuickSelect.IsOpen = true;
+        private void CloseRectangleQuickSelect(object sender, MouseEventArgs e) => RectangleQuickSelect.IsOpen = false;
+        private void OpenEllipseQuickSelect(object sender, RoutedEventArgs e) => EllipseQuickSelect.IsOpen = true;
+        private void CloseEllipseQuickSelect(object sender, MouseEventArgs e) => EllipseQuickSelect.IsOpen = false;
     }
 }

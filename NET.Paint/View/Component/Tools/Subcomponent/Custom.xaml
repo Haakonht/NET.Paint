@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -18,7 +18,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../../Resources/Shapes.xaml"/>
+                <ResourceDictionary Source="../../../../Resources/ShapeIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <converter:RectangleTypeConverter x:Key="RectangleTypeConverter"/>
@@ -34,9 +34,9 @@
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Selection Mode:" Padding="0" Margin="2,2,0,2"/>
                     <UniformGrid Columns="3" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Pointer}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Rectangle}}" Content="{fa:Icon Square}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Lasso}}" Content="{fa:Icon DrawPolygon}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Pointer}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Rectangle}}" Content="{fa:Icon Square}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Lasso}}" Content="{fa:Icon DrawPolygon}" GroupName="SelectorMode"/>
                     </UniformGrid>
                 </StackPanel>
             </DataTemplate>
@@ -128,12 +128,12 @@
                     <UniformGrid Rows="1">
                         <RadioButton Height="25" IsChecked="{Binding Tools.IsPolylineAdd, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PencilSelect">
                             <RadioButton.Content>
-                                <icons:PackIconMaterial Kind="VectorPolylinePlus"/>
+                                <icons:MaterialIcon Kind="VectorPolylinePlus"/>
                             </RadioButton.Content>
                         </RadioButton>
                         <RadioButton Height="25" IsChecked="{Binding Tools.IsPolylineAdd, Converter={StaticResource InvertedBooleanConverter},Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PencilSelect">
                             <RadioButton.Content>
-                                <icons:PackIconMaterial Kind="VectorPolylineMinus"/>
+                                <icons:MaterialIcon Kind="VectorPolylineMinus"/>
                             </RadioButton.Content>
                         </RadioButton>
                     </UniformGrid>
@@ -273,7 +273,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.PolygonCorners}" Minimum="5" Maximum="16" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RegularPreviewchanged" Margin="0,0,5,0"/>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.PolygonCorners}" Minimum="5" Maximum="8" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RegularPreviewchanged" Margin="0,0,5,0"/>
                         <TextBlock Text="{Binding Tools.PolygonCorners}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
@@ -314,9 +314,9 @@
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Bitmap Scaling:" Padding="0" Margin="2,0,0,2"/>
                     <UniformGrid Columns="3" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ImageScaling.Original}}" Content="{fa:Icon Compress}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ImageScaling.Fit}}" Content="{fa:Icon Expand}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ImageScaling.Clip}}" Content="{fa:Icon CropSimple}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Original}}" Content="{fa:Icon Compress}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Fit}}" Content="{fa:Icon Expand}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Clip}}" Content="{fa:Icon CropSimple}" GroupName="SelectorMode"/>
                     </UniformGrid>
                     <Label Content="Gallery:" Padding="0" Margin="2,0,0,2"/>
                     <Border BorderBrush="LightGray" BorderThickness="1">
@@ -345,15 +345,15 @@
             <DataTemplate x:Key="PolygonToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <ComboBox SelectedValue="{Binding Tools.ActivePolygon}" SelectedValuePath="Tag" Height="25">
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Regular}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Regular}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource RegularShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Margin="5,0,0,0"/>
                                     <TextBlock Text="Regular" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Star}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Star}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentPresenter ContentTemplate="{StaticResource StarShape}" Margin="5,0,0,0"/>
@@ -361,7 +361,7 @@
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Heart}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Heart}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentPresenter ContentTemplate="{StaticResource HeartShape}" Margin="5,0,0,0"/>
@@ -369,7 +369,7 @@
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Arrow}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Arrow}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentPresenter ContentTemplate="{StaticResource ArrowShape}" Margin="5,0,0,0"/>
@@ -377,7 +377,7 @@
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:PolygonType.Spiral}">
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Spiral}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentPresenter ContentTemplate="{StaticResource SpiralShape}" Margin="5,0,0,0"/>
@@ -390,15 +390,15 @@
                 </StackPanel>
             </DataTemplate>
 
-            <selector:IconSelector x:Key="ToolSelector" 
+            <selector:ToolCustomTemplateSelector x:Key="ToolCustomTemplateSelector" 
                                    SelectorTemplate="{StaticResource SelectorToolTemplate}" TextTemplate="{StaticResource TextToolTemplate}" PencilTemplate="{StaticResource PencilToolTemplate}" 
-                                   LineTemplate="{StaticResource Empty}" BezierTemplate="{StaticResource Empty}" CurveTemplate="{StaticResource Empty}"
+                                   LineTemplate="{StaticResource Empty}" BezierTemplate="{StaticResource Empty}" CurveTemplate="{StaticResource Empty}" PolygonTemplate="{StaticResource PolygonToolTemplate}"
                                    EllipseTemplate="{StaticResource EllipseToolTemplate}" TriangleTemplate="{StaticResource Empty}" RectangleTemplate="{StaticResource RectangleToolTemplate}"
-                                   PolygonTemplate="{StaticResource PolygonToolTemplate}" BitmapTemplate="{StaticResource BitmapToolTemplate}" />
+                                   BitmapTemplate="{StaticResource BitmapToolTemplate}" />
         </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>
-        <ContentControl Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolSelector}"/>
+        <ContentControl Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolCustomTemplateSelector}"/>
     </Grid>
 </UserControl>

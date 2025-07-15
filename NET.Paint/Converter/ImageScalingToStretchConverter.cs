@@ -8,13 +8,13 @@ namespace NET.Paint.Converter
     {
         public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is ImageScaling scaling)
+            if (value is XScalingMode scaling)
             {
                 return scaling switch
                 {
-                    ImageScaling.Original => Stretch.None,
-                    ImageScaling.Fit => Stretch.Uniform,
-                    ImageScaling.Clip => Stretch.Fill,
+                    XScalingMode.Original => Stretch.None,
+                    XScalingMode.Fit => Stretch.Uniform,
+                    XScalingMode.Clip => Stretch.Fill,
                     _ => Stretch.None
                 };
             }
@@ -27,13 +27,13 @@ namespace NET.Paint.Converter
             {
                 return stretch switch
                 {
-                    Stretch.None => ImageScaling.Original,
-                    Stretch.Uniform => ImageScaling.Fit,
-                    Stretch.Fill => ImageScaling.Clip,
-                    _ => ImageScaling.Original
+                    Stretch.None => XScalingMode.Original,
+                    Stretch.Uniform => XScalingMode.Fit,
+                    Stretch.Fill => XScalingMode.Clip,
+                    _ => XScalingMode.Original
                 };
             }
-            return ImageScaling.Original;
+            return XScalingMode.Original;
         }
     }
 }

@@ -16,27 +16,35 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Resources/Icons.xaml"/>
-                <ResourceDictionary Source="../../../Resources/Shapes.xaml"/>
+                <ResourceDictionary Source="../../../Resources/ToolIcons.xaml"/>
+                <ResourceDictionary Source="../../../Resources/ShapeIcons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <selector:SelectorTemplateSelector x:Key="SelectorTemplateSelector" PointerTemplate="{StaticResource PointerToolIcon}" RectangleTemplate="{StaticResource SelectorToolIcon}" LassoTemplate="{StaticResource LassoToolIcon}" ManipulatorTemplate="{StaticResource ManipulatorToolIcon}"/>
-            <selector:PolygonTemplateSelector x:Key="PolygonTemplateSelector" RegularTemplate="{StaticResource RegularShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" ArrowTemplate="{StaticResource ArrowShape}" SpiralTemplate="{StaticResource SpiralShape}"/>
+            <selector:SelectorTemplateSelector x:Key="SelectorTemplateSelector" EmptyTemplate="{StaticResource SelectorToolIcon}"
+                                               PointerTemplate="{StaticResource PointerToolIcon}" RectangleTemplate="{StaticResource SelectorToolIcon}" 
+                                               LassoTemplate="{StaticResource LassoToolIcon}" ManipulatorTemplate="{StaticResource ManipulatorToolIcon}"/>
+            <selector:PolygonTemplateSelector x:Key="PolygonTemplateSelector" EmptyTemplate="{StaticResource PolygonToolIcon}"
+                                              RegularTemplate="{StaticResource PentagonShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
+                                              ArrowTemplate="{StaticResource ArrowShape}" SpiralTemplate="{StaticResource SpiralShape}"/>
+            <selector:EvenOddTemplateSelector x:Key="RectangleTemplateSelector" EmptyTemplate="{StaticResource RectangleToolIcon}"
+                                   EvenTemplate="{StaticResource SquareToolIcon}" OddTemplate="{StaticResource RectangleToolIcon}"/>
+            <selector:EvenOddTemplateSelector x:Key="EllipseTemplateSelector" EmptyTemplate="{StaticResource EllipseToolIcon}"
+                                   EvenTemplate="{StaticResource CircleToolIcon}" OddTemplate="{StaticResource EllipseToolIcon}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel DataContext="{Binding Tools}" Margin="5">
         <StackPanel DockPanel.Dock="Top">
-            <RadioButton x:Name="SelectorToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding SelectionMode}" ContentTemplateSelector="{StaticResource SelectorTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Selector}}" GroupName="SelectedTool" Height="25" Click="OpenSelectorQuickSelect"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource PencilToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Pencil}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource LineToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Line}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource CurveToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Curve}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BezierToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bezier}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource EllipseToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Ellipse}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource TriangleToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Triangle}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource RectangleToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Rectangle}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton x:Name="PolygonToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding ActivePolygon}" ContentTemplateSelector="{StaticResource PolygonTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Polygon}}" GroupName="SelectedTool" Height="25" Click="OpenPolygonQuickSelect"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource TextToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Text}}" GroupName="SelectedTool" Height="25"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BitmapToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:ToolType.Bitmap}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton x:Name="SelectorToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding SelectionMode}" ContentTemplateSelector="{StaticResource SelectorTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Selector}}" GroupName="SelectedTool" Height="25" Click="OpenSelectorQuickSelect"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource PencilToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Pencil}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource LineToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Line}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource CurveToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Curve}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BezierToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Bezier}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton x:Name="EllipseToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding ActiveEllipse}" ContentTemplateSelector="{StaticResource EllipseTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Ellipse}}" GroupName="SelectedTool" Height="25" Click="OpenEllipseQuickSelect"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource TriangleToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Triangle}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton x:Name="RectangleToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding ActiveRectangle}" ContentTemplateSelector="{StaticResource RectangleTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Rectangle}}" GroupName="SelectedTool" Height="25" Click="OpenRectangleQuickSelect"/>
+            <RadioButton x:Name="PolygonToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding ActivePolygon}" ContentTemplateSelector="{StaticResource PolygonTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Polygon}}" GroupName="SelectedTool" Height="25" Click="OpenPolygonQuickSelect"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource TextToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Text}}" GroupName="SelectedTool" Height="25"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BitmapToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XToolType.Bitmap}}" GroupName="SelectedTool" Height="25"/>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom">
@@ -47,11 +55,11 @@
         <Popup x:Name="PolygonQuickSelect" PlacementTarget="{Binding ElementName=PolygonToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-55">
             <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="ClosePolygonQuickSelect">
                 <UniformGrid Columns="1" Width="25">
-                    <RadioButton Height="25" ContentTemplate="{StaticResource RegularShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:PolygonType.Regular}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource StarShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:PolygonType.Star}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource HeartShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:PolygonType.Heart}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource ArrowShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:PolygonType.Arrow}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource SpiralShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:PolygonType.Spiral}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource PentagonShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Regular}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource StarShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Star}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource HeartShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Heart}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource ArrowShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Arrow}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource SpiralShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Spiral}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
                 </UniformGrid>
             </Border>
         </Popup>
@@ -59,9 +67,27 @@
         <Popup x:Name="SelectorQuickSelect" PlacementTarget="{Binding ElementName=SelectorToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-5">
             <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseSelectorQuickSelect">
                 <UniformGrid Columns="1" Width="25">
-                    <RadioButton Height="25" ContentTemplate="{StaticResource PointerToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Pointer}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource SelectorToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Rectangle}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
-                    <RadioButton Height="25" ContentTemplate="{StaticResource LassoToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:SelectionMode.Lasso}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource PointerToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Pointer}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="SelectorSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource SelectorToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Rectangle}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="SelectorSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource LassoToolIcon}" IsChecked="{Binding SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Lasso}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="SelectorSelect"/>
+                </UniformGrid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="RectangleQuickSelect" PlacementTarget="{Binding ElementName=RectangleToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-5">
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseRectangleQuickSelect">
+                <UniformGrid Columns="1" Width="25">
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource RectangleToolIcon}" IsChecked="{Binding ActiveRectangle, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XRectangleStyle.Rectangle}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource SquareToolIcon}" IsChecked="{Binding ActiveRectangle, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XRectangleStyle.Square}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
+                </UniformGrid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="EllipseQuickSelect" PlacementTarget="{Binding ElementName=EllipseToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-5">
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseEllipseQuickSelect">
+                <UniformGrid Columns="1" Width="25">
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource EllipseToolIcon}" IsChecked="{Binding ActiveEllipse, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XEllipseStyle.Ellipse}, Mode=TwoWay}" GroupName="EllipseSelect" Height="25"/>
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource CircleToolIcon}" IsChecked="{Binding ActiveEllipse, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XEllipseStyle.Circle}, Mode=TwoWay}" GroupName="EllipseSelect" Height="25"/>
                 </UniformGrid>
             </Border>
         </Popup>

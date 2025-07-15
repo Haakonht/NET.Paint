@@ -1,15 +1,26 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Text.Json.Serialization;
+using System.ComponentModel;
 using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public abstract class XPolygon : XFilled
+    public abstract class XPolygon : XFilled, IRotateable
     {
-        public override ToolType Type => ToolType.Polygon;
-        public abstract PolygonType Style { get; }
+        public override XToolType Type => XToolType.Polygon;
+        public abstract XPolygonStyle Style { get; }
+
+        [Browsable(false)]
+        public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
+
+        private double _rotation = 0;
+        public double Rotation
+        {
+            get => _rotation;
+            set => SetProperty(ref _rotation, value);
+        }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -20,8 +31,8 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XTriangle : XPolygon
     {
-        public override ToolType Type => ToolType.Triangle;
-        public override PolygonType Style => PolygonType.Triangle;
+        public override XToolType Type => XToolType.Triangle;
+        public override XPolygonStyle Style => XPolygonStyle.Triangle;
 
         public override object Clone() => new XTriangle
         {
@@ -36,7 +47,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XRegular : XPolygon
     {
-        public override PolygonType Style => PolygonType.Regular;
+        public override XPolygonStyle Style => XPolygonStyle.Regular;
 
         private int _corners = 5;
         public int Corners
@@ -58,7 +69,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XStar : XPolygon
     {
-        public override PolygonType Style => PolygonType.Star;
+        public override XPolygonStyle Style => XPolygonStyle.Star;
 
         public override object Clone() => new XStar
         {
@@ -73,7 +84,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XHeart : XPolygon
     {
-        public override PolygonType Style => PolygonType.Heart;
+        public override XPolygonStyle Style => XPolygonStyle.Heart;
 
         public override object Clone() => new XHeart
         {
@@ -88,7 +99,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XSpiral : XPolygon
     {
-        public override PolygonType Style => PolygonType.Spiral;
+        public override XPolygonStyle Style => XPolygonStyle.Spiral;
         public override object Clone() => new XSpiral
         {
             Points = new ObservableCollection<Point>(this.Points),
@@ -102,7 +113,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XArrow : XPolygon
     {
-        public override PolygonType Style => PolygonType.Arrow;
+        public override XPolygonStyle Style => XPolygonStyle.Arrow;
         public override object Clone() => new XArrow
         {
             Points = new ObservableCollection<Point>(this.Points),

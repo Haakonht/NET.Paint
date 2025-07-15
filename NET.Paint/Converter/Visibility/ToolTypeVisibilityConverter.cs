@@ -8,8 +8,8 @@ namespace NET.Paint.Converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is ToolType val)
-                if (parameter is ToolType param)
+            if (value is XToolType val)
+                if (parameter is XToolType param)
                     if (param == val)
                         return Visibility.Visible;
 

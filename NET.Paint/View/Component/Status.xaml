@@ -23,12 +23,12 @@
                     <Run Text="{Binding Tools.ActiveTool}" FontWeight="SemiBold"/>
             </TextBlock>
         </StatusBarItem>
-        <StatusBarItem Margin="-1,0" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:ToolType.Polygon}}">
+        <StatusBarItem Margin="-1,0" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}">
             <TextBlock FontSize="13">
                 [<Run Text="{Binding Tools.ActivePolygon}"/>]
             </TextBlock>
         </StatusBarItem>
-        <StatusBarItem Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:ToolType.Bitmap}}"/>
+        <StatusBarItem Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Bitmap}}"/>
         <Separator Margin="5,2"/>
         <StatusBarItem Margin="-1,0">
             <TextBlock FontSize="13" FontWeight="SemiBold">

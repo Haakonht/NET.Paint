@@ -10,7 +10,7 @@ namespace NET.Paint.Drawing.Model.Structure
     public abstract class XRenderable : PropertyNotifier, ICloneable
     {
         [Browsable(false)]
-        public abstract ToolType Type { get; }
+        public abstract XToolType Type { get; }
 
         private ObservableCollection<Point> _points;
         [Browsable(false)]

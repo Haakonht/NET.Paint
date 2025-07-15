@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
+using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.View.Component
 {
@@ -36,7 +36,7 @@ namespace NET.Paint.View.Component
                 tools.ClickLocation = e.GetPosition(sender as UIElement);
                 tools.ClickLocation = new Point(tools.ClickLocation.Value.X - image.ActiveLayer!.OffsetX, tools.ClickLocation.Value.Y - image.ActiveLayer!.OffsetY);
 
-                if (tools.ActiveTool == ToolType.Text)
+                if (tools.ActiveTool == XToolType.Text)
                 {
                     if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
                     {
@@ -49,9 +49,9 @@ namespace NET.Paint.View.Component
                         Preview.Shape = XFactory.CreateShape(tools);
                 }
 
-                if (tools.ActiveTool == ToolType.Selector)
+                if (tools.ActiveTool == XToolType.Selector)
                 {
-                    if (tools.SelectionMode == SelectionMode.Pointer)
+                    if (tools.SelectionMode == XSelectionMode.Pointer)
                         SingleSelect(sender, tools, image);
                     else
                         Preview.Shape = XFactory.CreateShape(tools);
@@ -77,14 +77,14 @@ namespace NET.Paint.View.Component
                     {
                         if (Preview.Shape is XPencil pencil)
                         {
-                            if (tools.IsPolylineAdd || tools.ActiveTool == ToolType.Selector)
+                            if (tools.IsPolylineAdd || tools.ActiveTool == XToolType.Selector)
                                 XFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
 
-                            else if (tools.ActiveTool == ToolType.Pencil && !tools.IsPolylineAdd)
+                            else if (tools.ActiveTool == XToolType.Pencil && !tools.IsPolylineAdd)
                                 XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
                         }
 
-                        else if (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Pointer)
+                        else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {
                             if (image.Selected.Count == 0)
                                 MoveLayer(tools, image);
@@ -98,29 +98,29 @@ namespace NET.Paint.View.Component
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
-                        if ((tools.ActiveTool == ToolType.Bezier || tools.ActiveTool == ToolType.Curve) && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is IControlPoints cps)
+                        if ((tools.ActiveTool == XToolType.Bezier || tools.ActiveTool == XToolType.Curve) && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is IControlPoints cps)
                             cps.Ctrl1 = tools.MouseLocation;
 
                     }
                     else if (e.XButton2 == MouseButtonState.Pressed)
                     {
-                        if (tools.ActiveTool == ToolType.Bezier && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is XBezier bezier)
+                        if (tools.ActiveTool == XToolType.Bezier && image.ActiveLayer is IShapeLayer vectorLayer && vectorLayer.Shapes.Last() is XBezier bezier)
                             bezier.Ctrl2 = tools.MouseLocation;
 
                     }
-                    else if (tools.ActiveTool != ToolType.Text)
+                    else if (tools.ActiveTool != XToolType.Text)
                     {
                         if (Preview.Shape != null)
                         {
-                            if (tools.ActiveTool == ToolType.Selector)
+                            if (tools.ActiveTool == XToolType.Selector)
                             {
-                                if (tools.SelectionMode == SelectionMode.Lasso)
+                                if (tools.SelectionMode == XSelectionMode.Lasso)
                                     LassoSelect(image);
-                                else if (tools.SelectionMode == SelectionMode.Rectangle)
+                                else if (tools.SelectionMode == XSelectionMode.Rectangle)
                                     RectangleSelect(image);
 
                                 if (image.Selected.Count > 0)
-                                    tools.SelectionMode = SelectionMode.Pointer;
+                                    tools.SelectionMode = XSelectionMode.Pointer;
                             }
 
                             if (image.ActiveLayer is XHybridLayer hybridLayer)
@@ -136,7 +136,7 @@ namespace NET.Paint.View.Component
                                 }
                             }
 
-                            if (tools.ActiveTool != ToolType.Selector)
+                            if (tools.ActiveTool != XToolType.Selector)
                             {
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
@@ -187,7 +187,7 @@ namespace NET.Paint.View.Component
         {
             if (sender is GridCanvas canvas)
             {
-                if (tools.ActiveTool == ToolType.Selector && tools.SelectionMode == SelectionMode.Pointer)
+                if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {
                     var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
                     XRenderable hitObject = null;

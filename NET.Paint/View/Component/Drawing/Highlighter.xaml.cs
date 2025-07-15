@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using SelectionMode = NET.Paint.Drawing.Constant.SelectionMode;
+using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.View.Component.Fragment
 {
@@ -33,12 +33,12 @@ namespace NET.Paint.View.Component.Fragment
 
         #region Point Thumbs
 
-        private SelectionMode _lastSelectionMode;
+        private XSelectionMode _lastSelectionMode;
         private void Thumb_MouseLeave(object sender, MouseEventArgs e) => XTools.Instance.SelectionMode = _lastSelectionMode;
         private void Thumb_MouseEnter(object sender, MouseEventArgs e)
         {
             _lastSelectionMode = XTools.Instance.SelectionMode;
-            XTools.Instance.SelectionMode = SelectionMode.Manipulator;
+            XTools.Instance.SelectionMode = XSelectionMode.Manipulator;
         }
 
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)

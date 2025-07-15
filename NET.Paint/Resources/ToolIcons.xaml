@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+                    xmlns:selector="clr-namespace:NET.Paint.Selector">
+    <DataTemplate x:Key="LineToolIcon">
+        <ma:MaterialIcon Kind="VectorLine"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CurveToolIcon">
+        <ma:MaterialIcon Kind="VectorCurve"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BezierToolIcon">
+        <ma:MaterialIcon Kind="VectorBezier"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EllipseToolIcon">
+        <ma:MaterialIcon Kind="VectorEllipse"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CircleToolIcon">
+        <ma:MaterialIcon Kind="VectorCircleVariant"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TriangleToolIcon">
+        <ma:MaterialIcon Kind="VectorTriangle"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RectangleToolIcon">
+        <ma:MaterialIcon Kind="VectorRectangle"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SquareToolIcon">
+        <ma:MaterialIcon Kind="VectorSquare"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PolygonToolIcon">
+        <ma:MaterialIcon Kind="VectorPolygon"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PencilToolIcon">
+        <ma:MaterialIcon Kind="VectorPolyline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TextToolIcon">
+        <ma:MaterialIcon Kind="FormatTextVariantOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BitmapToolIcon">
+        <ma:MaterialIcon Kind="ImagePlusOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SelectorToolIcon">
+        <ma:MaterialIcon Kind="Selection"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PointerToolIcon">
+        <ma:MaterialIcon Kind="CursorDefaultOutline"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="LassoToolIcon">
+        <ma:MaterialIcon Kind="SelectionEllipseArrowInside"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ManipulatorToolIcon">
+        <ma:MaterialIcon Kind="ArrowAll"/>
+    </DataTemplate>
+
+    <selector:ToolIconTemplateSelector x:Key="ToolIconTemplateSelector" 
+                           PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}"
+                           CurveTemplate="{StaticResource CurveToolIcon}" EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" 
+                           TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}"/>
+</ResourceDictionary>

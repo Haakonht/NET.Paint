@@ -1,5 +1,8 @@
 ﻿namespace NET.Paint.Drawing.Constant
 {
+
+    #region Types
+
     public enum  ObjectType
     {
         Image,
@@ -7,7 +10,7 @@
         Shape
     }
 
-    public enum ToolType
+    public enum XToolType
     {
         Selector,
         Pencil,
@@ -22,7 +25,18 @@
         Bitmap
     }
 
-    public enum PolygonType
+    public enum LayerType
+    {
+        Vector,
+        Raster,
+        Hybrid
+    }
+
+    #endregion
+
+    #region Styles
+
+    public enum XPolygonStyle
     {
         Triangle,
         Regular,
@@ -32,7 +46,23 @@
         Arrow
     }
 
-    public enum SelectionMode
+    public enum  XRectangleStyle
+    {
+        Square,
+        Rectangle
+    }
+
+    public enum XEllipseStyle
+    {
+        Circle,
+        Ellipse
+    }
+
+    #endregion
+
+    #region Modes
+
+    public enum XSelectionMode
     {
         Manipulator,
         Pointer,
@@ -40,17 +70,13 @@
         Lasso
     }
 
-    public enum ImageScaling
+    public enum XScalingMode
     {
         Original,
         Fit,
         Clip
     }
 
-    public enum LayerType
-    {
-        Vector,
-        Raster,
-        Hybrid
-    }
+    #endregion
+
 }

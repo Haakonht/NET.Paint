@@ -16,7 +16,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Resources/Shapes.xaml"/>
+                <ResourceDictionary Source="../../../Resources/ShapeIcons.xaml"/>
                 <ResourceDictionary Source="../../../Resources/Controls/StretchingTreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -143,6 +143,9 @@
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
                                 <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
                                     <DataTrigger Value="True">
                                         <DataTrigger.Binding>
                                             <MultiBinding Converter="{StaticResource ImageActiveConverter}">
@@ -214,7 +217,7 @@
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
                                 <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}" MouseDown="SelectNode" Margin="0,1">
-                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center" />
+                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center" FontSize="10" Width="18" Height="18"/>
                                     <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource ActiveHoverStyle}"/>
                                     <TextBlock Text="{Binding Style, Mode=OneWay, StringFormat=[{0}]}" VerticalAlignment="Center" Margin="3,0,0,0"/>
                                 </StackPanel>

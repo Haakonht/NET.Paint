@@ -5,26 +5,26 @@ namespace NET.Paint.Drawing.Constant
 {
     public static class XConstants
     {
-        public static List<ToolType> ToolOptions => new List<ToolType>
+        public static List<XToolType> ToolOptions => new List<XToolType>
         {
-            ToolType.Selector,
-            ToolType.Pencil,
-            ToolType.Line,
-            ToolType.Bezier,
-            ToolType.Ellipse,
-            ToolType.Triangle,
-            ToolType.Rectangle,
-            ToolType.Polygon,
-            ToolType.Text,
-            ToolType.Bitmap
+            XToolType.Selector,
+            XToolType.Pencil,
+            XToolType.Line,
+            XToolType.Bezier,
+            XToolType.Ellipse,
+            XToolType.Triangle,
+            XToolType.Rectangle,
+            XToolType.Polygon,
+            XToolType.Text,
+            XToolType.Bitmap
         };
 
-        public static List<PolygonType> PolygonOptions => new List<PolygonType>
+        public static List<XPolygonStyle> PolygonOptions => new List<XPolygonStyle>
         {
-            PolygonType.Heart,
-            PolygonType.Spiral,
-            PolygonType.Star,
-            PolygonType.Arrow
+            XPolygonStyle.Heart,
+            XPolygonStyle.Spiral,
+            XPolygonStyle.Star,
+            XPolygonStyle.Arrow
         };
 
         public static List<FontFamily> FontFamilyOptions => Fonts.SystemFontFamilies.ToList();

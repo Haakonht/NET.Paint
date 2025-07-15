@@ -3,29 +3,27 @@ using NET.Paint.Drawing.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public abstract class XFilled : XStroked, IRotateable
+    public abstract class XFilled : XStroked
     {
         [DisplayName("Position")]
         public Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
 
         [Category("Dimensions")]
-        public double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
+        public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
         
         [Category("Dimensions")]
-        public double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
+        public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Location));
             OnPropertyChanged(nameof(Width));
             OnPropertyChanged(nameof(Height));
-            OnPropertyChanged(nameof(Center));
         }
 
         private Color _fillColor;
@@ -36,6 +34,12 @@ namespace NET.Paint.Drawing.Model.Shape
             get => _fillColor;
             set => SetProperty(ref _fillColor, value);
         }
+    }
+
+    public class XEllipse : XFilled, IRotateable
+    {
+        public override XToolType Type => XToolType.Ellipse;
+        public XEllipseStyle Style => XEllipseStyle.Ellipse;
 
         [Browsable(false)]
         public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
@@ -46,11 +50,12 @@ namespace NET.Paint.Drawing.Model.Shape
             get => _rotation;
             set => SetProperty(ref _rotation, value);
         }
-    }
 
-    public class XEllipse : XFilled
-    {
-        public override ToolType Type => ToolType.Ellipse;
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Center));
+        }
 
         public override object Clone() => new XEllipse
         {
@@ -63,16 +68,46 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XRectangle : XFilled
+    public class XCircle : XFilled
     {
-        public override ToolType Type => ToolType.Rectangle;
+        public override XToolType Type => XToolType.Ellipse;
+        public XEllipseStyle Style => XEllipseStyle.Circle;
+
+        [Category("Dimensions")]
+        public override double Height => Points.Max(p => p.X) - Points.Min(p => p.X);
+
+        public override object Clone() => new XCircle
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            FillColor = this.FillColor,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
+    }
+
+    public class XRectangle : XFilled, IRotateable
+    {
+        public override XToolType Type => XToolType.Rectangle;
+        public virtual XRectangleStyle Style => XRectangleStyle.Rectangle;
 
         [Category("Corner")]
         public double Radius { get; set; } = 0;
 
+        [Browsable(false)]
+        public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
+
+        private double _rotation = 0;
+        public double Rotation
+        {
+            get => _rotation;
+            set => SetProperty(ref _rotation, value);
+        }
+
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Center));
             OnPropertyChanged(nameof(Radius));
         }
 
@@ -87,4 +122,24 @@ namespace NET.Paint.Drawing.Model.Shape
             Points = new ObservableCollection<Point>(this.Points)
         };
     }
+
+    public class XSquare : XRectangle
+    {
+        public override XRectangleStyle Style => XRectangleStyle.Square;
+
+        [Category("Dimensions")]
+        public override double Height => Points.Max(p => p.X) - Points.Min(p => p.X);
+
+        public override object Clone() => new XSquare
+        {
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Radius = this.Radius,
+            FillColor = this.FillColor,
+            Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
+    }
+
 }

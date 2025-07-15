@@ -9,23 +9,23 @@ namespace NET.Paint.Converter
     {
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value[0] is ToolType type)
+            if (value[0] is XToolType type)
             {
-                if (value[1] is SelectionMode mode)
+                if (value[1] is XSelectionMode mode)
                 {
                     switch (type)
                     {
-                        case ToolType.Selector:
+                        case XToolType.Selector:
                             switch (mode)
                             {
-                                case SelectionMode.Pointer:
+                                case XSelectionMode.Pointer:
                                     return Cursors.Arrow;
-                                case SelectionMode.Lasso:
+                                case XSelectionMode.Lasso:
                                     return Cursors.Pen;
                                 default:
                                     return Cursors.Cross;
                             }
-                        case ToolType.Pencil:
+                        case XToolType.Pencil:
                             return Cursors.Pen;
                         default:
                             return Cursors.Cross;

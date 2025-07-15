@@ -13,7 +13,7 @@ namespace NET.Paint.Drawing.Model.Shape
 {
     public class XText : XRenderable, IRotateable
     {
-        public override ToolType Type => ToolType.Text;
+        public override XToolType Type => XToolType.Text;
 
         public Point Location
         {
@@ -127,7 +127,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class XBitmap : XRenderable, IRotateable
     {
-        public override ToolType Type => ToolType.Bitmap;
+        public override XToolType Type => XToolType.Bitmap;
 
         public Point Location
         {
@@ -186,8 +186,8 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _bitmapIndex, value);
         }
 
-        private ImageScaling _scaling = ImageScaling.Original;
-        public ImageScaling Scaling
+        private XScalingMode _scaling = XScalingMode.Original;
+        public XScalingMode Scaling
         {
             get => _scaling;
             set => SetProperty(ref _scaling, value);

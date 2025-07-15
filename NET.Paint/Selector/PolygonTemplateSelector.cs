@@ -15,19 +15,19 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is PolygonType type)
+            if (item is XPolygonStyle style)
             {
-                switch (type)
+                switch (style)
                 {
-                    case PolygonType.Regular:
+                    case XPolygonStyle.Regular:
                         return RegularTemplate;
-                    case PolygonType.Star:
+                    case XPolygonStyle.Star:
                         return StarTemplate;
-                    case PolygonType.Arrow:
+                    case XPolygonStyle.Arrow:
                         return ArrowTemplate;
-                    case PolygonType.Spiral:
+                    case XPolygonStyle.Spiral:
                         return SpiralTemplate;
-                    case PolygonType.Heart:
+                    case XPolygonStyle.Heart:
                         return HeartTemplate;
                 }
             }

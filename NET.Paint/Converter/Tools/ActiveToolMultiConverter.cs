@@ -9,11 +9,11 @@ namespace NET.Paint.Converter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length < 2 || values[0] is not ToolType activeTool)
+            if (values.Length < 2 || values[0] is not XToolType activeTool)
                 return false;
 
-            ToolType? thisTool = values[1] as ToolType?;
-            if (thisTool == null && values[1] != null && Enum.TryParse(values[1].ToString(), out ToolType parsedTool))
+            XToolType? thisTool = values[1] as XToolType?;
+            if (thisTool == null && values[1] != null && Enum.TryParse(values[1].ToString(), out XToolType parsedTool))
                 thisTool = parsedTool;
 
             return activeTool.Equals(thisTool);
