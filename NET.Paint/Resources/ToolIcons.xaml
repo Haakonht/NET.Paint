@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
                     xmlns:selector="clr-namespace:NET.Paint.Selector">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ShapeIcons.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
     <DataTemplate x:Key="LineToolIcon">
         <ma:MaterialIcon Kind="VectorLine"/>
     </DataTemplate>
@@ -35,7 +39,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="PolygonToolIcon">
-        <ma:MaterialIcon Kind="VectorPolygon"/>
+        <ma:MaterialIcon Kind="PentagonOutline"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PencilToolIcon">
@@ -67,7 +71,6 @@
     </DataTemplate>
 
     <selector:ToolIconTemplateSelector x:Key="ToolIconTemplateSelector" 
-                           PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}"
-                           CurveTemplate="{StaticResource CurveToolIcon}" EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" 
-                           TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}"/>
+                           PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}" CurveTemplate="{StaticResource CurveToolIcon}" PolygonTemplate="{StaticResource PentagonShape}"
+                           EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}"/>
 </ResourceDictionary>

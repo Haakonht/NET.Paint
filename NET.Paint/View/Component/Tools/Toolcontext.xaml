@@ -9,7 +9,7 @@
              xmlns:subComponents="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="150" d:Background="Transparent"
+             d:DesignHeight="200" d:DesignWidth="235" d:Background="Transparent"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <TabControl TabStripPlacement="Top">
+    <TabControl x:Name="TabManager" TabStripPlacement="Left">
         <TabItem>
             <TabItem.Header>
                 <TextBlock Text="{Binding Tools.ActiveTool}"/>

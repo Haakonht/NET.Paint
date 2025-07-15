@@ -1,13 +1,12 @@
 ﻿using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
+using NET.Paint.Helper;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
+using System.Windows.Input;
 using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace NET.Paint.View.Component
@@ -82,7 +81,7 @@ namespace NET.Paint.View.Component
                     {
                         if (service.PreferencesVisible)
                         {
-                            CenterAnchorable(PreferencesAnchorable);
+                            AnchorableHelper.CenterAnchorableOnApplication(PreferencesAnchorable);
                             PreferencesAnchorable.IsVisible = true;
                             if (!PreferencesAnchorable.IsFloating)
                                 PreferencesAnchorable.Float();
@@ -111,34 +110,38 @@ namespace NET.Paint.View.Component
             }
         }
 
-        private void OpenContext(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OpenToolContextQuickSelect(object sender, MouseButtonEventArgs e)
         {
-            Toolcontext.IsOpen = true;
+            ToolContextQuickSelect.IsOpen = true;
             e.Handled = true;
         }
 
-        private void CloseContext(object sender, System.Windows.Input.MouseEventArgs e)
+        private void OpenToolContext(object sender, MouseButtonEventArgs e)
         {
-            Toolcontext.IsOpen = false;
+            ToolContextMenu.IsOpen = true;
             e.Handled = true;
         }
 
-        private void CenterAnchorable(LayoutAnchorable anchorable)
+        private void OpenToolContextSpecific(object sender, MouseEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow;
-            if (mainWindow != null)
-            {
-                // Calculate center position for a 250x570 window (from XAML)
-                double centerX = mainWindow.Left + (mainWindow.ActualWidth / 2); 
-                double centerY = mainWindow.Top + (mainWindow.ActualHeight / 2);  
+            if (sender is FrameworkElement element && DataContext is XService service)
+                if (int.TryParse(element.Tag.ToString(), out int index))
+                    ToolContext.TabManager.SelectedIndex = index;
 
-                // Ensure the window doesn't go off-screen
-                centerX = Math.Max(0, centerX);
-                centerY = Math.Max(0, centerY);
+            ToolContextQuickSelect.IsOpen = false;
+            ToolContextMenu.IsOpen = true;
+        }
 
-                anchorable.FloatingLeft = centerX - (anchorable.FloatingWidth / 2);
-                anchorable.FloatingTop = centerY - (anchorable.FloatingHeight / 2);
-            }
+        private void CloseToolContextQuickSelect(object sender, MouseEventArgs e)
+        {
+            ToolContextQuickSelect.IsOpen = false;
+            e.Handled = true;
+        }
+
+        private void CloseToolContext(object sender, MouseEventArgs e)
+        {
+            ToolContextQuickSelect.IsOpen = false;
+            e.Handled = true;
         }
     }
 }

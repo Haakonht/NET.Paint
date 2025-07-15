@@ -155,6 +155,9 @@ namespace NET.Paint.View.Component
         private void MoveLayer(XTools tools, XImage image)
         {
             if (tools.ClickLocation == null) return;
+            if (image.ActiveLayer is IShapeLayer shapeLayer && shapeLayer.Shapes.Count == 0) return;
+            if (image.ActiveLayer is IBitmapLayer bitmapLayer && bitmapLayer.Bitmap == null) return;
+
             Vector? delta = delta = tools.MouseLocation - tools.ClickLocation;
 
             if (delta != null)

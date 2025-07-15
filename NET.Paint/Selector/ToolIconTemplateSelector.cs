@@ -13,6 +13,7 @@ namespace NET.Paint.Selector
         public DataTemplate EllipseTemplate { get; set; }
         public DataTemplate TriangleTemplate { get; set; }
         public DataTemplate RectangleTemplate { get; set; }
+        public DataTemplate PolygonTemplate { get; set; }
         public DataTemplate TextTemplate { get; set; }
         public DataTemplate BitmapTemplate { get; set; }
 
@@ -36,6 +37,8 @@ namespace NET.Paint.Selector
                         return TriangleTemplate;
                     case XToolType.Rectangle:
                         return RectangleTemplate;
+                    case XToolType.Polygon:
+                        return PolygonTemplate;
                     case XToolType.Text:
                         return TextTemplate;
                     case XToolType.Bitmap:

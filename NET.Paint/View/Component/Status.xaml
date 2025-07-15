@@ -23,12 +23,11 @@
                     <Run Text="{Binding Tools.ActiveTool}" FontWeight="SemiBold"/>
             </TextBlock>
         </StatusBarItem>
-        <StatusBarItem Margin="-1,0" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}">
-            <TextBlock FontSize="13">
-                [<Run Text="{Binding Tools.ActivePolygon}"/>]
-            </TextBlock>
-        </StatusBarItem>
-        <StatusBarItem Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Bitmap}}"/>
+        <StatusBarItem Margin="-1,0" Content="{Binding Tools.SelectionMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Selector}}"/>
+        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActivePolygon}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}"/>
+        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveEllipse}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Ellipse}}"/>
+        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveRectangle}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Rectangle}}"/>
+        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Bitmap}}"/>
         <Separator Margin="5,2"/>
         <StatusBarItem Margin="-1,0">
             <TextBlock FontSize="13" FontWeight="SemiBold">

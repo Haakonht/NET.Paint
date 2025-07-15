@@ -4,7 +4,7 @@ using NET.Paint.Drawing.Model.Shape;
 
 namespace NET.Paint.Selector
 {
-    public class ShapeSelector : DataTemplateSelector
+    public class ShapeIconTemplateSelector : DataTemplateSelector
     {
         public DataTemplate PencilTemplate { get; set; }
         public DataTemplate LineTemplate { get; set; }

@@ -4,7 +4,7 @@ using NET.Paint.Drawing.Model.Structure;
 
 namespace NET.Paint.Selector
 {
-    public class LayoutSelector : DataTemplateSelector
+    public class LayoutTemplateSelector : DataTemplateSelector
     {
         public DataTemplate DocumentTemplate { get; set; }
 

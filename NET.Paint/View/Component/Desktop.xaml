@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
@@ -19,6 +20,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Resources/Controls/Anchorable.xaml"/>
+                <ResourceDictionary Source="../../Resources/ToolIcons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <DataTemplate x:Key="Header">
@@ -30,10 +32,10 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Editor">
-                <component:Editor DataContext="{Binding}" MouseRightButtonDown="OpenContext"/>
+                <component:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect"/>
             </DataTemplate>
 
-            <selector:LayoutSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
+            <selector:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -107,9 +109,31 @@
             </xcad:LayoutRoot>
         </xcad:DockingManager>
 
-        <Popup x:Name="Toolcontext" StaysOpen="False" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-5">
-            <Border BorderBrush="Black" BorderThickness="1" Background="White" MouseLeave="CloseContext">
-                <component:ToolContext DataContext="{Binding}"/>
+        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="55" VerticalOffset="-55" AllowsTransparency="True">
+            <Canvas Background="Transparent" Width="110" Height="110" MouseLeave="CloseToolContextQuickSelect">
+                <Ellipse StrokeThickness="1" Stroke="Black" Width="90" Height="90" Canvas.Top="10" Canvas.Left="10" MouseRightButtonUp="OpenToolContext">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.1"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="12" Background="LightGray" Canvas.Left="42" Canvas.Top="0" Padding="2" MouseEnter="OpenToolContextSpecific" Tag="0">
+                    <ContentPresenter Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolIconTemplateSelector}"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="12" Background="LightGray" Canvas.Left="3" Canvas.Top="60" Padding="2" MouseEnter="OpenToolContextSpecific" Tag="1">
+                    <ma:MaterialIcon Kind="PaletteOutline" FontSize="50"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="12" Background="LightGray" Canvas.Left="78" Canvas.Top="60" Padding="2" MouseEnter="OpenToolContextSpecific" Tag="2">
+                    <ma:MaterialIcon Kind="CogOutline" FontSize="50"/>
+                </Border>
+            </Canvas>
+        </Popup>
+
+        <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30">
+            <Border BorderBrush="Black" BorderThickness="1" MouseLeave="CloseToolContext">
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity="0.8"/>
+                </Border.Background>
+                <component:ToolContext DataContext="{Binding}" x:Name="ToolContext"/>
             </Border>
         </Popup>
     </Grid>

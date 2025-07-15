@@ -154,7 +154,7 @@
         <ma:MaterialIcon Kind="FormatTextbox"/>
     </DataTemplate>
 
-    <selector:ShapeSelector x:Key="ShapeSelector" 
+    <selector:ShapeIconTemplateSelector x:Key="ShapeSelector" 
                            PencilTemplate="{StaticResource PencilShape}" LineTemplate="{StaticResource LineShape}" CurveTemplate="{StaticResource CurveShape}" BezierTemplate="{StaticResource BezierShape}"  TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"
                            CircleTemplate="{StaticResource CircleShape}"  EllipseTemplate="{StaticResource EllipseShape}" SquareTemplate="{StaticResource SquareShape}" RoundedSquareTemplate="{StaticResource RoundedSquareShape}" RectangleTemplate="{StaticResource RectangleShape}" RoundedRectangleTemplate="{StaticResource RoundedRectangleShape}"
                            PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" HeptagonTemplate="{StaticResource HeptagonShape}" OctagonTemplate="{StaticResource OctagonShape}"
