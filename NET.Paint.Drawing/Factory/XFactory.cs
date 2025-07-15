@@ -143,6 +143,15 @@ namespace NET.Paint.Drawing.Factory
                                 FillColor = tools.FillColor,
                                 StrokeStyle = tools.StrokeStyle
                             };
+                        case XPolygonStyle.Cloud:
+                            return new XCloud
+                            {
+                                Points = CreateCloud(tools.ClickLocation, tools.MouseLocation, tools.CloudBumps, tools.BumpVariance),
+                                StrokeColor = tools.StrokeColor,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillColor = tools.FillColor,
+                                StrokeStyle = tools.StrokeStyle
+                            };
                         default:
                             return new XArrow
                             {
@@ -275,6 +284,75 @@ namespace NET.Paint.Drawing.Factory
                     centerX + radius * Math.Cos(angle),
                     centerY + radius * Math.Sin(angle)
                 ));
+            }
+
+            return points;
+        }
+
+        public static ObservableCollection<Point> CreateCloud(Point? start, Point? end, int bumpCount = 8, double bumpVariation = 0.3)
+        {
+            if (start == null || end == null || bumpCount < 3)
+                return new ObservableCollection<Point>();
+
+            double x1 = Math.Min(start.Value.X, end.Value.X);
+            double y1 = Math.Min(start.Value.Y, end.Value.Y);
+            double x2 = Math.Max(start.Value.X, end.Value.X);
+            double y2 = Math.Max(start.Value.Y, end.Value.Y);
+
+            double centerX = (x1 + x2) / 2;
+            double centerY = (y1 + y2) / 2;
+            double width = x2 - x1;
+            double height = y2 - y1;
+
+            var points = new ObservableCollection<Point>();
+            Random random = new Random();
+
+            // Create base cloud parameters
+            double baseRadiusX = width * 0.35;
+            double baseRadiusY = height * 0.35;
+            
+            // Generate points around the cloud perimeter with semicircular bumps
+            int totalPoints = bumpCount * 12; // More points for smoother curves
+            
+            for (int i = 0; i < totalPoints; i++)
+            {
+                double angle = 2 * Math.PI * i / totalPoints;
+                
+                // Base elliptical radius at this angle
+                double baseRadius = Math.Sqrt(
+                    Math.Pow(baseRadiusX * Math.Cos(angle), 2) + 
+                    Math.Pow(baseRadiusY * Math.Sin(angle), 2));
+                
+                // Determine which bump we're in
+                double bumpPosition = (double)(i % (totalPoints / bumpCount)) / (totalPoints / bumpCount);
+                
+                // Create semicircular bump effect
+                double bumpIntensity = 0;
+                if (bumpPosition <= 0.8) // Only create bump for 80% of the segment
+                {
+                    // Map to semicircle (0 to PI)
+                    double semicircleAngle = bumpPosition * Math.PI / 0.8;
+                    bumpIntensity = Math.Sin(semicircleAngle);
+                }
+                
+                // Add some randomness to bump size
+                int bumpIndex = i / (totalPoints / bumpCount);
+                random = new Random(bumpIndex + 42); // Consistent randomness per bump
+                double bumpSizeVariation = 0.7 + random.NextDouble() * 0.6 * bumpVariation;
+                
+                // Calculate final radius with bump
+                double bumpExtension = baseRadius * 0.4 * bumpIntensity * bumpSizeVariation;
+                double finalRadius = baseRadius + bumpExtension;
+                
+                // Add slight random noise for natural variation
+                double noise = (random.NextDouble() - 0.5) * 0.05 * baseRadius;
+                finalRadius += noise;
+                
+                // Calculate final point
+                double x = centerX + finalRadius * Math.Cos(angle);
+                double y = centerY + finalRadius * Math.Sin(angle);
+                
+                points.Add(new Point(x, y));
             }
 
             return points;

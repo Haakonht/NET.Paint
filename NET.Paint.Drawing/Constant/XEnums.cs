@@ -43,7 +43,8 @@
         Heart,
         Spiral,
         Star,
-        Arrow
+        Arrow,
+        Cloud
     }
 
     public enum  XRectangleStyle

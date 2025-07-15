@@ -27,6 +27,7 @@ namespace NET.Paint.Selector
         public DataTemplate ArrowTemplate { get; set; }
         public DataTemplate HeartTemplate { get; set; }
         public DataTemplate SpiralTemplate { get; set; }
+        public DataTemplate CloudTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -75,6 +76,8 @@ namespace NET.Paint.Selector
                 return HeartTemplate;
             if (item is XSpiral)
                 return SpiralTemplate;
+            if (item is XCloud)
+                return CloudTemplate;
 
             return base.SelectTemplate(item, container);
         }

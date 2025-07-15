@@ -106,6 +106,10 @@
         <ma:MaterialIcon Kind="ArrowRight"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="CloudShape">
+        <ma:MaterialIcon Kind="CloudOutline"/>
+    </DataTemplate>
+
     <DataTemplate x:Key="SpiralShape">
         <Path Stroke="Black" StrokeThickness="1.5" Fill="Transparent" Stretch="Uniform" Width="18">
             <Path.Data>
@@ -157,7 +161,7 @@
     <selector:ShapeIconTemplateSelector x:Key="ShapeSelector" 
                            PencilTemplate="{StaticResource PencilShape}" LineTemplate="{StaticResource LineShape}" CurveTemplate="{StaticResource CurveShape}" BezierTemplate="{StaticResource BezierShape}"  TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"
                            CircleTemplate="{StaticResource CircleShape}"  EllipseTemplate="{StaticResource EllipseShape}" SquareTemplate="{StaticResource SquareShape}" RoundedSquareTemplate="{StaticResource RoundedSquareShape}" RectangleTemplate="{StaticResource RectangleShape}" RoundedRectangleTemplate="{StaticResource RoundedRectangleShape}"
-                           PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" HeptagonTemplate="{StaticResource HeptagonShape}" OctagonTemplate="{StaticResource OctagonShape}"
+                           PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" HeptagonTemplate="{StaticResource HeptagonShape}" OctagonTemplate="{StaticResource OctagonShape}" CloudTemplate="{StaticResource CloudShape}"
                            ArrowTemplate="{StaticResource ArrowShape}" HeartTemplate="{StaticResource HeartShape}" SpiralTemplate="{StaticResource SpiralShape}" StarTemplate="{StaticResource StarShape}" TriangleTemplate="{StaticResource TriangleShape}"/>
 
 </ResourceDictionary>

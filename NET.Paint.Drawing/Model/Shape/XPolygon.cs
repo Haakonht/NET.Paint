@@ -82,6 +82,21 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
+    public class XCloud : XPolygon
+    {
+        public override XPolygonStyle Style => XPolygonStyle.Cloud;
+
+        public override object Clone() => new XCloud
+        {
+            Points = new ObservableCollection<Point>(this.Points),
+            FillColor = this.FillColor,
+            StrokeColor = this.StrokeColor,
+            StrokeThickness = this.StrokeThickness,
+            StrokeStyle = this.StrokeStyle,
+            Rotation = this.Rotation
+        };
+    }
+
     public class XHeart : XPolygon
     {
         public override XPolygonStyle Style => XPolygonStyle.Heart;

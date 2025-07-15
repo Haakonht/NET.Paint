@@ -105,6 +105,21 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _starInnerRadiusRatio, value);
         }
 
+        // Cloud
+        private int _cloudBumps = 8;
+        public int CloudBumps
+        {
+            get => _cloudBumps;
+            set => SetProperty(ref _cloudBumps, value);
+        }
+
+        private double _bumpVariance = 0.3;
+        public double BumpVariance
+        {
+            get => _bumpVariance;
+            set => SetProperty(ref _bumpVariance, value);
+        }
+
         // Regular polygon
         private int _polygonCorners = 5;
         public int PolygonCorners

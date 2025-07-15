@@ -11,6 +11,7 @@ namespace NET.Paint.Selector
         public DataTemplate StarTemplate { get; set; }
         public DataTemplate ArrowTemplate { get; set; }
         public DataTemplate SpiralTemplate { get; set; }
+        public DataTemplate CloudTemplate { get; set; }
         public DataTemplate EmptyTemplate { get; set; } = new DataTemplate();
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -29,6 +30,8 @@ namespace NET.Paint.Selector
                         return SpiralTemplate;
                     case XPolygonStyle.Heart:
                         return HeartTemplate;
+                    case XPolygonStyle.Cloud:
+                        return CloudTemplate;
                 }
             }
             return EmptyTemplate;

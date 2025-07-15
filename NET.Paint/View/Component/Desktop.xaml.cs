@@ -124,7 +124,7 @@ namespace NET.Paint.View.Component
 
         private void OpenToolContextSpecific(object sender, MouseEventArgs e)
         {
-            if (sender is FrameworkElement element && DataContext is XService service)
+            if (sender is Image element && DataContext is XService service)
                 if (int.TryParse(element.Tag.ToString(), out int index))
                     ToolContext.TabManager.SelectedIndex = index;
 
@@ -133,6 +133,12 @@ namespace NET.Paint.View.Component
         }
 
         private void CloseToolContextQuickSelect(object sender, MouseEventArgs e)
+        {
+            ToolContextQuickSelect.IsOpen = false;
+            e.Handled = true;
+        }
+
+        private void CloseToolContextQuickSelect(object sender, MouseButtonEventArgs e)
         {
             ToolContextQuickSelect.IsOpen = false;
             e.Handled = true;

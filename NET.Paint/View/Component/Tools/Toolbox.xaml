@@ -24,7 +24,7 @@
                                                LassoTemplate="{StaticResource LassoToolIcon}" ManipulatorTemplate="{StaticResource ManipulatorToolIcon}"/>
             <selector:PolygonTemplateSelector x:Key="PolygonTemplateSelector" EmptyTemplate="{StaticResource PolygonToolIcon}"
                                               RegularTemplate="{StaticResource PentagonShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
-                                              ArrowTemplate="{StaticResource ArrowShape}" SpiralTemplate="{StaticResource SpiralShape}"/>
+                                              ArrowTemplate="{StaticResource ArrowShape}" SpiralTemplate="{StaticResource SpiralShape}" CloudTemplate="{StaticResource CloudShape}"/>
             <selector:EvenOddTemplateSelector x:Key="RectangleTemplateSelector" EmptyTemplate="{StaticResource RectangleToolIcon}"
                                    EvenTemplate="{StaticResource SquareToolIcon}" OddTemplate="{StaticResource RectangleToolIcon}"/>
             <selector:EvenOddTemplateSelector x:Key="EllipseTemplateSelector" EmptyTemplate="{StaticResource EllipseToolIcon}"
@@ -52,7 +52,7 @@
             <xctk:ColorPicker SelectedColor="{Binding FillColor, Mode=TwoWay}" Height="25" Margin="0,5,0,0" VerticalContentAlignment="Stretch" ShowDropDownButton="False"  Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
         </StackPanel>
         
-        <Popup x:Name="PolygonQuickSelect" PlacementTarget="{Binding ElementName=PolygonToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-55">
+        <Popup x:Name="PolygonQuickSelect" PlacementTarget="{Binding ElementName=PolygonToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-5">
             <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="ClosePolygonQuickSelect">
                 <UniformGrid Columns="1" Width="25">
                     <RadioButton Height="25" ContentTemplate="{StaticResource PentagonShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Regular}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
@@ -60,6 +60,7 @@
                     <RadioButton Height="25" ContentTemplate="{StaticResource HeartShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Heart}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
                     <RadioButton Height="25" ContentTemplate="{StaticResource ArrowShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Arrow}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
                     <RadioButton Height="25" ContentTemplate="{StaticResource SpiralShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Spiral}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
+                    <RadioButton Height="25" ContentTemplate="{StaticResource CloudShape}" IsChecked="{Binding ActivePolygon, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolygonStyle.Cloud}, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PolygonSelect"/>
                 </UniformGrid>
             </Border>
         </Popup>

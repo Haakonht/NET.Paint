@@ -189,6 +189,42 @@
                 </StackPanel>
             </DataTemplate>
 
+            <DataTemplate x:Key="CloudToolTemplate">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Grid Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                            <ContentPresenter Content="{Binding CloudPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <Label Content="Bumps" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.CloudBumps}" Minimum="8" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="CloudPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.CloudBumps}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                    <Label Content="Bump Variation" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Orientation="Horizontal" Grid.Column="0" Value="{Binding Tools.BumpVariance}" Minimum="0.1" Maximum="2.0" TickFrequency="0.1" IsSnapToTickEnabled="True" ValueChanged="CloudPreviewChanged" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Tools.BumpVariance}" Width="20" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate x:Key="SpiralToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Grid Height="80">
@@ -300,16 +336,6 @@
 
             </DataTemplate>
 
-            <DataTemplate x:Key="EllipseToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Label Content="Type:" Padding="0" Margin="2,0,0,2"/>
-                    <UniformGrid Rows="1">
-                        <RadioButton Height="25" ContentTemplate="{StaticResource EllipseShape}" IsChecked="{Binding Tools.IsCircle, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="EllipseSelect"/>
-                        <RadioButton Height="25" ContentTemplate="{StaticResource CircleShape}" IsChecked="{Binding Tools.IsCircle, Converter={StaticResource InvertedBooleanConverter},Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="EllipseSelect"/>
-                    </UniformGrid>
-                </StackPanel>
-            </DataTemplate>
-
             <DataTemplate x:Key="BitmapToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Bitmap Scaling:" Padding="0" Margin="2,0,0,2"/>
@@ -340,7 +366,7 @@
                 </StackPanel>
             </DataTemplate>
 
-            <selector:PolygonTemplateSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
+            <selector:PolygonTemplateSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" CloudTemplate="{StaticResource CloudToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
 
             <DataTemplate x:Key="PolygonToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
@@ -385,6 +411,14 @@
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
+                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Cloud}">
+                            <ComboBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter ContentTemplate="{StaticResource CloudShape}" Margin="5,0,0,0"/>
+                                    <TextBlock Text="Cloud" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ComboBoxItem.Content>
+                        </ComboBoxItem>
                     </ComboBox>
                     <ContentControl Content="{Binding Tools.ActivePolygon}" ContentTemplateSelector="{StaticResource PolygonSelector}"/>
                 </StackPanel>
@@ -393,7 +427,7 @@
             <selector:ToolCustomTemplateSelector x:Key="ToolCustomTemplateSelector" 
                                    SelectorTemplate="{StaticResource SelectorToolTemplate}" TextTemplate="{StaticResource TextToolTemplate}" PencilTemplate="{StaticResource PencilToolTemplate}" 
                                    LineTemplate="{StaticResource Empty}" BezierTemplate="{StaticResource Empty}" CurveTemplate="{StaticResource Empty}" PolygonTemplate="{StaticResource PolygonToolTemplate}"
-                                   EllipseTemplate="{StaticResource EllipseToolTemplate}" TriangleTemplate="{StaticResource Empty}" RectangleTemplate="{StaticResource RectangleToolTemplate}"
+                                   EllipseTemplate="{StaticResource Empty}" TriangleTemplate="{StaticResource Empty}" RectangleTemplate="{StaticResource RectangleToolTemplate}"
                                    BitmapTemplate="{StaticResource BitmapToolTemplate}" />
         </ResourceDictionary>
     </UserControl.Resources>

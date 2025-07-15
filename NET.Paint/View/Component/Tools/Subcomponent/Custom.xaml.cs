@@ -19,6 +19,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
         public XPreview StarPreview { get; set; } = new XPreview();
         public XPreview SpiralPreview { get; set; } = new XPreview();
         public XPreview HeartPreview { get; set; } = new XPreview();
+        public XPreview CloudPreview { get; set; } = new XPreview();
 
         public Custom()
         {
@@ -28,6 +29,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
             CreateSpiralPreview();
             CreateStarPreview();
             CreateHeartPreview();
+            CreateCloudPreview();
         }
 
         private void SelectBitmap(object sender, System.Windows.RoutedEventArgs e)
@@ -119,6 +121,24 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
                     new Point(0, 0),
                     new Point(60, 60),
                     XTools.Instance.HeartSamples
+                ),
+                FillColor = Colors.LightGray,
+                StrokeColor = Colors.Black,
+                StrokeThickness = XTools.Instance.StrokeThickness,
+                StrokeStyle = XTools.Instance.StrokeStyle
+            };
+        }
+
+        private void CloudPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateCloudPreview();
+        private void CreateCloudPreview()
+        {
+            CloudPreview.Shape = new XCloud
+            {
+                Points = XFactory.CreateCloud(
+                    new Point(0, 0),
+                    new Point(60, 60),
+                    XTools.Instance.CloudBumps,
+                    XTools.Instance.BumpVariance
                 ),
                 FillColor = Colors.LightGray,
                 StrokeColor = Colors.Black,
