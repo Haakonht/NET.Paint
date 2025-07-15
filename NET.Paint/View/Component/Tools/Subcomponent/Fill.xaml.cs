@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NET.Paint.View.Component.Tools.Subcomponent
 {
     /// <summary>
-    /// Interaction logic for CombinedColor.xaml
+    /// Interaction logic for Colors.xaml
     /// </summary>
-    public partial class General : UserControl
+    public partial class Fill : UserControl
     {
-        public General()
+        public Fill()
         {
             InitializeComponent();
         }

@@ -70,6 +70,18 @@
         <ma:MaterialIcon Kind="ArrowAll"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="ZoomToolIcon">
+        <ma:MaterialIcon Kind="Magnify"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GridToolIcon">
+        <ma:MaterialIcon Kind="Grid"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RulerToolIcon">
+        <ma:MaterialIcon Kind="Ruler"/>
+    </DataTemplate>
+
     <selector:ToolIconTemplateSelector x:Key="ToolIconTemplateSelector" 
                            PencilTemplate="{StaticResource PencilToolIcon}" LineTemplate="{StaticResource LineToolIcon}" BezierTemplate="{StaticResource BezierToolIcon}" CurveTemplate="{StaticResource CurveToolIcon}" PolygonTemplate="{StaticResource PentagonShape}"
                            EllipseTemplate="{StaticResource EllipseToolIcon}" TriangleTemplate="{StaticResource TriangleToolIcon}" RectangleTemplate="{StaticResource RectangleToolIcon}" TextTemplate="{StaticResource TextToolIcon}" BitmapTemplate="{StaticResource BitmapToolIcon}"/>

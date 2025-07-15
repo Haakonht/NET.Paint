@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Tools.Subcomponent.Fill"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             mc:Ignorable="d" 
+             d:DesignHeight="90" d:DesignWidth="250" d:Background="White">
+    <StackPanel Grid.Row="1" DataContext="{Binding Tools}" Background="White">
+        <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
+        <Border BorderThickness="1" BorderBrush="Black">
+            <Grid Height="25">
+                <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding FillColor}" DisplayColorTooltip="False" />
+                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
+                <TextBlock Text="{Binding FillColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding FillColor, Converter={StaticResource ContrastColorConverter}}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Normal"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=StrokeColorPicker}" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Border>
+        <Label Content="Effect" Padding="0" Margin="2,2,0,2" FontSize="10"/>
+        <ComboBox Height="25" SelectedValue="Vignette">
+            <ComboBoxItem Content="Vignette"/>
+            <ComboBoxItem Content="FadeOut"/>
+            <ComboBoxItem Content="FadeIn"/>
+        </ComboBox>
+    </StackPanel>
+</UserControl>

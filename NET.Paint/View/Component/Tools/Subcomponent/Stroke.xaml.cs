@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace NET.Paint.View.Component.Tools.Subcomponent
 {
     /// <summary>
-    /// Interaction logic for Colors.xaml
+    /// Interaction logic for CombinedColor.xaml
     /// </summary>
     public partial class Stroke : UserControl
     {

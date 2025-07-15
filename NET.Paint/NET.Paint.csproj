@@ -22,7 +22,7 @@
     <Compile Update="View\Component\Overview\ProjectTree.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Component\Tools\Subcomponent\Color.xaml.cs">
+    <Compile Update="View\Component\Tools\Subcomponent\Fill.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Component\Tools\ToolBox.xaml.cs">

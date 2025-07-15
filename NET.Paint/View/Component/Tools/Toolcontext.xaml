@@ -28,23 +28,15 @@
                 <subComponents:Custom Width="165" Margin="5"/>
             </Grid>
         </TabItem>
-        <TabItem Header="General">
+        <TabItem Header="Stroke">
             <Grid Background="White">
-                <subComponents:General Width="165" Margin="5"/>
+                <subComponents:Stroke Width="165" Margin="5"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Settings">
-            <StackPanel Margin="5" Background="White" DataContext="{Binding ActiveImage}" Width="165">
-                <Expander Header="Grid" Style="{StaticResource SimpleExpander}" DataContext="{Binding Configuration}">
-                    <subComponents:Grid />
-                </Expander>
-                <Expander Header="Ruler" Style="{StaticResource SimpleExpander}" DataContext="{Binding Configuration}">
-                    <subComponents:Ruler />
-                </Expander>
-                <Expander Header="Zoom" Style="{StaticResource SimpleExpander}" DataContext="{Binding Configuration}">
-                    <subComponents:Zoom />
-                </Expander>
-            </StackPanel>
+        <TabItem Header="Fill">
+            <Grid Background="White">
+                <subComponents:Fill Width="165" Margin="5"/>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

@@ -142,8 +142,8 @@
                 </Canvas>
                 <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30" MouseRightButtonUp="CloseToolContextQuickSelect"/>
                 <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolIconTemplateSelector}"/>
-                <ma:MaterialIcon Canvas.Left="8" Canvas.Top="55" Kind="PaletteOutline" FontSize="50"/>
-                <ma:MaterialIcon Canvas.Left="68" Canvas.Top="55" Kind="CogOutline" FontSize="50"/>
+                <ma:MaterialIcon Canvas.Left="8" Canvas.Top="55" Kind="CircleOutline" FontSize="50"/>
+                <ma:MaterialIcon Canvas.Left="68" Canvas.Top="55" Kind="Circle" FontSize="50"/>
             </Canvas>
         </Popup>
     </Grid>

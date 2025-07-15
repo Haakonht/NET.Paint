@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
-    <Grid>
+    <Grid Height="25">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
-        <Slider Value="{Binding RulerScale}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Grid.Column="0"/>
-        <CheckBox IsChecked="{Binding RulerEnabled}" Grid.Column="1" HorizontalAlignment="Center"/>
+        <Slider Value="{Binding RulerScale}" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox IsChecked="{Binding RulerEnabled}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
