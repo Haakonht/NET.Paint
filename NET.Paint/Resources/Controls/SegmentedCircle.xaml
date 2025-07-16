@@ -3,7 +3,10 @@
 
         <DrawingImage x:Key="CircleSegment">
             <DrawingImage.Drawing>
-                <GeometryDrawing Brush="LightGray">
+                <GeometryDrawing>
+                    <GeometryDrawing.Brush>
+                        <SolidColorBrush Color="LightGray" Opacity="0.6"/>
+                    </GeometryDrawing.Brush>
                     <GeometryDrawing.Pen>
                         <Pen Brush="Black" />
                     </GeometryDrawing.Pen>
