@@ -18,47 +18,49 @@
     </UserControl.Resources>
     
     <StatusBar Background="Transparent">
-        <StatusBarItem Margin="5,1,0,0">
+        <StatusBarItem Margin="5,0,0,0">
             <TextBlock>
                 <Bold>Tool:</Bold>
                 <Run Text="{Binding Tools.ActiveTool}" FontWeight="SemiBold"/>
             </TextBlock>
         </StatusBarItem>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.PencilMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Pencil}}"/>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.SelectionMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Selector}}"/>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActivePolygon}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}"/>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveEllipse}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Ellipse}}"/>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveRectangle}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Rectangle}}"/>
-        <StatusBarItem Margin="-1,0" Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Bitmap}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.PencilMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Pencil}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.SelectionMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Selector}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActivePolygon}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActiveEllipse}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Ellipse}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActiveRectangle}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Rectangle}}"/>
+        <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActiveBitmap}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Bitmap}}"/>
         <Separator Margin="5,2"/>
-        <StatusBarItem Margin="-1,0">
-            <TextBlock FontWeight="SemiBold">
+        <StatusBarItem>
+            <TextBlock>
                 <Bold>Mouse:</Bold>
                 [X: <Run Text="{Binding Tools.MouseLocation.X, StringFormat=0.00}"/>,
                 Y: <Run Text="{Binding Tools.MouseLocation.Y, StringFormat=0.00}"/>]
             </TextBlock>
         </StatusBarItem>
         <Separator Margin="5,2"/>
-        <StatusBarItem Margin="-1,0">
+        <StatusBarItem>
             <Grid Width="20" Height="20" Margin="0,1,0,0">
                 <xctk:ColorPicker Background="{Binding Tools.StrokeColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.StrokeColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0"/>
                 <xctk:ColorPicker Background="{Binding Tools.FillColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.FillColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="4"/>
             </Grid>
         </StatusBarItem>
 
-        <StatusBarItem HorizontalAlignment="Right" Margin="-1,0,5,0">
-            <StackPanel Orientation="Horizontal">
-                <StatusBarItem Margin="-1,0" Visibility="{Binding Clipboard.CanPaste, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleClipboard">
-                        <ma:MaterialIcon Kind="Clipboard"/>
+        <StatusBarItem HorizontalAlignment="Right" Margin="0,0,5,0" Padding="0">
+            <StackPanel Orientation="Horizontal" Height="20">
+                <!--<StatusBarItem Visibility="{Binding Clipboard.CanPaste, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,-3,0,0">-->
+                <StatusBarItem Visibility="Visible" Padding="0">
+                    <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleClipboard" Height="18" Width="18" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <ma:MaterialIcon Kind="ClipboardOutline" Height="18" Width="18" Margin="-1,0,0,0"/>
                     </Button>
                 </StatusBarItem>
-                <StatusBarItem Margin="-1,0" Visibility="{Binding ActiveImage.Undo.CanRedo, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleUndo">
-                        <ma:MaterialIcon Kind="History"/>
+                <StatusBarItem Visibility="Visible" Padding="0" Margin="5,0">
+                    <!--<StatusBarItem Visibility="{Binding ActiveImage.Undo.CanRedo, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,-3,0,0">-->
+                    <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleUndo" Height="18" Width="18" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <ma:MaterialIcon Kind="Cached" Height="18" Width="18" Margin="-1,0,0,0"/>
                     </Button>
                 </StatusBarItem>
-                <StatusBarItem Margin="25,0,-1,0">
+                <StatusBarItem Margin="20,0,0,0" Padding="0">
                     <TextBlock>
                         <Bold>Active:</Bold>
                         <Run Text="{Binding ActiveImage.Title}" FontWeight="SemiBold"/>

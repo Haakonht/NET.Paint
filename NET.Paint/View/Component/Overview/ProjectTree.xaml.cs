@@ -204,7 +204,7 @@ namespace NET.Paint.View.Component.Overview
             {
                 if (service.ActiveImage != null && service.ActiveImage is XImage image)
                 {
-                    XLayer layer = new XVectorLayer() { Title = "", IsEditing = true };
+                    XLayer layer = new XRasterLayer() { Title = "", IsEditing = true };
                     service.ActiveImage.Layers.Add(layer);
                 }
             }
@@ -265,40 +265,5 @@ namespace NET.Paint.View.Component.Overview
         }
 
         #endregion
-
-        private void OnAddComplete(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox tb)
-            {
-                if (tb.DataContext is XLayer layer)
-                    layer.IsEditing = false;
-
-                if (tb.DataContext is XImage image)
-                    image.IsEditing = false;
-            }
-        }
-
-        private void OnAddStarted(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox tb)
-            {
-                tb.Focusable = true;
-                tb.Focus();
-            }
-        }
-
-        private void OnAdd(object sender, KeyEventArgs e)
-        {
-            if ((e.Key == Key.Enter || e.Key == Key.Escape) && sender is TextBox tb)
-            {
-                if (tb.DataContext is XLayer layer)
-                    layer.IsEditing = false;
-
-                if (tb.DataContext is XImage image)
-                    image.IsEditing = false;
-
-                e.Handled = true;
-            }
-        }
     }
 }

@@ -36,7 +36,14 @@ namespace NET.Paint.Selector
                     case XPencilMode.Remove:
                         return OddTemplate;
                 }
-
+            else if (item is bool boolean)
+                switch (boolean)
+                {
+                    case true:
+                        return EvenTemplate;
+                    case false:
+                        return OddTemplate;
+                }
 
             return EmptyTemplate;
         }

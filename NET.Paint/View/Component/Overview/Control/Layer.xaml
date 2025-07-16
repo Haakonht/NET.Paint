@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Overview.Control.Layer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Overview.Control"
+             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"  
+             xmlns:converters="clr-namespace:NET.Paint.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="100" d:Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../../Resources/ToolIcons.xaml"/>
+                <ResourceDictionary Source="../../../../Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:LayerActiveConverter x:Key="LayerActiveConverter"/>
+
+            <Style x:Key="VisibilityToggleStyle" TargetType="ToggleButton" x:Shared="False">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border BorderThickness="1" BorderBrush="Transparent" Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Content" Value="{ma:MaterialIconExt Kind=VisibilityOutline}"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content" Value="{ma:MaterialIconExt Kind=VisibilityOffOutline}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <DockPanel LastChildFill="True" Margin="0,1,0,0">
+        <ToggleButton IsChecked="{Binding IsVisible}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" Width="18" Style="{StaticResource VisibilityToggleStyle}" DockPanel.Dock="Right" Margin="5,0" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}"/>
+        <ContentControl Content="{Binding}" VerticalAlignment="Center">
+            <ContentControl.Resources>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                        <ContentPresenter ContentTemplate="{StaticResource VectorLayerToolIcon}" Width="20"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                        <ContentPresenter ContentTemplate="{StaticResource RasterLayerToolIcon}" Width="20"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                        <ContentPresenter ContentTemplate="{StaticResource HybridLayerToolIcon}" Width="20"/>
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ContentControl.Resources>
+        </ContentControl>
+        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5,0,0,0" Width="120" LostFocus="OnAddComplete" KeyDown="OnAdd" Loaded="OnAddStarted" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <TextBlock Text="{Binding Title, Mode=OneWay}" VerticalAlignment="Center"  Margin="5,0,0,0" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{StaticResource LayerActiveConverter}">
+                                    <Binding />
+                                    <Binding Path="DataContext.ActiveLayer" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
+                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=2}" />
+                                    <Binding Path="DataContext.ActiveImage" RelativeSource="{RelativeSource AncestorType=UserControl, AncestorLevel=2}" />
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DockPanel>
+</UserControl>

@@ -70,7 +70,7 @@
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutAnchorablePane DockHeight="40">
+                    <xcad:LayoutAnchorablePane DockHeight="45">
                         <xcad:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
                             <components:Shortcuts DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
