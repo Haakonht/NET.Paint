@@ -2,12 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:shell="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:converter="clr-namespace:NET.Paint.Converter"
                     xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
                     xmlns:avalonDockControls="http://schemas.xceed.com/wpf/xaml/avalondock"
                     xmlns:avalonDockAero="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=Xceed.Wpf.AvalonDock.Themes.Aero"
                     xmlns:avalonDockThemeControls="clr-namespace:Xceed.Wpf.AvalonDock.Themes.Controls;assembly=Xceed.Wpf.AvalonDock.Themes.Aero"
                     xmlns:avalonDockConverters="http://schemas.xceed.com/wpf/xaml/avalondock"
                     xmlns:avalonDockProperties="http://schemas.xceed.com/wpf/xaml/avalondock">
+    <converter:AnchorableTitleVisibleConverter x:Key="AnchorableTitleVisibleConverter"/>
 
     <Style x:Key="AnchorablePaneTitleStyle" TargetType="avalonDockControls:AnchorablePaneTitle">
         <Setter Property="Template">
@@ -15,7 +17,7 @@
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
+                  BorderThickness="{TemplateBinding BorderThickness}" Visibility="{Binding Path=., FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource AnchorableTitleVisibleConverter}}"> 
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />

@@ -92,7 +92,12 @@ namespace NET.Paint.Drawing.Model.Shape
         public virtual XRectangleStyle Style => XRectangleStyle.Rectangle;
 
         [Category("Corner")]
-        public double Radius { get; set; } = 0;
+        private double _cornerRadius = 0;
+        public double Radius
+        {
+            get => _cornerRadius; 
+            set => SetProperty(ref _cornerRadius, value);
+        }
 
         [Browsable(false)]
         public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);

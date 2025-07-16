@@ -9,6 +9,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:model="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
+             xmlns:helper="clr-namespace:NET.Paint.Helper"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:component="clr-namespace:NET.Paint.View.Component"
              xmlns:dialog="clr-namespace:NET.Paint.View.Component.Dialog"
@@ -36,6 +37,26 @@
                 <component:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect"/>
             </DataTemplate>
 
+            <selector:SelectorTemplateSelector x:Key="SelectorTemplateSelector" EmptyTemplate="{StaticResource SelectorToolIcon}"
+                                               PointerTemplate="{StaticResource PointerToolIcon}" RectangleTemplate="{StaticResource SelectorToolIcon}" 
+                                               LassoTemplate="{StaticResource LassoToolIcon}" ManipulatorTemplate="{StaticResource ManipulatorToolIcon}"/>
+            <selector:PolygonTemplateSelector x:Key="PolygonTemplateSelector" EmptyTemplate="{StaticResource PolygonToolIcon}"
+                                              RegularTemplate="{StaticResource PentagonShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
+                                              ArrowTemplate="{StaticResource ArrowShape}" SpiralTemplate="{StaticResource SpiralShape}" CloudTemplate="{StaticResource CloudShape}"/>
+
+            <DataTemplate x:Key="PolygonQuickSelectPresenter">
+                <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding DataContext.Tools.ActivePolygon, RelativeSource={RelativeSource AncestorType=Canvas}}"  ContentTemplateSelector="{StaticResource PolygonTemplateSelector}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DefaultQuickSelectPresenter">
+                <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding}" ContentTemplateSelector="{StaticResource ToolIconTemplateSelector}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SelectorQuickSelectPresenter">
+                <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding DataContext.Tools.SelectionMode, RelativeSource={RelativeSource AncestorType=Canvas}}" ContentTemplateSelector="{StaticResource SelectorTemplateSelector}"/>
+            </DataTemplate>
+
+            <selector:ToolContextQuickSelectTemplateSelector x:Key="ToolContextQuickSelectTemplateSelector" DefaultTemplate="{StaticResource DefaultQuickSelectPresenter}" PolygonTemplate="{StaticResource PolygonQuickSelectPresenter}" SelectorTemplate="{StaticResource SelectorQuickSelectPresenter}"/>
             <selector:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
         </ResourceDictionary>
     </UserControl.Resources>
@@ -48,8 +69,8 @@
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutAnchorablePane DockHeight="60">
-                        <xcad:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False">
+                    <xcad:LayoutAnchorablePane DockHeight="40">
+                        <xcad:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helper:AnchorableProperties.HideTitle="True">
                             <component:Shortcuts DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
@@ -69,8 +90,8 @@
                                     <overview:ProjectTree DataContext="{Binding}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="1.5*">
-                                <xcad:LayoutAnchorable Title="History" x:Name="HistoryAnchorable" CanDockAsTabbedDocument="False">
+                            <xcad:LayoutAnchorablePane DockHeight="1.0*">
+                                <xcad:LayoutAnchorable Title="Undo" x:Name="UndoAnchorable" CanDockAsTabbedDocument="False">
                                     <overview:History DataContext="{Binding ActiveImage}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
@@ -79,7 +100,7 @@
                                     <overview:Clipboard DataContext="{Binding}"/>
                                 </xcad:LayoutAnchorable>
                             </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="2*" DockMinHeight="200">
+                            <xcad:LayoutAnchorablePane DockHeight="3*" DockMinHeight="200">
                                 <xcad:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
                                     <overview:Properties DataContext="{Binding ActiveImage}"/>
                                 </xcad:LayoutAnchorable>
@@ -87,8 +108,8 @@
                         </xcad:LayoutAnchorablePaneGroup>
                     </xcad:LayoutPanel>
 
-                    <xcad:LayoutAnchorablePane DockHeight="55">
-                        <xcad:LayoutAnchorable Title="Status" CanDockAsTabbedDocument="False">
+                    <xcad:LayoutAnchorablePane DockHeight="35">
+                        <xcad:LayoutAnchorable Title="Status" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helper:AnchorableProperties.HideTitle="True">
                             <component:Status DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
@@ -141,7 +162,7 @@
                     </Canvas.RenderTransform>
                 </Canvas>
                 <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30" MouseRightButtonUp="CloseToolContextQuickSelect"/>
-                <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolIconTemplateSelector}"/>
+                <ContentPresenter Canvas.Left="38" Canvas.Top="3" Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolContextQuickSelectTemplateSelector}"/>
                 <ma:MaterialIcon Canvas.Left="8" Canvas.Top="55" Kind="CircleOutline" FontSize="50"/>
                 <ma:MaterialIcon Canvas.Left="68" Canvas.Top="55" Kind="Circle" FontSize="50"/>
             </Canvas>

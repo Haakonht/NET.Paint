@@ -16,6 +16,7 @@
         <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converter:ImageScalingToStretchConverter x:Key="ImageScalingToStretchConverter"/>
         <converter:IsNotNullConverter x:Key="IsNotNullConverter"/>
+        <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
         <converter:ShapeConverter x:Key="ShapeConverter"/>
     </Application.Resources>
 </Application>

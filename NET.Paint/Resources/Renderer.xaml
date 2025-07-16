@@ -3,6 +3,7 @@
     <converter:IsTextBoldConverter x:Key="BoolToFontWeightConverter"/>
     <converter:IsTextItalicConverter x:Key="BoolToFontStyleConverter"/>
     <converter:TextDecorationsConverter x:Key="TextDecorationsConverter"/>
+    <converter:SmoothCurveConverter x:Key="SmoothCurveConverter"/>
 
     <DataTemplate DataType="{x:Type shape:XPencil}">
         <Polyline Points="{Binding Points, Converter={StaticResource PointsCollectionConverter}}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
@@ -80,6 +81,24 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type shape:XCloud}">
+        <Path Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" 
+              Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" 
+              StrokeThickness="{Binding StrokeThickness}" 
+              StrokeDashArray="{Binding StrokeStyle.DashArray}">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="{Binding Points[0]}" IsClosed="True">
+                        <PolyBezierSegment Points="{Binding Points, Converter={StaticResource SmoothCurveConverter}}" />
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+            <Path.RenderTransform>
+                <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
+            </Path.RenderTransform>
+        </Path>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XPolygon}">

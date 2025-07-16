@@ -48,7 +48,8 @@
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom">
-            <xctk:ColorPicker SelectedColor="{Binding StrokeColor, Mode=TwoWay}" Height="25" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
+            <ToggleButton x:Name="ThicknessToolSelect" Height="25" ContentTemplate="{StaticResource ThicknessToolIcon}" IsChecked="{Binding IsOpen, ElementName=ThicknessQuickSelect}"/>
+            <xctk:ColorPicker SelectedColor="{Binding StrokeColor, Mode=TwoWay}" Height="25" Margin="0,25,0,0" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
             <xctk:ColorPicker SelectedColor="{Binding FillColor, Mode=TwoWay}" Height="25" Margin="0,0,0,25" VerticalContentAlignment="Stretch" ShowDropDownButton="False"  Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
             <ToggleButton x:Name="GridToolSelect" Height="25" ContentTemplate="{StaticResource GridToolIcon}" IsChecked="{Binding IsOpen, ElementName=GridQuickSelect}"/>
             <ToggleButton x:Name="ZoomToolSelect" Height="25" ContentTemplate="{StaticResource ZoomToolIcon}" IsChecked="{Binding IsOpen, ElementName=ZoomQuickSelect}"/>
@@ -58,6 +59,12 @@
         <Popup x:Name="GridQuickSelect" PlacementTarget="{Binding ElementName=GridToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-115">
             <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="7.5" MouseLeave="CloseGridQuickSelect" DataContext="{Binding DataContext.ActiveImage, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <subComponents:Grid Width="150" DataContext="{Binding Configuration}"/>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="ThicknessQuickSelect" PlacementTarget="{Binding ElementName=ThicknessToolSelect}" Placement="Left" StaysOpen="False" VerticalOffset="-5">
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseThicknessQuickSelect" DataContext="{Binding DataContext.ActiveImage, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <subComponents:Zoom Width="150" DataContext="{Binding Configuration}"/>
             </Border>
         </Popup>
 

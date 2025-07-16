@@ -7,51 +7,51 @@
     </ResourceDictionary.MergedDictionaries>
     
     <DataTemplate x:Key="LineToolIcon">
-        <ma:MaterialIcon Kind="VectorLine"/>
+        <ContentPresenter ContentTemplate="{StaticResource LineShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="CurveToolIcon">
-        <ma:MaterialIcon Kind="VectorCurve"/>
+        <ContentPresenter ContentTemplate="{StaticResource CurveShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="BezierToolIcon">
-        <ma:MaterialIcon Kind="VectorBezier"/>
+        <ContentPresenter ContentTemplate="{StaticResource BezierShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="EllipseToolIcon">
-        <ma:MaterialIcon Kind="VectorEllipse"/>
+        <ContentPresenter ContentTemplate="{StaticResource EllipseShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="CircleToolIcon">
-        <ma:MaterialIcon Kind="VectorCircleVariant"/>
+        <ContentPresenter ContentTemplate="{StaticResource CircleShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="TriangleToolIcon">
-        <ma:MaterialIcon Kind="VectorTriangle"/>
+        <ContentPresenter ContentTemplate="{StaticResource TriangleShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="RectangleToolIcon">
-        <ma:MaterialIcon Kind="VectorRectangle"/>
+        <ContentPresenter ContentTemplate="{StaticResource RectangleShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="SquareToolIcon">
-        <ma:MaterialIcon Kind="VectorSquare"/>
+        <ContentPresenter ContentTemplate="{StaticResource SquareShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PolygonToolIcon">
-        <ma:MaterialIcon Kind="PentagonOutline"/>
+        <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PencilToolIcon">
-        <ma:MaterialIcon Kind="VectorPolyline"/>
+        <ContentPresenter ContentTemplate="{StaticResource PencilShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="TextToolIcon">
-        <ma:MaterialIcon Kind="FormatTextVariantOutline"/>
+        <ContentPresenter ContentTemplate="{StaticResource TextShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="BitmapToolIcon">
-        <ma:MaterialIcon Kind="ImagePlusOutline"/>
+        <ContentPresenter ContentTemplate="{StaticResource BitmapShape}" Width="20" Height="20"/>
     </DataTemplate>
 
     <DataTemplate x:Key="SelectorToolIcon">
@@ -70,6 +70,14 @@
         <ma:MaterialIcon Kind="ArrowAll"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="ThicknessToolIcon">
+        <ma:MaterialIcon Kind="FormatLineWeight">
+            <ma:MaterialIcon.RenderTransform>
+                <RotateTransform Angle="180" CenterX="10" CenterY="10"/>
+            </ma:MaterialIcon.RenderTransform>
+        </ma:MaterialIcon>
+    </DataTemplate>
+    
     <DataTemplate x:Key="ZoomToolIcon">
         <ma:MaterialIcon Kind="Magnify"/>
     </DataTemplate>

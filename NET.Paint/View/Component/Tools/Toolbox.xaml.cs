@@ -24,6 +24,7 @@ namespace NET.Paint.View.Component
         private void OpenEllipseQuickSelect(object sender, RoutedEventArgs e) => EllipseQuickSelect.IsOpen = true;
         private void CloseEllipseQuickSelect(object sender, MouseEventArgs e) => EllipseQuickSelect.IsOpen = false;
 
+        private void CloseThicknessQuickSelect(object sender, RoutedEventArgs e) => ThicknessQuickSelect.IsOpen = false;
         private void CloseGridQuickSelect(object sender, RoutedEventArgs e) => GridQuickSelect.IsOpen = false;
         private void CloseZoomQuickSelect(object sender, RoutedEventArgs e) => ZoomQuickSelect.IsOpen = false;
         private void CloseRulerQuickSelect(object sender, RoutedEventArgs e) => RulerQuickSelect.IsOpen = false;

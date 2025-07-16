@@ -1,10 +1,14 @@
 ﻿using NET.Paint.Drawing.Command;
 using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
+using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Service
@@ -37,16 +41,178 @@ namespace NET.Paint.Drawing.Service
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }
 
-        //public XService()
-        //{
-        //    Command = new XCommand(this);
-        //    ActiveImage = Project.Images.FirstOrDefault();
-        //}
-
         public XService()
         {
             // Create sample layers and shapes
             var sampleLayer1 = new XHybridLayer { Title = "Layer 1" };
+
+            // Row 1: Basic Stroked Shapes
+            sampleLayer1.Shapes.Add(new XLine
+            {
+                Points = new ObservableCollection<Point> { new Point(50, 50), new Point(120, 80) },
+                StrokeColor = Colors.Purple,
+                StrokeThickness = 3
+            });
+
+            sampleLayer1.Shapes.Add(new XCurve
+            {
+                Points = XFactory.CreateCurve(new Point(150, 50), new Point(220, 80)),
+                StrokeColor = Colors.Orange,
+                StrokeThickness = 2
+            });
+
+            sampleLayer1.Shapes.Add(new XBezier
+            {
+                Points = XFactory.CreateBezier(new Point(250, 50), new Point(320, 80)),
+                StrokeColor = Colors.Magenta,
+                StrokeThickness = 2
+            });
+
+            sampleLayer1.Shapes.Add(new XPencil
+            {
+                Points = new ObservableCollection<Point> 
+                { 
+                    new Point(350, 50), new Point(355, 55), new Point(365, 60), 
+                    new Point(375, 65), new Point(390, 70), new Point(400, 75), new Point(420, 80)
+                },
+                StrokeColor = Colors.Brown,
+                StrokeThickness = 2,
+                PointSpacing = 5
+            });
+
+            // Row 2: Basic Filled Shapes
+            sampleLayer1.Shapes.Add(new XRectangle
+            {
+                Points = new ObservableCollection<Point> { new Point(50, 120), new Point(120, 170) },
+                StrokeColor = Colors.Blue,
+                StrokeThickness = 2,
+                FillColor = Colors.LightBlue,
+                Radius = 5
+            });
+
+            sampleLayer1.Shapes.Add(new XSquare
+            {
+                Points = new ObservableCollection<Point> { new Point(150, 120), new Point(200, 170) },
+                StrokeColor = Colors.Green,
+                StrokeThickness = 2,
+                FillColor = Colors.LightGreen,
+                Radius = 0
+            });
+
+            sampleLayer1.Shapes.Add(new XEllipse
+            {
+                Points = new ObservableCollection<Point> { new Point(230, 120), new Point(300, 170) },
+                StrokeColor = Colors.Orange,
+                StrokeThickness = 2,
+                FillColor = Colors.LightYellow
+            });
+
+            sampleLayer1.Shapes.Add(new XCircle
+            {
+                Points = new ObservableCollection<Point> { new Point(330, 120), new Point(380, 170) },
+                StrokeColor = Colors.Red,
+                StrokeThickness = 2,
+                FillColor = Colors.Pink
+            });
+
+            // Row 3: Polygons
+            sampleLayer1.Shapes.Add(new XTriangle
+            {
+                Points = XFactory.CreateRegularPolygon(new Point(50, 200), new Point(120, 250), 3),
+                StrokeColor = Colors.Green,
+                StrokeThickness = 2,
+                FillColor = Colors.LightGreen
+            });
+
+            // Pentagon (5-sided regular polygon)
+            sampleLayer1.Shapes.Add(new XRegular
+            {
+                Points = XFactory.CreateRegularPolygon(new Point(150, 200), new Point(220, 250), 5),
+                StrokeColor = Colors.DarkBlue,
+                StrokeThickness = 2,
+                FillColor = Colors.CornflowerBlue,
+                Corners = 5
+            });
+
+            // Hexagon (6-sided regular polygon)
+            sampleLayer1.Shapes.Add(new XRegular
+            {
+                Points = XFactory.CreateRegularPolygon(new Point(250, 200), new Point(320, 250), 6),
+                StrokeColor = Colors.DarkGreen,
+                StrokeThickness = 2,
+                FillColor = Colors.LightSeaGreen,
+                Corners = 6
+            });
+
+            // Octagon (8-sided regular polygon)
+            sampleLayer1.Shapes.Add(new XRegular
+            {
+                Points = XFactory.CreateRegularPolygon(new Point(350, 200), new Point(420, 250), 8),
+                StrokeColor = Colors.DarkRed,
+                StrokeThickness = 2,
+                FillColor = Colors.LightSalmon,
+                Corners = 8
+            });
+
+            // Row 4: Special Polygons
+            sampleLayer1.Shapes.Add(new XStar
+            {
+                Points = XFactory.CreateStar(new Point(50, 280), new Point(120, 330), 5, 0.4),
+                StrokeColor = Colors.Gold,
+                StrokeThickness = 2,
+                FillColor = Colors.Yellow
+            });
+
+            sampleLayer1.Shapes.Add(new XHeart
+            {
+                Points = XFactory.CreateHeart(new Point(150, 280), new Point(220, 330), 32),
+                StrokeColor = Colors.DarkRed,
+                StrokeThickness = 2,
+                FillColor = Colors.Red
+            });
+
+            sampleLayer1.Shapes.Add(new XSpiral
+            {
+                Points = XFactory.CreateSpiral(new Point(250, 280), new Point(320, 330), 3, 50),
+                StrokeColor = Colors.Indigo,
+                StrokeThickness = 2,
+                FillColor = Colors.Lavender
+            });
+
+            sampleLayer1.Shapes.Add(new XCloud
+            {
+                Points = XFactory.CreateCloud(new Point(350, 280), new Point(420, 330), 6, 0.4),
+                StrokeColor = Colors.Gray,
+                StrokeThickness = 2,
+                FillColor = Colors.LightGray
+            });
+
+            // Row 5: Arrow and Text
+            sampleLayer1.Shapes.Add(new XArrow
+            {
+                Points = XFactory.CreateArrow(new Point(50, 360), new Point(150, 390), 15, 8, 3),
+                StrokeColor = Colors.DarkSlateBlue,
+                StrokeThickness = 2,
+                FillColor = Colors.SlateBlue
+            });
+
+            sampleLayer1.Shapes.Add(new XText
+            {
+                Points = new ObservableCollection<Point> { new Point(200, 360) },
+                Text = "Sample Text",
+                FontFamily = new System.Windows.Media.FontFamily("Arial"),
+                FontSize = 16,
+                IsBold = true,
+                TextColor = Colors.DarkBlue
+            }); 
+
+            // Add a bitmap shape if random bitmaps are available
+            sampleLayer1.Shapes.Add(new XBitmap
+            {
+                Points = new ObservableCollection<Point> { new Point(350, 360), new Point(420, 410) },
+                BitmapIndex = 0, // Will reference the first bitmap in the project
+                Scaling = XScalingMode.Fit
+            });
 
             // Create sample images with layers
             var sampleImage1 = new XImage

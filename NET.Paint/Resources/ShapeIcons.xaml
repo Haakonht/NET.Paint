@@ -4,61 +4,35 @@
                     xmlns:selector="clr-namespace:NET.Paint.Selector">
 
     <DataTemplate x:Key="LineShape">
-        <Line X1="0" Y1="0" X2="15" Y2="15" Stroke="Black" StrokeThickness="2"/>
+        <ma:MaterialIcon Kind="VectorLine"/>
     </DataTemplate>
 
     <DataTemplate x:Key="CurveShape">
-        <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="0,0">
-                        <QuadraticBezierSegment Point1="15,0" Point2="15,15"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+        <ma:MaterialIcon Kind="VectorCurve"/>
     </DataTemplate>
 
     <DataTemplate x:Key="BezierShape">
-        <Canvas Width="100" Height="100">
-            <Path Stroke="Black" StrokeThickness="2" Fill="Transparent">
-                <Path.Data>
-                    <PathGeometry>
-                        <PathFigure StartPoint="0,0">
-                            <BezierSegment Point1="0,15" Point2="15,0" Point3="15,15"/>
-                        </PathFigure>
-                    </PathGeometry>
-                </Path.Data>
-            </Path>
-        </Canvas>
+        <ma:MaterialIcon Kind="VectorBezier"/>
     </DataTemplate>
 
     <DataTemplate x:Key="EllipseShape">
-        <ma:MaterialIcon Kind="EllipseOutline"/>
+        <ma:MaterialIcon Kind="VectorEllipse"/>
     </DataTemplate>
     
     <DataTemplate x:Key="CircleShape">
-        <ma:MaterialIcon Kind="CircleOutline"/> 
+        <ma:MaterialIcon Kind="VectorCircle"/> 
     </DataTemplate>
 
     <DataTemplate x:Key="TriangleShape">
-        <ma:MaterialIcon Kind="TriangleOutline"/>
-    </DataTemplate>
-    
-    <DataTemplate x:Key="RectangleShape">
-        <ma:MaterialIcon Kind="RectangleOutline"/>
+        <ma:MaterialIcon Kind="VectorTriangle"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="RoundedRectangleShape">
-        <Rectangle Stroke="Black" StrokeThickness="2" Fill="Transparent" Width="18" Height="18" RadiusX="3" RadiusY="3"/>
+    <DataTemplate x:Key="RectangleShape">
+        <ma:MaterialIcon Kind="VectorRectangle"/>
     </DataTemplate>
 
     <DataTemplate x:Key="SquareShape">
-        <ma:MaterialIcon Kind="SquareOutline"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="RoundedSquareShape">
-        <ma:MaterialIcon Kind="SquareRoundedOutline"/>
+        <ma:MaterialIcon Kind="VectorSquare"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PentagonShape">
@@ -66,7 +40,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="HexagonShape">
-        <ma:MaterialIcon Kind="PentagonOutline"/>
+        <ma:MaterialIcon Kind="HexagonOutline"/>
     </DataTemplate>
 
     <DataTemplate x:Key="HeptagonShape">
@@ -87,7 +61,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="OctagonShape">
-        <ma:MaterialIcon Kind="PentagonOutline"/>
+        <ma:MaterialIcon Kind="OCtagonOutline"/>
     </DataTemplate>
 
     <DataTemplate x:Key="StarShape">
@@ -158,9 +132,13 @@
         <ma:MaterialIcon Kind="FormatTextbox"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="PolygonShape">
+        
+    </DataTemplate>
+
     <selector:ShapeIconTemplateSelector x:Key="ShapeSelector" 
                            PencilTemplate="{StaticResource PencilShape}" LineTemplate="{StaticResource LineShape}" CurveTemplate="{StaticResource CurveShape}" BezierTemplate="{StaticResource BezierShape}"  TextTemplate="{StaticResource TextShape}" BitmapTemplate="{StaticResource BitmapShape}"
-                           CircleTemplate="{StaticResource CircleShape}"  EllipseTemplate="{StaticResource EllipseShape}" SquareTemplate="{StaticResource SquareShape}" RoundedSquareTemplate="{StaticResource RoundedSquareShape}" RectangleTemplate="{StaticResource RectangleShape}" RoundedRectangleTemplate="{StaticResource RoundedRectangleShape}"
+                           CircleTemplate="{StaticResource CircleShape}"  EllipseTemplate="{StaticResource EllipseShape}" SquareTemplate="{StaticResource SquareShape}" RectangleTemplate="{StaticResource RectangleShape}"
                            PentagonTemplate="{StaticResource PentagonShape}" HexagonTemplate="{StaticResource HexagonShape}" HeptagonTemplate="{StaticResource HeptagonShape}" OctagonTemplate="{StaticResource OctagonShape}" CloudTemplate="{StaticResource CloudShape}"
                            ArrowTemplate="{StaticResource ArrowShape}" HeartTemplate="{StaticResource HeartShape}" SpiralTemplate="{StaticResource SpiralShape}" StarTemplate="{StaticResource StarShape}" TriangleTemplate="{StaticResource TriangleShape}"/>
 

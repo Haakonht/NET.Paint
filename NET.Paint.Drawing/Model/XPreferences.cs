@@ -25,5 +25,19 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _preferencesVisible, value);
         }
 
+        private bool _clipboardVisible = false;
+        public bool ClipboardVisible
+        {
+            get => _clipboardVisible;
+            set => SetProperty(ref _clipboardVisible, value);
+        }
+
+        private bool _undoVisible = false;
+        public bool UndoVisible
+        {
+            get => _undoVisible;
+            set => SetProperty(ref _undoVisible, value);
+        }
+
     }
 }

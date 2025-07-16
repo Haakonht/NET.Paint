@@ -1,15 +1,16 @@
-﻿using NET.Paint.Drawing.Factory;
+﻿using Microsoft.Win32;
+using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using NET.Paint.Drawing.Interface;
-using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -34,22 +35,30 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void Cut(IEnumerable<object> elementToCut)
+        public void Cut(ObservableCollection<object> selected)
         {
             XClipboard.Instance.IsCut = true;
             XClipboard.Instance.Data.Clear();
 
-            foreach (var element in elementToCut)
+            List<int> indicesToRemove = new List<int>();
+            foreach (var element in selected)
             {
                 if (element is XRenderable || element is XLayer)
+                {
                     XClipboard.Instance.Data.Add(element);
 
-                if (element is XLayer layer)
-                    _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
+                    if (element is XLayer layer)
+                        _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-                else if (element is XRenderable renderable)
-                    (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+                    else if (element is XRenderable renderable)
+                        (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+
+                    indicesToRemove.Add(selected.IndexOf(element));
+                }
             }
+
+            for (int i = indicesToRemove.Count - 1; i >= 0; i--)
+                selected.RemoveAt(indicesToRemove[i]);
         }
 
         public void Paste(object? target = null)
@@ -63,18 +72,22 @@ namespace NET.Paint.Drawing.Command
                         if (item is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
                         {
                             if (target != null && target is IShapeLayer targetLayer)
-                                targetLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                                targetLayer.Shapes.Add(renderable.Clone() as XRenderable);
                             else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
-                                activeLayer.Shapes.Add(XClipboard.Instance.IsCut ? renderable : renderable.Clone() as XRenderable);
+                                activeLayer.Shapes.Add(renderable.Clone() as XRenderable);
                         }
 
                         else if (item is XVectorLayer vectorLayer && _service.ActiveImage != null)
-                            _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? vectorLayer : vectorLayer.Clone() as XVectorLayer);
+                            _service.ActiveImage.Layers.Add(vectorLayer.Clone() as XVectorLayer);
                         else if (item is XHybridLayer hybridLayer && _service.ActiveImage != null)
-                            _service.ActiveImage.Layers.Add(XClipboard.Instance.IsCut ? hybridLayer : hybridLayer.Clone() as XHybridLayer);
+                            _service.ActiveImage.Layers.Add(hybridLayer.Clone() as XHybridLayer);
+                    }
 
-                        if (XClipboard.Instance.IsCut)
-                            XClipboard.Instance.Data.Clear();
+                    if (XClipboard.Instance.IsCut)
+                    {
+                        XClipboard.Instance.Data.Clear();
+                        XClipboard.Instance.IsCut = false;
+                        _service.Preferences.ClipboardVisible = false;
                     }
                 }
             }
@@ -95,6 +108,9 @@ namespace NET.Paint.Drawing.Command
                     var shape = shapeLayer.Shapes.Last();
                     shapeLayer.Shapes.Remove(shape);
                     activeImage.Undo.Push(shape);
+
+                    if (activeImage.Selected.Contains(shape))
+                        activeImage.Selected.Remove(shape);
                 }
             }
         }

@@ -11,7 +11,7 @@
              xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="200" d:Background="White"
+             d:DesignHeight="450" d:DesignWidth="250" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -217,9 +217,18 @@
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type structure:XRenderable}">
                                 <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource RenderableContextMenu}" MouseDown="SelectNode" Margin="0,1">
-                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center" FontSize="10" Width="18" Height="18"/>
-                                    <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource ActiveHoverStyle}"/>
-                                    <TextBlock Text="{Binding Style, Mode=OneWay, StringFormat=[{0}]}" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                                    <StackPanel.Resources>
+                                        <converter:ShapeNameConverter x:Key="ShapeNameConverter"/>
+                                        <converter:ValueGreaterThanConverter x:Key="ValueGreaterThanConverter"/>
+                                    </StackPanel.Resources>
+                                    <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center" Width="15" Height="15"/>
+                                    <TextBlock Text="{Binding Path=., Converter={StaticResource ShapeNameConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource ActiveHoverStyle}"/>
+
+                                    <Label Padding="0" Margin="0" Visibility="{Binding Type, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static constants:XToolType.Rectangle}}">
+                                        <TextBlock Text="[Rounded]" VerticalAlignment="Center" Margin="3,0,0,0" Visibility="{Binding Radius, Converter={StaticResource ValueGreaterThanConverter}, ConverterParameter=1}"/>
+                                    </Label>
+
+                                    <TextBlock Text="{Binding Text, Mode=OneWay, StringFormat=[{0}]}" VerticalAlignment="Center" Margin="3,0,0,0" Visibility="{Binding Type, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static constants:XToolType.Text}}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>

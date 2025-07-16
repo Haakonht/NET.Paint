@@ -40,7 +40,7 @@ namespace NET.Paint.View.Component
                 {
                     if (Preview.Shape != null && Preview.Shape is XText text && !string.IsNullOrEmpty(text.Text) && image.ActiveLayer != null)
                     {
-                        if (image.ActiveLayer is XVectorLayer vectorLayer)
+                        if (image.ActiveLayer is IShapeLayer vectorLayer)
                             vectorLayer.Shapes.Add(Preview.Shape);
                         
                         Preview.Shape = null;

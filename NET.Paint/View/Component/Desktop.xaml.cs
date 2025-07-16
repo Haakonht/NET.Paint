@@ -37,75 +37,64 @@ namespace NET.Paint.View.Component
                     {
                         PreferencesAnchorable.IsVisible = context.Preferences.PreferencesVisible;
                         PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
-                        ClipboardAnchorable.IsVisible = context.Clipboard.Data.Count > 0;
-                        HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0;
+                        ClipboardAnchorable.IsVisible = context.Preferences.ClipboardVisible;
+                        UndoAnchorable.IsVisible = context.Preferences.UndoVisible;
 
                         context.ActiveImage.Selected.CollectionChanged += (s, e) =>
                         {
                             Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
                         };
-                        context.Clipboard.Data.CollectionChanged += (s, e) =>
-                        {
-                            Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = context.Clipboard.Data.Count > 0);
-                        };
-                        context.ActiveImage.Undo.History.CollectionChanged += (s, e) =>
-                        {
-                            Dispatcher.Invoke(() => HistoryAnchorable.IsVisible = context.ActiveImage.Undo.History.Count > 0);
-                        };
                     }
                 }
             }
         }
 
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var context = DataContext as XService;
-
-            if (context != null)
-            {
-                context.Preferences.PropertyChanged += Service_PropertyChanged;
-            }
-        }
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as XService).Preferences.PropertyChanged += Service_PropertyChanged;
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var context = DataContext as XService;
-            if (sender is XPreferences service)
+            var service = DataContext as XService;
+            if (sender is XPreferences preferences)
             {
-                if (e.PropertyName == nameof(XService.Preferences.ToolboxVisible))
-                    Dispatcher.Invoke(() => Toolbox.IsVisible = service.ToolboxVisible);
-
-                if (e.PropertyName == nameof(XService.Preferences.PreferencesVisible))
+                switch(e.PropertyName)
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        if (service.PreferencesVisible)
+                    case nameof(XService.Preferences.ClipboardVisible):
+                        Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = preferences.ClipboardVisible);
+                        break;
+                    case nameof(XService.Preferences.UndoVisible):
+                        Dispatcher.Invoke(() => UndoAnchorable.IsVisible = preferences.UndoVisible);
+                        break;
+                    case nameof(XService.Preferences.ToolboxVisible):
+                        Dispatcher.Invoke(() => Toolbox.IsVisible = preferences.ToolboxVisible);
+                        break;
+                    case nameof(XService.Preferences.PreferencesVisible):
+                        Dispatcher.Invoke(() =>
                         {
-                            AnchorableHelper.CenterAnchorableOnApplication(PreferencesAnchorable);
-                            PreferencesAnchorable.IsVisible = true;
-                            if (!PreferencesAnchorable.IsFloating)
-                                PreferencesAnchorable.Float();
+                            if (preferences.PreferencesVisible)
+                            {
+                                AnchorableHelper.CenterAnchorableOnApplication(PreferencesAnchorable);
+                                PreferencesAnchorable.IsVisible = true;
+                                if (!PreferencesAnchorable.IsFloating)
+                                    PreferencesAnchorable.Float();
+                            }
+                            else
+                            {
+                                PreferencesAnchorable.Dock();
+                                PreferencesAnchorable.IsVisible = false;
+                            }
+                        });
+                        break;
+                    case nameof(XService.Preferences.OverviewVisible):               
+                        Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = preferences.OverviewVisible);
+                        if (!preferences.OverviewVisible)
+                        {
+                            PropertiesAnchorable.IsVisible = false;
+                            preferences.UndoVisible = false;
+                            preferences.ClipboardVisible = false;
                         }
                         else
-                        {
-                            PreferencesAnchorable.Dock();
-                            PreferencesAnchorable.IsVisible = false;
-                        }
-                    });
-                }
-
-                if (e.PropertyName == nameof(XService.Preferences.OverviewVisible))
-                {
-                    Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = service.OverviewVisible);
-
-                    if (!service.OverviewVisible)
-                    {
-                        PropertiesAnchorable.IsVisible = service.OverviewVisible;
-                        HistoryAnchorable.IsVisible = service.OverviewVisible;
-                        ClipboardAnchorable.IsVisible = service.OverviewVisible;
-                    }
-                    else
-                        PropertiesAnchorable.IsVisible = context?.ActiveImage?.Selected.Count > 0;
+                            PropertiesAnchorable.IsVisible = service?.ActiveImage?.Selected.Count > 0;
+                        break;
                 }
             }
         }

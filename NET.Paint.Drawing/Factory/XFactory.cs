@@ -307,52 +307,53 @@ namespace NET.Paint.Drawing.Factory
             var points = new ObservableCollection<Point>();
             Random random = new Random();
 
-            // Create base cloud parameters
-            double baseRadiusX = width * 0.35;
-            double baseRadiusY = height * 0.35;
+            // Create base elliptical cloud body points
+            double baseRadiusX = width * 0.3;
+            double baseRadiusY = height * 0.3;
             
-            // Generate points around the cloud perimeter with semicircular bumps
-            int totalPoints = bumpCount * 12; // More points for smoother curves
-            
-            for (int i = 0; i < totalPoints; i++)
+            // First, generate the base perimeter points
+            var basePoints = new List<Point>();
+            for (int i = 0; i < bumpCount; i++)
             {
-                double angle = 2 * Math.PI * i / totalPoints;
+                double angle = 2 * Math.PI * i / bumpCount;
+                double x = centerX + baseRadiusX * Math.Cos(angle);
+                double y = centerY + baseRadiusY * Math.Sin(angle);
+                basePoints.Add(new Point(x, y));
+            }
+
+            // Now create the cloud outline with outward extensions
+            for (int i = 0; i < basePoints.Count; i++)
+            {
+                Point current = basePoints[i];
+                Point next = basePoints[(i + 1) % basePoints.Count]; // Wrap around to first point
                 
-                // Base elliptical radius at this angle
-                double baseRadius = Math.Sqrt(
-                    Math.Pow(baseRadiusX * Math.Cos(angle), 2) + 
-                    Math.Pow(baseRadiusY * Math.Sin(angle), 2));
+                // Add the current base point
+                points.Add(current);
                 
-                // Determine which bump we're in
-                double bumpPosition = (double)(i % (totalPoints / bumpCount)) / (totalPoints / bumpCount);
+                // Calculate the midpoint of the line segment
+                Point midPoint = new Point(
+                    (current.X + next.X) / 2,
+                    (current.Y + next.Y) / 2
+                );
                 
-                // Create semicircular bump effect
-                double bumpIntensity = 0;
-                if (bumpPosition <= 0.8) // Only create bump for 80% of the segment
-                {
-                    // Map to semicircle (0 to PI)
-                    double semicircleAngle = bumpPosition * Math.PI / 0.8;
-                    bumpIntensity = Math.Sin(semicircleAngle);
-                }
+                // Calculate the direction from cloud center to midpoint (outward direction)
+                Vector outwardDir = new Vector(
+                    midPoint.X - centerX,
+                    midPoint.Y - centerY
+                );
+                outwardDir.Normalize();
                 
-                // Add some randomness to bump size
-                int bumpIndex = i / (totalPoints / bumpCount);
-                random = new Random(bumpIndex + 42); // Consistent randomness per bump
-                double bumpSizeVariation = 0.7 + random.NextDouble() * 0.6 * bumpVariation;
+                // Randomize the extension length
+                double extensionLength = (width + height) / 16 * (0.4 + random.NextDouble() * bumpVariation);
                 
-                // Calculate final radius with bump
-                double bumpExtension = baseRadius * 0.4 * bumpIntensity * bumpSizeVariation;
-                double finalRadius = baseRadius + bumpExtension;
+                // Create the outward extension point
+                Point extensionPoint = new Point(
+                    midPoint.X + outwardDir.X * extensionLength,
+                    midPoint.Y + outwardDir.Y * extensionLength
+                );
                 
-                // Add slight random noise for natural variation
-                double noise = (random.NextDouble() - 0.5) * 0.05 * baseRadius;
-                finalRadius += noise;
-                
-                // Calculate final point
-                double x = centerX + finalRadius * Math.Cos(angle);
-                double y = centerY + finalRadius * Math.Sin(angle);
-                
-                points.Add(new Point(x, y));
+                // Add the extension point
+                points.Add(extensionPoint);
             }
 
             return points;
