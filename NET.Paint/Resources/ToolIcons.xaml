@@ -66,8 +66,12 @@
         <ma:MaterialIcon Kind="SelectionEllipseArrowInside"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="ManipulatorToolIcon">
+    <DataTemplate x:Key="MoveToolIcon">
         <ma:MaterialIcon Kind="ArrowAll"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RotateToolIcon">
+        <ma:MaterialIcon Kind="Refresh"/>
     </DataTemplate>
 
     <DataTemplate x:Key="EraserToolIcon">

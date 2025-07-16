@@ -5,7 +5,7 @@ using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Resources.Controls;
+using NET.Paint.View.Component.Drawing.Controls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

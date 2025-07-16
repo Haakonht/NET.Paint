@@ -65,7 +65,8 @@
 
     public enum XSelectionMode
     {
-        Manipulator,
+        Move,
+        Rotate,
         Pointer,
         Rectangle,
         Lasso

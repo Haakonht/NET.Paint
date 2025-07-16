@@ -63,7 +63,8 @@ namespace NET.Paint.Drawing.Model.Shape
             StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            Rotation = this.Rotation
+            Rotation = this.Rotation,
+            Corners = this.Corners
         };
     }
 

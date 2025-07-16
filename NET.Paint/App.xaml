@@ -6,17 +6,20 @@
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
         <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-        <converter:ContrastColorConverter x:Key="ContrastColorConverter"/>
         <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
-        <converter:PointsToPointCollectionConverter x:Key="PointsCollectionConverter"/>
         <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
-        <converter:InverseScaleConverter x:Key="InverseScaleConverter"/>
-        <converter:ToolToCursorConverter x:Key="ToolToCursorConverter"/>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-        <converter:ImageScalingToStretchConverter x:Key="ImageScalingToStretchConverter"/>
-        <converter:IsNotNullConverter x:Key="IsNotNullConverter"/>
+        <converter:ValueGreaterThanConverter x:Key="ValueGreaterThanConverter"/>
         <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
-        <converter:ShapeConverter x:Key="ShapeConverter"/>
+
+        <Style TargetType="TextBlock" x:Key="HoverStyle">
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

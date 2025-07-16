@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
-             xmlns:controls="clr-namespace:NET.Paint.View.Component.Overview.Control"
+             xmlns:controls="clr-namespace:NET.Paint.View.Component.Overview.Controls"
+             xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              xmlns:converters="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
@@ -15,7 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/ShapeIcons.xaml"/>
                 <ResourceDictionary Source="../../../Resources/ToolIcons.xaml"/>
-                <ResourceDictionary Source="../../../Resources/Controls/StretchingTreeView.xaml"/>
+                <ResourceDictionary Source="Resources/StretchingTreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ContextMenu x:Key="ImageContextMenu">
@@ -47,6 +48,10 @@
                 </MenuItem>
                 <MenuItem Header="Remove" Click="Remove"/>
             </ContextMenu>
+
+            <DataTemplate x:Key="RasterLayerTemplate" DataType="{x:Type structure:XRasterLayer}">
+                <controls:Layer DataContext="{Binding}" ContextMenu="{StaticResource LayerContextMenu}" MouseDown="SelectNode"/>
+            </DataTemplate>
 
         </ResourceDictionary>
     </UserControl.Resources>

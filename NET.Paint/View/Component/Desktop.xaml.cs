@@ -2,6 +2,7 @@
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using NET.Paint.Helper;
+using NET.Paint.View.Component.Tools;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -105,22 +106,6 @@ namespace NET.Paint.View.Component
             e.Handled = true;
         }
 
-        private void OpenToolContext(object sender, MouseButtonEventArgs e)
-        {
-            ToolContextMenu.IsOpen = true;
-            e.Handled = true;
-        }
-
-        private void OpenToolContextSpecific(object sender, MouseEventArgs e)
-        {
-            if (sender is Image element && DataContext is XService service)
-                if (int.TryParse(element.Tag.ToString(), out int index))
-                    ToolContext.TabManager.SelectedIndex = index;
-
-            ToolContextQuickSelect.IsOpen = false;
-            ToolContextMenu.IsOpen = true;
-        }
-
         private void CloseToolContextQuickSelect(object sender, MouseEventArgs e)
         {
             ToolContextQuickSelect.IsOpen = false;
@@ -133,9 +118,34 @@ namespace NET.Paint.View.Component
             e.Handled = true;
         }
 
+        private void OnOpenToolContextRequested(object sender, RoutedEventArgs e)
+        {
+            ToolContextMenu.IsOpen = true;
+            ToolContextQuickSelect.IsOpen = false;
+        }
+
+        private void OnOpenSpecificToolContext(object sender, RoutedEventArgs e)
+        {
+            if (e is ToolContextEventArgs args && int.TryParse(args.TabIndex?.ToString(), out int index))
+            {
+                if (ToolContext.DataContext is XService service)
+                {
+                    ToolContext.TabManager.SelectedIndex = index;
+                }
+            }
+
+            ToolContextMenu.IsOpen = true;
+            ToolContextQuickSelect.IsOpen = false;
+        }
+
+        private void OnCloseToolContextRequested(object sender, RoutedEventArgs e)
+        {
+            ToolContextMenu.IsOpen = false;
+        }
+
         private void CloseToolContext(object sender, MouseEventArgs e)
         {
-            ToolContextQuickSelect.IsOpen = false;
+            ToolContextMenu.IsOpen = false;
             e.Handled = true;
         }
     }

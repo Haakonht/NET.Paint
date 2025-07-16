@@ -48,14 +48,12 @@
 
         <StatusBarItem HorizontalAlignment="Right" Margin="0,0,5,0" Padding="0">
             <StackPanel Orientation="Horizontal" Height="20">
-                <!--<StatusBarItem Visibility="{Binding Clipboard.CanPaste, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,-3,0,0">-->
-                <StatusBarItem Visibility="Visible" Padding="0">
+                <StatusBarItem Visibility="{Binding Clipboard.CanPaste, Converter={StaticResource BoolToVisibilityConverter}}" Padding="0">
                     <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleClipboard" Height="18" Width="18" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ma:MaterialIcon Kind="ClipboardOutline" Height="18" Width="18" Margin="-1,0,0,0"/>
                     </Button>
                 </StatusBarItem>
-                <StatusBarItem Visibility="Visible" Padding="0" Margin="5,0">
-                    <!--<StatusBarItem Visibility="{Binding ActiveImage.Undo.CanRedo, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,-3,0,0">-->
+                <StatusBarItem Visibility="{Binding ActiveImage.Undo.CanRedo, Converter={StaticResource BoolToVisibilityConverter}}" Padding="0" Margin="5,0">
                     <Button Background="Transparent" BorderBrush="Transparent" Click="ToggleUndo" Height="18" Width="18" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ma:MaterialIcon Kind="Cached" Height="18" Width="18" Margin="-1,0,0,0"/>
                     </Button>

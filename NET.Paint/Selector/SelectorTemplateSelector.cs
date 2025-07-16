@@ -10,7 +10,8 @@ namespace NET.Paint.Selector
         public DataTemplate PointerTemplate { get; set; }
         public DataTemplate RectangleTemplate { get; set; }
         public DataTemplate LassoTemplate { get; set; }
-        public DataTemplate ManipulatorTemplate { get; set; }
+        public DataTemplate MoveTemplate { get; set; }
+        public DataTemplate RotateTemplate { get; set; }
         public DataTemplate EmptyTemplate { get; set; } = new DataTemplate();
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -23,8 +24,10 @@ namespace NET.Paint.Selector
                         return PointerTemplate;
                     case XSelectionMode.Rectangle:
                         return RectangleTemplate;
-                    case XSelectionMode.Manipulator:
-                        return ManipulatorTemplate;
+                    case XSelectionMode.Move:
+                        return MoveTemplate;
+                    case XSelectionMode.Rotate:
+                        return RotateTemplate;
                     case XSelectionMode.Lasso:
                         return LassoTemplate;
                 }

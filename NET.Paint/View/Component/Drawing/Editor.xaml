@@ -3,18 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Control"
-             xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
+             xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
-             xmlns:resources="clr-namespace:NET.Paint.Resources.Controls"
+             xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
-        <ResourceDictionary Source="../../../Resources/Renderer.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Renderer.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:CursorConverter x:Key="CursorConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <xctk:Zoombox x:Name="Zoombox" Background="LightGray" IsUsingScrollBars="True" Scale="{Binding Configuration.Zoom, Mode=TwoWay}" MinScale="0.1" MaxScale="2.0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
@@ -27,16 +32,16 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <resources:SimpleRuler Height="40" Margin="11,0" Orientation="Horizontal" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <resources:SimpleRuler Width="40" Margin="0,11" Orientation="Vertical" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <controls:SimpleRuler Height="40" Margin="11,0" Orientation="Horizontal" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <controls:SimpleRuler Width="40" Margin="0,11" Orientation="Vertical" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1"  Margin="10">
-                <resources:GridCanvas x:Name="DrawingCanvas" Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" ClipToBounds="True">
-                    <resources:GridCanvas.Cursor>
-                        <MultiBinding Converter="{StaticResource ToolToCursorConverter}">
+                <controls:GridCanvas x:Name="DrawingCanvas" Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" ClipToBounds="True">
+                    <controls:GridCanvas.Cursor>
+                        <MultiBinding Converter="{StaticResource CursorConverter}">
                             <Binding Source="{x:Static active:XTools.Instance}" Path="ActiveTool"/>
                             <Binding Source="{x:Static active:XTools.Instance}" Path="SelectionMode"/>
                         </MultiBinding>
-                    </resources:GridCanvas.Cursor>
+                    </controls:GridCanvas.Cursor>
 
                     <ItemsControl ItemsSource="{Binding Layers}">
                         <ItemsControl.Resources>
@@ -118,7 +123,7 @@
                     </ItemsControl>
                     <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
                         <ContentPresenter.Resources>
-                            <ResourceDictionary Source="../../../Resources/Preview.xaml"/>
+                            <ResourceDictionary Source="Resources/Preview.xaml"/>
                         </ContentPresenter.Resources>
                         <ContentPresenter.RenderTransform>
                             <TransformGroup>
@@ -127,7 +132,7 @@
                             </TransformGroup>
                         </ContentPresenter.RenderTransform>
                     </ContentPresenter>
-                </resources:GridCanvas>
+                </controls:GridCanvas>
             </Border>
         </Grid>
     </xctk:Zoombox>
