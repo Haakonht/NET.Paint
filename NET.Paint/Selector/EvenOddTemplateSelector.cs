@@ -28,6 +28,15 @@ namespace NET.Paint.Selector
                     case XEllipseStyle.Ellipse:
                         return OddTemplate;
                 }
+            else if (item is XPencilMode pencilMode)
+                switch (pencilMode)
+                {
+                    case XPencilMode.Add:
+                        return EvenTemplate;
+                    case XPencilMode.Remove:
+                        return OddTemplate;
+                }
+
 
             return EmptyTemplate;
         }

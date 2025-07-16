@@ -1,11 +1,10 @@
-﻿<UserControl x:Class="NET.Paint.View.Component.Tools.Subcomponent.Custom"
+﻿<UserControl x:Class="NET.Paint.View.Component.Tool.Control.Custom"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
-             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Tool.Control"
+             xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -19,6 +18,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../../Resources/ShapeIcons.xaml" />
+                <ResourceDictionary Source="../../../../Resources/ToolIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <converter:RectangleTypeConverter x:Key="RectangleTypeConverter"/>
@@ -32,30 +32,24 @@
 
             <DataTemplate x:Key="SelectorToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Label Content="Selection Mode:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Selection Mode" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                     <UniformGrid Columns="3" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Pointer}}" Content="{fa:Icon DotCircle}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Rectangle}}" Content="{fa:Icon Square}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Lasso}}" Content="{fa:Icon DrawPolygon}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Pointer}}" ContentTemplate="{StaticResource PointerToolIcon}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Rectangle}}" ContentTemplate="{StaticResource SelectorToolIcon}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Lasso}}" ContentTemplate="{StaticResource LassoToolIcon}" GroupName="SelectorMode"/>
                     </UniformGrid>
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="StarToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding StarPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding StarPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Points" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -80,19 +74,13 @@
 
             <DataTemplate x:Key="ArrowToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding ArrowPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding ArrowPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Head Length" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -125,20 +113,8 @@
 
             <DataTemplate x:Key="PencilToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <UniformGrid Rows="1">
-                        <RadioButton Height="25" IsChecked="{Binding Tools.IsPolylineAdd, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PencilSelect">
-                            <RadioButton.Content>
-                                <icons:MaterialIcon Kind="VectorPolylinePlus"/>
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton Height="25" IsChecked="{Binding Tools.IsPolylineAdd, Converter={StaticResource InvertedBooleanConverter},Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="PencilSelect">
-                            <RadioButton.Content>
-                                <icons:MaterialIcon Kind="VectorPolylineMinus"/>
-                            </RadioButton.Content>
-                        </RadioButton>
-                    </UniformGrid>
-                    <StackPanel Visibility="{Binding Tools.IsPolylineAdd, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Label Content="Spacing:" Padding="0" Margin="2,2,0,2"/>
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}">
+                        <Label Content="Spacing" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -148,8 +124,8 @@
                             <TextBlock Text="{Binding Tools.PencilSpacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
                         </Grid>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding Tools.IsPolylineAdd, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
-                        <Label Content="Tolerance:" Padding="0" Margin="2,2,0,2"/>
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}">
+                        <Label Content="Tolerance" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -164,7 +140,7 @@
 
             <DataTemplate x:Key="TextToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Label Content="Font / Size:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Font / Size" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -173,37 +149,25 @@
                         <ComboBox Grid.Column="0" ItemsSource="{x:Static options:XConstants.FontFamilyOptions}" SelectedValue="{Binding Tools.FontFamily, Mode=TwoWay}" Height="25"/>
                         <ComboBox Grid.Column="1" ItemsSource="{x:Static options:XConstants.FontSizeOptions}" SelectedValue="{Binding Tools.FontSize, Mode=TwoWay}" Height="25"/>
                     </Grid>
-                    <Label Content="Style:" Padding="0" Margin="2,2,0,2"/>
+                    <Label Content="Format" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <UniformGrid Rows="1" Height="25">
-                        <ToggleButton Content="{fa:Icon Bold}" IsChecked="{Binding Tools.IsBold}"/>
-                        <ToggleButton Content="{fa:Icon Italic}" IsChecked="{Binding Tools.IsItalic}"/>
-                        <ToggleButton Content="{fa:Icon Underline}" IsChecked="{Binding Tools.IsUnderline}"/>
-                        <ToggleButton Content="{fa:Icon Strikethrough}" IsChecked="{Binding Tools.IsStrikethrough}"/>
-                         <!--
-                        <RadioButton Content="{fa:Icon AlignLeft}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Left, Mode=TwoWay}" Width="25"/>
-                        <RadioButton Content="{fa:Icon AlignCenter}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Center, Mode=TwoWay}" Width="25"/>
-                        <RadioButton Content="{fa:Icon AlignRight}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Right, Mode=TwoWay}" Width="25"/>
-                        <RadioButton Content="{fa:Icon AlignJustify}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="TextAlignment" IsChecked="{Binding TextAlignment, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Justify, Mode=TwoWay}" Width="25"/>
-                        -->
+                        <ToggleButton Content="{ma:MaterialIconExt Kind=FormatBold}" IsChecked="{Binding Tools.IsBold}"/>
+                        <ToggleButton Content="{ma:MaterialIconExt Kind=FormatItalic}" IsChecked="{Binding Tools.IsItalic}"/>
+                        <ToggleButton Content="{ma:MaterialIconExt Kind=FormatUnderline}" IsChecked="{Binding Tools.IsUnderline}"/>
+                        <ToggleButton Content="{ma:MaterialIconExt Kind=FormatStrikethroughVariant}" IsChecked="{Binding Tools.IsStrikethrough}"/>
                     </UniformGrid>
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="CloudToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding CloudPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding CloudPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Bumps" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -227,19 +191,13 @@
 
             <DataTemplate x:Key="SpiralToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding SpiralPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding SpiralPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Turns" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -263,19 +221,13 @@
 
             <DataTemplate x:Key="HeartToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Column="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding HeartPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding HeartPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Samples" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -290,19 +242,13 @@
 
             <DataTemplate x:Key="RegularToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <Grid Height="80">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Grid.Row="1">
-                            <ContentPresenter Content="{Binding RegularPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ContentPresenter.Resources>
-                                    <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
-                                </ContentPresenter.Resources>
-                            </ContentPresenter>
-                        </Border>
-                    </Grid>
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <ContentPresenter Content="{Binding RegularPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <ResourceDictionary Source="../../../../Resources/Renderer.xaml"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
                     <Label Content="Corners" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -316,13 +262,12 @@
             </DataTemplate>
 
             <DataTemplate x:Key="RectangleToolTemplate">
-                <StackPanel>
-                    <UniformGrid Rows="1">
-                        <RadioButton Height="25" ContentTemplate="{StaticResource RectangleShape}" IsChecked="{Binding Tools.Radius, Converter={StaticResource RectangleTypeConverter}, ConverterParameter=Regular, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="RectangleSelect"/>
-                        <RadioButton Height="25" ContentTemplate="{StaticResource RoundedRectangleShape}" IsChecked="{Binding Tools.Radius, Converter={StaticResource RectangleTypeConverter}, ConverterParameter=Inverted, Mode=TwoWay}" Style="{StaticResource {x:Type ToggleButton}}" GroupName="RectangleSelect"/>
-                    </UniformGrid>
-                    <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}" Visibility="{Binding Tools.Radius, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1}">
-                        <Label Content="Radius:" Padding="0" Margin="2,10,0,2"/>
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
+                        <Rectangle Stroke="Black" Fill="LightGray" StrokeThickness="1" Height="60" Width="60" RadiusX="{Binding Tools.Radius}" RadiusY="{Binding Tools.Radius}"/>
+                    </Border>
+                    <StackPanel>
+                        <Label Content="Radius:" Padding="0" FontSize="10" Margin="2,0,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -340,9 +285,9 @@
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Bitmap Scaling:" Padding="0" Margin="2,0,0,2"/>
                     <UniformGrid Columns="3" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Original}}" Content="{fa:Icon Compress}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Fit}}" Content="{fa:Icon Expand}" GroupName="SelectorMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Clip}}" Content="{fa:Icon CropSimple}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Original}}" Content="{ma:MaterialIconExt Kind=Compress}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Fit}}" Content="{ma:MaterialIconExt Kind=FitToScreen}" GroupName="SelectorMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Clip}}" Content="{ma:MaterialIconExt Kind=Crop}" GroupName="SelectorMode"/>
                     </UniformGrid>
                     <Label Content="Gallery:" Padding="0" Margin="2,0,0,2"/>
                     <Border BorderBrush="LightGray" BorderThickness="1">
@@ -371,50 +316,50 @@
             <DataTemplate x:Key="PolygonToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <ComboBox SelectedValue="{Binding Tools.ActivePolygon}" SelectedValuePath="Tag" Height="25">
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Regular}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Regular}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource PentagonShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Regular" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Star}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Star}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource StarShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource StarShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Star" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Heart}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Heart}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource HeartShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource HeartShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Heart" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Arrow}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Arrow}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource ArrowShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource ArrowShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Arrow" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Spiral}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Spiral}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource SpiralShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource SpiralShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Spiral" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>
                         </ComboBoxItem>
-                        <ComboBoxItem Height="25" Tag="{x:Static options:XPolygonStyle.Cloud}">
+                        <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Cloud}">
                             <ComboBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentTemplate="{StaticResource CloudShape}" Margin="5,0,0,0"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource CloudShape}" Margin="5,0,0,0" Height="20"/>
                                     <TextBlock Text="Cloud" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem.Content>

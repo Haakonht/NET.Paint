@@ -24,6 +24,8 @@ namespace NET.Paint.Selector
             {
                 switch (type)
                 {
+                    case XToolType.Selector:
+                        return SelectorTemplate;
                     case XToolType.Pencil:
                         return PencilTemplate;
                     case XToolType.Line:

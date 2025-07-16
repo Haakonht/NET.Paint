@@ -90,6 +90,7 @@ namespace NET.Paint.Drawing.Model.Structure
         public XConfiguration Configuration { get; } = new XConfiguration();
 
         public XImage() => _selected.CollectionChanged += (s, e) => {
+            OnPropertyChanged(nameof(Selected));
             OnPropertyChanged(nameof(CanCut));
             OnPropertyChanged(nameof(CanCopy));
         };

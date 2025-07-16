@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Drawing
 {
     /// <summary>
     /// Interaction logic for Editor.xaml
@@ -77,12 +77,12 @@ namespace NET.Paint.View.Component
                     {
                         if (Preview.Shape is XPencil pencil)
                         {
-                            if (tools.IsPolylineAdd || tools.ActiveTool == XToolType.Selector)
+                            if (tools.PencilMode == XPencilMode.Add || tools.ActiveTool == XToolType.Selector)
                                 XFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
-
-                            else if (tools.ActiveTool == XToolType.Pencil && !tools.IsPolylineAdd)
-                                XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
                         }
+
+                        else if (tools.ActiveTool == XToolType.Pencil && tools.PencilMode == XPencilMode.Remove)
+                            XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
 
                         else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {

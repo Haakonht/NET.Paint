@@ -125,7 +125,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="PencilShape">
-        <ma:MaterialIcon Kind="VectorPolyline"/>
+        <ma:MaterialIcon Kind="VectorPolylinePlus"/>
     </DataTemplate>
 
     <DataTemplate x:Key="TextShape">

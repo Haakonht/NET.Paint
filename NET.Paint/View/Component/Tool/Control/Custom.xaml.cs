@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace NET.Paint.View.Component.Tools.Subcomponent
+namespace NET.Paint.View.Component.Tool.Control
 {
     /// <summary>
     /// Interaction logic for Contextual.xaml
@@ -37,7 +37,7 @@ namespace NET.Paint.View.Component.Tools.Subcomponent
             if (DataContext is not null && DataContext is XService service)
                 if (sender is Button && sender is Button button)
                     if (button.Content is Image image)
-                        service.Tools.ActiveBitmap = service.Project.Bitmaps.IndexOf(image.Source);
+                        service.Tools.ActiveBitmap = image.Source;
         }
 
         private void RegularPreviewchanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateRegularPreview();

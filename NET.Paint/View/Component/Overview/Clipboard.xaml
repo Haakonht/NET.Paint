@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Subcomponent"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Tool.Control"
              xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 

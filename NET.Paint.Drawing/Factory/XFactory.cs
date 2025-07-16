@@ -20,7 +20,7 @@ namespace NET.Paint.Drawing.Factory
             switch (tools.ActiveTool)
             {
                 case XToolType.Pencil:
-                    if (tools.IsPolylineAdd)
+                    if (tools.PencilMode == XPencilMode.Add)
                         return new XPencil
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
@@ -179,7 +179,7 @@ namespace NET.Paint.Drawing.Factory
                         return null;
                     return new XBitmap
                     {
-                        BitmapIndex = tools.ActiveBitmap.Value,
+                        Source = tools.ActiveBitmap,
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
                     };

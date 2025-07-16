@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NET.Paint.Drawing.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Tool.Control
 {
     /// <summary>
-    /// Interaction logic for ToolContextSlim.xaml
+    /// Interaction logic for Zoom.xaml
     /// </summary>
-    public partial class ToolContext : UserControl
+    public partial class Zoom : UserControl
     {
-        public ToolContext()
+        public Zoom()
         {
             InitializeComponent();
+        }
+
+        private void ResetZoom(object sender, RoutedEventArgs e)
+        {
+            var context = DataContext as XConfiguration;
+
+            if (context != null)
+                context.Zoom = 1.0;
         }
     }
 }

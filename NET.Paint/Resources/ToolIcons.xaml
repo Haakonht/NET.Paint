@@ -70,6 +70,10 @@
         <ma:MaterialIcon Kind="ArrowAll"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="EraserToolIcon">
+        <ma:MaterialIcon Kind="VectorPolylineMinus"/>
+    </DataTemplate>
+
     <DataTemplate x:Key="ThicknessToolIcon">
         <ma:MaterialIcon Kind="FormatLineWeight">
             <ma:MaterialIcon.RenderTransform>
@@ -88,6 +92,18 @@
 
     <DataTemplate x:Key="RulerToolIcon">
         <ma:MaterialIcon Kind="Ruler"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="VectorLayerToolIcon">
+        <ma:MaterialIcon Kind="LayersOutline" Foreground="Green"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="HybridLayerToolIcon">
+        <ma:MaterialIcon Kind="LayersOutline" Foreground="Black"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RasterLayerToolIcon">
+        <ma:MaterialIcon Kind="LayersOutline" Foreground="Red"/>
     </DataTemplate>
 
     <selector:ToolIconTemplateSelector x:Key="ToolIconTemplateSelector" 

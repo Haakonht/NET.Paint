@@ -179,11 +179,11 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _clipOffset, value);
         }
 
-        private int _bitmapIndex = 0;
-        public int BitmapIndex
+        private ImageSource? _source = null;
+        public ImageSource? Source
         {
-            get => _bitmapIndex;
-            set => SetProperty(ref _bitmapIndex, value);
+            get => _source;
+            set => SetProperty(ref _source, value);
         }
 
         private XScalingMode _scaling = XScalingMode.Original;
@@ -195,7 +195,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XBitmap
         {
-            BitmapIndex = this.BitmapIndex,
+            Source = this.Source,
             Scaling = this.Scaling,
             ClipOffset = this.ClipOffset,
             Rotation = this.Rotation,

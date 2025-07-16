@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component.Tools.Subcomponent
+namespace NET.Paint.View.Component.Tool.Control
 {
     /// <summary>
     /// Interaction logic for Grid.xaml

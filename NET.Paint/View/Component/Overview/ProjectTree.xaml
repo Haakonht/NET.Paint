@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/ShapeIcons.xaml"/>
+                <ResourceDictionary Source="../../../Resources/ToolIcons.xaml"/>
                 <ResourceDictionary Source="../../../Resources/Controls/StretchingTreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -38,7 +39,7 @@
                 <Style.Triggers>
                     <DataTrigger Value="True">
                         <DataTrigger.Binding>
-                            <MultiBinding Converter="{StaticResource ImageActiveConverter}">
+                            <MultiBinding Converter="{StaticResource ShapeSelectedConverter}">
                                 <Binding />
                                 <Binding Path="DataContext.Selected" RelativeSource="{RelativeSource AncestorType={x:Type TreeViewItem}, AncestorLevel=3}" />
                             </MultiBinding>
@@ -201,15 +202,17 @@
                             <ToggleButton IsChecked="{Binding IsVisible}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" FontSize="12" Style="{StaticResource VisibilityToggleStyle}" DockPanel.Dock="Right" Margin="5,0"/>
                             <ContentControl Content="{Binding}" VerticalAlignment="Center">
                                 <ContentControl.Resources>
-                                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
-                                        <fa:IconBlock Icon="V" Margin="0,2,0,0"/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
-                                        <fa:IconBlock Icon="R" Margin="0,2,0,0"/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type structure:XHybridLayer}">
-                                        <fa:IconBlock Icon="H" Margin="0,2,0,0"/>
-                                    </DataTemplate>
+                                    <ResourceDictionary>
+                                        <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                                            <ContentPresenter ContentTemplate="{StaticResource VectorLayerToolIcon}" Height="20" Width="20"/>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                                            <ContentPresenter ContentTemplate="{StaticResource RasterLayerToolIcon}" Height="20" Width="20"/>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                                            <ContentPresenter ContentTemplate="{StaticResource HybridLayerToolIcon}" Height="20" Width="20"/>
+                                        </DataTemplate>
+                                    </ResourceDictionary>
                                 </ContentControl.Resources>
                             </ContentControl>
                             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource LayerTitleTemplate}"/>
@@ -240,7 +243,7 @@
 
     <Grid HorizontalAlignment="Stretch">
         <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding Project}">
-            <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" ItemTemplate="{StaticResource ProjectTreeTemplate}" BorderBrush="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
+            <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" ItemTemplate="{StaticResource ProjectTreeTemplate}" BorderBrush="Transparent" Background="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
                 <TreeView.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />

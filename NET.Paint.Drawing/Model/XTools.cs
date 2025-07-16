@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private XToolType _activeTool = XToolType.Line;
+        private XToolType _activeTool = XToolType.Pencil;
         public XToolType ActiveTool
         {
             get => _activeTool;
@@ -54,11 +54,11 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _selectionMode, value);
         }
 
-        private bool __isPolylineAdd = true;
-        public bool IsPolylineAdd
+        private XPencilMode _pencilMode = XPencilMode.Add;
+        public XPencilMode PencilMode
         {
-            get => __isPolylineAdd;
-            set => SetProperty(ref __isPolylineAdd, value);
+            get => _pencilMode;
+            set => SetProperty(ref _pencilMode, value);
         }
 
         private XScalingMode _bitmapScaling = XScalingMode.Fit;
@@ -197,8 +197,8 @@ namespace NET.Paint.Drawing.Model
         }
 
         // Bitmap
-        private int? _activeBitmap = null;
-        public int? ActiveBitmap
+        private ImageSource? _activeBitmap = null;
+        public ImageSource? ActiveBitmap
         {
             get => _activeBitmap;
             set => SetProperty(ref _activeBitmap, value);

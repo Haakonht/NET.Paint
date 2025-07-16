@@ -71,6 +71,12 @@
         Lasso
     }
 
+    public enum XPencilMode
+    {
+        Add,
+        Remove
+    }
+
     public enum XScalingMode
     {
         Original,

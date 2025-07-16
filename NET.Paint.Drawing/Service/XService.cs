@@ -44,7 +44,7 @@ namespace NET.Paint.Drawing.Service
         public XService()
         {
             // Create sample layers and shapes
-            var sampleLayer1 = new XHybridLayer { Title = "Layer 1" };
+            var sampleLayer1 = new XVectorLayer { Title = "Demo Layer" };
 
             // Row 1: Basic Stroked Shapes
             sampleLayer1.Shapes.Add(new XLine
@@ -200,36 +200,29 @@ namespace NET.Paint.Drawing.Service
             {
                 Points = new ObservableCollection<Point> { new Point(200, 360) },
                 Text = "Sample Text",
-                FontFamily = new System.Windows.Media.FontFamily("Arial"),
+                FontFamily = new FontFamily("Arial"),
                 FontSize = 16,
                 IsBold = true,
                 TextColor = Colors.DarkBlue
             }); 
 
-            // Add a bitmap shape if random bitmaps are available
-            sampleLayer1.Shapes.Add(new XBitmap
-            {
-                Points = new ObservableCollection<Point> { new Point(350, 360), new Point(420, 410) },
-                BitmapIndex = 0, // Will reference the first bitmap in the project
-                Scaling = XScalingMode.Fit
-            });
-
             // Create sample images with layers
             var sampleImage1 = new XImage
             {
-                Title = "Sample Image 1",
-                Width = 800,
+                Title = "Demo Image",
+                Width = 600,
                 Height = 600,
                 Background = Colors.White,
                 ActiveLayer = sampleLayer1
             };
+            sampleImage1.Layers.Clear();
             sampleImage1.Layers.Add(sampleLayer1);
 
             var sampleImage2 = new XImage
             {
-                Title = "Sample Image 2",
-                Width = 1400,
-                Height = 1000,
+                Title = "Test Image",
+                Width = 1000,
+                Height = 800,
                 Background = Colors.White
             };
 
@@ -245,6 +238,14 @@ namespace NET.Paint.Drawing.Service
             // Add some random bitmaps
             for (int i = 0; i < 5; i++)
                 Project.Bitmaps.Add(XHelper.CreateRandomBitmap(200, 200));
+
+            // Add a bitmap shape if random bitmaps are available
+            sampleLayer1.Shapes.Add(new XBitmap
+            {
+                Points = new ObservableCollection<Point> { new Point(350, 360), new Point(420, 410) },
+                Source = Project.Bitmaps.First(), // Will reference the first bitmap in the project
+                Scaling = XScalingMode.Fit
+            });
 
             // Set the active image and layer
             ActiveImage = sampleImage1;

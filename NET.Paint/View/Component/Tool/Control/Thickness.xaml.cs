@@ -1,5 +1,4 @@
-﻿using NET.Paint.Drawing.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component.Tools.Subcomponent
+namespace NET.Paint.View.Component.Tool.Control
 {
     /// <summary>
-    /// Interaction logic for Zoom.xaml
+    /// Interaction logic for Thickness.xaml
     /// </summary>
-    public partial class Zoom : UserControl
+    public partial class Thickness : UserControl
     {
-        public Zoom()
+        public Thickness()
         {
             InitializeComponent();
-        }
-
-        private void ResetZoom(object sender, RoutedEventArgs e)
-        {
-            var context = DataContext as XConfiguration;
-
-            if (context != null)
-                context.Zoom = 1.0;
         }
     }
 }

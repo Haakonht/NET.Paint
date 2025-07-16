@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NET.Paint.View.Component.Tools.Subcomponent
+namespace NET.Paint.View.Component.Tool.Control
 {
     /// <summary>
-    /// Interaction logic for CombinedColor.xaml
+    /// Interaction logic for Colors.xaml
     /// </summary>
-    public partial class Stroke : UserControl
+    public partial class Fill : UserControl
     {
-        public Stroke()
+        public Fill()
         {
             InitializeComponent();
         }

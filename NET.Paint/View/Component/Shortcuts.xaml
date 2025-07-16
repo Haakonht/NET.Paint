@@ -3,50 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" d:Background="White" d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Resources/ToolIcons.xaml"/>
+    </UserControl.Resources>
+    
     <DockPanel Margin="5,0">
         <StackPanel Orientation="Horizontal">
-            <Button Height="25" Width="25" Click="NewProject">
+            <Button Height="25" Width="25" ToolTip="New Project" Click="NewProject">
                 <Button.Content>
-                    <fa:IconBlock Icon="PlusSquare" ToolTip="New Project"/>
+                    <ma:MaterialIcon Kind="FilePlusOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Open Project" Click="OpenProject">
+            <Button Height="25" Width="25" Margin="5,0" ToolTip="Open Project" Click="OpenProject">
                 <Button.Content>
-                    <fa:IconBlock Icon="FolderOpen"/>
+                    <ma:MaterialIcon Kind="FolderFileOutline"/>
                 </Button.Content>
             </Button>
             <Button Height="25" Width="25" ToolTip="Save Project" Click="SaveProject">
                 <Button.Content>
-                    <fa:IconBlock Icon="FloppyDisk"/>
+                    <ma:MaterialIcon Kind="ContentSaveAddOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Export Image" Click="ExportImage">
+            <Button Height="25" Width="25" Margin="5,0" ToolTip="Export Image" Click="ExportImage">
                 <Button.Content>
-                    <fa:IconBlock Icon="FileImage"/>
+                    <ma:MaterialIcon Kind="FileImagePlusOutline"/>
                 </Button.Content>
             </Button>
-            <Separator Margin="5,0"/>
-
             <Button Height="25" Width="25" Click="AddImage">
                 <Button.Content>
-                    <Grid>
-                        <fa:IconBlock Icon="Image"/>
-                        <TextBlock Text="+" Background="LightGray" Margin="10,10,0,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
-                    </Grid>
+                    <ma:MaterialIcon Kind="ImagePlusOutline"/>
                 </Button.Content>
             </Button>
-            <Button x:Name="AddLayerBtn" Height="25" Width="25" Click="OpenLayerQuickSelect">
+            <Button x:Name="AddLayerBtn" Margin="5,0" Height="25" Width="25" Click="OpenLayerQuickSelect">
                 <Button.Content>
-                    <Grid>
-                        <fa:IconBlock Icon="LayerGroup"/>
-                        <TextBlock Text="+" Background="LightGray" Margin="10,10,0,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
-                    </Grid>
+                    <ma:MaterialIcon Kind="LayersPlus"/>
                 </Button.Content>
             </Button>
             <!--
@@ -59,60 +55,60 @@
                 </Button.Content>
             </Button>
             -->
-            <Separator Margin="5,0"/>
+            <Separator Margin="20,0,0,0"/>
 
             <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.ActiveLayer.CanUndo}" Click="Undo">
                 <Button.Content>
-                    <fa:IconBlock Icon="Undo"/>
+                    <ma:MaterialIcon Kind="UndoVariant"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.Undo.CanRedo}" Click="Redo">
+            <Button Margin="5,0" Height="25" Width="25" IsEnabled="{Binding ActiveImage.Undo.CanRedo}" Click="Redo">
                 <Button.Content>
-                    <fa:IconBlock Icon="Redo"/>
+                    <ma:MaterialIcon Kind="RedoVariant"/>
                 </Button.Content>
             </Button>
-            <Separator Margin="5,0"/>
+            <Separator Margin="20,0,0,0"/>
 
             <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCut}" Click="Cut">
                 <Button.Content>
-                    <fa:IconBlock Icon="Cut"/>
+                    <ma:MaterialIcon Kind="ContentCut"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCopy}" Click="Copy"> 
+            <Button Margin="5,0" Height="25" Width="25" IsEnabled="{Binding ActiveImage.CanCopy}" Click="Copy"> 
                 <Button.Content>
-                    <fa:IconBlock Icon="Copy"/>
+                    <ma:MaterialIcon Kind="ContentCopy"/>
                 </Button.Content>
             </Button>
             <Button Height="25" Width="25" IsEnabled="{Binding Source={x:Static utility:XClipboard.Instance}, Path=CanPaste}" Click="Paste">
                 <Button.Content>
-                    <fa:IconBlock Icon="Paste"/>
+                    <ma:MaterialIcon Kind="ContentPaste"/>
                 </Button.Content>
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.ToolboxVisible}">
                 <ToggleButton.Content>
-                    <fa:IconBlock Icon="Palette"/>
+                    <ma:MaterialIcon Kind="PaintbrushOutline"/>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.OverviewVisible}">
+            <ToggleButton Margin="5,0" Height="25" Width="25" IsChecked="{Binding Preferences.OverviewVisible}">
                 <ToggleButton.Content>
-                    <fa:IconBlock Icon="Bars"/>
+                    <ma:MaterialIcon Kind="HamburgerMenu"/>
                 </ToggleButton.Content>
             </ToggleButton>
             <ToggleButton Height="25" Width="25" IsChecked="{Binding Preferences.PreferencesVisible}">
                 <ToggleButton.Content>
-                    <fa:IconBlock Icon="Gear"/>
+                    <ma:MaterialIcon Kind="SettingsOutline"/>
                 </ToggleButton.Content>
             </ToggleButton>
 
-            <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="30">
+            <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="35" VerticalOffset="5">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseLayerQuickSelect">
-                    <UniformGrid Rows="1" Height="25">
-                        <Button Width="25" Content="{fa:Icon V}" Click="AddVectorLayer"/>
-                        <Button Width="25" Content="{fa:Icon H}" Click="AddHybridLayer"/>
-                        <Button Width="25" Content="{fa:Icon R}" Click="AddRasterLayer"/>
-                    </UniformGrid>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <Button Width="25" ContentTemplate="{StaticResource VectorLayerToolIcon}" Click="AddVectorLayer"/>
+                        <Button Margin="5,0" Width="25" ContentTemplate="{StaticResource HybridLayerToolIcon}" Click="AddHybridLayer"/>
+                        <Button Width="25" ContentTemplate="{StaticResource RasterLayerToolIcon}" Click="AddRasterLayer"/>
+                    </StackPanel>
                 </Border>
             </Popup>
         </StackPanel>

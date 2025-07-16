@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
-namespace NET.Paint.View.Component.Fragment
+namespace NET.Paint.View.Component.Drawing.Control
 {
     /// <summary>
     /// Interaction logic for Highlighter.xaml

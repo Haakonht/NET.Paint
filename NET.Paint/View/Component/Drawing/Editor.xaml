@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="NET.Paint.View.Component.Editor"
+﻿<UserControl x:Class="NET.Paint.View.Component.Drawing.Editor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fragment="clr-namespace:NET.Paint.View.Component.Fragment"
+             xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Control"
              xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
-             xmlns:controls="clr-namespace:NET.Paint.Resources.Controls"
+             xmlns:resources="clr-namespace:NET.Paint.Resources.Controls"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200"
@@ -27,16 +27,16 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <controls:SimpleRuler Height="40" Margin="11,0" Orientation="Horizontal" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <controls:SimpleRuler Width="40" Margin="0,11" Orientation="Vertical" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <resources:SimpleRuler Height="40" Margin="11,0" Orientation="Horizontal" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <resources:SimpleRuler Width="40" Margin="0,11" Orientation="Vertical" Scale="{Binding Configuration.RulerScale}" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1"  Margin="10">
-                <controls:GridCanvas x:Name="DrawingCanvas" Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" ClipToBounds="True">
-                    <controls:GridCanvas.Cursor>
+                <resources:GridCanvas x:Name="DrawingCanvas" Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" ClipToBounds="True">
+                    <resources:GridCanvas.Cursor>
                         <MultiBinding Converter="{StaticResource ToolToCursorConverter}">
                             <Binding Source="{x:Static active:XTools.Instance}" Path="ActiveTool"/>
                             <Binding Source="{x:Static active:XTools.Instance}" Path="SelectionMode"/>
                         </MultiBinding>
-                    </controls:GridCanvas.Cursor>
+                    </resources:GridCanvas.Cursor>
 
                     <ItemsControl ItemsSource="{Binding Layers}">
                         <ItemsControl.Resources>
@@ -105,7 +105,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <fragment:Highlighter Width="{Binding DataContext.Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding DataContext.Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Points="{Binding Points}"/>
+                                    <controls:Highlighter Width="{Binding DataContext.Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding DataContext.Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Points="{Binding Points}"/>
                                     <ContentControl.RenderTransform>
                                         <TransformGroup>
                                             <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
@@ -127,7 +127,7 @@
                             </TransformGroup>
                         </ContentPresenter.RenderTransform>
                     </ContentPresenter>
-                </controls:GridCanvas>
+                </resources:GridCanvas>
             </Border>
         </Grid>
     </xctk:Zoombox>
