@@ -75,7 +75,7 @@ namespace NET.Paint.View.Component.Drawing
                 {
                     if (e.LeftButton == MouseButtonState.Pressed)
                     {
-                        if (Preview.Shape is XPencil pencil)
+                        if (Preview.Shape is XPolyline pencil)
                         {
                             if (tools.PencilMode == XPencilMode.Add || tools.ActiveTool == XToolType.Selector)
                                 XFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);

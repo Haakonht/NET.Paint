@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -21,7 +21,7 @@
         <Border Background="LightGray" Height="30" VerticalAlignment="Top" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" DockPanel.Dock="Top">
             <DockPanel VerticalAlignment="Center">
                 <!-- Icon -->
-                <fa:IconBlock Icon="XIng" DockPanel.Dock="Left" Margin="10,0,5,0" FontSize="18" VerticalAlignment="Center"/>
+                <ma:MaterialIcon Kind="AxisArrow" DockPanel.Dock="Left" Margin="5,0,5,0" Height="25" Width="25" VerticalAlignment="Center"/>
 
                 <!-- Title -->
                 <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" Foreground="Black" VerticalAlignment="Center" DockPanel.Dock="Left" FontSize="12"/>

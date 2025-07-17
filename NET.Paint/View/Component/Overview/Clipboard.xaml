@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Overview.Controls"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
@@ -24,7 +25,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel LastChildFill="True" DataContext="{Binding Clipboard}" ContextMenu="{StaticResource ClipboardContextMenu}">
-        <fa:IconBlock Icon="Cut" DockPanel.Dock="Right" Margin="0,0,5,0" Visibility="{Binding IsCut, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <icons:MaterialIcon Kind="ContentCut" DockPanel.Dock="Right" Margin="0,0,5,0" Visibility="{Binding IsCut, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Data}">
                 <ItemsControl.ItemTemplate>

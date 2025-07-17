@@ -29,7 +29,7 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is XPencil)
+            if (item is XPolyline)
                 return PencilTemplate;
             if (item is XLine)
                 return LineTemplate;

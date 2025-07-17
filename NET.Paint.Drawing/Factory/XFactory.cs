@@ -21,7 +21,7 @@ namespace NET.Paint.Drawing.Factory
             {
                 case XToolType.Pencil:
                     if (tools.PencilMode == XPencilMode.Add)
-                        return new XPencil
+                        return new XPolyline
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
                             StrokeColor = tools.StrokeColor,
@@ -55,10 +55,11 @@ namespace NET.Paint.Drawing.Factory
                         StrokeStyle = tools.StrokeStyle
                     };
                 case XToolType.Ellipse:
+                    Point center = new Point((tools.ClickLocation.Value.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Value.Y + tools.MouseLocation.Y) / 2);
                     if (tools.ActiveEllipse == XEllipseStyle.Circle)
                         return new XCircle
                         {
-                            Points = new ObservableCollection<Point>() { tools.ClickLocation.Value, tools.MouseLocation },
+                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
                             StrokeColor = tools.StrokeColor,
                             StrokeThickness = tools.StrokeThickness,
                             FillColor = tools.FillColor,
@@ -67,7 +68,7 @@ namespace NET.Paint.Drawing.Factory
                     else
                         return new XEllipse
                         {
-                            Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
                             StrokeColor = tools.StrokeColor,
                             StrokeThickness = tools.StrokeThickness,
                             FillColor = tools.FillColor,
@@ -84,15 +85,19 @@ namespace NET.Paint.Drawing.Factory
                     };
                 case XToolType.Rectangle:
                     if (tools.ActiveRectangle == XRectangleStyle.Square)
+                    {
+                        center = new Point((tools.ClickLocation.Value.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Value.Y + tools.MouseLocation.Y) / 2);
                         return new XSquare
                         {
-                            Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
                             StrokeColor = tools.StrokeColor,
                             StrokeThickness = tools.StrokeThickness,
                             FillColor = tools.FillColor,
                             StrokeStyle = tools.StrokeStyle,
-                            Radius = tools.Radius
+                            CornerRadius = tools.Radius
                         };
+                    }
+
                     else
                         return new XRectangle
                         {
@@ -101,7 +106,7 @@ namespace NET.Paint.Drawing.Factory
                             StrokeThickness = tools.StrokeThickness,
                             FillColor = tools.FillColor,
                             StrokeStyle = tools.StrokeStyle,
-                            Radius = tools.Radius
+                            CornerRadius = tools.Radius
                         };
                 case XToolType.Polygon:
                     switch (tools.ActivePolygon)
@@ -194,10 +199,10 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeThickness = 2,
                                 FillColor = Colors.Transparent,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2],
-                                Radius = 0,
+                                CornerRadius = 0,
                             };
                         case XSelectionMode.Lasso:
-                            return new XPencil
+                            return new XPolyline
                             {
                                 Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
                                 StrokeColor = Colors.Black,
@@ -527,7 +532,7 @@ namespace NET.Paint.Drawing.Factory
 
                 foreach (var pencilShape in pencilShapes)
                 {
-                    if (pencilShape is XPencil pencil)
+                    if (pencilShape is XPolyline pencil)
                     {
                         var pointsToRemove = pencil.Points.Where(p => (p - mouseLocation).Length <= tolerance).ToList();
                         foreach (var point in pointsToRemove)

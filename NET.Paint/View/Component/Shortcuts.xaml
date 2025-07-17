@@ -45,16 +45,6 @@
                     <ma:MaterialIcon Kind="LayersPlus"/>
                 </Button.Content>
             </Button>
-            <!--
-            <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.Layers, Converter={StaticResource IsNotNullConverter}}" Click="RemoveActiveLayer">
-                <Button.Content>
-                    <Grid>
-                        <fa:IconBlock Icon="LayerGroup"/>
-                        <TextBlock Text="-" Background="LightGray" Margin="10,10,0,0" Padding="1.4,0" LineStackingStrategy="BlockLineHeight" LineHeight="10"/>
-                    </Grid>
-                </Button.Content>
-            </Button>
-            -->
             <Separator Margin="20,0,0,0"/>
 
             <Button Height="25" Width="25" IsEnabled="{Binding ActiveImage.ActiveLayer.CanUndo}" Click="Undo">

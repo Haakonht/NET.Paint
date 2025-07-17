@@ -1,6 +1,6 @@
 ﻿    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing" xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters">
 
-    <DataTemplate DataType="{x:Type shape:XPencil}">
+    <DataTemplate DataType="{x:Type shape:XPolyline}">
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
@@ -38,10 +38,7 @@
     <DataTemplate DataType="{x:Type shape:XCircle}">
         <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Ellipse.RenderTransform>
-                <TransformGroup>
-                    <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-                </TransformGroup>
+                <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
             </Ellipse.RenderTransform>
         </Ellipse>
     </DataTemplate>

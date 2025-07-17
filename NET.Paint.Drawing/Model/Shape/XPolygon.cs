@@ -1,9 +1,11 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
@@ -14,6 +16,16 @@ namespace NET.Paint.Drawing.Model.Shape
 
         [Browsable(false)]
         public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
+
+        private Color _fillColor;
+
+        [Category("Fill")]
+        [DisplayName("Color")]
+        public Color FillColor
+        {
+            get => _fillColor;
+            set => SetProperty(ref _fillColor, value);
+        }
 
         private double _rotation = 0;
         public double Rotation

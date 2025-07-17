@@ -54,15 +54,67 @@ namespace NET.Paint.View.Component.Drawing.Controls
                 e.Handled = true;
             }
         }
+
         private void MovePoint(int index, double dx, double dy)
         {
             if (index < 0 || index >= Points.Count)
                 return;
 
             var oldPoint = Points[index];
-            var newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+            
+            // Check if we're dealing with an XEllipse and apply constraints
+            if (DataContext is XEllipse ellipse)
+            {
+                Point newPoint;
+                
+                switch (index)
+                {
+                    case 0: // Center point - allow free movement
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+                        break;
+                        
+                    case 1: // X-radius control point - only allow X movement
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y); // Y stays the same
+                        break;
+                        
+                    case 2: // Y-radius control point - only allow Y movement  
+                        newPoint = new Point(oldPoint.X, oldPoint.Y + dy); // X stays the same
+                        break;
+                        
+                    default:
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+                        break;
+                }
+                
+                Points[index] = newPoint;
+            }
+            else if (DataContext is XSquare square)
+            {
+                Point newPoint;
+                
+                switch (index)
+                {
+                    case 0: // Center point - allow free movement
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+                        break;
+                        
+                    case 1:
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y); // Y stays the same
+                        break;
 
-            Points[index] = newPoint;
+                    default:
+                        newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+                        break;
+                }
+                
+                Points[index] = newPoint;
+            }
+            else
+            {
+                // For all other shapes, allow free movement
+                var newPoint = new Point(oldPoint.X + dx, oldPoint.Y + dy);
+                Points[index] = newPoint;
+            }
         }
 
         #endregion
@@ -70,7 +122,6 @@ namespace NET.Paint.View.Component.Drawing.Controls
         #region Rotation Thumb
 
         private Point _dragStartMousePos;
-        private double _initialRotation;
 
         private void RotateThumb_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -84,11 +135,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
             {
                 if (renderable is IRotateable rotateable)
                 {
-                    // Get mouse position relative to the main Canvas (not affected by rotation)
                     _dragStartMousePos = Mouse.GetPosition(this);
-                    _initialRotation = rotateable.Rotation;
-                    
-                    // Show the rotation guide line
                     ShowRotationGuideLine(rotateable.Center, _dragStartMousePos);
                 }
             }

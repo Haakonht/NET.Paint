@@ -68,7 +68,7 @@ namespace NET.Paint.Drawing.Service
                 StrokeThickness = 2
             });
 
-            sampleLayer1.Shapes.Add(new XPencil
+            sampleLayer1.Shapes.Add(new XPolyline
             {
                 Points = new ObservableCollection<Point> 
                 { 
@@ -87,7 +87,7 @@ namespace NET.Paint.Drawing.Service
                 StrokeColor = Colors.Blue,
                 StrokeThickness = 2,
                 FillColor = Colors.LightBlue,
-                Radius = 5
+                CornerRadius = 5
             });
 
             sampleLayer1.Shapes.Add(new XSquare
@@ -96,12 +96,12 @@ namespace NET.Paint.Drawing.Service
                 StrokeColor = Colors.Green,
                 StrokeThickness = 2,
                 FillColor = Colors.LightGreen,
-                Radius = 0
+                CornerRadius = 0
             });
 
             sampleLayer1.Shapes.Add(new XEllipse
             {
-                Points = new ObservableCollection<Point> { new Point(230, 120), new Point(300, 170) },
+                Points = new ObservableCollection<Point> { new Point(230, 120), new Point(300, 120), new Point(230, 170) },
                 StrokeColor = Colors.Orange,
                 StrokeThickness = 2,
                 FillColor = Colors.LightYellow
@@ -109,7 +109,7 @@ namespace NET.Paint.Drawing.Service
 
             sampleLayer1.Shapes.Add(new XCircle
             {
-                Points = new ObservableCollection<Point> { new Point(330, 120), new Point(380, 170) },
+                Points = new ObservableCollection<Point> { new Point(330, 120), new Point(400, 120) },
                 StrokeColor = Colors.Red,
                 StrokeThickness = 2,
                 FillColor = Colors.Pink

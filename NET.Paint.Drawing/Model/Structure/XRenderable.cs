@@ -1,9 +1,11 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
@@ -33,5 +35,65 @@ namespace NET.Paint.Drawing.Model.Structure
         public virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
 
         public abstract object Clone();
+    }
+
+    public abstract class XStroked : XRenderable
+    {
+        private Color _strokeColor;
+        [Category("Stroke")]
+        [DisplayName("Color")]
+        public Color StrokeColor
+        {
+            get => _strokeColor;
+            set => SetProperty(ref _strokeColor, value);
+        }
+
+        private double _strokeThickness;
+        [Category("Stroke")]
+        [DisplayName("Thickness")]
+        public double StrokeThickness
+        {
+            get => _strokeThickness;
+            set => SetProperty(ref _strokeThickness, value);
+        }
+
+        private XStrokeStyle _strokeStyle;
+        [Category("Stroke")]
+        [DisplayName("Style")]
+        public XStrokeStyle StrokeStyle
+        {
+            get => _strokeStyle;
+            set => SetProperty(ref _strokeStyle, value);
+        }
+    }
+
+    public abstract class XFilled : XStroked
+    {
+        [DisplayName("Position")]
+        public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
+
+        [Category("Dimensions")]
+        public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
+
+        [Category("Dimensions")]
+        public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
+
+        private Color _fillColor;
+
+        [Category("Fill")]
+        [DisplayName("Color")]
+        public Color FillColor
+        {
+            get => _fillColor;
+            set => SetProperty(ref _fillColor, value);
+        }
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Location));
+            OnPropertyChanged(nameof(Width));
+            OnPropertyChanged(nameof(Height));
+        }
     }
 }

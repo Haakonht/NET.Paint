@@ -13,7 +13,7 @@ namespace NET.Paint.View.Component.Overview.Converters
             {
                 switch (renderable)
                 {
-                    case XPencil:
+                    case XPolyline:
                         return "Pencil";
                     case XLine:
                         return "Line";
