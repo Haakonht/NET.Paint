@@ -59,11 +59,11 @@
             <Grid>
                 <StackPanel Height="90">
                     <Border BorderBrush="DimGray" BorderThickness="1">
-                        <xctk:ColorPicker SelectedColor="{Binding StrokeColor, Mode=TwoWay}" Height="25" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Background="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                        <xctk:ColorPicker SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" Height="25" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Background="{Binding PrimaryColor, Converter={StaticResource ColorToBrushConverter}}"/>
                     </Border>
                     <ToggleButton x:Name="ThicknessToolSelect" Height="25" ContentTemplate="{StaticResource ThicknessToolIcon}" IsChecked="{Binding IsOpen, ElementName=ThicknessQuickSelect}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,5"/>
                     <Border BorderBrush="DimGray" BorderThickness="1" Margin="0,0,0,25">
-                        <xctk:ColorPicker SelectedColor="{Binding FillColor, Mode=TwoWay}" Height="25" VerticalContentAlignment="Stretch" ShowDropDownButton="False"  Background="{Binding FillColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                        <xctk:ColorPicker SelectedColor="{Binding SecondaryColor, Mode=TwoWay}" Height="25" VerticalContentAlignment="Stretch" ShowDropDownButton="False"  Background="{Binding SecondaryColor, Converter={StaticResource ColorToBrushConverter}}"/>
                     </Border>
                 </StackPanel>
             </Grid>

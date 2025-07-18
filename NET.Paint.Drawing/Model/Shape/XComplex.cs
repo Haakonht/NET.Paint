@@ -80,8 +80,8 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _isStrikethrough, value);
         }
 
-        private Color _textColor = Colors.Black;
-        public Color TextColor
+        private Brush _textColor;
+        public Brush TextColor
         {
             get => _textColor;
             set => SetProperty(ref _textColor, value);
@@ -90,9 +90,9 @@ namespace NET.Paint.Drawing.Model.Shape
         [Browsable(false)]
         public Point Center => new Point(Location.X + (Width / 2), Location.Y + (Height / 2));
 
-        public double Width => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, new SolidColorBrush(TextColor)).Width;
+        public double Width => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, TextColor).Width;
 
-        public double Height => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, new SolidColorBrush(TextColor)).Height;
+        public double Height => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, TextColor).Height;
 
         private double _rotation = 0;
         public double Rotation

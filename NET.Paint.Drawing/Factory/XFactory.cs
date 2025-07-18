@@ -24,7 +24,7 @@ namespace NET.Paint.Drawing.Factory
                         return new XPolyline
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
-                            StrokeColor = tools.StrokeColor,
+                            StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
                             StrokeStyle = tools.StrokeStyle,
                             PointSpacing = tools.PencilSpacing
@@ -34,7 +34,7 @@ namespace NET.Paint.Drawing.Factory
                     return new XLine
                     {
                         Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
-                        StrokeColor = tools.StrokeColor,
+                        StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
                     };
@@ -42,7 +42,7 @@ namespace NET.Paint.Drawing.Factory
                     return new XCurve
                     {
                         Points = CreateCurve(tools.ClickLocation!.Value, tools.MouseLocation),
-                        StrokeColor = tools.StrokeColor,
+                        StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
                     };
@@ -50,7 +50,7 @@ namespace NET.Paint.Drawing.Factory
                     return new XBezier
                     {
                         Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation),
-                        StrokeColor = tools.StrokeColor,
+                        StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
                     };
@@ -60,27 +60,27 @@ namespace NET.Paint.Drawing.Factory
                         return new XCircle
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeColor = tools.StrokeColor,
+                            StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
-                            FillColor = tools.FillColor,
+                            FillBrush = tools.FillBrush,
                             StrokeStyle = tools.StrokeStyle
                         };
                     else
                         return new XEllipse
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
-                            StrokeColor = tools.StrokeColor,
+                            StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
-                            FillColor = tools.FillColor,
+                            FillBrush = tools.FillBrush,
                             StrokeStyle = tools.StrokeStyle
                         };
                 case XToolType.Triangle:
                     return new XTriangle
                     {
                         Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 3),
-                        StrokeColor = tools.StrokeColor,
+                        StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
-                        FillColor = tools.FillColor,
+                        FillBrush = tools.FillBrush,
                         StrokeStyle = tools.StrokeStyle
                     };
                 case XToolType.Rectangle:
@@ -90,9 +90,9 @@ namespace NET.Paint.Drawing.Factory
                         return new XSquare
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeColor = tools.StrokeColor,
+                            StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
-                            FillColor = tools.FillColor,
+                            FillBrush = tools.FillBrush,
                             StrokeStyle = tools.StrokeStyle,
                             CornerRadius = tools.Radius
                         };
@@ -102,9 +102,9 @@ namespace NET.Paint.Drawing.Factory
                         return new XRectangle
                         {
                             Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
-                            StrokeColor = tools.StrokeColor,
+                            StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
-                            FillColor = tools.FillColor,
+                            FillBrush = tools.FillBrush,
                             StrokeStyle = tools.StrokeStyle,
                             CornerRadius = tools.Radius
                         };
@@ -115,9 +115,9 @@ namespace NET.Paint.Drawing.Factory
                             return new XRegular
                             {
                                 Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, tools.PolygonCorners),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle,
                                 Corners = tools.PolygonCorners
                             };
@@ -125,45 +125,45 @@ namespace NET.Paint.Drawing.Factory
                             return new XStar
                             {
                                 Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.StarPoints, tools.StarInnerRadiusRatio),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Heart:
                             return new XHeart
                             {
                                 Points = CreateHeart(tools.ClickLocation, tools.MouseLocation, tools.HeartSamples),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Spiral:
                             return new XSpiral
                             {
                                 Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, tools.SpiralSamples),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Cloud:
                             return new XCloud
                             {
                                 Points = CreateCloud(tools.ClickLocation, tools.MouseLocation, tools.CloudBumps, tools.BumpVariance),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle
                             };
                         default:
                             return new XArrow
                             {
                                 Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
-                                StrokeColor = tools.StrokeColor,
+                                StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillColor = tools.FillColor,
+                                FillBrush = tools.FillBrush,
                                 StrokeStyle = tools.StrokeStyle
                             };
                     }
@@ -195,9 +195,9 @@ namespace NET.Paint.Drawing.Factory
                             return new XRectangle
                             {
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
-                                StrokeColor = Colors.Black,
+                                StrokeBrush = Brushes.Black,
                                 StrokeThickness = 2,
-                                FillColor = Colors.Transparent,
+                                FillBrush = Brushes.Transparent,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2],
                                 CornerRadius = 0,
                             };
@@ -205,7 +205,7 @@ namespace NET.Paint.Drawing.Factory
                             return new XPolyline
                             {
                                 Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
-                                StrokeColor = Colors.Black,
+                                StrokeBrush = Brushes.Black,
                                 StrokeThickness = 2,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2],
                                 PointSpacing = 20

@@ -8,9 +8,9 @@
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:model="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
-             xmlns:fillTypes ="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
+             xmlns:colorTypes ="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
@@ -21,19 +21,19 @@
     <StackPanel Grid.Row="1" DataContext="{Binding Tools}" Background="White">
         <Label Content="Type" Padding="0" Margin="2,2,0,2" FontSize="10"/>
         <UniformGrid>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRounded}" IsChecked="{Binding ActiveFillType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XFillType.Solid}}"/>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveFillType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XFillType.Gradient}}"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRounded}" IsChecked="{Binding ActiveFillType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Solid}}"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveFillType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Gradient}}"/>
         </UniformGrid>
         <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding Fill}" Margin="0,-25,0,0">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type fillTypes:XSolidFill}">
-                    <StackPanel>
+                <DataTemplate DataType="{x:Type colorTypes:XSolid}">
+                    <StackPanel DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">
-                            <Grid Height="25">
-                                <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding Color}" DisplayColorTooltip="False" />
-                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
-                                <TextBlock Text="{Binding Color}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding Color, Converter={StaticResource ContrastColorConverter}}">
+                            <Grid Height="25" DataContext="{Binding Tools}">
+                                <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding SecondaryColor}" DisplayColorTooltip="False" />
+                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding SecondaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
+                                <TextBlock Text="{Binding SecondaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding SecondaryColor, Converter={StaticResource ContrastColorConverter}}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Normal"/>
@@ -50,21 +50,21 @@
                     </StackPanel>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type fillTypes:XGradientFill}">
+                <DataTemplate DataType="{x:Type colorTypes:XGradient}">
                     <StackPanel>
                         <Label Content="Style" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <ComboBox ItemsSource="{x:Static options:XConstants.GradientStyleOptions}" 
-                                  SelectedItem="{Binding DataContext.Tools.ActiveGradientStyle, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                  SelectedItem="{Binding DataContext.Tools.ActiveFillGradientStyle, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                         <ContentPresenter Content="{Binding}">
                             <ContentPresenter.Resources>
-                                <DataTemplate DataType="{x:Type fillTypes:XLinearGradientFill}">
+                                <DataTemplate DataType="{x:Type colorTypes:XLinearGradient}">
                                     <StackPanel>
-                                        <local:LinearGradient DataContext="{Binding DataContext.Tools, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        <local:LinearGradient DataContext="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
-                                <DataTemplate DataType="{x:Type fillTypes:XRadialGradientFill}">
+                                <DataTemplate DataType="{x:Type colorTypes:XRadialGradient}">
                                     <StackPanel>
-                                        <local:RadialGradient DataContext="{Binding DataContext.Tools, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        <local:RadialGradient DataContext="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ContentPresenter.Resources>

@@ -10,8 +10,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.View.Component.Tools.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="165" d:Background="White"
-             d:DataContext="{d:DesignInstance Type={x:Type tools:XTools}, IsDesignTimeCreatable=True}">
+             d:DesignHeight="200" d:DesignWidth="165" d:Background="White">
     <UserControl.Resources>
         <converter:GradientStopCollectionConverter x:Key="GradientStopCollectionConverter"/>
 
@@ -67,7 +66,7 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel DataContext="{Binding Fill}">
+    <StackPanel DataContext="{Binding}">
         <Label Content="Direction" Padding="0" Margin="2,2,0,2" FontSize="10"/>
         <Grid>
             <Ellipse x:Name="PreviewEllipse" Width="130" Height="130" Stroke="Black" StrokeThickness="1" Cursor="Hand" MouseLeftButtonDown="PreviewEllipse_MouseLeftButtonDown" MouseMove="PreviewEllipse_MouseMove">

@@ -32,7 +32,7 @@
         Hybrid
     }
 
-    public enum XFillType
+    public enum XColorType
     {
         Solid,
         Gradient

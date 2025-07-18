@@ -17,14 +17,14 @@ namespace NET.Paint.Drawing.Model.Shape
         [Browsable(false)]
         public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
 
-        private Color _fillColor;
+        private Brush _fillBrush;
 
         [Category("Fill")]
         [DisplayName("Color")]
-        public Color FillColor
+        public Brush FillBrush
         {
-            get => _fillColor;
-            set => SetProperty(ref _fillColor, value);
+            get => _fillBrush;
+            set => SetProperty(ref _fillBrush, value);
         }
 
         private double _rotation = 0;
@@ -49,8 +49,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XTriangle
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation
@@ -71,8 +71,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XRegular
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation,
@@ -87,8 +87,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XStar
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation
@@ -102,8 +102,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XCloud
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation
@@ -117,8 +117,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XHeart
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation
@@ -131,8 +131,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XSpiral
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation
@@ -145,8 +145,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override object Clone() => new XArrow
         {
             Points = new ObservableCollection<Point>(this.Points),
-            FillColor = this.FillColor,
-            StrokeColor = this.StrokeColor,
+            FillBrush = this.FillBrush,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Rotation = this.Rotation

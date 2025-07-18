@@ -50,8 +50,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     new Point(50, 50),
                     XTools.Instance.PolygonCorners
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };
@@ -69,8 +69,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.HeadWidth,
                     XTools.Instance.TailWidth
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };
@@ -87,8 +87,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.Turns,
                     XTools.Instance.SpiralSamples
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };
@@ -105,8 +105,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.StarPoints,
                     XTools.Instance.StarInnerRadiusRatio
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };
@@ -122,8 +122,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     new Point(60, 60),
                     XTools.Instance.HeartSamples
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };
@@ -140,8 +140,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.CloudBumps,
                     XTools.Instance.BumpVariance
                 ),
-                FillColor = Colors.LightGray,
-                StrokeColor = Colors.Black,
+                FillBrush = Brushes.LightGray,
+                StrokeBrush = Brushes.Black,
                 StrokeThickness = XTools.Instance.StrokeThickness,
                 StrokeStyle = XTools.Instance.StrokeStyle
             };

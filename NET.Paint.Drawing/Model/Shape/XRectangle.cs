@@ -41,11 +41,11 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XRectangle
         {
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             CornerRadius = this.CornerRadius,
-            FillColor = this.FillColor,
+            FillBrush = this.FillBrush,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };
@@ -80,11 +80,11 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XSquare
         {
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             CornerRadius = this.CornerRadius,
-            FillColor = this.FillColor,
+            FillBrush = this.FillBrush,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };

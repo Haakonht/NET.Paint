@@ -45,10 +45,10 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XEllipse
         {
-            StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            FillColor = this.FillColor,
+            StrokeBrush = this.StrokeBrush,
+            FillBrush = this.FillBrush,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };
@@ -78,10 +78,10 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XCircle
         {
-            StrokeColor = this.StrokeColor,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            FillColor = this.FillColor,
+            StrokeBrush = this.StrokeBrush,
+            FillBrush = this.FillBrush,
             Points = new ObservableCollection<Point>(this.Points)
         };
     }

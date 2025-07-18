@@ -39,13 +39,13 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public abstract class XStroked : XRenderable
     {
-        private Color _strokeColor;
+        private Brush _strokeBrush;
         [Category("Stroke")]
         [DisplayName("Color")]
-        public Color StrokeColor
+        public Brush StrokeBrush
         {
-            get => _strokeColor;
-            set => SetProperty(ref _strokeColor, value);
+            get => _strokeBrush;
+            set => SetProperty(ref _strokeBrush, value);
         }
 
         private double _strokeThickness;
@@ -78,14 +78,14 @@ namespace NET.Paint.Drawing.Model.Structure
         [Category("Dimensions")]
         public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
-        private Color _fillColor;
+        private Brush _fillBrush;
 
         [Category("Fill")]
         [DisplayName("Color")]
-        public Color FillColor
+        public Brush FillBrush
         {
-            get => _fillColor;
-            set => SetProperty(ref _fillColor, value);
+            get => _fillBrush;
+            set => SetProperty(ref _fillBrush, value);
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

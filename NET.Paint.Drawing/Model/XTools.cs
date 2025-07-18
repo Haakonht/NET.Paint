@@ -89,138 +89,57 @@ namespace NET.Paint.Drawing.Model
 
         #endregion
 
-        #region Custom
+        #region Color
 
-        // Star
-        private int _starPoints = 5;
-        public int StarPoints
+        private Color _primaryColor = Colors.Black;
+        public Color PrimaryColor
         {
-            get => _starPoints;
-            set => SetProperty(ref _starPoints, value);
+            get => _primaryColor;
+            set
+            {
+                SetProperty(ref _primaryColor, value);
+                Stroke = XHelper.CreateColor(ActiveStrokeType, ActiveStrokeGradientStyle, value, SecondaryColor);
+            }
         }
 
-        private double _starInnerRadiusRatio = 0.5;
-        public double StarInnerRadiusRatio
+        private Color _secondaryColor = Colors.LightGray;
+        public Color SecondaryColor
         {
-            get => _starInnerRadiusRatio;
-            set => SetProperty(ref _starInnerRadiusRatio, value);
-        }
-
-        // Cloud
-        private int _cloudBumps = 8;
-        public int CloudBumps
-        {
-            get => _cloudBumps;
-            set => SetProperty(ref _cloudBumps, value);
-        }
-
-        private double _bumpVariance = 0.3;
-        public double BumpVariance
-        {
-            get => _bumpVariance;
-            set => SetProperty(ref _bumpVariance, value);
-        }
-
-        // Regular polygon
-        private int _polygonCorners = 5;
-        public int PolygonCorners
-        {
-            get => _polygonCorners;
-            set => SetProperty(ref _polygonCorners, value);
-        }
-
-        // Pencil
-        private double _pencilSpacing = 13.0;
-        public double PencilSpacing
-        {
-            get => _pencilSpacing;
-            set => SetProperty(ref _pencilSpacing, value);
-        }
-
-        private double _eraserTolerance = 10.0;
-        public double EraserTolerance
-        {
-            get => _eraserTolerance;
-            set => SetProperty(ref _eraserTolerance, value);
-        }
-
-        // Arrow
-        private double _headLength = 30;
-        public double HeadLength
-        {
-            get => _headLength;
-            set => SetProperty(ref _headLength, value);
-        }
-
-        private double _headWidth = 20;
-        public double HeadWidth
-        {
-            get => _headWidth;
-            set => SetProperty(ref _headWidth, value);
-        }
-
-        private double _tailWidth = 5;
-        public double TailWidth
-        {
-            get => _tailWidth;
-            set => SetProperty(ref _tailWidth, value);
-        }
-
-        // Spiral
-        private int _spiralSamples = 100;
-        public int SpiralSamples
-        {
-            get => _spiralSamples;
-            set => SetProperty(ref _spiralSamples, value);
-        }
-
-        private int _turns = 3;
-        public int Turns
-        {
-            get => _turns;
-            set => SetProperty(ref _turns, value);
-        }
-
-        // Heart
-        private int _heartSamples = 64;
-        public int HeartSamples
-        {
-            get => _heartSamples;
-            set => SetProperty(ref _heartSamples, value);
-        }
-
-        // Rounded Rectangle
-        private double _radius = 1;
-        public double Radius 
-        { 
-            get => _radius;
-            set => SetProperty(ref _radius, value);
-        }
-
-        // Bitmap
-        private ImageSource? _activeBitmap = null;
-        public ImageSource? ActiveBitmap
-        {
-            get => _activeBitmap;
-            set => SetProperty(ref _activeBitmap, value);
+            get => _secondaryColor;
+            set
+            {
+                SetProperty(ref _secondaryColor, value);
+                Fill = XHelper.CreateColor(ActiveFillType, ActiveFillGradientStyle, value, PrimaryColor);
+            }
         }
 
         #endregion
 
         #region Stroke
 
+        private XGradientStyle _activeStrokeGradientStyle = XGradientStyle.Linear;
+        public XGradientStyle ActiveStrokeGradientStyle
+        {
+            get => _activeStrokeGradientStyle;
+            set => SetProperty(ref _activeStrokeGradientStyle, value);
+        }
+
+        private XColorType _activeStrokeType = XColorType.Solid;
+        public XColorType ActiveStrokeType
+        {
+            get => _activeStrokeType;
+            set
+            {
+                SetProperty(ref _activeStrokeType, value);
+                Stroke = XHelper.CreateColor(value, ActiveStrokeGradientStyle, PrimaryColor, SecondaryColor);
+            }
+        }
+
         private XStrokeStyle _strokeStyle = XConstants.StrokeStyleOptions.First(x => x.Name == "Solid");
         public XStrokeStyle StrokeStyle
         {
             get => _strokeStyle;
             set => SetProperty(ref _strokeStyle, value);
-        }
-
-        private Color _strokeColor = Colors.Black;
-        public Color StrokeColor
-        {
-            get => _strokeColor;
-            set => SetProperty(ref _strokeColor, value);
         }
 
         private double _strokeThickness = 1.0;
@@ -230,48 +149,70 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _strokeThickness, value);
         }
 
+        private XColor _stroke = new XSolid { Color = Colors.Black };
+
+        public XColor Stroke
+        {
+            get => _stroke;
+            set => SetProperty(ref _stroke, value);
+        }
+
+        public Brush StrokeBrush
+        {
+            get             
+            {
+                if (Stroke is XSolid solidFill)
+                    return new SolidColorBrush(solidFill.Color);
+                else if (Stroke is XLinearGradient linearGradient)
+                    return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
+                else if (Stroke is XRadialGradient radialGradient)
+                    return new RadialGradientBrush(new GradientStopCollection(radialGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))));
+                return Brushes.Transparent;
+            }
+        }
+
         #endregion
 
         #region Fill
 
-        private XFillType _activeFillType = XFillType.Solid;
-        public XFillType ActiveFillType
+        private XGradientStyle _activeFillGradientStyle = XGradientStyle.Linear;
+        public XGradientStyle ActiveFillGradientStyle
+        {
+            get => _activeFillGradientStyle;
+            set => SetProperty(ref _activeFillGradientStyle, value);
+        }
+
+        private XColorType _activeFillType = XColorType.Solid;
+        public XColorType ActiveFillType
         {
             get => _activeFillType;
             set
             {
                 SetProperty(ref _activeFillType, value);
-                if (value == XFillType.Solid)
-                    Fill = new XSolidFill { Color = FillColor };
-                else if (value == XFillType.Gradient)
-                    Fill = XHelper.CreateGradient(this);
+                Fill = XHelper.CreateColor(value, ActiveFillGradientStyle, SecondaryColor, PrimaryColor);
             }
         }
 
-        private XGradientStyle _activeGradientStyle = XGradientStyle.Linear;
-        public XGradientStyle ActiveGradientStyle
-        {
-            get => _activeGradientStyle;
-            set
-            {
-                SetProperty(ref _activeGradientStyle, value);
-                Fill = XHelper.CreateGradient(this);
-            }
-        }
+        private XColor _fill = new XSolid { Color = Colors.LightGray };
 
-        private XFill _fill = new XSolidFill { Color = Colors.LightGray };
-
-        public XFill Fill
+        public XColor Fill
         {
             get => _fill;
             set => SetProperty(ref _fill, value);
         }
 
-        private Color _fillColor = Colors.LightGray;
-        public Color FillColor
+        public Brush FillBrush
         {
-            get => _fillColor;
-            set => SetProperty(ref _fillColor, value);
+            get
+            {
+                if (Fill is XSolid solidFill)
+                    return new SolidColorBrush(solidFill.Color);
+                else if (Fill is XLinearGradient linearGradient)
+                    return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
+                else if (Fill is XRadialGradient radialGradient)
+                    return new RadialGradientBrush(new GradientStopCollection(radialGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))));
+                return Brushes.Transparent;
+            }
         }
 
         #endregion
@@ -326,6 +267,147 @@ namespace NET.Paint.Drawing.Model
         //    get => _textAlignment;
         //    set => SetProperty(ref _textAlignment, value);
         //}
+
+        #endregion
+
+        #region Star
+
+        private int _starPoints = 5;
+        public int StarPoints
+        {
+            get => _starPoints;
+            set => SetProperty(ref _starPoints, value);
+        }
+
+        private double _starInnerRadiusRatio = 0.5;
+        public double StarInnerRadiusRatio
+        {
+            get => _starInnerRadiusRatio;
+            set => SetProperty(ref _starInnerRadiusRatio, value);
+        }
+
+        #endregion
+
+        #region Cloud
+
+        private int _cloudBumps = 8;
+        public int CloudBumps
+        {
+            get => _cloudBumps;
+            set => SetProperty(ref _cloudBumps, value);
+        }
+
+        private double _bumpVariance = 0.3;
+        public double BumpVariance
+        {
+            get => _bumpVariance;
+            set => SetProperty(ref _bumpVariance, value);
+        }
+
+        #endregion
+
+        #region RegularPolygon
+
+        private int _polygonCorners = 5;
+        public int PolygonCorners
+        {
+            get => _polygonCorners;
+            set => SetProperty(ref _polygonCorners, value);
+        }
+
+        #endregion
+
+        #region Polyline
+
+        private double _pencilSpacing = 13.0;
+        public double PencilSpacing
+        {
+            get => _pencilSpacing;
+            set => SetProperty(ref _pencilSpacing, value);
+        }
+
+        private double _eraserTolerance = 10.0;
+        public double EraserTolerance
+        {
+            get => _eraserTolerance;
+            set => SetProperty(ref _eraserTolerance, value);
+        }
+
+        #endregion
+
+        #region Arrow
+
+        private double _headLength = 30;
+        public double HeadLength
+        {
+            get => _headLength;
+            set => SetProperty(ref _headLength, value);
+        }
+
+        private double _headWidth = 20;
+        public double HeadWidth
+        {
+            get => _headWidth;
+            set => SetProperty(ref _headWidth, value);
+        }
+
+        private double _tailWidth = 5;
+        public double TailWidth
+        {
+            get => _tailWidth;
+            set => SetProperty(ref _tailWidth, value);
+        }
+
+        #endregion
+
+        #region Spiral
+
+        private int _spiralSamples = 100;
+        public int SpiralSamples
+        {
+            get => _spiralSamples;
+            set => SetProperty(ref _spiralSamples, value);
+        }
+
+        private int _turns = 3;
+        public int Turns
+        {
+            get => _turns;
+            set => SetProperty(ref _turns, value);
+        }
+
+        #endregion
+
+        #region Heart
+
+        private int _heartSamples = 64;
+        public int HeartSamples
+        {
+            get => _heartSamples;
+            set => SetProperty(ref _heartSamples, value);
+        }
+
+        #endregion
+
+        #region Rectangle
+
+        private double _radius = 1;
+        public double Radius
+        {
+            get => _radius;
+            set => SetProperty(ref _radius, value);
+        }
+
+        #endregion
+
+        #region Bitmap
+
+        private ImageSource? _activeBitmap = null;
+        public ImageSource? ActiveBitmap
+        {
+            get => _activeBitmap;
+            set => SetProperty(ref _activeBitmap, value);
+        }
 
         #endregion
 

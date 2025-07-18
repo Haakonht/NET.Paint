@@ -38,7 +38,7 @@ namespace NET.Paint.View.Component.Tools.Controls
             {
                 if (XTools.Instance is XTools tools)
                 {
-                    if (tools.Fill is XLinearGradientFill linearFill)
+                    if (tools.Fill is XLinearGradient linearFill)
                     {
                         Point clickedPoint = Mouse.GetPosition(ellipse);
 
@@ -67,7 +67,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (XTools.Instance is XTools tools)
             {
-                if (tools.Fill is XLinearGradientFill)
+                if (tools.Fill is XLinearGradient)
                 {
                     UpdatePreview();
                 }
@@ -78,7 +78,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (XTools.Instance is XTools tools)
             {
-                if (tools.Fill is XLinearGradientFill linearFill)
+                if (tools.Fill is XLinearGradient linearFill)
                 {
                     if (PreviewEllipse == null) return;
 
@@ -155,7 +155,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Thumb thumb && thumb.DataContext is XGradientStop gradientStop)
             {
-                if (XTools.Instance is XTools tools && tools.Fill is XGradientFill gradientFill)
+                if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
                 {
                     gradientFill.GradientStops.Remove(gradientStop);
                     UpdatePreview();
@@ -168,7 +168,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (XTools.Instance is XTools tools && tools.Fill is XGradientFill gradientFill)
+            if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
             {
                 double offset = e.GetPosition((IInputElement)sender).X / ((Border)sender).ActualWidth;
 

@@ -75,34 +75,37 @@ namespace NET.Paint.Drawing.Helper
             return renderTarget;
         }
 
-        public static XGradientFill CreateGradient(XTools tools)
+        public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, Color primaryColor, Color secondaryColor)
         {
-            if (tools.ActiveGradientStyle == XGradientStyle.Linear)
-            {
-                return new XLinearGradientFill
+            if (activeColorType == XColorType.Solid)
+                return new XSolid { Color = primaryColor };
+            else 
+                if (activeGradientStyle == XGradientStyle.Linear)
                 {
-                    StartPoint = new Point(0, 0),
-                    EndPoint = new Point(1, 0),
-                    GradientStops = new ObservableCollection<XGradientStop>
+                    return new XLinearGradient
                     {
-                        new XGradientStop { Color = tools.FillColor, Offset = 0 },
-                        new XGradientStop { Color = tools.StrokeColor, Offset = 1 }
-                    }
-                };
-            }
-            else
-            {
-                return new XRadialGradientFill
+                        StartPoint = new Point(0, 0),
+                        EndPoint = new Point(1, 0),
+                        GradientStops = new ObservableCollection<XGradientStop>
+                        {
+                            new XGradientStop { Color = secondaryColor, Offset = 0 },
+                            new XGradientStop { Color = primaryColor, Offset = 1 }
+                        }
+                    };
+                }
+                else
                 {
-                    Center = new Point(0.5, 0.5),
-                    Radius = 0.5,
-                    GradientStops = new ObservableCollection<XGradientStop>
+                    return new XRadialGradient
                     {
-                        new XGradientStop { Color = tools.FillColor, Offset = 0 },
-                        new XGradientStop { Color = tools.StrokeColor, Offset = 1 }
-                    }
-                };
-            }
+                        Center = new Point(0.5, 0.5),
+                        Radius = 0.5,
+                        GradientStops = new ObservableCollection<XGradientStop>
+                        {
+                            new XGradientStop { Color = secondaryColor, Offset = 0 },
+                            new XGradientStop { Color = primaryColor, Offset = 1 }
+                        }
+                    };
+                }
         }
     }
 }

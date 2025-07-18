@@ -6,23 +6,23 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Utility
 {
-    public abstract class XFill : PropertyNotifier
+    public abstract class XColor : PropertyNotifier
     {
-        public abstract XFillType Type { get; }
+        public abstract XColorType Type { get; }
     }
 
-    public class XSolidFill : XFill
+    public class XSolid : XColor
     {
-        public override XFillType Type => XFillType.Solid;
+        public override XColorType Type => XColorType.Solid;
         public Color Color { get; set; }
     }
 
-    public abstract class XGradientFill : XFill
+    public abstract class XGradient : XColor
     {
-        public override XFillType Type => XFillType.Gradient;
+        public override XColorType Type => XColorType.Gradient;
         public abstract XGradientStyle Style { get; }
         public ObservableCollection<XGradientStop> GradientStops { get; set; } = new ObservableCollection<XGradientStop>();
-        public XGradientFill() => GradientStops.CollectionChanged += (s, e) => OnPropertyChanged(nameof(GradientStops));
+        public XGradient() => GradientStops.CollectionChanged += (s, e) => OnPropertyChanged(nameof(GradientStops));
     }
 
     public class XGradientStop : PropertyNotifier
@@ -42,14 +42,14 @@ namespace NET.Paint.Drawing.Model.Utility
         }
     }
 
-    public class XLinearGradientFill : XGradientFill
+    public class XLinearGradient : XGradient
     {
         public override XGradientStyle Style => XGradientStyle.Linear;
         public Point StartPoint { get; set; } = new Point(0, 0);
         public Point EndPoint { get; set; } = new Point(1, 0);
     }
 
-    public class XRadialGradientFill : XGradientFill
+    public class XRadialGradient : XGradient
     {
         public override XGradientStyle Style => XGradientStyle.Radial;
         public Point Center { get; set; }

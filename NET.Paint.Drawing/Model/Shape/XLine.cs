@@ -33,7 +33,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XLine
         {
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
@@ -63,7 +63,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XPolyline
         {
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points),
@@ -111,7 +111,7 @@ namespace NET.Paint.Drawing.Model.Shape
             Start = this.Start,
             End = this.End,
             Ctrl1 = this.Ctrl1,
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
@@ -142,7 +142,7 @@ namespace NET.Paint.Drawing.Model.Shape
             End = this.End,
             Ctrl1 = this.Ctrl1,
             Ctrl2 = this.Ctrl2,
-            StrokeColor = this.StrokeColor,
+            StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
