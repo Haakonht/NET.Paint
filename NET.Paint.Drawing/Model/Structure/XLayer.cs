@@ -14,7 +14,7 @@ namespace NET.Paint.Drawing.Model.Structure
     public abstract class XLayer : PropertyNotifier, ICloneable
     {
         [JsonIgnore]
-        public abstract LayerType Type { get; }
+        public abstract XLayerType Type { get; }
 
         private string _title = "Layer";
         public string Title
@@ -91,7 +91,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public class XVectorLayer : XLayer, IShapeLayer
     {
-        public override LayerType Type => LayerType.Vector;
+        public override XLayerType Type => XLayerType.Vector;
 
         private ObservableCollection<XRenderable> _shapes = new ObservableCollection<XRenderable>();
         public ObservableCollection<XRenderable> Shapes
@@ -119,7 +119,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public class XRasterLayer : XLayer, IBitmapLayer
     {
-        public override LayerType Type => LayerType.Raster;
+        public override XLayerType Type => XLayerType.Raster;
 
         private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
         [Browsable(false)]
@@ -147,7 +147,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public class XHybridLayer : XLayer, IShapeLayer, IBitmapLayer
     {
-        public override LayerType Type => LayerType.Hybrid;
+        public override XLayerType Type => XLayerType.Hybrid;
 
         private ObservableCollection<XRenderable> _shapes = new ObservableCollection<XRenderable>();
         public ObservableCollection<XRenderable> Shapes

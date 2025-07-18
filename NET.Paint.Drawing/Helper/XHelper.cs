@@ -1,7 +1,11 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Utility;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Helper
 {
@@ -69,6 +73,36 @@ namespace NET.Paint.Drawing.Helper
 
             renderTarget.Render(visual);
             return renderTarget;
+        }
+
+        public static XGradientFill CreateGradient(XTools tools)
+        {
+            if (tools.ActiveGradientStyle == XGradientStyle.Linear)
+            {
+                return new XLinearGradientFill
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(1, 0),
+                    GradientStops = new ObservableCollection<XGradientStop>
+                    {
+                        new XGradientStop { Color = tools.FillColor, Offset = 0 },
+                        new XGradientStop { Color = tools.StrokeColor, Offset = 1 }
+                    }
+                };
+            }
+            else
+            {
+                return new XRadialGradientFill
+                {
+                    Center = new Point(0.5, 0.5),
+                    Radius = 0.5,
+                    GradientStops = new ObservableCollection<XGradientStop>
+                    {
+                        new XGradientStop { Color = tools.FillColor, Offset = 0 },
+                        new XGradientStop { Color = tools.StrokeColor, Offset = 1 }
+                    }
+                };
+            }
         }
     }
 }

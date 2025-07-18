@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using System.Windows;
@@ -14,7 +15,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Shape
 
-        private XToolType _activeTool = XToolType.Pencil;
+        private XToolType _activeTool = XToolType.Rectangle;
         public XToolType ActiveTool
         {
             get => _activeTool;
@@ -232,6 +233,39 @@ namespace NET.Paint.Drawing.Model
         #endregion
 
         #region Fill
+
+        private XFillType _activeFillType = XFillType.Solid;
+        public XFillType ActiveFillType
+        {
+            get => _activeFillType;
+            set
+            {
+                SetProperty(ref _activeFillType, value);
+                if (value == XFillType.Solid)
+                    Fill = new XSolidFill { Color = FillColor };
+                else if (value == XFillType.Gradient)
+                    Fill = XHelper.CreateGradient(this);
+            }
+        }
+
+        private XGradientStyle _activeGradientStyle = XGradientStyle.Linear;
+        public XGradientStyle ActiveGradientStyle
+        {
+            get => _activeGradientStyle;
+            set
+            {
+                SetProperty(ref _activeGradientStyle, value);
+                Fill = XHelper.CreateGradient(this);
+            }
+        }
+
+        private XFill _fill = new XSolidFill { Color = Colors.LightGray };
+
+        public XFill Fill
+        {
+            get => _fill;
+            set => SetProperty(ref _fill, value);
+        }
 
         private Color _fillColor = Colors.LightGray;
         public Color FillColor

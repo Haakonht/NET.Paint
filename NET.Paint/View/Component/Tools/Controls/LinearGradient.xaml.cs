@@ -1,0 +1,186 @@
+﻿using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.Drawing.Service;
+using NET.Paint.Helper;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
+
+namespace NET.Paint.View.Component.Tools.Controls
+{
+    public partial class LinearGradient : UserControl
+    {
+        private Point _thumbMouseDownPosition;
+        private bool _isThumbDragging = false;
+
+        public LinearGradient()
+        {
+            InitializeComponent();
+        }
+
+        #region Direction
+
+        private void PreviewEllipse_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                ChangeDirection(sender);
+        }
+        private void PreviewEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => ChangeDirection(sender);
+        private void ChangeDirection(object sender)
+        {
+            if (sender is Ellipse ellipse)
+            {
+                if (XTools.Instance is XTools tools)
+                {
+                    if (tools.Fill is XLinearGradientFill linearFill)
+                    {
+                        Point clickedPoint = Mouse.GetPosition(ellipse);
+
+                        // Normalize the clicked point relative to the ellipse size (0,0 to 1,1)
+                        Point normalizedEnd = new Point(
+                            clickedPoint.X / ellipse.Width,
+                            clickedPoint.Y / ellipse.Height);
+
+                        // Calculate the start point by reflecting the end point across the center (0.5, 0.5)
+                        Point normalizedStart = new Point(
+                            1 - normalizedEnd.X,
+                            1 - normalizedEnd.Y);
+
+                        linearFill.StartPoint = normalizedStart;
+                        linearFill.EndPoint = normalizedEnd;
+
+                        UpdatePreview();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (XTools.Instance is XTools tools)
+            {
+                if (tools.Fill is XLinearGradientFill)
+                {
+                    UpdatePreview();
+                }
+            }
+        }
+
+        private void UpdatePreview()
+        {
+            if (XTools.Instance is XTools tools)
+            {
+                if (tools.Fill is XLinearGradientFill linearFill)
+                {
+                    if (PreviewEllipse == null) return;
+
+                    PreviewEllipse.Fill = new LinearGradientBrush
+                    {
+                        StartPoint = linearFill.StartPoint,
+                        EndPoint = linearFill.EndPoint,
+                        GradientStops = new GradientStopCollection(
+                            linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                    };
+
+                    if (PreviewBorder == null) return;
+
+                    PreviewBorder.Background = new LinearGradientBrush
+                    {
+                        StartPoint = new Point(0,0),
+                        EndPoint = new Point(1,0),
+                        GradientStops = new GradientStopCollection(
+                            linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                    };
+                }
+            }
+        }
+
+        private void Thumb_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Thumb thumb)
+            {
+                _isThumbDragging = false;
+                _thumbMouseDownPosition = e.GetPosition(thumb);
+                thumb.MouseMove += Thumb_MouseMove;
+            }
+        }
+
+        private void Thumb_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender is Thumb thumb)
+            {
+                Point currentPosition = e.GetPosition(thumb);
+                Vector diff = currentPosition - _thumbMouseDownPosition;
+
+                // Check if the mouse has moved more than the minimum drag distance
+                if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                    Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    _isThumbDragging = true;
+                    // Once dragging starts, we no longer need this specific handler
+                    thumb.MouseMove -= Thumb_MouseMove;
+                }
+            }
+        }
+
+        private void Thumb_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Thumb thumb)
+            {
+                // Unsubscribe from the MouseMove event to clean up
+                thumb.MouseMove -= Thumb_MouseMove;
+
+                // If the thumb was not being dragged, treat it as a click
+                if (!_isThumbDragging)
+                {
+                    var colorPicker = GeneralHelper.FindVisualChild<ColorPicker>(thumb);
+                    if (colorPicker != null)
+                    {
+                        colorPicker.IsOpen = true;
+                        e.Handled = true; // Prevent the thumb from processing the click further
+                    }
+                }
+            }
+        }
+
+        private void Thumb_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Thumb thumb && thumb.DataContext is XGradientStop gradientStop)
+            {
+                if (XTools.Instance is XTools tools && tools.Fill is XGradientFill gradientFill)
+                {
+                    gradientFill.GradientStops.Remove(gradientStop);
+                    UpdatePreview();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) => UpdatePreview();
+
+        private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (XTools.Instance is XTools tools && tools.Fill is XGradientFill gradientFill)
+            {
+                double offset = e.GetPosition((IInputElement)sender).X / ((Border)sender).ActualWidth;
+
+                gradientFill.GradientStops.Add(new XGradientStop
+                {
+                    Color = Colors.White,
+                    Offset = offset
+                });
+                UpdatePreview();
+                e.Handled = true;
+            }
+        }
+
+    }
+}

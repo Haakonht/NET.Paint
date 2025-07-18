@@ -450,7 +450,7 @@ namespace NET.Paint.Drawing.Command
         {
             foreach (var image in _service.Project.Images)
             {
-                foreach (XVectorLayer layer in image.Layers.Where(x => x.Type == Constant.LayerType.Vector))
+                foreach (XVectorLayer layer in image.Layers.Where(x => x.Type == Constant.XLayerType.Vector))
                 {
                     if (layer.Shapes.Contains(renderable))
                     {

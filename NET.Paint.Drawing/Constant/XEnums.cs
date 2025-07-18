@@ -3,7 +3,7 @@
 
     #region Types
 
-    public enum  ObjectType
+    public enum  XObjectType
     {
         Image,
         Layer,
@@ -25,11 +25,17 @@
         Bitmap
     }
 
-    public enum LayerType
+    public enum XLayerType
     {
         Vector,
         Raster,
         Hybrid
+    }
+
+    public enum XFillType
+    {
+        Solid,
+        Gradient
     }
 
     #endregion
@@ -57,6 +63,12 @@
     {
         Circle,
         Ellipse
+    }
+
+    public enum XGradientStyle
+    {
+        Linear,
+        Radial
     }
 
     #endregion
@@ -87,4 +99,13 @@
 
     #endregion
 
+    #region Effects
+
+    public enum  XEffect 
+    {
+        Fade,
+        Vignette
+    }
+
+    #endregion
 }

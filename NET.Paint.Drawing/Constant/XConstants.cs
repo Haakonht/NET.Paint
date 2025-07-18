@@ -5,26 +5,18 @@ namespace NET.Paint.Drawing.Constant
 {
     public static class XConstants
     {
-        public static List<XToolType> ToolOptions => new List<XToolType>
+        public static List<XStrokeStyle> StrokeStyleOptions = new List<XStrokeStyle>
         {
-            XToolType.Selector,
-            XToolType.Pencil,
-            XToolType.Line,
-            XToolType.Bezier,
-            XToolType.Ellipse,
-            XToolType.Triangle,
-            XToolType.Rectangle,
-            XToolType.Polygon,
-            XToolType.Text,
-            XToolType.Bitmap
+            new XStrokeStyle { Name = "Solid", DashArray = null },
+            new XStrokeStyle { Name = "Dashed", DashArray = new DoubleCollection() { 4, 2 } },
+            new XStrokeStyle { Name = "Dotted", DashArray = new DoubleCollection() { 1, 2 } },
+            new XStrokeStyle { Name = "DashDot", DashArray = new DoubleCollection() { 4, 2, 1, 2 } },
         };
 
-        public static List<XPolygonStyle> PolygonOptions => new List<XPolygonStyle>
+        public static List<XGradientStyle> GradientStyleOptions = new List<XGradientStyle>
         {
-            XPolygonStyle.Heart,
-            XPolygonStyle.Spiral,
-            XPolygonStyle.Star,
-            XPolygonStyle.Arrow
+            XGradientStyle.Linear,
+            XGradientStyle.Radial
         };
 
         public static List<FontFamily> FontFamilyOptions => Fonts.SystemFontFamilies.ToList();
@@ -46,14 +38,6 @@ namespace NET.Paint.Drawing.Constant
             36, 
             48, 
             72 
-        };
-        
-        public static List<XStrokeStyle> StrokeStyleOptions = new List<XStrokeStyle>
-        {
-            new XStrokeStyle { Name = "Solid", DashArray = null },
-            new XStrokeStyle { Name = "Dashed", DashArray = new DoubleCollection() { 4, 2 } },
-            new XStrokeStyle { Name = "Dotted", DashArray = new DoubleCollection() { 1, 2 } },
-            new XStrokeStyle { Name = "DashDot", DashArray = new DoubleCollection() { 4, 2, 1, 2 } },
-        };
+        };     
     }
 }

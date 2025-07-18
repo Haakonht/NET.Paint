@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    
+
     <Style x:Key="TriangularSliderStyle" TargetType="{x:Type Slider}">
         <Setter Property="Background" Value="Gray"/>
         <Setter Property="Height" Value="20"/>
@@ -66,5 +65,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Add missing styles for HiddenTrackSlider -->
 
 </ResourceDictionary>

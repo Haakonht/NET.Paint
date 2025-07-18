@@ -8,7 +8,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             d:DesignHeight="150" d:DesignWidth="150" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>

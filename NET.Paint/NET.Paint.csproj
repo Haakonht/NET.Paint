@@ -24,6 +24,9 @@
     <Compile Update="View\Component\Tools\Controls\Fill.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\Component\Tools\Controls\RadialGradient.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\Component\Tools\ToolBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
