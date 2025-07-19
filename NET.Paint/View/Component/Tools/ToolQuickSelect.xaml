@@ -15,29 +15,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/ToolIcons.xaml"/>
+                <ResourceDictionary Source="Resources/CircleSegments.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <DrawingImage x:Key="CircleSegmentTwo">
-                <DrawingImage.Drawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Brush>
-                            <SolidColorBrush Color="LightGray" Opacity="0.6"/>
-                        </GeometryDrawing.Brush>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="Black" />
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry>
-                                <PathFigure StartPoint="0,50" IsClosed="True">
-                                    <ArcSegment Point="100,50" Size="50,50" SweepDirection="Clockwise" IsLargeArc="False"/>
-                                    <LineSegment Point="100,50" />
-                                    <LineSegment Point="0,50" />
-                                </PathFigure>
-                            </PathGeometry>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingImage.Drawing>
-            </DrawingImage>
 
             <DataTemplate x:Key="TwoPieceCircle">
                 <Canvas Width="100" Height="100">
@@ -50,30 +29,6 @@
                 </Canvas>
             </DataTemplate>
             
-            <DrawingImage x:Key="CircleSegmentThree">
-                <DrawingImage.Drawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Brush>
-                            <SolidColorBrush Color="LightGray" Opacity="0.6"/>
-                        </GeometryDrawing.Brush>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="Black" />
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry>
-                                <PathFigure StartPoint="100,100">
-                                    <PathFigure.Segments>
-                                        <LineSegment Point="100,0"/>
-                                        <ArcSegment Point="186.6,150" SweepDirection="Clockwise" Size="100,100"/>
-                                        <LineSegment Point="100,100"/>
-                                    </PathFigure.Segments>
-                                </PathFigure>
-                            </PathGeometry>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingImage.Drawing>
-            </DrawingImage>
-
             <DataTemplate x:Key="ThreePieceCircle">
                 <Canvas Width="100" Height="100">
                     <Image Canvas.Left="50" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="2" Source="{StaticResource CircleSegmentThree}"/>
@@ -92,29 +47,6 @@
                     </Canvas.RenderTransform>
                 </Canvas>
             </DataTemplate>
-
-            <DrawingImage x:Key="CircleSegmentFour">
-                <DrawingImage.Drawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Brush>
-                            <SolidColorBrush Color="LightGray" Opacity="0.6"/>
-                        </GeometryDrawing.Brush>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="Black" />
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry>
-                                <PathFigure StartPoint="50,50" IsClosed="True">
-                                    <ArcSegment Point="100,0" Size="50,50" SweepDirection="Clockwise" IsLargeArc="False"/>
-                                    <LineSegment Point="100,50"/>
-                                    <LineSegment Point="50,50"/>
-                                </PathFigure>
-                            </PathGeometry>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingImage.Drawing>
-            </DrawingImage>
-
 
             <DataTemplate x:Key="FourPieceCircle">
                 <Canvas Width="100" Height="100">
@@ -136,7 +68,6 @@
                     </Image>
                 </Canvas>
             </DataTemplate>
-
 
             <selectors:SelectorTemplateSelector x:Key="SelectorTemplateSelector" EmptyTemplate="{StaticResource SelectorToolIcon}"
                                                PointerTemplate="{StaticResource PointerToolIcon}" RectangleTemplate="{StaticResource SelectorToolIcon}" 
