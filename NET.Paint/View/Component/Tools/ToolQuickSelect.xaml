@@ -6,6 +6,7 @@
              xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150" d:Background="White"
@@ -42,7 +43,7 @@
 
             <selectors:SelectorTemplateSelector x:Key="SelectorTemplateSelector" EmptyTemplate="{StaticResource SelectorToolIcon}"
                                                PointerTemplate="{StaticResource PointerToolIcon}" RectangleTemplate="{StaticResource SelectorToolIcon}" 
-                                               LassoTemplate="{StaticResource LassoToolIcon}" MoveTemplate="{StaticResource ManipulatorToolIcon}"/>
+                                               LassoTemplate="{StaticResource LassoToolIcon}" MoveTemplate="{StaticResource MoveToolIcon}" RotateTemplate="{StaticResource RotateToolIcon}"/>
 
             <selectors:PolygonTemplateSelector x:Key="PolygonTemplateSelector" EmptyTemplate="{StaticResource PolygonToolIcon}"
                                               RegularTemplate="{StaticResource PentagonShape}" StarTemplate="{StaticResource StarShape}" HeartTemplate="{StaticResource HeartShape}" 
@@ -66,8 +67,8 @@
     
     <Canvas Background="Transparent" Width="100" Height="100">
         <Canvas Width="100" Height="100" Canvas.Top="-9.5"  Canvas.Left="34">
-            <Image Canvas.Left="50" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="2" Source="{StaticResource CircleSegment}"/>
-            <Image Canvas.Left="34" Canvas.Top="59" Width="50" MouseEnter="OpenToolContextSpecific" Tag="1" Source="{StaticResource CircleSegment}">
+            <Image Canvas.Left="50" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="3" Source="{StaticResource CircleSegment}"/>
+            <Image Canvas.Left="34" Canvas.Top="59" Width="50" MouseEnter="OpenToolContextSpecific" Tag="2" Source="{StaticResource CircleSegment}">
                 <Image.RenderTransform>
                     <RotateTransform Angle="120" CenterX="25" CenterY="25"/>
                 </Image.RenderTransform>
@@ -82,6 +83,7 @@
             </Canvas.RenderTransform>
         </Canvas>
         <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30"/>
+        <ma:MaterialIcon Canvas.Left="38" Canvas.Top="38" Kind="ImagesOutline" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static constants:XToolType.Bitmap}}" MouseRightButtonUp="MaterialIcon_MouseRightButtonUp" Tag="1"/>
         <ContentPresenter Canvas.Left="38" Canvas.Top="5" Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolContextQuickSelectTemplateSelector}"/>
         <ma:MaterialIcon Canvas.Left="10" Canvas.Top="55" Kind="ShapeOutline" FontSize="50"/>
         <ma:MaterialIcon Canvas.Left="65" Canvas.Top="55" Kind="Shape" FontSize="50"/>

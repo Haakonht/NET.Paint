@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Material.Icons.WPF;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -60,6 +61,17 @@ namespace NET.Paint.View.Component.Tools
         private void CloseToolContext(object sender, MouseEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(CloseToolContextRequestedEvent));
+            e.Handled = true;
+        }
+
+        private void MaterialIcon_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is MaterialIcon element)
+            {
+                // Create custom event args that include the tab index
+                var eventArgs = new ToolContextEventArgs(OpenSpecificToolContextEvent, element.Tag);
+                RaiseEvent(eventArgs);
+            }
             e.Handled = true;
         }
     }

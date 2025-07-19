@@ -36,22 +36,38 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Ellipse ellipse)
             {
-                if (XTools.Instance is XTools tools)
+                if (DataContext is XRadialGradient radialFill)
                 {
-                    if (tools.Fill is XRadialGradient radialFill)
-                    {
-                        Point clickedPoint = Mouse.GetPosition(ellipse);
-                        if (center)
-                            radialFill.Center = new Point
-                            {
-                                X = clickedPoint.X / ellipse.ActualWidth,
-                                Y = clickedPoint.Y / ellipse.ActualHeight
-                            };
-                        else
-                            radialFill.Radius = Math.Abs(clickedPoint.X - (ellipse.ActualWidth / 2));
+                    Point clickedPoint = Mouse.GetPosition(ellipse);
 
-                        UpdatePreview();
+                    if (center)
+                    {
+                        // Set center as normalized coordinates (0,0 to 1,1)
+                        radialFill.Center = new Point
+                        {
+                            X = clickedPoint.X / ellipse.ActualWidth,
+                            Y = clickedPoint.Y / ellipse.ActualHeight
+                        };
                     }
+                    else
+                    {
+                        // Calculate radius as distance from center to clicked point
+                        Point centerPixels = new Point(
+                            radialFill.Center.X * ellipse.ActualWidth,
+                            radialFill.Center.Y * ellipse.ActualHeight
+                        );
+
+                        // Calculate distance from center to clicked point
+                        double deltaX = clickedPoint.X - centerPixels.X;
+                        double deltaY = clickedPoint.Y - centerPixels.Y;
+                        double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                        // Normalize radius to ellipse size (use the smaller dimension to ensure it fits)
+                        double maxRadius = Math.Min(ellipse.ActualWidth, ellipse.ActualHeight) / 2;
+                        radialFill.Radius = Math.Min(distance / maxRadius, 1.0);
+                    }
+
+                    UpdatePreview();
                 }
             }
         }
@@ -60,42 +76,34 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (XTools.Instance is XTools tools)
-            {
-                if (tools.Fill is XRadialGradient)
-                {
-                    UpdatePreview();
-                }
-            }
+            if (DataContext is XRadialGradient)
+                UpdatePreview();
         }
 
         private void UpdatePreview()
         {
-            if (XTools.Instance is XTools tools)
+            if (DataContext is XRadialGradient radialFill)
             {
-                if (tools.Fill is XRadialGradient radialFill)
+                if (PreviewEllipse == null) return;
+
+                PreviewEllipse.Fill = new RadialGradientBrush
                 {
-                    if (PreviewEllipse == null) return;
+                    Center = radialFill.Center,
+                    RadiusX = radialFill.Radius,
+                    RadiusY = radialFill.Radius,
+                    GradientStops = new GradientStopCollection(
+                        radialFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                };
 
-                    PreviewEllipse.Fill = new RadialGradientBrush
-                    {
-                        Center = radialFill.Center,
-                        RadiusX = radialFill.Radius,
-                        RadiusY = radialFill.Radius,
-                        GradientStops = new GradientStopCollection(
-                            radialFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
-                    };
+                if (PreviewBorder == null) return;
 
-                    if (PreviewBorder == null) return;
-
-                    PreviewBorder.Background = new LinearGradientBrush
-                    {
-                        StartPoint = new Point(0,0),
-                        EndPoint = new Point(1,0),
-                        GradientStops = new GradientStopCollection(
-                            radialFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
-                    };
-                }
+                PreviewBorder.Background = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0,0),
+                    EndPoint = new Point(1,0),
+                    GradientStops = new GradientStopCollection(
+                        radialFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                };
             }
         }
 
@@ -151,7 +159,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Thumb thumb && thumb.DataContext is XGradientStop gradientStop)
             {
-                if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
+                if (DataContext is XGradient gradientFill)
                 {
                     gradientFill.GradientStops.Remove(gradientStop);
                     UpdatePreview();
@@ -164,7 +172,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
+            if (DataContext is XGradient gradientFill)
             {
                 double offset = e.GetPosition((IInputElement)sender).X / ((Border)sender).ActualWidth;
 

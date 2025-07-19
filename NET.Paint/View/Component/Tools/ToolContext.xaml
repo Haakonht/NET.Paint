@@ -24,6 +24,11 @@
                 <controls:Custom Width="165" Margin="5"/>
             </Grid>
         </TabItem>
+        <TabItem Header="Gallery" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XToolType.Bitmap}}">
+            <Grid Background="White">
+                <controls:Gallery Width="165" Margin="5"/>
+            </Grid>
+        </TabItem>
         <TabItem Header="Stroke">
             <Grid Background="White">
                 <controls:Stroke Width="165" Margin="5"/>

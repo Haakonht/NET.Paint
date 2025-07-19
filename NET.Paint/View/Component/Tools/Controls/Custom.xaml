@@ -41,8 +41,41 @@
                 </StackPanel>
             </DataTemplate>
 
+            <DataTemplate x:Key="PencilToolTemplate">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Mode" Padding="0" FontSize="10" Margin="2,2,0,2"/>
+                    <UniformGrid Columns="2" Height="25">
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}" ContentTemplate="{StaticResource PencilToolIcon}" GroupName="PencilMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}" ContentTemplate="{StaticResource EraserToolIcon}" GroupName="PencilMode"/>
+                    </UniformGrid>
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}">
+                        <Label Content="Spacing" Padding="0" FontSize="10" Margin="2,2,0,2"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider Value="{Binding Tools.PencilSpacing}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            <TextBlock Text="{Binding Tools.PencilSpacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}">
+                        <Label Content="Tolerance" Padding="0" FontSize="10" Margin="2,2,0,2"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider Value="{Binding Tools.EraserTolerance}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            <TextBlock Text="{Binding Tools.EraserTolerance}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate x:Key="StarToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding StarPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -64,12 +97,12 @@
                         <Slider Value="{Binding Tools.StarInnerRadiusRatio}" Minimum="0.1" Maximum="1.0" TickFrequency="0.1" ValueChanged="StarPreviewChanged" Margin="0,5,0,0"/>
                         <TextBlock Text="{Binding Tools.StarInnerRadiusRatio}" Width="20" Margin="5,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     </Grid>
-
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="ArrowToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding ArrowPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -103,32 +136,7 @@
                 </StackPanel>
             </DataTemplate>
 
-            <DataTemplate x:Key="PencilToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
-                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}">
-                        <Label Content="Spacing" Padding="0" FontSize="10" Margin="2,2,0,2"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
-                            <Slider Value="{Binding Tools.PencilSpacing}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                            <TextBlock Text="{Binding Tools.PencilSpacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}">
-                        <Label Content="Tolerance" Padding="0" FontSize="10" Margin="2,2,0,2"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
-                            <Slider Value="{Binding Tools.EraserTolerance}" Minimum="5" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                            <TextBlock Text="{Binding Tools.EraserTolerance}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
-                        </Grid>
-                    </StackPanel>
-                </StackPanel>
-            </DataTemplate>
+
 
             <DataTemplate x:Key="TextToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
@@ -153,6 +161,7 @@
 
             <DataTemplate x:Key="CloudToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding CloudPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -179,6 +188,7 @@
 
             <DataTemplate x:Key="SpiralToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding SpiralPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -205,6 +215,7 @@
 
             <DataTemplate x:Key="HeartToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding HeartPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -222,6 +233,7 @@
 
             <DataTemplate x:Key="RegularToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding RegularPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
@@ -239,6 +251,7 @@
 
             <DataTemplate x:Key="RectangleToolTemplate">
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                    <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <Rectangle Stroke="Black" Fill="LightGray" StrokeThickness="1" Height="60" Width="60" RadiusX="{Binding Tools.Radius}" RadiusY="{Binding Tools.Radius}"/>
                     </Border>
@@ -265,25 +278,6 @@
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Fit}}" Content="{ma:MaterialIconExt Kind=FitToScreen}" GroupName="SelectorMode"/>
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Clip}}" Content="{ma:MaterialIconExt Kind=Crop}" GroupName="SelectorMode"/>
                     </UniformGrid>
-                    <Label Content="Gallery:" Padding="0" Margin="2,0,0,2"/>
-                    <Border BorderBrush="LightGray" BorderThickness="1">
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="200">
-                            <StackPanel>
-                                <ItemsControl ItemsSource="{Binding Project.Bitmaps}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="5">
-                                                <Button Click="SelectBitmap">
-                                                    <Image Source="{Binding}" Width="130" ClipToBounds="False" Margin="0,0,5,0"/>
-                                                </Button>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <Button Content="Add Image" Margin="5"/>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Border>
                 </StackPanel>
             </DataTemplate>
 

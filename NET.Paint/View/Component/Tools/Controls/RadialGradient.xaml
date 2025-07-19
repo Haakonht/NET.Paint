@@ -67,7 +67,7 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel DataContext="{Binding Fill}">
+    <StackPanel DataContext="{Binding}">
         <Label Content="Radius" Padding="0" Margin="2,2,0,2" FontSize="10"/>
         <Grid>
             <Ellipse x:Name="PreviewEllipse" Width="130" Height="130" Stroke="Black" StrokeThickness="1" Cursor="Hand" MouseLeftButtonDown="PreviewEllipse_MouseLeftButtonDown" MouseRightButtonDown="PreviewEllipse_MouseRightButtonDown" MouseMove="PreviewEllipse_MouseMove">

@@ -121,7 +121,11 @@ namespace NET.Paint.Drawing.Model
         public XGradientStyle ActiveStrokeGradientStyle
         {
             get => _activeStrokeGradientStyle;
-            set => SetProperty(ref _activeStrokeGradientStyle, value);
+            set 
+            {
+                SetProperty(ref _activeStrokeGradientStyle, value);
+                Stroke = XHelper.CreateColor(ActiveStrokeType, value, PrimaryColor, SecondaryColor);
+            }
         }
 
         private XColorType _activeStrokeType = XColorType.Solid;
@@ -179,7 +183,11 @@ namespace NET.Paint.Drawing.Model
         public XGradientStyle ActiveFillGradientStyle
         {
             get => _activeFillGradientStyle;
-            set => SetProperty(ref _activeFillGradientStyle, value);
+            set
+            {
+                SetProperty(ref _activeFillGradientStyle, value);
+                Fill = XHelper.CreateColor(ActiveFillType, value, SecondaryColor, PrimaryColor);
+            }
         }
 
         private XColorType _activeFillType = XColorType.Solid;
