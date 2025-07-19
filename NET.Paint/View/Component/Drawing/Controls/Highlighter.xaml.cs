@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
@@ -40,7 +41,6 @@ namespace NET.Paint.View.Component.Drawing.Controls
             _lastSelectionMode = XTools.Instance.SelectionMode;
             XTools.Instance.SelectionMode = XSelectionMode.Move;
         }
-
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             if (sender is Thumb thumb && thumb.DataContext is Point pt)
@@ -224,6 +224,5 @@ namespace NET.Paint.View.Component.Drawing.Controls
         }
 
         #endregion
-
     }
 }

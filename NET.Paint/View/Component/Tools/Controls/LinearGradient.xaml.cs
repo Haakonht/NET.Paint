@@ -36,27 +36,24 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Ellipse ellipse)
             {
-                if (XTools.Instance is XTools tools)
+                if (DataContext is XLinearGradient linearFill)
                 {
-                    if (tools.Fill is XLinearGradient linearFill)
-                    {
-                        Point clickedPoint = Mouse.GetPosition(ellipse);
+                    Point clickedPoint = Mouse.GetPosition(ellipse);
 
-                        // Normalize the clicked point relative to the ellipse size (0,0 to 1,1)
-                        Point normalizedEnd = new Point(
-                            clickedPoint.X / ellipse.Width,
-                            clickedPoint.Y / ellipse.Height);
+                    // Normalize the clicked point relative to the ellipse size (0,0 to 1,1)
+                    Point normalizedEnd = new Point(
+                        clickedPoint.X / ellipse.Width,
+                        clickedPoint.Y / ellipse.Height);
 
-                        // Calculate the start point by reflecting the end point across the center (0.5, 0.5)
-                        Point normalizedStart = new Point(
-                            1 - normalizedEnd.X,
-                            1 - normalizedEnd.Y);
+                    // Calculate the start point by reflecting the end point across the center (0.5, 0.5)
+                    Point normalizedStart = new Point(
+                        1 - normalizedEnd.X,
+                        1 - normalizedEnd.Y);
 
-                        linearFill.StartPoint = normalizedStart;
-                        linearFill.EndPoint = normalizedEnd;
+                    linearFill.StartPoint = normalizedStart;
+                    linearFill.EndPoint = normalizedEnd;
 
-                        UpdatePreview();
-                    }
+                    UpdatePreview();
                 }
             }
         }
@@ -67,7 +64,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (XTools.Instance is XTools tools)
             {
-                if (tools.Fill is XLinearGradient)
+                if (DataContext is XLinearGradient)
                 {
                     UpdatePreview();
                 }
@@ -76,30 +73,27 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void UpdatePreview()
         {
-            if (XTools.Instance is XTools tools)
+            if (DataContext is XLinearGradient linearFill)
             {
-                if (tools.Fill is XLinearGradient linearFill)
+                if (PreviewEllipse == null) return;
+
+                PreviewEllipse.Fill = new LinearGradientBrush
                 {
-                    if (PreviewEllipse == null) return;
+                    StartPoint = linearFill.StartPoint,
+                    EndPoint = linearFill.EndPoint,
+                    GradientStops = new GradientStopCollection(
+                        linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                };
 
-                    PreviewEllipse.Fill = new LinearGradientBrush
-                    {
-                        StartPoint = linearFill.StartPoint,
-                        EndPoint = linearFill.EndPoint,
-                        GradientStops = new GradientStopCollection(
-                            linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
-                    };
+                if (PreviewBorder == null) return;
 
-                    if (PreviewBorder == null) return;
-
-                    PreviewBorder.Background = new LinearGradientBrush
-                    {
-                        StartPoint = new Point(0,0),
-                        EndPoint = new Point(1,0),
-                        GradientStops = new GradientStopCollection(
-                            linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
-                    };
-                }
+                PreviewBorder.Background = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0,0),
+                    EndPoint = new Point(1,0),
+                    GradientStops = new GradientStopCollection(
+                        linearFill.GradientStops.Select(gs => new GradientStop(gs.Color, gs.Offset)))
+                };
             }
         }
 
@@ -155,7 +149,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Thumb thumb && thumb.DataContext is XGradientStop gradientStop)
             {
-                if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
+                if (DataContext is XGradient gradientFill)
                 {
                     gradientFill.GradientStops.Remove(gradientStop);
                     UpdatePreview();
@@ -168,7 +162,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (XTools.Instance is XTools tools && tools.Fill is XGradient gradientFill)
+            if (DataContext is XGradient gradientFill)
             {
                 double offset = e.GetPosition((IInputElement)sender).X / ((Border)sender).ActualWidth;
 

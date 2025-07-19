@@ -19,8 +19,8 @@
     <StackPanel Grid.Row="1" DataContext="{Binding Tools}" Background="White">
         <Label Content="Type" Padding="0" Margin="2,2,0,2" FontSize="10"/>
         <UniformGrid>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRoundedOutline}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Solid}}"/>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="FillTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Gradient}}"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRoundedOutline}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Solid}}"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Gradient}}"/>
         </UniformGrid>
         <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding Stroke}" Margin="0,-25,0,0">
             <ContentPresenter.Resources>
@@ -29,14 +29,14 @@
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">
                             <Grid Height="25" DataContext="{Binding Tools}">
-                                <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding PrimaryColor}" DisplayColorTooltip="False" />
+                                <xctk:ColorPicker x:Name="StrokeColorPicker" ShowDropDownButton="False" SelectedColor="{Binding PrimaryColor}" DisplayColorTooltip="False" />
                                 <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding PrimaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
                                 <TextBlock Text="{Binding PrimaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding PrimaryColor, Converter={StaticResource ContrastColorConverter}}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Normal"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=FillColorPicker}" Value="True">
+                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=StrokeColorPicker}" Value="True">
                                                     <Setter Property="FontWeight" Value="Bold"/>
                                                 </DataTrigger>
                                             </Style.Triggers>

@@ -81,8 +81,6 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Center.Y}" Canvas.Left="{Binding Center.X}">
-
-        </ContentControl>
+        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Center.Y}" Canvas.Left="{Binding Center.X}"/>
     </Canvas>
 </UserControl>
