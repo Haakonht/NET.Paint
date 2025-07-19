@@ -65,7 +65,6 @@
             <DataTemplate x:Key="RasterLayerTemplate" DataType="{x:Type structure:XRasterLayer}">
                 <controls:Layer DataContext="{Binding}" ContextMenu="{StaticResource LayerContextMenu}" MouseDown="SelectNode"/>
             </DataTemplate>
-
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -78,9 +77,9 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
-                    <ToggleButton Content="{icons:MaterialIconExt Kind=FilterOutline}" Width="20" Background="White" />
+                    <ToggleButton x:Name="FilterEnabled" Content="{icons:MaterialIconExt Kind=FilterOutline}" Width="20" Background="White" Checked="FilterEnabled_Checked" Unchecked="FilterEnabled_Checked"/>
                 </StackPanel>
-                <TextBox Text="Halla" Grid.Column="1" />
+                <TextBox x:Name="FilterText" Text="" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <ToggleButton Content="{icons:MaterialIconExt Kind=ImageOffOutline}" Width="20" Background="White" />
                 </StackPanel>

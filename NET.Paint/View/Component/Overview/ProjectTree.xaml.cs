@@ -1,12 +1,18 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
+using NET.Paint.Resources.Extensions;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
+using System.Windows.Threading;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.View.Component.Overview
@@ -21,6 +27,11 @@ namespace NET.Paint.View.Component.Overview
         public ProjectTree()
         {
             InitializeComponent();
+            _filterTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(0.75)
+            };
+            _filterTimer.Tick += FilterTimer_Tick;
         }
 
         #region Item Selection
@@ -265,5 +276,61 @@ namespace NET.Paint.View.Component.Overview
         }
 
         #endregion
+
+        #region Filter Management
+
+        private DispatcherTimer _filterTimer;
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _filterTimer.Stop();
+            _filterTimer.Start();
+        }
+
+        private void FilterTimer_Tick(object sender, EventArgs e)
+        {
+            _filterTimer.Stop();
+            ImageTree.Filter(FilterPredicate);
+        }
+
+        private bool FilterPredicate(object node)
+        {
+            if (FilterEnabled.IsChecked == false)
+                return true;
+
+            if (string.IsNullOrEmpty(FilterText.Text))
+                return true;
+
+            if (node is XImage image)
+                return ImageFiltered(image);
+            else if (node is XLayer layer)
+                return LayerFiltered(layer);
+            else if (node is XRenderable renderable)
+                return RenderableFiltered(renderable);
+
+            return true;
+        }
+
+        private void FilterEnabled_Checked(object sender, RoutedEventArgs e) => ImageTree.Filter(FilterPredicate);
+        private bool ImageFiltered(XImage image) => image.Title.ToLower().Contains(FilterText.Text.ToLower()) || image.Layers.Any(LayerFiltered);
+        private bool LayerFiltered(XLayer layer) => (layer is IShapeLayer shapeLayer) ? layer.Title.ToLower().Contains(FilterText.Text.ToLower()) || shapeLayer.Shapes.Any(RenderableFiltered) : layer.Title.ToLower().Contains(FilterText.Text.ToLower());
+        private bool RenderableFiltered(XRenderable renderable)
+        {
+            if (renderable is XText text)
+                return text.Text.ToLower().Contains(FilterText.Text.ToLower()) || renderable.Type.ToString().ToLower().Contains(FilterText.Text.ToLower());
+
+            if (renderable is XCircle circle)
+                return circle.Style.ToString().ToLower().Contains(FilterText.Text.ToLower());
+
+            if (renderable is XSquare square)
+                return square.Style.ToString().ToLower().Contains(FilterText.Text.ToLower());
+
+            if (renderable is XPolygon polygon)
+                return polygon.Style.ToString().ToLower().Contains(FilterText.Text.ToLower());
+
+            return renderable.Type.ToString().ToLower().Contains(FilterText.Text.ToLower());
+        }
+
+        #endregion
+
     }
 }
