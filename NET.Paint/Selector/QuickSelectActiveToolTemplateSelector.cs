@@ -4,7 +4,7 @@ using NET.Paint.Drawing.Constant;
 
 namespace NET.Paint.Selector
 {
-    public class ToolContextQuickSelectTemplateSelector : DataTemplateSelector
+    public class QuickSelectActiveToolTemplateSelector : DataTemplateSelector
     {
         public DataTemplate PolygonTemplate { get; set; }
         public DataTemplate SelectorTemplate { get; set; }

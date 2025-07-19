@@ -36,7 +36,8 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _activeImage, value);
         }
 
-        public XClipboard Clipboard { get; } = XClipboard.Instance;
+        public ObservableCollection<XNotification> Notifications { get; } = new ObservableCollection<XNotification>() { new XNotification { Source = XNotificationSource.Clipboard, Message = "Items have been added to the clipboard"} };
+        public XClipboard Clipboard { get; } = XClipboard.Instance; 
         public XTools Tools { get; } = XTools.Instance;
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }

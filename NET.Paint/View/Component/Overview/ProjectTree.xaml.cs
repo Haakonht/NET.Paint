@@ -5,13 +5,10 @@ using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using NET.Paint.Resources.Extensions;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Navigation;
 using System.Windows.Threading;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
@@ -315,6 +312,9 @@ namespace NET.Paint.View.Component.Overview
         private bool LayerFiltered(XLayer layer) => (layer is IShapeLayer shapeLayer) ? layer.Title.ToLower().Contains(FilterText.Text.ToLower()) || shapeLayer.Shapes.Any(RenderableFiltered) : layer.Title.ToLower().Contains(FilterText.Text.ToLower());
         private bool RenderableFiltered(XRenderable renderable)
         {
+            if (renderable.Id.ToString().ToLower().Contains(FilterText.Text.ToLower()))
+                return true;
+
             if (renderable is XText text)
                 return text.Text.ToLower().Contains(FilterText.Text.ToLower()) || renderable.Type.ToString().ToLower().Contains(FilterText.Text.ToLower());
 
@@ -329,6 +329,16 @@ namespace NET.Paint.View.Component.Overview
 
             return renderable.Type.ToString().ToLower().Contains(FilterText.Text.ToLower());
         }
+
+        private void FilterText_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(FilterText.Text))
+                FilterPlaceholder.Visibility = Visibility.Visible;
+            else
+                FilterPlaceholder.Visibility = Visibility.Collapsed;
+        }
+
+        private void FilterText_GotFocus(object sender, RoutedEventArgs e) => FilterPlaceholder.Visibility = Visibility.Collapsed;
 
         #endregion
 

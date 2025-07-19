@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NET.Paint.View.Component
+namespace NET.Paint.View.Component.Base
 {
     /// <summary>
     /// Interaction logic for Shortcuts.xaml

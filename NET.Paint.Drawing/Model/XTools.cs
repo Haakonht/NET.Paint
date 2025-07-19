@@ -13,9 +13,9 @@ namespace NET.Paint.Drawing.Model
         public static XTools Instance => _instance.Value;
         public XTools() { }
 
-        #region Shape
+        #region Tool
 
-        private XToolType _activeTool = XToolType.Rectangle;
+        private XToolType _activeTool = XToolType.Line;
         public XToolType ActiveTool
         {
             get => _activeTool;
@@ -48,7 +48,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _activeEllipse, value);
         }
 
-        private XSelectionMode _selectionMode = XSelectionMode.Rectangle;
+        private XSelectionMode _selectionMode = XSelectionMode.Pointer;
         public XSelectionMode SelectionMode
         {
             get => _selectionMode;

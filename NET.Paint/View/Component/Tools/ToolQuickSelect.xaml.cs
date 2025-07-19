@@ -1,7 +1,11 @@
 ﻿using Material.Icons.WPF;
+using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Service;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace NET.Paint.View.Component.Tools
 {
@@ -64,9 +68,9 @@ namespace NET.Paint.View.Component.Tools
             e.Handled = true;
         }
 
-        private void MaterialIcon_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void Ellipse_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (sender is MaterialIcon element)
+            if (sender is Ellipse element)
             {
                 // Create custom event args that include the tab index
                 var eventArgs = new ToolContextEventArgs(OpenSpecificToolContextEvent, element.Tag);
@@ -76,7 +80,6 @@ namespace NET.Paint.View.Component.Tools
         }
     }
 
-    // Custom event args to carry additional data
     public class ToolContextEventArgs : RoutedEventArgs
     {
         public object TabIndex { get; }

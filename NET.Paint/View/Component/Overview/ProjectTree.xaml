@@ -79,7 +79,10 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <ToggleButton x:Name="FilterEnabled" Content="{icons:MaterialIconExt Kind=FilterOutline}" Width="20" Background="White" Checked="FilterEnabled_Checked" Unchecked="FilterEnabled_Checked"/>
                 </StackPanel>
-                <TextBox x:Name="FilterText" Text="" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
+                <Grid Grid.Column="1">
+                    <TextBox x:Name="FilterText" Text="" TextChanged="TextBox_TextChanged" LostFocus="FilterText_LostFocus" GotFocus="FilterText_GotFocus"/>
+                    <TextBlock Text="Filter by title, type or id" Foreground="Gray" Margin="3,0,0,0" VerticalAlignment="Center" x:Name="FilterPlaceholder" IsHitTestVisible="False"/>
+                </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <ToggleButton Content="{icons:MaterialIconExt Kind=ImageOffOutline}" Width="20" Background="White" />
                 </StackPanel>

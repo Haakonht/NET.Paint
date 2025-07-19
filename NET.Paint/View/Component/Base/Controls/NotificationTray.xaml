@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Base.Controls.NotificationTray"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:selectors="clr-namespace:NET.Paint.Selector"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             d:DataContext="{d:DesignInstance Type={x:Type service:XService}, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ClipboardTemplate">
+            <Button Content="{ma:MaterialIconExt Kind=ClipboardOutline}" Background="Transparent" BorderBrush="Transparent" Click="ToggleClipboard" Height="18" Width="18" Margin="2.5,2.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="HistoryTemplate">
+            <Button Content="{ma:MaterialIconExt Kind=Cached}" Background="Transparent" BorderBrush="Transparent" Click="ToggleUndo" Height="18" Width="18" Margin="2.5,2.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="SelectionTemplate">
+            <Button Content="{ma:MaterialIconExt Kind=Select}" Background="Transparent" BorderBrush="Transparent" Height="18" Width="18" Margin="2.5,2.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="MessageTemplate">
+            <Label Content="{ma:MaterialIconExt Kind=InfoCircleOutline}" Background="Transparent" BorderBrush="Transparent" Height="18" Width="18" Margin="2.5,2.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DataTemplate>
+
+        <selectors:NotificationSourceTemplateSelector x:Key="NotificationTemplateSelector" ClipboardTemplate="{StaticResource ClipboardTemplate}" HistoryTemplate="{StaticResource HistoryTemplate}" SelectionTemplate="{StaticResource SelectionTemplate}" MessageTemplate="{StaticResource MessageTemplate}"/>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="DimGray" BorderThickness="1" Background="White">
+        <ItemsControl ItemsSource="{Binding Notifications}" Margin="5" MaxHeight="200" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Content="{Binding Source}" ContentTemplateSelector="{StaticResource NotificationTemplateSelector}"/>
+                        <TextBlock Text="{Binding Message}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        <Button Content="{ma:MaterialIconExt Kind=Close}" Background="Transparent" BorderBrush="Transparent" Padding="0" Width="20" Height="20" Click="RemoveNotification"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Border>
+</UserControl>

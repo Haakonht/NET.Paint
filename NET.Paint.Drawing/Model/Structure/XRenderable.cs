@@ -4,6 +4,7 @@ using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Media;
 
@@ -14,12 +15,16 @@ namespace NET.Paint.Drawing.Model.Structure
         [Browsable(false)]
         public abstract XToolType Type { get; }
 
+        private Guid _id = Guid.NewGuid();
+        public Guid Id => _id;
+
         private ObservableCollection<Point> _points;
         [Browsable(false)]
+
         public ObservableCollection<Point> Points
         {
             get => _points;
-            set
+            init
             {
                 SetProperty(ref _points, value);
                 _points.CollectionChanged += CollectionChanged;

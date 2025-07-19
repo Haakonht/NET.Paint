@@ -11,6 +11,7 @@
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:converters="clr-namespace:NET.Paint.Converter"
              xmlns:components="clr-namespace:NET.Paint.View.Component"
+             xmlns:baseComponents="clr-namespace:NET.Paint.View.Component.Base"
              xmlns:toolComponents="clr-namespace:NET.Paint.View.Component.Tools"
              xmlns:dialogComponents="clr-namespace:NET.Paint.View.Component.Dialog"
              xmlns:drawingComponents="clr-namespace:NET.Paint.View.Component.Drawing"
@@ -51,7 +52,7 @@
                 <xcad:LayoutPanel Orientation="Vertical">
                     <xcad:LayoutAnchorablePane DockHeight="45">
                         <xcad:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
-                            <components:Shortcuts DataContext="{Binding}"/>
+                            <baseComponents:Shortcuts DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
 
@@ -90,7 +91,7 @@
 
                     <xcad:LayoutAnchorablePane DockHeight="35">
                         <xcad:LayoutAnchorable Title="Status" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
-                            <components:Status DataContext="{Binding}"/>
+                            <baseComponents:Status DataContext="{Binding}"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>

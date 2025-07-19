@@ -108,4 +108,16 @@
     }
 
     #endregion
+
+    #region Sources
+
+    public enum  XNotificationSource
+    {
+        Clipboard,
+        History,
+        Selection,
+        Message
+    }
+
+    #endregion
 }

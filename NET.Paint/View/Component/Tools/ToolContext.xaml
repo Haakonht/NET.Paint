@@ -3,41 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Tools.Controls"
+             xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="235" d:Background="Transparent"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
-            <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
+        <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
+
+        <DataTemplate x:Key="SingleTabTemplate">
+            <TabControl x:Name="TabManager" TabStripPlacement="Left" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedIndex="{Binding ContextIndex, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{Binding Tools.ActiveTool}"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <controls:Custom Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="DoubleTabTemplate">
+            <TabControl x:Name="TabManager" TabStripPlacement="Left" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedIndex="{Binding ContextIndex, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{Binding Tools.ActiveTool}"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <controls:Custom Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Stroke">
+                    <Grid Background="White">
+                        <controls:Stroke Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="TripleTabTemplate">
+            <TabControl x:Name="TabManager" TabStripPlacement="Left" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedIndex="{Binding ContextIndex, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{Binding Tools.ActiveTool}"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <controls:Custom Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Stroke">
+                    <Grid Background="White">
+                        <controls:Stroke Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Fill">
+                    <Grid Background="White">
+                        <controls:Fill Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="QuadrupleTabTemplate">
+            <TabControl x:Name="TabManager" TabStripPlacement="Left" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedIndex="{Binding ContextIndex, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{Binding Tools.ActiveTool}"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <controls:Custom Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Gallery">
+                    <Grid Background="White">
+                        <controls:Gallery Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Stroke">
+                    <Grid Background="White">
+                        <controls:Stroke Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Fill">
+                    <Grid Background="White">
+                        <controls:Fill Width="165" Margin="5"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DataTemplate>
+
+        <selectors:QuickSelectTemplateSelector x:Key="TemplateSelector" SingleTemplate="{StaticResource SingleTabTemplate}" DoubleTemplate="{StaticResource DoubleTabTemplate}" TripleTemplate="{StaticResource TripleTabTemplate}" QuadrupleTemplate="{StaticResource QuadrupleTabTemplate}"/>
     </UserControl.Resources>
-    
-    <TabControl x:Name="TabManager" TabStripPlacement="Left">
-        <TabItem>
-            <TabItem.Header>
-                <TextBlock Text="{Binding Tools.ActiveTool}"/>
-            </TabItem.Header>
-            <Grid Background="White">
-                <controls:Custom Width="165" Margin="5"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Gallery" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XToolType.Bitmap}}">
-            <Grid Background="White">
-                <controls:Gallery Width="165" Margin="5"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Stroke">
-            <Grid Background="White">
-                <controls:Stroke Width="165" Margin="5"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Fill">
-            <Grid Background="White">
-                <controls:Fill Width="165" Margin="5"/>
-            </Grid>
-        </TabItem>
-    </TabControl>
+
+    <ContentControl Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource TemplateSelector}"/>
 </UserControl>

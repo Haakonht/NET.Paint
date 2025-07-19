@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Model;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using NET.Paint.Helper;
@@ -102,7 +103,10 @@ namespace NET.Paint.View.Component
 
         private void OpenToolContextQuickSelect(object sender, MouseButtonEventArgs e)
         {
-            ToolContextQuickSelect.IsOpen = true;
+            if (DataContext is XService service && service.Tools.ActiveTool == XToolType.Selector)
+                ToolContextMenu.IsOpen = true;
+            else
+                ToolContextQuickSelect.IsOpen = true;
             e.Handled = true;
         }
 
@@ -128,10 +132,7 @@ namespace NET.Paint.View.Component
         {
             if (e is ToolContextEventArgs args && int.TryParse(args.TabIndex?.ToString(), out int index))
             {
-                if (ToolContext.DataContext is XService service)
-                {
-                    ToolContext.TabManager.SelectedIndex = index;
-                }
+                ToolContext.ContextIndex = index;
             }
 
             ToolContextMenu.IsOpen = true;

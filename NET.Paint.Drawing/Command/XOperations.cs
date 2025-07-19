@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
@@ -8,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -33,6 +35,8 @@ namespace NET.Paint.Drawing.Command
                     XClipboard.Instance.Data.Add(element);
                 }
             }
+
+            CreateNotification(XNotificationSource.Clipboard);
         }
 
         public void Cut(ObservableCollection<object> selected)
@@ -59,6 +63,8 @@ namespace NET.Paint.Drawing.Command
 
             for (int i = indicesToRemove.Count - 1; i >= 0; i--)
                 selected.RemoveAt(indicesToRemove[i]);
+
+            CreateNotification(XNotificationSource.Clipboard);
         }
 
         public void Paste(object? target = null)
@@ -89,6 +95,7 @@ namespace NET.Paint.Drawing.Command
                         XClipboard.Instance.IsCut = false;
                         _service.Preferences.ClipboardVisible = false;
                     }
+                    CreateNotification(XNotificationSource.Clipboard);
                 }
             }
         }
@@ -111,6 +118,8 @@ namespace NET.Paint.Drawing.Command
 
                     if (activeImage.Selected.Contains(shape))
                         activeImage.Selected.Remove(shape);
+
+                    CreateNotification(XNotificationSource.History);
                 }
             }
         }
@@ -124,7 +133,38 @@ namespace NET.Paint.Drawing.Command
                     var shape = activeImage.Undo.History.Last();
                     activeImage.Undo.History.Remove(shape);
                     shapeLayer.Shapes.Add(shape);
+
+                    CreateNotification(XNotificationSource.History);
                 }
+            }
+        }
+
+        private void CreateNotification(XNotificationSource source)
+        {
+            if (source == XNotificationSource.Clipboard)
+            {
+                var existingNotification = _service.Notifications.FirstOrDefault(n => n.Source == XNotificationSource.Clipboard);
+                if (existingNotification != null)
+                    _service.Notifications.Remove(existingNotification);
+                
+                _service.Notifications.Add(new XNotification
+                {
+                    Source = XNotificationSource.Clipboard,
+                    Message = _service.Clipboard.Data.Count > 0 ? "Items added to clipboard." : "Clipboard emptied"
+                });
+                              }
+
+            if (source == XNotificationSource.History)
+            {
+                var existingNotification = _service.Notifications.FirstOrDefault(n => n.Source == XNotificationSource.History);
+                if (existingNotification != null)
+                    _service.Notifications.Remove(existingNotification);
+
+                _service.Notifications.Add(new XNotification
+                {
+                    Source = XNotificationSource.History,
+                    Message = _service.ActiveImage.Undo.History.Count > 0 ? "Items added to undo history." : "History emptied"
+                });
             }
         }
 
