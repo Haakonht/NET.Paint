@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using NET.Paint.Drawing.Service;
 using System.Windows.Input;
@@ -52,7 +53,7 @@ namespace NET.Paint.Drawing.Command
                 return _copy;
             }
         }
-        private void ExecuteCopy(object parameter) => Operations.Copy([parameter]);
+        private void ExecuteCopy(object parameter) => Operations.Copy(parameter as IEnumerable<object>);
         private bool CanExecuteCopy(object parameter) => parameter is XRenderable || parameter is XLayer;
 
         private ICommand _cut;
@@ -65,7 +66,7 @@ namespace NET.Paint.Drawing.Command
                 return _cut;
             }
         }
-        private void ExecuteCut(object parameter) => Operations.Cut([parameter]);
+        private void ExecuteCut(object parameter) => Operations.Cut(parameter as IEnumerable<object>);
         private bool CanExecuteCut(object parameter) => parameter is XRenderable || parameter is XLayer;
 
         private ICommand _paste;
@@ -79,7 +80,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
         private void ExecutePaste(object parameter) => Operations.Paste(parameter);
-        private bool CanExecutePaste(object parameter) => parameter is XVectorLayer || parameter is XRenderable;
+        private bool CanExecutePaste(object parameter) => XClipboard.Instance.Data.Count > 0 && (parameter is XVectorLayer || parameter is XRenderable);
 
         #endregion
 

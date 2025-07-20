@@ -18,54 +18,61 @@
                 <ResourceDictionary Source="Resources/CircleSegments.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <SolidColorBrush x:Key="ToolContextBackground" Color="LightGray" Opacity="0.8"/>
+
+            <Style x:Key="ToolContextPathStyle" TargetType="Path">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="Fill" Value="{StaticResource ToolContextBackground}"/>
+            </Style>
+
             <DataTemplate x:Key="TwoPieceCircle">
                 <Canvas Width="100" Height="100">
-                    <Image Canvas.Left="0" Canvas.Top="0" Width="100" MouseEnter="OpenToolContextSpecific" Tag="0" Source="{StaticResource CircleSegmentTwo}"/>
-                    <Image Canvas.Left="0" Canvas.Top="0" Width="100" MouseEnter="OpenToolContextSpecific" Tag="1" Source="{StaticResource CircleSegmentTwo}">
-                        <Image.RenderTransform>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="0" Data="{StaticResource CircleHalves}"/>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="1" Data="{StaticResource CircleHalves}">
+                        <Path.RenderTransform>
                             <RotateTransform Angle="180" CenterX="50" CenterY="50"/>
-                        </Image.RenderTransform>
-                    </Image>
+                        </Path.RenderTransform>
+                    </Path>
                 </Canvas>
             </DataTemplate>
             
             <DataTemplate x:Key="ThreePieceCircle">
-                <Canvas Width="100" Height="100">
-                    <Image Canvas.Left="50" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="2" Source="{StaticResource CircleSegmentThree}"/>
-                    <Image Canvas.Left="34" Canvas.Top="59" Width="50" MouseEnter="OpenToolContextSpecific" Tag="1" Source="{StaticResource CircleSegmentThree}">
-                        <Image.RenderTransform>
-                            <RotateTransform Angle="120" CenterX="25" CenterY="25"/>
-                        </Image.RenderTransform>
-                    </Image>
-                    <Image Canvas.Left="-9" Canvas.Top="16" Width="50" MouseEnter="OpenToolContextSpecific" Tag="0" Source="{StaticResource CircleSegmentThree}">
-                        <Image.RenderTransform>
-                            <RotateTransform Angle="240" CenterX="25" CenterY="25"/>
-                        </Image.RenderTransform>
-                    </Image>
+                <Canvas Width="100" Height="100" >
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="2" Data="{StaticResource CircleThirds}"/>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="1" Data="{StaticResource CircleThirds}">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="120" CenterX="50" CenterY="50"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="0" Data="{StaticResource CircleThirds}">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="-120" CenterX="50" CenterY="50"/>
+                        </Path.RenderTransform>
+                    </Path>
                     <Canvas.RenderTransform>
-                        <RotateTransform Angle="60" CenterX="25" CenterY="25"/>
+                        <RotateTransform Angle="60" CenterX="50" CenterY="50"/>
                     </Canvas.RenderTransform>
                 </Canvas>
             </DataTemplate>
 
             <DataTemplate x:Key="FourPieceCircle">
                 <Canvas Width="100" Height="100">
-                    <Image Canvas.Left="0" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="0" Source="{StaticResource CircleSegmentFour}"/>
-                    <Image Canvas.Left="49" Canvas.Top="0" Width="50" MouseEnter="OpenToolContextSpecific" Tag="1" Source="{StaticResource CircleSegmentFour}">
-                        <Image.RenderTransform>
-                            <RotateTransform Angle="90" CenterX="25" CenterY="25"/>
-                        </Image.RenderTransform>
-                    </Image>
-                    <Image Canvas.Left="49" Canvas.Top="49" Width="50" MouseEnter="OpenToolContextSpecific" Tag="3" Source="{StaticResource CircleSegmentFour}">
-                        <Image.RenderTransform>
-                            <RotateTransform Angle="180" CenterX="25" CenterY="25"/>
-                        </Image.RenderTransform>
-                    </Image>
-                    <Image Canvas.Left="0" Canvas.Top="49" Width="50" MouseEnter="OpenToolContextSpecific" Tag="2" Source="{StaticResource CircleSegmentFour}">
-                        <Image.RenderTransform>
-                            <RotateTransform Angle="270" CenterX="25" CenterY="25"/>
-                        </Image.RenderTransform>
-                    </Image>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="0" Data="{StaticResource CircleQuarters}"/>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="1" Data="{StaticResource CircleQuarters}">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="90" CenterX="50" CenterY="50"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="3" Data="{StaticResource CircleQuarters}">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="180" CenterX="50" CenterY="50"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path Style="{StaticResource ToolContextPathStyle}" MouseEnter="OpenToolContextSpecific" Tag="2" Data="{StaticResource CircleQuarters}">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="270" CenterX="50" CenterY="50"/>
+                        </Path.RenderTransform>
+                    </Path>
                 </Canvas>
             </DataTemplate>
 
@@ -105,7 +112,6 @@
             <DataTemplate x:Key="DoubleSelectorTemplate">
                 <Canvas Background="Transparent" Width="100" Height="100">
                     <ContentPresenter Canvas.Top="0"  Canvas.Left="0" ContentTemplate="{StaticResource TwoPieceCircle}"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30"/>
                     <ContentPresenter Canvas.Left="40" Canvas.Top="5" Content="{Binding DataContext.Tools.ActiveTool, RelativeSource={RelativeSource AncestorType=UserControl}}" ContentTemplateSelector="{StaticResource ToolContextQuickSelectTemplateSelector}"/>
                     <ma:MaterialIcon Canvas.Left="38" Canvas.Top="71" Kind="ShapeOutline" FontSize="50"/>
                 </Canvas>
@@ -113,8 +119,7 @@
             
             <DataTemplate x:Key="TripleSelectorTemplate">
                 <Canvas Background="Transparent" Width="100" Height="100">
-                    <ContentPresenter Canvas.Top="-9.5"  Canvas.Left="34" ContentTemplate="{StaticResource ThreePieceCircle}"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30"/>
+                    <ContentPresenter Canvas.Top="0"  Canvas.Left="0" ContentTemplate="{StaticResource ThreePieceCircle}"/>
                     <ContentPresenter Canvas.Left="38" Canvas.Top="5" Content="{Binding DataContext.Tools.ActiveTool, RelativeSource={RelativeSource AncestorType=UserControl}}" ContentTemplateSelector="{StaticResource ToolContextQuickSelectTemplateSelector}"/>
                     <ma:MaterialIcon Canvas.Left="10" Canvas.Top="55" Kind="ShapeOutline" FontSize="50"/>
                     <ma:MaterialIcon Canvas.Left="65" Canvas.Top="55" Kind="Shape" FontSize="50"/>
@@ -124,7 +129,6 @@
             <DataTemplate x:Key="QuadrupleSelectorTemplate">
                 <Canvas Background="Transparent" Width="100" Height="100">
                     <ContentPresenter Canvas.Top="0"  Canvas.Left="0" ContentTemplate="{StaticResource FourPieceCircle}"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Fill="White" Height="40" Width="40" Canvas.Left="30" Canvas.Top="30"/>
                     <ContentPresenter Canvas.Left="15" Canvas.Top="15" Content="{Binding DataContext.Tools.ActiveTool, RelativeSource={RelativeSource AncestorType=UserControl}}" ContentTemplateSelector="{StaticResource ToolContextQuickSelectTemplateSelector}"/>
                     <ma:MaterialIcon Canvas.Left="65" Canvas.Top="15" Kind="ImagesOutline" FontSize="50" Width="18"/>
                     <ma:MaterialIcon Canvas.Left="16" Canvas.Top="62" Kind="ShapeOutline" FontSize="50" />

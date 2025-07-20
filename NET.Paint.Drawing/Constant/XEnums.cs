@@ -22,7 +22,8 @@
         Rectangle,
         Polygon,
         Text,
-        Bitmap
+        Bitmap,
+        Effect
     }
 
     public enum XLayerType
@@ -70,6 +71,11 @@
         Linear,
         Radial
     }
+    public enum XEffectStyle
+    {
+        Fade,
+        Vignette
+    }
 
     #endregion
 
@@ -95,16 +101,6 @@
         Original,
         Fit,
         Clip
-    }
-
-    #endregion
-
-    #region Effects
-
-    public enum  XEffect 
-    {
-        Fade,
-        Vignette
     }
 
     #endregion

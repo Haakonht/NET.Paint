@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
@@ -199,6 +200,47 @@ namespace NET.Paint.Drawing.Model.Shape
             Scaling = this.Scaling,
             ClipOffset = this.ClipOffset,
             Rotation = this.Rotation,
+            Points = new ObservableCollection<Point>(this.Points)
+        };
+    }
+
+    public class XEffect : XRenderable
+    {
+        public override XToolType Type => XToolType.Effect;
+
+        [DisplayName("Position")]
+        public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
+
+        [Category("Dimensions")]
+        public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
+
+        [Category("Dimensions")]
+        public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
+
+        public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            base.CollectionChanged(sender, e);
+            OnPropertyChanged(nameof(Location));
+            OnPropertyChanged(nameof(Width));
+            OnPropertyChanged(nameof(Height));
+        }
+
+        private Effect _effect = new BlurEffect()
+        {
+            Radius = 5,
+            KernelType = KernelType.Gaussian,
+            RenderingBias = RenderingBias.Quality
+        };
+
+        public Effect Effect
+        {
+            get => _effect;
+            set => SetProperty(ref _effect, value);
+        }
+
+        public override object Clone() => new XEffect
+        {
+            Effect = this.Effect,
             Points = new ObservableCollection<Point>(this.Points)
         };
     }

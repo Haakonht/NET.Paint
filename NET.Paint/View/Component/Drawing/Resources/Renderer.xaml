@@ -140,4 +140,15 @@
         </Image>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type shape:XEffect}">
+        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="Transparent" Stroke="Black" StrokeThickness="1" Effect="{Binding Effect}">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
+                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+    </DataTemplate>
+
 </ResourceDictionary>

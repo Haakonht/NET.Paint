@@ -16,16 +16,9 @@
         <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
 
         <DataTemplate x:Key="SingleTabTemplate">
-            <TabControl x:Name="TabManager" TabStripPlacement="Left" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedIndex="{Binding ContextIndex, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock Text="{Binding Tools.ActiveTool}"/>
-                    </TabItem.Header>
-                    <Grid Background="White">
-                        <controls:Custom Width="165" Margin="5"/>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+            <Grid Background="White">
+                <controls:Custom Width="165" Margin="5"  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </Grid>
         </DataTemplate>
         
         <DataTemplate x:Key="DoubleTabTemplate">

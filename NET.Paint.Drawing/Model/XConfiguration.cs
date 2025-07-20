@@ -42,7 +42,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _gridWidth, value);
         }
 
-        private Color _gridColor = Colors.LightGray;
+        private Color _gridColor = Colors.DimGray;
         public Color GridColor
         {
             get => _gridColor;
@@ -53,7 +53,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Ruler
 
-        private bool _rulerEnabled = false;
+        private bool _rulerEnabled = true;
         public bool RulerEnabled
         {
             get => _rulerEnabled;

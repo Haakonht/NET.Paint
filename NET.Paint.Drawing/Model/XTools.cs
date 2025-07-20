@@ -15,7 +15,7 @@ namespace NET.Paint.Drawing.Model
 
         #region Tool
 
-        private XToolType _activeTool = XToolType.Line;
+        private XToolType _activeTool = XToolType.Bitmap;
         public XToolType ActiveTool
         {
             get => _activeTool;

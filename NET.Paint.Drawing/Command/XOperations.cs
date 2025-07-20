@@ -39,8 +39,9 @@ namespace NET.Paint.Drawing.Command
             CreateNotification(XNotificationSource.Clipboard);
         }
 
-        public void Cut(ObservableCollection<object> selected)
+        public void Cut(IEnumerable<object> elementToCut)
         {
+            var selected = elementToCut as ObservableCollection<object>;
             XClipboard.Instance.IsCut = true;
             XClipboard.Instance.Data.Clear();
 

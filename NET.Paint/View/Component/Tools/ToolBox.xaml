@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:converters="clr-namespace:NET.Paint.Converter"
              xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -48,6 +49,7 @@
                 <RadioButton x:Name="PolygonToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding ActivePolygon}" ContentTemplateSelector="{StaticResource PolygonTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Polygon}}" GroupName="SelectedTool" Height="25" Click="OpenPolygonQuickSelect"/>
                 <RadioButton Margin="0,5" Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource TextToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Text}}" GroupName="SelectedTool" Height="25"/>
                 <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BitmapToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Bitmap}}" GroupName="SelectedTool" Height="25"/>
+                <RadioButton Style="{StaticResource {x:Type ToggleButton}}" Margin="0,5" Content="{icons:MaterialIconExt Kind=FunctionVariant}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Effect}}" GroupName="SelectedTool" Height="25"/>
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom">

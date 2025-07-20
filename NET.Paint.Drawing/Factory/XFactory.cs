@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
@@ -187,6 +188,18 @@ namespace NET.Paint.Drawing.Factory
                         Source = tools.ActiveBitmap,
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
+                    };
+                case XToolType.Effect:
+                    return new XEffect
+                    {
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                        Effect = new DropShadowEffect
+                        {
+                            Color = Colors.Red,
+                            BlurRadius = 10,
+                            ShadowDepth = 2,
+                            Opacity = 1.0
+                        }
                     };
                 case XToolType.Selector:
                     switch (tools.SelectionMode)

@@ -63,16 +63,23 @@ namespace NET.Paint.View.Component.Drawing.Controls
             // Background
             dc.DrawRectangle(Brushes.LightGray, null, new Rect(0, 0, ActualWidth, ActualHeight));
 
-            Pen pen = new Pen(Brushes.Black, 1);
+            Pen pen = new Pen(Brushes.DimGray, 1);
+            Pen mediumPen = new Pen(Brushes.IndianRed, 1);
 
             for (double pos = 0; pos < length; pos += Scale)
             {
-                bool isLongTick = ((int)(pos / Scale) % 10 == 0);
-                double tickLength = isLongTick ? thickness * 0.6 : thickness * 0.3;
+                bool isLongTick = ((int)(pos / Scale) % 100 == 0);
+                bool isShortTick = ((int)(pos / Scale) % 5 == 0);
+                bool isMediumTick = ((int)(pos / Scale) % 50 == 0);
+                double tickLength = isLongTick ? thickness : isMediumTick ? thickness * 0.75 : thickness * 0.5;
 
                 if (Orientation == Orientation.Horizontal)
                 {
-                    dc.DrawLine(pen, new Point(pos, thickness), new Point(pos, thickness - tickLength));
+                    if (isShortTick)
+                        if (!isMediumTick || isLongTick)
+                            dc.DrawLine(pen, new Point(pos, thickness), new Point(pos, thickness - tickLength));
+                        else
+                            dc.DrawLine(mediumPen, new Point(pos, thickness), new Point(pos, thickness - tickLength - 2));
 
                     if (isLongTick)
                     {
@@ -82,29 +89,61 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             FlowDirection.LeftToRight,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.Black,
+                            Brushes.DimGray,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                        dc.DrawText(label, new Point(pos + 2, thickness - tickLength - label.Height));
+                        dc.DrawText(label, new Point(pos + 2, thickness - tickLength - 2));
+                    }
+                    else if (isMediumTick)
+                    {
+                        var label = new FormattedText(
+                            ((int)(pos / Scale)).ToString(),
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            FlowDirection.LeftToRight,
+                            new Typeface("Segoe UI"),
+                            10,
+                            Brushes.IndianRed,
+                            VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                        dc.DrawText(label, new Point(pos + 2, thickness - tickLength - 7));
                     }
                 }
                 else // Vertical
                 {
-                    dc.DrawLine(pen, new Point(thickness, pos), new Point(thickness - tickLength, pos));
+                    if (isShortTick)
+                        if (!isMediumTick || isLongTick)
+                            dc.DrawLine(pen, new Point(thickness, pos), new Point(thickness - tickLength, pos));
+                        else
+                            dc.DrawLine(mediumPen, new Point(thickness, pos), new Point(thickness - tickLength, pos));
 
                     if (isLongTick)
                     {
                         var label = new FormattedText(
                             ((int)(pos / Scale)).ToString(),
                             System.Globalization.CultureInfo.InvariantCulture,
-                            FlowDirection.LeftToRight,
+                            FlowDirection.RightToLeft,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.Black,
+                            Brushes.DimGray,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                        dc.PushTransform(new RotateTransform(-90, thickness - tickLength - label.Height - 2, pos + label.Width / 2));
-                        dc.DrawText(label, new Point(thickness - tickLength - label.Height - 2, pos - label.Width / 2));
+                        dc.PushTransform(new RotateTransform(-90, thickness - tickLength - label.Height - 5, pos));
+                        dc.DrawText(label, new Point(thickness - 41, pos + 15));
+                        dc.Pop();
+                    }
+                    else if (isMediumTick)
+                    {
+                        var label = new FormattedText(
+                            ((int)(pos / Scale)).ToString(),
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            FlowDirection.RightToLeft,
+                            new Typeface("Segoe UI"),
+                            10,
+                            Brushes.IndianRed,
+                            VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                        dc.PushTransform(new RotateTransform(-90, thickness - tickLength - label.Height - 5, pos));
+                        dc.DrawText(label, new Point(thickness - 36, pos + 10));
                         dc.Pop();
                     }
                 }
@@ -113,8 +152,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
             // Draw marker line if Value is valid
             if (Value >= 0 && Value <= length)
             {
-                Pen markerPen = new Pen(Brushes.Red, 1.5) { DashStyle = DashStyles.Dash };
-
+                Pen markerPen = new Pen(Brushes.Red, 1.5) { DashStyle = DashStyles.Dot };
                 if (Orientation == Orientation.Horizontal)
                 {
                     dc.DrawLine(markerPen, new Point(Value, 0), new Point(Value, thickness));

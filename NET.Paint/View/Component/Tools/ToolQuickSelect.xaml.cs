@@ -53,7 +53,7 @@ namespace NET.Paint.View.Component.Tools
 
         private void OpenToolContextSpecific(object sender, MouseEventArgs e)
         {
-            if (sender is Image element)
+            if (sender is Path element)
             {
                 // Create custom event args that include the tab index
                 var eventArgs = new ToolContextEventArgs(OpenSpecificToolContextEvent, element.Tag);

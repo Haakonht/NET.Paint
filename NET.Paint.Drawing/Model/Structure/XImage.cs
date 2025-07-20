@@ -17,7 +17,7 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _title, value);
         }
 
-        private double _width = 1920;
+        private double _width = 1900;
         public double Width
         {
             get => _width;
