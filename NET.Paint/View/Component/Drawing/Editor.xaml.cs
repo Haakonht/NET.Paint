@@ -70,9 +70,9 @@ namespace NET.Paint.View.Component.Drawing
                 Point mousePosition = e.GetPosition(sender as UIElement);
                 tools.MouseLocation = new Point(mousePosition.X - image.ActiveLayer!.OffsetX, mousePosition.Y - image.ActiveLayer!.OffsetY);
 
-                if (AddLayerBtn.IsChecked.Value)
+                if (DetailsEnabledBtn.IsChecked.Value)
                 {
-                    QuickDetails.HorizontalOffset = mousePosition.X + 175;
+                    QuickDetails.HorizontalOffset = mousePosition.X + 170;
                     QuickDetails.VerticalOffset = mousePosition.Y + 35;
                 }
 
@@ -194,11 +194,11 @@ namespace NET.Paint.View.Component.Drawing
 
         private void SingleSelect(object sender, XTools tools, XImage image)
         {
-            if (sender is GridCanvas canvas)
+            if (sender is Artboard artboard)
             {
                 if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {
-                    var hitResult = VisualTreeHelper.HitTest(canvas, tools.ClickLocation.Value);
+                    var hitResult = VisualTreeHelper.HitTest(artboard, tools.ClickLocation.Value);
                     XRenderable hitObject = null;
 
                     if (hitResult?.VisualHit is Shape shape)

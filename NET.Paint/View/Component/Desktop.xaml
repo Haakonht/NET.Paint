@@ -35,7 +35,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Editor">
-                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect"/>
+                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             </DataTemplate>
 
             <selectors:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />

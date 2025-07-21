@@ -7,13 +7,14 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
-             xmlns:models="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
+             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1200"
-             d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}"
+             d:Tag="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,7 +22,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:CursorConverter x:Key="CursorConverter"/>
-            <converters:AddMarginConverter x:Key="AddMarginConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -44,108 +44,20 @@
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <controls:SimpleRuler Height="20" Margin="1,0,-2,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <controls:SimpleRuler Width="20" Margin="0,1,0,-2" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1">
-                    <controls:GridCanvas x:Name="DrawingCanvas" Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}" GridWidth="{Binding Configuration.GridWidth}" GridHeight="{Binding Configuration.GridHeight}" IsGridEnabled="{Binding Configuration.GridEnabled}" GridColor="{Binding Configuration.GridColor}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" ClipToBounds="True">
-                        <controls:GridCanvas.Cursor>
-                            <MultiBinding Converter="{StaticResource CursorConverter}">
-                                <Binding Source="{x:Static active:XTools.Instance}" Path="ActiveTool"/>
-                                <Binding Source="{x:Static active:XTools.Instance}" Path="SelectionMode"/>
-                            </MultiBinding>
-                        </controls:GridCanvas.Cursor>
-
-                        <ItemsControl ItemsSource="{Binding Layers}">
-                            <ItemsControl.Resources>
-                                <DataTemplate DataType="{x:Type structure:XVectorLayer}">
-                                    <ItemsControl ItemsSource="{Binding Shapes}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <Canvas Visibility="{Binding Visibility}">
-                                                    <Canvas.RenderTransform>
-                                                        <TransformGroup>
-                                                            <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                            <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                        </TransformGroup>
-                                                    </Canvas.RenderTransform>
-                                                </Canvas>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type structure:XRasterLayer}">
-                                    <Canvas>
-                                        <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}">
-                                            <Image.RenderTransform>
-                                                <TransformGroup>
-                                                    <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                </TransformGroup>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </Canvas>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type structure:XHybridLayer}">
-                                    <Canvas Visibility="{Binding Visibility}">
-                                        <Image Source="{Binding Bitmap}">
-                                            <Image.RenderTransform>
-                                                <TransformGroup>
-                                                    <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                </TransformGroup>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                        <ItemsControl ItemsSource="{Binding Shapes}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <Canvas>
-                                                        <Canvas.RenderTransform>
-                                                            <TransformGroup>
-                                                                <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
-                                                            </TransformGroup>
-                                                        </Canvas.RenderTransform>
-                                                    </Canvas>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
-                                    </Canvas>
-                                </DataTemplate>
-                            </ItemsControl.Resources>
-                        </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding Selected}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentControl>
-                                        <controls:Highlighter Width="{Binding DataContext.Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding DataContext.Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Points="{Binding Points}"/>
-                                        <ContentControl.RenderTransform>
-                                            <TransformGroup>
-                                                <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                            </TransformGroup>
-                                        </ContentControl.RenderTransform>
-                                    </ContentControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
-                            <ContentPresenter.Resources>
-                                <ResourceDictionary Source="Resources/Preview.xaml"/>
-                            </ContentPresenter.Resources>
-                            <ContentPresenter.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                    <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                </TransformGroup>
-                            </ContentPresenter.RenderTransform>
-                        </ContentPresenter>
-                    </controls:GridCanvas>
-                </Border>
+                <controls:SimpleRuler Height="20" Margin="1,0,-2,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools.MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Width="20" Margin="0,1,0,-2" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools.MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:Artboard MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" Grid.Row="1" Grid.Column="1" DataContext="{Binding}"/>
+                <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False" Grid.Row="1" Grid.Column="1" >
+                    <ContentPresenter.Resources>
+                        <ResourceDictionary Source="Resources/Preview.xaml"/>
+                    </ContentPresenter.Resources>
+                    <ContentPresenter.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                            <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </TransformGroup>
+                    </ContentPresenter.RenderTransform>
+                </ContentPresenter>
 
                 <Grid.LayoutTransform>
                     <ScaleTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" ScaleX="{Binding Configuration.Zoom}" ScaleY="{Binding Configuration.Zoom}"/>
@@ -153,10 +65,10 @@
             </Grid>
         </ScrollViewer>
 
-        <ToggleButton x:Name="AddLayerBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>
+        <ToggleButton x:Name="DetailsEnabledBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>
 
-        <Popup Name="QuickDetails" AllowsTransparency="True" IsOpen="{Binding ElementName=AddLayerBtn, Path=IsChecked}" Placement="Relative" PlacementTarget="{Binding ElementName=EditorGrid}">
-            <StackPanel DataContext="{Binding Source={x:Static models:XTools.Instance}, Path=.}">
+        <Popup Name="QuickDetails" AllowsTransparency="True" IsOpen="{Binding ElementName=DetailsEnabledBtn, Path=IsChecked}" Placement="Relative" PlacementTarget="{Binding ElementName=EditorGrid}">
+            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Label Padding="0" Margin="0" Foreground="Black" Content="{Binding MouseLocation.X}" ContentStringFormat="Current: [X: {0}" FontWeight="Bold"/>
                     <Label Padding="0" Margin="0" Foreground="Black" Content="{Binding MouseLocation.Y}" ContentStringFormat=", Y: {0}]" FontWeight="Bold"/>

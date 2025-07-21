@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Drawing.Controls.Artboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
+             xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
+             xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Renderer.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:CursorConverter x:Key="CursorConverter"/>
+
+            <DrawingBrush x:Key="GridBrush" TileMode="Tile" ViewportUnits="Absolute">
+                <DrawingBrush.Viewport>
+                    <MultiBinding>
+                        <MultiBinding.Converter>
+                            <converters:GridViewportConverter/>
+                        </MultiBinding.Converter>
+                        <Binding Path="Configuration.GridWidth"/>
+                        <Binding Path="Configuration.GridHeight"/>
+                    </MultiBinding>
+                </DrawingBrush.Viewport>
+                <DrawingBrush.Drawing>
+                    <GeometryDrawing>
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry>
+                                <RectangleGeometry.Rect>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <converters:GridViewportConverter/>
+                                        </MultiBinding.Converter>
+                                        <Binding Path="Configuration.GridWidth"/>
+                                        <Binding Path="Configuration.GridHeight"/>
+                                    </MultiBinding>
+                                </RectangleGeometry.Rect>
+                            </RectangleGeometry>
+                        </GeometryDrawing.Geometry>
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1">
+                                <Pen.Brush>
+                                    <SolidColorBrush Color="{Binding Configuration.GridColor}" Opacity="{Binding Configuration.GridEnabled}"/>
+                                </Pen.Brush>
+                            </Pen>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}">
+        <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}">
+            <Grid.Cursor>
+                <MultiBinding Converter="{StaticResource CursorConverter}">
+                    <Binding Source="{x:Static tools:XTools.Instance}" Path="ActiveTool"/>
+                    <Binding Source="{x:Static tools:XTools.Instance}" Path="SelectionMode"/>
+                </MultiBinding>
+            </Grid.Cursor>
+
+            <ItemsControl ItemsSource="{Binding Layers}">
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                        <ItemsControl ItemsSource="{Binding Shapes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Visibility="{Binding Visibility}">
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                    </Canvas>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                        <Canvas>
+                            <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Canvas>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                        <Canvas Visibility="{Binding Visibility}">
+                            <Image Source="{Binding Bitmap}">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                        <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                            <ItemsControl ItemsSource="{Binding Shapes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas>
+                                            <Canvas.RenderTransform>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                                </TransformGroup>
+                                            </Canvas.RenderTransform>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Canvas>
+                    </DataTemplate>
+                </ItemsControl.Resources>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding Selected}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl>
+                            <local:Highlighter Width="{Binding DataContext.Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding DataContext.Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Points="{Binding Points}"/>
+                            <ContentControl.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                    <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                </TransformGroup>
+                            </ContentControl.RenderTransform>
+                        </ContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Border>
+</UserControl>

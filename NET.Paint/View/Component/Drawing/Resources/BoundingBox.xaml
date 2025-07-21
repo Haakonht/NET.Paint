@@ -3,15 +3,24 @@
     <SolidColorBrush x:Key="DefaultStrokeBrush" Color="Black"/>
     <SolidColorBrush x:Key="DefaultFillBrush" Color="White" Opacity="0.2"/>
 
+
+    <VisualBrush x:Key="BorderBrush">
+        <VisualBrush.Visual>
+            <Rectangle StrokeDashArray="1 2" Stroke="{StaticResource DefaultStrokeBrush}" StrokeThickness="1"
+                  Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                  Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
     <DataTemplate DataType="{x:Type shape:XPolyline}">
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
-        <Polyline Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{StaticResource DefaultStrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="1 2"/>
+        <Polyline Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{StaticResource DefaultStrokeBrush}" StrokeThickness="2" StrokeDashArray="1 2"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XLine}">
-        <Line X1="{Binding Start.X}" Y1="{Binding Start.Y}" X2="{Binding End.X}" Y2="{Binding End.Y}" Stroke="{StaticResource DefaultStrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="1 2"/>
+        <Line X1="{Binding Start.X}" Y1="{Binding Start.Y}" X2="{Binding End.X}" Y2="{Binding End.Y}" Stroke="{StaticResource DefaultStrokeBrush}" StrokeThickness="2" StrokeDashArray="1 2"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XCurve}">
@@ -138,7 +147,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XEffect}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="Transparent" Stroke="Black" StrokeThickness="1" Effect="{Binding Effect}">
+        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="Transparent" Stroke="Black" StrokeThickness="2" Effect="{Binding Effect}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
