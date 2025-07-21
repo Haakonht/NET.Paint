@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace NET.Paint.Drawing.Mvvm
 {
@@ -12,6 +11,9 @@ namespace NET.Paint.Drawing.Mvvm
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
+            
+            // Hook into WPF's command manager for automatic updates
+            CommandManager.RequerySuggested += (sender, e) => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);

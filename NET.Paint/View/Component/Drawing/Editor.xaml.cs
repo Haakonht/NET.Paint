@@ -70,6 +70,12 @@ namespace NET.Paint.View.Component.Drawing
                 Point mousePosition = e.GetPosition(sender as UIElement);
                 tools.MouseLocation = new Point(mousePosition.X - image.ActiveLayer!.OffsetX, mousePosition.Y - image.ActiveLayer!.OffsetY);
 
+                if (AddLayerBtn.IsChecked.Value)
+                {
+                    QuickDetails.HorizontalOffset = mousePosition.X + 175;
+                    QuickDetails.VerticalOffset = mousePosition.Y + 35;
+                }
+
                 // Vector tools
                 if (image.ActiveLayer != null && image.ActiveLayer is XLayer layer)
                 {

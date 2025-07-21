@@ -14,4 +14,16 @@ namespace NET.Paint.Resources.Handlers
             }
         }
     }
+
+    public partial class BoundingBoxHandler : ResourceDictionary
+    {
+        private void Preview_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox text)
+            {
+                text.Focusable = true;
+                text.Focus();
+            }
+        }
+    }
 }

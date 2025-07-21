@@ -9,6 +9,14 @@ namespace NET.Paint.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter is string param && param == "Invert")
+            {
+                if (value != null && value is XRenderable)
+                    return Visibility.Collapsed;
+
+                return Visibility.Visible;
+            }
+
             if (value != null && value is XRenderable)
                 return Visibility.Visible;
                     

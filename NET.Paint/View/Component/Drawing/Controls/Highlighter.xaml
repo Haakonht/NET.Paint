@@ -25,6 +25,10 @@
         <ContentPresenter Content="{Binding}">
             <ContentPresenter.Resources>
                 <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Resources/BoundingBox.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                    
                     <DataTemplate DataType="{x:Type structure:XImage}">
                         <Label Background="Transparent" IsHitTestVisible="False"/>
                     </DataTemplate>
@@ -34,11 +38,7 @@
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type structure:XRenderable}">
-                        <ContentPresenter Content="{Binding}">
-                            <ContentPresenter.Resources>
-                                <ResourceDictionary Source="../Resources/Preview.xaml"/>
-                            </ContentPresenter.Resources>
-                        </ContentPresenter>
+                        <ContentPresenter Content="{Binding}"/>
                     </DataTemplate>
                 </ResourceDictionary>
             </ContentPresenter.Resources>

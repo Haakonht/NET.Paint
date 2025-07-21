@@ -8,7 +8,7 @@ using NET.Paint.Drawing.Mvvm;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    public class XImage : PropertyNotifier
+    public class XImage : PropertyNotifier, ICloneable
     {
         private string _title = "Untitled";
         public string Title
@@ -50,7 +50,11 @@ namespace NET.Paint.Drawing.Model.Structure
         }
 
         private ObservableCollection<XLayer> _layers = new ObservableCollection<XLayer>() { new XVectorLayer { Title = "Background" } };
-        public ObservableCollection<XLayer> Layers => _layers;
+        public ObservableCollection<XLayer> Layers
+        {
+            get => _layers;
+            init => SetProperty(ref _layers, value);
+        }
 
         #region Volatile
 
@@ -93,6 +97,17 @@ namespace NET.Paint.Drawing.Model.Structure
             OnPropertyChanged(nameof(Selected));
             OnPropertyChanged(nameof(CanCut));
             OnPropertyChanged(nameof(CanCopy));
+        };
+
+        public object Clone() => new XImage
+        {
+            Title = this.Title,
+            Width = this.Width,
+            Height = this.Height,
+            Background = this.Background,
+            Layers = new ObservableCollection<XLayer>(this.Layers.Select(layer => (XLayer)layer.Clone())),
+            IsEditing = this.IsEditing,
+            ActiveLayer = this.ActiveLayer
         };
 
         #endregion

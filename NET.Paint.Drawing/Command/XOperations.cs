@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,71 +24,102 @@ namespace NET.Paint.Drawing.Command
 
         #region Edit Operations
 
-        public void Copy(IEnumerable<object> elementToCopy)
+        public void Copy(object elementToCopy = null)
         {
             XClipboard.Instance.IsCut = false;
             XClipboard.Instance.Data.Clear();
 
-            foreach (var element in elementToCopy)
-            {
-                if (element is XRenderable || element is XLayer)
-                {
-                    XClipboard.Instance.Data.Add(element);
-                }
-            }
+            if (elementToCopy != null)
+                if (elementToCopy is XRenderable || elementToCopy is XLayer || elementToCopy is XImage)
+                    XClipboard.Instance.Data.Add(elementToCopy);
+            else
+                foreach (var element in _service.ActiveImage.Selected)
+                    if (element is XRenderable || element is XLayer)
+                        XClipboard.Instance.Data.Add(element);
 
             CreateNotification(XNotificationSource.Clipboard);
         }
 
-        public void Cut(IEnumerable<object> elementToCut)
+        public void Cut(object elementToCut = null)
         {
-            var selected = elementToCut as ObservableCollection<object>;
             XClipboard.Instance.IsCut = true;
             XClipboard.Instance.Data.Clear();
 
-            List<int> indicesToRemove = new List<int>();
-            foreach (var element in selected)
-            {
-                if (element is XRenderable || element is XLayer)
-                {
-                    XClipboard.Instance.Data.Add(element);
+            if (elementToCut != null)
+            { 
+                XClipboard.Instance.Data.Add(elementToCut);
 
-                    if (element is XLayer layer)
-                        _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
+                if (elementToCut is XLayer layer)
+                    _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-                    else if (element is XRenderable renderable)
-                        (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+                else if (elementToCut is XRenderable renderable)
+                    (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
 
-                    indicesToRemove.Add(selected.IndexOf(element));
-                }
             }
+            else
+            {
+                var selectedElements = _service.ActiveImage.Selected;
+                List<int> indicesToRemove = new List<int>();
 
-            for (int i = indicesToRemove.Count - 1; i >= 0; i--)
-                selected.RemoveAt(indicesToRemove[i]);
+                foreach (var element in selectedElements)
+                {
+                    if (element is XRenderable || element is XLayer)
+                    {
+                        XClipboard.Instance.Data.Add(element);
+
+                        if (element is XLayer layer)
+                            _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
+
+                        else if (element is XRenderable renderable)
+                            (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
+
+                        indicesToRemove.Add(selectedElements.IndexOf(element));
+                    }
+                }
+
+                for (int i = indicesToRemove.Count - 1; i >= 0; i--)
+                    selectedElements.RemoveAt(indicesToRemove[i]);
+            }
 
             CreateNotification(XNotificationSource.Clipboard);
         }
 
         public void Paste(object? target = null)
         {
-            if (XClipboard.Instance.Data != null)
+            if (XClipboard.Instance.Data.Count > 0)
             {
                 if (_service.ActiveImage != null)
                 {
+                    _service.ActiveImage.Selected.Clear();
                     foreach (object item in XClipboard.Instance.Data)
                     {
-                        if (item is XRenderable renderable && _service.ActiveImage.ActiveLayer != null)
+                        if (item is XImage image)
                         {
-                            if (target != null && target is IShapeLayer targetLayer)
-                                targetLayer.Shapes.Add(renderable.Clone() as XRenderable);
-                            else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
-                                activeLayer.Shapes.Add(renderable.Clone() as XRenderable);
+                            XImage pastedImage = image.Clone() as XImage;
+                            pastedImage.Title = $"Copy of {pastedImage.Title}";
+                            _service.Project.Images.Add(pastedImage);
                         }
+                        else if (item is XLayer layer)
+                        {
+                            XLayer pastedLayer = layer.Clone() as XLayer;
+                            pastedLayer.Title = $"Copy of {pastedLayer.Title}";
+                            if (item is XVectorLayer vectorLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as XVectorLayer);
+                            else if (item is XHybridLayer hybridLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as XHybridLayer);
+                            else if (item is XRasterLayer rasterLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as XRasterLayer);
+                        } 
+                        else if (item is XRenderable renderable)
+                        {
+                            XRenderable pastedRenderable = renderable.Clone() as XRenderable;
+                            if (target != null && target is IShapeLayer targetLayer)
+                                targetLayer.Shapes.Add(pastedRenderable);
+                            else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
+                                activeLayer.Shapes.Add(pastedRenderable);
 
-                        else if (item is XVectorLayer vectorLayer && _service.ActiveImage != null)
-                            _service.ActiveImage.Layers.Add(vectorLayer.Clone() as XVectorLayer);
-                        else if (item is XHybridLayer hybridLayer && _service.ActiveImage != null)
-                            _service.ActiveImage.Layers.Add(hybridLayer.Clone() as XHybridLayer);
+                            _service.ActiveImage.Selected.Add(pastedRenderable);
+                        }
                     }
 
                     if (XClipboard.Instance.IsCut)

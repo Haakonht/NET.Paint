@@ -155,7 +155,7 @@ namespace NET.Paint.View.Component.Overview
 
         #endregion
 
-        #region Image Management
+        #region Object Creation Handlers (Keep these for creating objects with editing state)
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
@@ -165,22 +165,6 @@ namespace NET.Paint.View.Component.Overview
                 service.Project.Images.Add(image);
             }
         }
-
-        private void SelectImage(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service)
-            {
-                if (service.ActiveImage != null && service.ActiveImage is XImage activeImage)
-                {
-                    activeImage.Selected.Clear();
-                    activeImage.Selected.Add(service.ActiveImage);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Layer Management
 
         private void AddVectorLayer(object sender, RoutedEventArgs e)
         {
@@ -214,60 +198,6 @@ namespace NET.Paint.View.Component.Overview
                 {
                     XLayer layer = new XRasterLayer() { Title = "", IsEditing = true };
                     service.ActiveImage.Layers.Add(layer);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Item Management
-
-        private void Remove(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-            {
-                if (item.DataContext is XImage image)
-                    service.Command.Operations.RemoveImage(image);
-
-                if (item.DataContext is XLayer layer)
-                    service.Command.Operations.RemoveLayer(layer);
-
-                if (item.DataContext is XRenderable renderable)
-                    service.Command.Operations.RemoveRenderable(renderable);
-            }
-        }
-
-        #endregion
-
-        #region Edit Management
-
-        private void Cut(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-                service.Command.Operations.Cut([item.DataContext]);
-        }
-
-        private void Copy(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-                service.Command.Operations.Copy([item.DataContext]);
-        }
-
-        private void Paste(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service && sender is MenuItem item)
-                service.Command.Operations.Paste(item.DataContext);
-        }
-
-        private void Flatten(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null && DataContext is XService service)
-            {
-                if (sender is MenuItem item && item.DataContext is XVectorLayer layer)
-                {
-                    var containingImage = service.Project.Images.First(x => x.Layers.Contains(layer));
-                    if (containingImage != null)
-                        service.Command.Operations.FlattenLayer(containingImage, layer);
                 }
             }
         }
@@ -341,6 +271,5 @@ namespace NET.Paint.View.Component.Overview
         private void FilterText_GotFocus(object sender, RoutedEventArgs e) => FilterPlaceholder.Visibility = Visibility.Collapsed;
 
         #endregion
-
     }
 }
