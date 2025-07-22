@@ -25,7 +25,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="EditorGrid">
+    <Grid x:Name="EditorGrid" Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="15"/>
@@ -34,30 +34,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Background="LightGray" Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <Grid Margin="0,0,25,25">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid Margin="25" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <controls:SimpleRuler Height="20" Margin="1,0,-2,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools.MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <controls:SimpleRuler Width="20" Margin="0,1,0,-2" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools.MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <controls:Artboard MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp" Grid.Row="1" Grid.Column="1" DataContext="{Binding}"/>
-                <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False" Grid.Row="1" Grid.Column="1" >
-                    <ContentPresenter.Resources>
-                        <ResourceDictionary Source="Resources/Preview.xaml"/>
-                    </ContentPresenter.Resources>
-                    <ContentPresenter.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                            <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                        </TransformGroup>
-                    </ContentPresenter.RenderTransform>
-                </ContentPresenter>
+                <controls:SimpleRuler Height="20" Margin="1,0,-2,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Width="20" Margin="0,1,0,-2" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:Artboard Grid.Row="1" Grid.Column="1" DataContext="{Binding}"/>
 
                 <Grid.LayoutTransform>
                     <ScaleTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" ScaleX="{Binding Configuration.Zoom}" ScaleY="{Binding Configuration.Zoom}"/>
@@ -68,7 +57,7 @@
         <ToggleButton x:Name="DetailsEnabledBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>
 
         <Popup Name="QuickDetails" AllowsTransparency="True" IsOpen="{Binding ElementName=DetailsEnabledBtn, Path=IsChecked}" Placement="Relative" PlacementTarget="{Binding ElementName=EditorGrid}">
-            <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag.Tools}">
+            <StackPanel DataContext="{Binding Source={x:Static active:XTools.Instance}, Path=.}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Label Padding="0" Margin="0" Foreground="Black" Content="{Binding MouseLocation.X}" ContentStringFormat="Current: [X: {0}" FontWeight="Bold"/>
                     <Label Padding="0" Margin="0" Foreground="Black" Content="{Binding MouseLocation.Y}" ContentStringFormat=", Y: {0}]" FontWeight="Bold"/>

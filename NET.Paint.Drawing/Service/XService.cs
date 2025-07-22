@@ -15,14 +15,9 @@ namespace NET.Paint.Drawing.Service
 {
     public class XService : PropertyNotifier
     {
-        private XProject _project = new XProject
-        {
-            Title = "Test Project",
-            Description = "This is a test project",
-            Author = "Håkon Torgersen",
-            Images = new ObservableCollection<XImage>{ new XImage { Title = "Test 1" }, new XImage { Title = "Test 2" } },
-            Created = DateTime.Now
-        };
+        private bool DEBUG = false;
+
+        private XProject _project;
         public XProject Project
         {
             get => _project;
@@ -36,18 +31,26 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _activeImage, value);
         }
 
-        public ObservableCollection<XNotification> Notifications { get; } = new ObservableCollection<XNotification>() { new XNotification { Source = XNotificationSource.Clipboard, Message = "Items have been added to the clipboard"} };
+        private XCommand _command = null;
+        public XCommand Command
+        {
+            get
+            {
+                if (_command == null)
+                    _command = new XCommand(this);
+                return _command;
+            }
+            set => SetProperty(ref _command, value);
+        }
+
+        public ObservableCollection<XNotification> Notifications { get; } = new ObservableCollection<XNotification>();
         public XClipboard Clipboard { get; } = XClipboard.Instance; 
         public XTools Tools { get; } = XTools.Instance;
-        public XPreferences Preferences { get; } = new XPreferences();
-        public XCommand Command { get; }
-
-        private Color _test = Colors.Green;
-        public Color Test
+        public XPreferences Preferences { get; } = new XPreferences
         {
-            get => _test;
-            set => SetProperty(ref _test, value);
-        }
+            OverviewVisible = true,
+            ToolboxVisible = true
+        };
 
         public XService()
         {
@@ -78,9 +81,9 @@ namespace NET.Paint.Drawing.Service
 
             sampleLayer1.Shapes.Add(new XPolyline
             {
-                Points = new ObservableCollection<Point> 
-                { 
-                    new Point(350, 50), new Point(355, 55), new Point(365, 60), 
+                Points = new ObservableCollection<Point>
+                {
+                    new Point(350, 50), new Point(355, 55), new Point(365, 60),
                     new Point(375, 65), new Point(390, 70), new Point(400, 75), new Point(420, 80)
                 },
                 StrokeBrush = Brushes.Brown,
@@ -212,7 +215,7 @@ namespace NET.Paint.Drawing.Service
                 FontSize = 16,
                 IsBold = true,
                 TextColor = Brushes.DarkBlue
-            }); 
+            });
 
             // Create sample images with layers
             var sampleImage1 = new XImage
@@ -234,7 +237,7 @@ namespace NET.Paint.Drawing.Service
                 Background = Colors.White
             };
 
-            // Set up the project with images
+            // Set up the project with images and add some random bitmaps
             Project = new XProject
             {
                 Title = "Design-Time Project",
@@ -243,9 +246,8 @@ namespace NET.Paint.Drawing.Service
                 Images = new ObservableCollection<XImage> { sampleImage1, sampleImage2 }
             };
 
-            // Add some random bitmaps
-            for (int i = 0; i < 5; i++)
-                Project.Bitmaps.Add(XHelper.CreateRandomBitmap(200, 200));
+            //for (int i = 0; i < 5; i++)
+            Project.Bitmaps.Add(XHelper.CreateRandomBitmap(200, 200));
 
             // Add a bitmap shape if random bitmaps are available
             sampleLayer1.Shapes.Add(new XBitmap
@@ -257,13 +259,6 @@ namespace NET.Paint.Drawing.Service
 
             // Set the active image and layer
             ActiveImage = sampleImage1;
-
-            // Set preferences if needed for visibility
-            Preferences = new XPreferences
-            {
-                OverviewVisible = true,
-                ToolboxVisible = true
-            };
 
             // Initialize the command object
             Command = new XCommand(this);

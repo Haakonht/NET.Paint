@@ -35,7 +35,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Editor">
-                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect" Tag="{Binding DataContext, RelativeSource={RelativeSource Self}}"/>
+                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect"/>
             </DataTemplate>
 
             <selectors:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
@@ -68,7 +68,7 @@
                         <dock:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
                             <dock:LayoutAnchorablePane DockHeight="6*" >
                                 <dock:LayoutAnchorable Title="Overview" x:Name="ProjectTreeAnchorable" CanDockAsTabbedDocument="False">
-                                    <overviewComponents:ProjectTree DataContext="{Binding}"/>
+                                    <overviewComponents:ProjectTree x:Name="ProjectTree" DataContext="{Binding}"/>
                                 </dock:LayoutAnchorable>
                             </dock:LayoutAnchorablePane>
                             <dock:LayoutAnchorablePane DockHeight="1.0*">

@@ -271,5 +271,28 @@ namespace NET.Paint.View.Component.Overview
         private void FilterText_GotFocus(object sender, RoutedEventArgs e) => FilterPlaceholder.Visibility = Visibility.Collapsed;
 
         #endregion
+
+        public void SetActiveImage(XImage image)
+        {
+            foreach (var item in ImageTree.Items)
+            {
+                var treeViewItem = ImageTree.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+
+                if (treeViewItem != null && treeViewItem.DataContext is XImage img)
+                {
+                    treeViewItem.IsExpanded = img == image;
+
+                    foreach (var subItem in treeViewItem.Items)
+                    {
+                        var subTreeViewItem = treeViewItem.ItemContainerGenerator.ContainerFromItem(subItem) as TreeViewItem;
+
+                        if (subTreeViewItem != null && subTreeViewItem.DataContext is XLayer layer)
+                        {
+                            subTreeViewItem.IsExpanded = img == image;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

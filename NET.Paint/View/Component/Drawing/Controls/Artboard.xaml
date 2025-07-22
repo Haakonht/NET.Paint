@@ -43,7 +43,7 @@
                             </RectangleGeometry>
                         </GeometryDrawing.Geometry>
                         <GeometryDrawing.Pen>
-                            <Pen Thickness="1">
+                            <Pen Thickness="0.5">
                                 <Pen.Brush>
                                     <SolidColorBrush Color="{Binding Configuration.GridColor}" Opacity="{Binding Configuration.GridEnabled}"/>
                                 </Pen.Brush>
@@ -56,7 +56,7 @@
     </UserControl.Resources>
     
     <Border BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="1" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}">
-        <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}">
+        <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp">
             <Grid.Cursor>
                 <MultiBinding Converter="{StaticResource CursorConverter}">
                     <Binding Source="{x:Static tools:XTools.Instance}" Path="ActiveTool"/>
@@ -142,6 +142,17 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <ContentPresenter.Resources>
+                    <ResourceDictionary Source="../Resources/Preview.xaml"/>
+                </ContentPresenter.Resources>
+                <ContentPresenter.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding ActiveLayer.Rotation}" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
+                        <TranslateTransform X="{Binding ActiveLayer.OffsetX}" Y="{Binding ActiveLayer.OffsetY}"/>
+                    </TransformGroup>
+                </ContentPresenter.RenderTransform>
+            </ContentPresenter>
         </Grid>
     </Border>
 </UserControl>

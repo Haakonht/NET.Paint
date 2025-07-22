@@ -41,12 +41,20 @@ namespace NET.Paint.View.Component
                         PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                         ClipboardAnchorable.IsVisible = context.Preferences.ClipboardVisible;
                         UndoAnchorable.IsVisible = context.Preferences.UndoVisible;
+                        ProjectTree.SetActiveImage(context.ActiveImage);
 
                         context.ActiveImage.Selected.CollectionChanged += (s, e) =>
                         {
                             Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
                         };
                     }
+                }
+                else
+                {
+                    PreferencesAnchorable.IsVisible = false;
+                    PropertiesAnchorable.IsVisible = false;
+                    ClipboardAnchorable.IsVisible = false;
+                    UndoAnchorable.IsVisible = false;
                 }
             }
         }

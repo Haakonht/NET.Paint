@@ -73,8 +73,15 @@ namespace NET.Paint.Drawing.Model
 
         #region Mouse
 
-        private Point? _clickLocation = null;
-        public Point? ClickLocation
+        private bool _drag = false;
+        public bool Drag
+        {
+            get => _drag;
+            set => SetProperty(ref _drag, value);
+        }
+
+        private Point _clickLocation = new Point(0, 0);
+        public Point ClickLocation
         {
             get => _clickLocation;
             set => SetProperty(ref _clickLocation, value);

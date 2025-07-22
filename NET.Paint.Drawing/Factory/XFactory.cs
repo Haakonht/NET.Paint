@@ -24,7 +24,7 @@ namespace NET.Paint.Drawing.Factory
                     if (tools.PencilMode == XPencilMode.Add)
                         return new XPolyline
                         {
-                            Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
+                            Points = new ObservableCollection<Point> { tools.ClickLocation },
                             StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
                             StrokeStyle = tools.StrokeStyle,
@@ -34,7 +34,7 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Line:
                     return new XLine
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                         StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
@@ -42,7 +42,7 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Curve:
                     return new XCurve
                     {
-                        Points = CreateCurve(tools.ClickLocation!.Value, tools.MouseLocation),
+                        Points = CreateCurve(tools.ClickLocation, tools.MouseLocation),
                         StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
@@ -50,13 +50,13 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Bezier:
                     return new XBezier
                     {
-                        Points = CreateBezier(tools.ClickLocation!.Value, tools.MouseLocation),
+                        Points = CreateBezier(tools.ClickLocation, tools.MouseLocation),
                         StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         StrokeStyle = tools.StrokeStyle
                     };
                 case XToolType.Ellipse:
-                    Point center = new Point((tools.ClickLocation.Value.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Value.Y + tools.MouseLocation.Y) / 2);
+                    Point center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
                     if (tools.ActiveEllipse == XEllipseStyle.Circle)
                         return new XCircle
                         {
@@ -87,7 +87,7 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Rectangle:
                     if (tools.ActiveRectangle == XRectangleStyle.Square)
                     {
-                        center = new Point((tools.ClickLocation.Value.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Value.Y + tools.MouseLocation.Y) / 2);
+                        center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
                         return new XSquare
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
@@ -102,7 +102,7 @@ namespace NET.Paint.Drawing.Factory
                     else
                         return new XRectangle
                         {
-                            Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                            Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                             StrokeBrush = tools.StrokeBrush,
                             StrokeThickness = tools.StrokeThickness,
                             FillBrush = tools.FillBrush,
@@ -187,12 +187,12 @@ namespace NET.Paint.Drawing.Factory
                     {
                         Source = tools.ActiveBitmap,
                         Scaling = tools.BitmapScaling,
-                        Points = new ObservableCollection<Point> { tools.ClickLocation.Value, tools.MouseLocation },
+                        Points = new ObservableCollection<Point> { tools.ClickLocation, tools.MouseLocation },
                     };
                 case XToolType.Effect:
                     return new XEffect
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                        Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                         Effect = new DropShadowEffect
                         {
                             Color = Colors.Red,
@@ -207,7 +207,7 @@ namespace NET.Paint.Drawing.Factory
                         case XSelectionMode.Rectangle:
                             return new XRectangle
                             {
-                                Points = new ObservableCollection<Point>() { tools.ClickLocation!.Value, tools.MouseLocation },
+                                Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                                 StrokeBrush = Brushes.Black,
                                 StrokeThickness = 2,
                                 FillBrush = Brushes.Transparent,
@@ -217,7 +217,7 @@ namespace NET.Paint.Drawing.Factory
                         case XSelectionMode.Lasso:
                             return new XPolyline
                             {
-                                Points = new ObservableCollection<Point> { tools.ClickLocation!.Value },
+                                Points = new ObservableCollection<Point> { tools.ClickLocation },
                                 StrokeBrush = Brushes.Black,
                                 StrokeThickness = 2,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2],
