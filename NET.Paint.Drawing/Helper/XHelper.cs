@@ -101,7 +101,7 @@ namespace NET.Paint.Drawing.Helper
                         Radius = 0.5,
                         GradientStops = new ObservableCollection<XGradientStop>
                         {
-                            new XGradientStop { Color = secondaryColor, Offset = 0.5 },
+                            new XGradientStop { Color = secondaryColor, Offset = 0 },
                             new XGradientStop { Color = primaryColor, Offset = 1 }
                         }
                     };

@@ -42,6 +42,13 @@ namespace NET.Paint.Drawing.Service
         public XPreferences Preferences { get; } = new XPreferences();
         public XCommand Command { get; }
 
+        private Color _test = Colors.Green;
+        public Color Test
+        {
+            get => _test;
+            set => SetProperty(ref _test, value);
+        }
+
         public XService()
         {
             // Create sample layers and shapes

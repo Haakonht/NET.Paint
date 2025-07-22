@@ -43,8 +43,10 @@
             <Separator Margin="5,2" Visibility="Hidden"/>
             <StatusBarItem>
                 <Grid Width="20" Height="20" Margin="0,1,0,0">
+                    <!--
                     <xctk:ColorPicker Background="{Binding Tools.PrimaryColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.PrimaryColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0"/>
                     <xctk:ColorPicker Background="{Binding Tools.SecondaryColor, Converter={StaticResource ColorToBrushConverter}}" SelectedColor="{Binding Tools.SecondaryColor}" ShowDropDownButton="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="4"/>
+                -->
                 </Grid>
             </StatusBarItem>
 

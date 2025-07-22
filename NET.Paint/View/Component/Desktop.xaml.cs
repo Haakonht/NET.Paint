@@ -8,8 +8,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout;
+using AvalonDock;
+using AvalonDock.Layout;
 
 namespace NET.Paint.View.Component
 {
@@ -29,11 +29,11 @@ namespace NET.Paint.View.Component
 
             if (sender is DockingManager dockingManager)
             {
-                var document = dockingManager.ActiveContent as LayoutDocument;
+                var document = dockingManager.ActiveContent as XImage;
 
-                if (document != null && context != null && document.Content is XImage image)
+                if (document != null && context != null)
                 {
-                    context.ActiveImage = image;
+                    context.ActiveImage = document;
 
                     if (context.ActiveImage != null)
                     {

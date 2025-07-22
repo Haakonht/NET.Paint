@@ -29,7 +29,7 @@
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">
                             <Grid Height="25" DataContext="{Binding Tools}">
-                                <xctk:ColorPicker x:Name="StrokeColorPicker" ShowDropDownButton="False" SelectedColor="{Binding PrimaryColor}" DisplayColorTooltip="False" />
+                                <local:ColorPicker SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" IsOpen="False"/>
                                 <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding PrimaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
                                 <TextBlock Text="{Binding PrimaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding PrimaryColor, Converter={StaticResource ContrastColorConverter}}">
                                     <TextBlock.Style>

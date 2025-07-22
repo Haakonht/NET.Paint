@@ -7,7 +7,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit;
 
 namespace NET.Paint.View.Component.Tools.Controls
 {
@@ -148,7 +147,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                     var colorPicker = GeneralHelper.FindVisualChild<ColorPicker>(thumb);
                     if (colorPicker != null)
                     {
-                        colorPicker.IsOpen = true;
+                        colorPicker.IsOpen = !colorPicker.IsOpen;
                         e.Handled = true; // Prevent the thumb from processing the click further
                     }
                 }

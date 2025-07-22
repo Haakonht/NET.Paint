@@ -30,9 +30,9 @@
                     <StackPanel DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">
-                            <Grid Height="25" DataContext="{Binding Tools}">
-                                <xctk:ColorPicker x:Name="FillColorPicker" ShowDropDownButton="False" SelectedColor="{Binding SecondaryColor}" DisplayColorTooltip="False" />
-                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding SecondaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
+                            <Grid Height="25" DataContext="{Binding Tools}"> 
+                                <local:ColorPicker SelectedColor="{Binding SecondaryColor}" IsOpen="False"/>
+                               <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding SecondaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
                                 <TextBlock Text="{Binding SecondaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding SecondaryColor, Converter={StaticResource ContrastColorConverter}}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">

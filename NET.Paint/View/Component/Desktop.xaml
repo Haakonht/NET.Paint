@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:dock="https://github.com/Dirkster99/AvalonDock"
              xmlns:models="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:helpers="clr-namespace:NET.Paint.Helper"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
@@ -35,7 +35,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Editor">
-                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect" Tag="{Binding DataContext, RelativeSource={RelativeSource Self}}"/>
             </DataTemplate>
 
             <selectors:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
@@ -43,77 +43,77 @@
     </UserControl.Resources>
 
     <Grid Background="DimGray">
-        <xcad:DockingManager x:Name="DockingManager" Background="#DDFFFFFF" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
-            <xcad:DockingManager.Resources>
-                <Style TargetType="xcad:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}"/>
-            </xcad:DockingManager.Resources>
+        <dock:DockingManager x:Name="DockingManager" Background="#DDFFFFFF" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+            <dock:DockingManager.Resources>
+                <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}"/>
+            </dock:DockingManager.Resources>
 
-            <xcad:LayoutRoot>
-                <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutAnchorablePane DockHeight="45">
-                        <xcad:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
+            <dock:LayoutRoot>
+                <dock:LayoutPanel Orientation="Vertical">
+                    <dock:LayoutAnchorablePane DockHeight="45">
+                        <dock:LayoutAnchorable Title="Shortcuts" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
                             <baseComponents:Shortcuts DataContext="{Binding}"/>
-                        </xcad:LayoutAnchorable>
-                    </xcad:LayoutAnchorablePane>
+                        </dock:LayoutAnchorable>
+                    </dock:LayoutAnchorablePane>
 
-                    <xcad:LayoutPanel Orientation="Horizontal" DockHeight="*">
-                        <xcad:LayoutAnchorablePane DockWidth="41" DockMinWidth="41">
-                            <xcad:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
+                    <dock:LayoutPanel Orientation="Horizontal" DockHeight="*">
+                        <dock:LayoutAnchorablePane DockWidth="41" DockMinWidth="41">
+                            <dock:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
                                 <toolComponents:ToolBox DataContext="{Binding}"/>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
+                            </dock:LayoutAnchorable>
+                        </dock:LayoutAnchorablePane>
 
-                        <xcad:LayoutDocumentPane DockWidth="*"/>
+                        <dock:LayoutDocumentPane DockWidth="*"/>
 
-                        <xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
-                            <xcad:LayoutAnchorablePane DockHeight="6*" >
-                                <xcad:LayoutAnchorable Title="Overview" x:Name="ProjectTreeAnchorable" CanDockAsTabbedDocument="False">
+                        <dock:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
+                            <dock:LayoutAnchorablePane DockHeight="6*" >
+                                <dock:LayoutAnchorable Title="Overview" x:Name="ProjectTreeAnchorable" CanDockAsTabbedDocument="False">
                                     <overviewComponents:ProjectTree DataContext="{Binding}"/>
-                                </xcad:LayoutAnchorable>
-                            </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="1.0*">
-                                <xcad:LayoutAnchorable Title="Undo" x:Name="UndoAnchorable" CanDockAsTabbedDocument="False">
+                                </dock:LayoutAnchorable>
+                            </dock:LayoutAnchorablePane>
+                            <dock:LayoutAnchorablePane DockHeight="1.0*">
+                                <dock:LayoutAnchorable Title="Undo" x:Name="UndoAnchorable" CanDockAsTabbedDocument="False">
                                     <overviewComponents:History DataContext="{Binding ActiveImage}"/>
-                                </xcad:LayoutAnchorable>
-                            </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="0.5*" DockMinHeight="50">
-                                <xcad:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
+                                </dock:LayoutAnchorable>
+                            </dock:LayoutAnchorablePane>
+                            <dock:LayoutAnchorablePane DockHeight="0.5*" DockMinHeight="50">
+                                <dock:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
                                     <overviewComponents:Clipboard DataContext="{Binding}"/>
-                                </xcad:LayoutAnchorable>
-                            </xcad:LayoutAnchorablePane>
-                            <xcad:LayoutAnchorablePane DockHeight="3*" DockMinHeight="200">
-                                <xcad:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
+                                </dock:LayoutAnchorable>
+                            </dock:LayoutAnchorablePane>
+                            <dock:LayoutAnchorablePane DockHeight="3*" DockMinHeight="200">
+                                <dock:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
                                     <overviewComponents:Properties DataContext="{Binding ActiveImage}"/>
-                                </xcad:LayoutAnchorable>
-                            </xcad:LayoutAnchorablePane>
-                        </xcad:LayoutAnchorablePaneGroup>
-                    </xcad:LayoutPanel>
+                                </dock:LayoutAnchorable>
+                            </dock:LayoutAnchorablePane>
+                        </dock:LayoutAnchorablePaneGroup>
+                    </dock:LayoutPanel>
 
-                    <xcad:LayoutAnchorablePane DockHeight="35">
-                        <xcad:LayoutAnchorable Title="Status" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
+                    <dock:LayoutAnchorablePane DockHeight="35">
+                        <dock:LayoutAnchorable Title="Status" CanDockAsTabbedDocument="False" CanHide="False" CanClose="False" CanAutoHide="False" CanFloat="False" helpers:AnchorableProperties.HideTitle="True">
                             <baseComponents:Status DataContext="{Binding}"/>
-                        </xcad:LayoutAnchorable>
-                    </xcad:LayoutAnchorablePane>
-                </xcad:LayoutPanel>
+                        </dock:LayoutAnchorable>
+                    </dock:LayoutAnchorablePane>
+                </dock:LayoutPanel>
 
-                <xcad:LayoutRoot.FloatingWindows>
-                    <xcad:LayoutAnchorableFloatingWindow>
-                        <xcad:LayoutAnchorablePaneGroup>
-                            <xcad:LayoutAnchorablePane>
-                                <xcad:LayoutAnchorable x:Name="PreferencesAnchorable" Title="Preferences" IsVisible="False"
+                <dock:LayoutRoot.FloatingWindows>
+                    <dock:LayoutAnchorableFloatingWindow>
+                        <dock:LayoutAnchorablePaneGroup>
+                            <dock:LayoutAnchorablePane>
+                                <dock:LayoutAnchorable x:Name="PreferencesAnchorable" Title="Preferences" IsVisible="False"
                                                    CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" CanDockAsTabbedDocument="False"
                                                    FloatingHeight="540" FloatingWidth="250">
                                     <dialogComponents:Preferences DataContext="{Binding}"/>
-                                </xcad:LayoutAnchorable>
-                            </xcad:LayoutAnchorablePane>
-                        </xcad:LayoutAnchorablePaneGroup>
-                    </xcad:LayoutAnchorableFloatingWindow>
-                </xcad:LayoutRoot.FloatingWindows>
-            </xcad:LayoutRoot>
-        </xcad:DockingManager>
+                                </dock:LayoutAnchorable>
+                            </dock:LayoutAnchorablePane>
+                        </dock:LayoutAnchorablePaneGroup>
+                    </dock:LayoutAnchorableFloatingWindow>
+                </dock:LayoutRoot.FloatingWindows>
+            </dock:LayoutRoot>
+        </dock:DockingManager>
 
         <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30">
-            <Border BorderBrush="Black" BorderThickness="1" MouseLeave="CloseToolContext">
+            <Border BorderBrush="Black" BorderThickness="1">
                 <Border.Background>
                     <SolidColorBrush Color="LightGray" Opacity="0.8"/>
                 </Border.Background>

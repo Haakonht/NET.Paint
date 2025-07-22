@@ -19,7 +19,7 @@
         <Slider Grid.Row="1" Grid.Column="1" Margin="0,5,0,0"  Orientation="Vertical" HorizontalAlignment="Right" Minimum="10" Maximum="100" Value="{Binding GridHeight}" TickFrequency="5" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>
         <CheckBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding GridEnabled}"/>
         <Grid Grid.Row="1" Grid.Column="0" Margin="0,5,5,0">
-            <xctk:ColorPicker ShowDropDownButton="False" Background="White" BorderBrush="Transparent" SelectedColor="{Binding GridColor}" Foreground="Transparent" DisplayColorTooltip="False"/>
+             <!--<xctk:ColorPicker ShowDropDownButton="False" Background="White" BorderBrush="Transparent" SelectedColor="{Binding GridColor}" Foreground="Transparent" DisplayColorTooltip="False"/>-->
             <Border x:Name="MyBorder" BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="0" IsHitTestVisible="False"/>
         </Grid>
     </Grid>

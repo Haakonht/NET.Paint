@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace NET.Paint.View
 {
@@ -30,8 +29,7 @@ namespace NET.Paint.View
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var serializer = new XmlLayoutSerializer(Desktop.DockingManager);
-            serializer.Serialize("Layout.config");
+           
         }
     }
 }

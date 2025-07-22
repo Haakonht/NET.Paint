@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:xctk="http://propertytools.org/wpf"
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
@@ -19,7 +19,7 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <xctk:PropertyGrid SelectedObject="{Binding}" NameColumnWidth="100" ShowSearchBox="False" ShowSortOptions="False" ShowSummary="False"/>
+                    <xctk:PropertyGrid SelectedObject="{Binding}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

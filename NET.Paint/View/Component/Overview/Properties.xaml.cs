@@ -1,7 +1,7 @@
 ﻿using NET.Paint.Drawing.Model.Structure;
 using System.Windows;
 using System.Windows.Controls;
-using Xceed.Wpf.AvalonDock.Controls;
+using AvalonDock.Controls;
 
 namespace NET.Paint.View.Component.Overview
 {

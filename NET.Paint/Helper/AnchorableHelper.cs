@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
+using AvalonDock.Layout;
 
 namespace NET.Paint.Helper
 {

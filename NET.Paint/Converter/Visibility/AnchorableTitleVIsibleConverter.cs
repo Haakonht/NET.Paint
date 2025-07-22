@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
 using NET.Paint.Helper;
+using AvalonDock.Layout;
 
 namespace NET.Paint.Converter
 {

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:controls="clr-namespace:NET.Paint.Resources.Controls"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Controls"
              xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:converter="clr-namespace:NET.Paint.View.Component.Tools.Converters"
@@ -13,58 +13,40 @@
              d:DesignHeight="200" d:DesignWidth="165" d:Background="White"
              d:DataContext="{d:DesignInstance Type={x:Type tools:XTools}, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
-        <converter:GradientStopCollectionConverter x:Key="GradientStopCollectionConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../../Resources/Styles/Sliders.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <!-- Style to make the RepeatButtons (the track) of the Slider transparent and not hit-testable -->
-        <Style x:Key="InvisibleSliderTrackRepeatButton" TargetType="{x:Type RepeatButton}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Rectangle Fill="Transparent" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <converter:GradientStopCollectionConverter x:Key="GradientStopCollectionConverter"/>
 
-        <!-- Custom Slider Style with an invisible track -->
-        <Style x:Key="SliderNoTrackStyle" TargetType="{x:Type Slider}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Slider}">
-                        <Grid>
-                            <Track x:Name="PART_Track" Height="0" Margin="0,20,0,0">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource InvisibleSliderTrackRepeatButton}" Command="{x:Static Slider.DecreaseLarge}"/>
-                                </Track.DecreaseRepeatButton>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource InvisibleSliderTrackRepeatButton}" Command="{x:Static Slider.IncreaseLarge}"/>
-                                </Track.IncreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb Height="20" Width="10" BorderThickness="0" Margin="0,-20,0,0"
-                                           MouseRightButtonDown="Thumb_MouseRightButtonDown"
-                                           PreviewMouseLeftButtonDown="Thumb_PreviewMouseLeftButtonDown"
-                                           MouseDoubleClick="Thumb_PreviewMouseLeftButtonUp">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                                <Grid Background="Transparent">
-                                                    <xctk:ColorPicker x:Name="ColorPicker" IsOpen="False" Width="0" Height="0" IsHitTestVisible="False" SelectedColor="{Binding Color, Mode=TwoWay}" SelectedColorChanged="ColorPicker_SelectedColorChanged" />
-                                                    <Polygon Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Stroke="Black" StrokeThickness="1" Points="0,0 10,0 10,15 5,20 0,15" />
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <ControlTemplate x:Key="GradientStopThumbTemplate" TargetType="{x:Type Thumb}">
+                <Grid Background="Transparent">
+                    <local:ColorPicker x:Name="ColorPicker" Width="0" Height="0" IsHitTestVisible="False" SelectedColor="{Binding Color, Mode=TwoWay}"/>
+                    <Polygon Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Stroke="Black" StrokeThickness="1" Points="0,0 10,0 10,15 5,20 0,15"/>
+                </Grid>
+            </ControlTemplate>
+
+            <Style x:Key="GradientStopSliderStyle" TargetType="{x:Type Slider}" BasedOn="{StaticResource SliderNoTrackStyle}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Slider}">
+                            <Grid>
+                                <Track x:Name="PART_Track" Height="0" Margin="0,20,0,0">
+                                    <Track.Thumb>
+                                        <Thumb Height="20" Width="10" BorderThickness="0" Margin="0,-20,0,0"
+                                                   MouseRightButtonDown="Thumb_MouseRightButtonDown"
+                                                   PreviewMouseLeftButtonDown="Thumb_PreviewMouseLeftButtonDown"
+                                                   MouseDoubleClick="Thumb_PreviewMouseLeftButtonUp"
+                                                   Template="{StaticResource GradientStopThumbTemplate}"/>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel DataContext="{Binding}">
@@ -90,7 +72,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Slider Minimum="0" Maximum="1" Value="{Binding Offset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsMoveToPointEnabled="False"
-                                Style="{StaticResource SliderNoTrackStyle}" Width="165" Height="20" ValueChanged="Slider_ValueChanged" Background="Transparent"/>
+                                Style="{StaticResource GradientStopSliderStyle}" Width="165" Height="20" ValueChanged="Slider_ValueChanged" Background="Transparent"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

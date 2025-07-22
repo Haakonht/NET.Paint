@@ -1,16 +1,12 @@
 ﻿using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Drawing.Service;
 using NET.Paint.Helper;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit;
 
 namespace NET.Paint.View.Component.Tools.Controls
 {
@@ -138,7 +134,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                     var colorPicker = GeneralHelper.FindVisualChild<ColorPicker>(thumb);
                     if (colorPicker != null)
                     {
-                        colorPicker.IsOpen = true;
+                        colorPicker.IsOpen = !colorPicker.IsOpen;
                         e.Handled = true; // Prevent the thumb from processing the click further
                     }
                 }
@@ -158,7 +154,7 @@ namespace NET.Paint.View.Component.Tools.Controls
             }
         }
 
-        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) => UpdatePreview();
+        private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePreview();
 
         private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -175,6 +171,6 @@ namespace NET.Paint.View.Component.Tools.Controls
                 e.Handled = true;
             }
         }
-
+     
     }
 }
