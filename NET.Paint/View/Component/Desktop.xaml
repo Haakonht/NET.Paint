@@ -7,7 +7,7 @@
              xmlns:dock="https://github.com/Dirkster99/AvalonDock"
              xmlns:models="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:helpers="clr-namespace:NET.Paint.Helper"
-             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:service="clr-namespace:NET.Paint.Service"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:converters="clr-namespace:NET.Paint.Converter"
              xmlns:components="clr-namespace:NET.Paint.View.Component"
@@ -18,7 +18,7 @@
              xmlns:overviewComponents="clr-namespace:NET.Paint.View.Component.Overview"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged"
-             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DrawingService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

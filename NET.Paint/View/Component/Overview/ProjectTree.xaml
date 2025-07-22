@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF" 
-             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing" 
+             xmlns:service="clr-namespace:NET.Paint.Service"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Overview.Controls" 
              xmlns:selectors="clr-namespace:NET.Paint.Selector" 
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing" 
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
              xmlns:converters="clr-namespace:NET.Paint.Converter" 
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="250" d:Background="White" 
-             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DrawingService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -61,7 +61,7 @@
                 <MenuItem Header="Remove" Command="{Binding Command.RemoveItem}" CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Icon="{icons:MaterialIconExt Kind=SquareOffOutline}"/>
             </ContextMenu>
 
-            <DataTemplate x:Key="RasterLayerTemplate" DataType="{x:Type structure:XRasterLayer}">
+            <DataTemplate x:Key="RasterLayerTemplate" DataType="{x:Type structure:RasterLayerViewModel}">
                 <controls:Layer DataContext="{Binding}" ContextMenu="{StaticResource LayerContextMenu}" MouseDown="SelectNode"/>
             </DataTemplate>
         </ResourceDictionary>
@@ -89,13 +89,13 @@
             <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding Project}" Margin="0,2,0,0">
                 <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" BorderBrush="Transparent" Background="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
+                        <HierarchicalDataTemplate ItemsSource="{Binding Layers}" DataType="{x:Type structure:ImageViewModel}">
                             <controls:Image DataContext="{Binding}" ContextMenu="{StaticResource ImageContextMenu}" MouseDown="SelectNode"/>
                             <HierarchicalDataTemplate.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:XLayer}">
+                                <HierarchicalDataTemplate ItemsSource="{Binding Shapes}" DataType="{x:Type structure:LayerViewModel}">
                                     <controls:Layer DataContext="{Binding}" ContextMenu="{StaticResource LayerContextMenu}" MouseDown="SelectNode"/>
                                     <HierarchicalDataTemplate.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type structure:XRenderable}">
+                                        <DataTemplate DataType="{x:Type structure:RenderableViewModel}">
                                             <controls:Renderable DataContext="{Binding}" ContextMenu="{StaticResource RenderableContextMenu}" MouseDown="SelectNode"/>
                                         </DataTemplate>
                                     </HierarchicalDataTemplate.ItemTemplate>

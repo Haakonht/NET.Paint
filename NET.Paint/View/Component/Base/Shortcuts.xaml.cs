@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Service;
+using NET.Paint.Service;
+using NET.Paint.ViewModels.Drawing.Structure;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -36,20 +37,20 @@ namespace NET.Paint.View.Component.Base
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            if (DataContext is DesktopViewModel service && service.Project != null)
+            if (DataContext is DrawingService service && service.Project != null)
                 service.Command.Operations.CreateImage(new ImageViewModel
                 {
-                    Title = $"Image {service.Project.Images.Count + 1}"
+                    Model = new XImage { Title = $"Image {service.Project.Images.Count + 1}" }
                 });
         }
 
         private void AddVectorLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
+            if (DataContext is DrawingService service && service.ActiveImage != null)
             {
                 service.Command.Operations.CreateLayer(new VectorLayerViewModel
                 {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                    Model = new XVectorLayer { Title = $"Layer {service.ActiveImage.Layers.Count + 1}" }
                 });
                 LayerQuickSelect.IsOpen = false;
             }
@@ -57,11 +58,11 @@ namespace NET.Paint.View.Component.Base
 
         private void AddHybridLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
+            if (DataContext is DrawingService service && service.ActiveImage != null)
             {
                 service.Command.Operations.CreateLayer(new HybridLayerViewModel
                 {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                    Model = new XHybridLayer { Title = $"Layer {service.ActiveImage.Layers.Count + 1}" }
                 });
                 LayerQuickSelect.IsOpen = false;
             }
@@ -69,11 +70,11 @@ namespace NET.Paint.View.Component.Base
 
         private void AddRasterLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
+            if (DataContext is DrawingService service && service.ActiveImage != null)
             {
                 service.Command.Operations.CreateLayer(new RasterLayerViewModel
                 {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
+                    Model = new XRasterLayer { Title = $"Layer {service.ActiveImage.Layers.Count + 1}" }
                 });
                 LayerQuickSelect.IsOpen = false;
             }

@@ -1,4 +1,4 @@
-﻿using NET.Paint.Drawing.Model.Utility;
+﻿using NET.Paint.Drawing.Model;
 using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Constant

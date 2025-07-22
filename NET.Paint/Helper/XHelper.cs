@@ -1,6 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.ViewModels.Drawing.Utility;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -75,14 +74,14 @@ namespace NET.Paint.Drawing.Helper
             return renderTarget;
         }
 
-        public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, Color primaryColor, Color secondaryColor)
+        public static ColorViewModel CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, Color primaryColor, Color secondaryColor)
         {
             if (activeColorType == XColorType.Solid)
-                return new XSolid { Color = primaryColor };
+                return new SolidColorViewModel { Color = primaryColor };
             else 
                 if (activeGradientStyle == XGradientStyle.Linear)
                 {
-                    return new XLinearGradient
+                    return new LinearGradientViewModel
                     {
                         StartPoint = new Point(0, 0),
                         EndPoint = new Point(1, 0),
@@ -95,7 +94,7 @@ namespace NET.Paint.Drawing.Helper
                 }
                 else
                 {
-                    return new XRadialGradient
+                    return new RadialGradientViewModel
                     {
                         Center = new Point(0.5, 0.5),
                         Radius = 0.5,

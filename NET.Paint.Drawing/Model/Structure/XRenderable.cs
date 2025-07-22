@@ -15,7 +15,7 @@ namespace NET.Paint.Drawing.Model.Structure
     {
         public Brush StrokeBrush = Brushes.Black;
         public double StrokeThickness = 1.0;
-        public DashStyle StrokeStyle = DashStyles.Solid;
+        public DoubleCollection StrokeStyle = new DoubleCollection { 1 };
     }
 
     public abstract class XFilledShape : XStrokedShape

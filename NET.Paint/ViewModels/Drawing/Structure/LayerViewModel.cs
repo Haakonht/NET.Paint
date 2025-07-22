@@ -1,15 +1,15 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace NET.Paint.Drawing.Model.Structure
+namespace NET.Paint.ViewModels.Drawing.Structure
 {
     public abstract class LayerViewModel : PropertyNotifier, ICloneable
     {
@@ -106,9 +106,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
         public override object Clone() => new VectorLayerViewModel
         {
-            Title = Title,
-            OffsetX = OffsetX,
-            OffsetY = OffsetY,
+            Model = this.Model,
             Shapes = new ObservableCollection<RenderableViewModel>(Shapes.Select(shape => (RenderableViewModel)shape.Clone()))
         };
 
@@ -117,14 +115,15 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public class RasterLayerViewModel : LayerViewModel, IBitmapLayer
     {
+        public XRasterLayer layer => (XRasterLayer)Model;
+
         public override XLayerType Type => XLayerType.Raster;
 
-        private BitmapSource _bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
         [Browsable(false)]
         public BitmapSource Bitmap
         {
-            get => _bitmap;
-            set => SetProperty(ref _bitmap, value);
+            get => layer.Bitmap;
+            set => SetProperty(ref layer.Bitmap, value);
         }
 
         [Browsable(false)]
@@ -134,9 +133,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
         public override object Clone() => new RasterLayerViewModel
         {
-            Title = this.Title,
-            OffsetX = this.OffsetX,
-            OffsetY = this.OffsetY,
+            Model = this.Model,
             Bitmap = this.Bitmap.Clone()
         };
 
@@ -147,10 +144,15 @@ namespace NET.Paint.Drawing.Model.Structure
     {
         public override XLayerType Type => XLayerType.Hybrid;
 
-        private ObservableCollection<RenderableViewModel> _shapes = new ObservableCollection<RenderableViewModel>();
+        private ObservableCollection<RenderableViewModel> _shapes;
         public ObservableCollection<RenderableViewModel> Shapes
         {
-            get => _shapes;
+            get
+            {
+                if (_shapes == null)
+                    _shapes = new ObservableCollection<RenderableViewModel>();
+                return _shapes;
+            }
             set => SetProperty(ref _shapes, value);
         }
 
@@ -179,10 +181,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
         public override object Clone() => new HybridLayerViewModel
         {
-            Title = Title,
-            OffsetX = OffsetX,
-            OffsetY = OffsetY,
-            Shapes = new ObservableCollection<RenderableViewModel>(Shapes.Select(shape => (RenderableViewModel)shape.Clone())),
+            Model = this.Model,
             Bitmap = this.Bitmap.Clone()
         };
 

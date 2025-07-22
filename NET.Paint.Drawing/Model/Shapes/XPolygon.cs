@@ -25,7 +25,7 @@ namespace NET.Paint.Drawing.Model.Shape
     public class XStar : XPolygon
     {
         public override XPolygonStyle Style => XPolygonStyle.Star;
-        public int Points = 5;
+        public int Rays = 5;
     }
 
     public class XCloud : XPolygon

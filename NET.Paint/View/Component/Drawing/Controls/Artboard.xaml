@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
-             xmlns:tools="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
+             xmlns:tools="clr-namespace:NET.Paint.ViewModels.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
@@ -59,14 +59,14 @@
         <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp">
             <Grid.Cursor>
                 <MultiBinding Converter="{StaticResource CursorConverter}">
-                    <Binding Source="{x:Static tools:XTools.Instance}" Path="ActiveTool"/>
-                    <Binding Source="{x:Static tools:XTools.Instance}" Path="SelectionMode"/>
+                    <Binding Source="{x:Static tools:ToolsViewModel.Instance}" Path="ActiveTool"/>
+                    <Binding Source="{x:Static tools:ToolsViewModel.Instance}" Path="SelectionMode"/>
                 </MultiBinding>
             </Grid.Cursor>
 
             <ItemsControl ItemsSource="{Binding Layers}">
                 <ItemsControl.Resources>
-                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                    <DataTemplate DataType="{x:Type structure:VectorLayerViewModel}">
                         <ItemsControl ItemsSource="{Binding Shapes}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -82,7 +82,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                    <DataTemplate DataType="{x:Type structure:RasterLayerViewModel}">
                         <Canvas>
                             <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}">
                                 <Image.RenderTransform>
@@ -94,7 +94,7 @@
                             </Image>
                         </Canvas>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                    <DataTemplate DataType="{x:Type structure:HybridLayerViewModel}">
                         <Canvas Visibility="{Binding Visibility}">
                             <Image Source="{Binding Bitmap}">
                                 <Image.RenderTransform>

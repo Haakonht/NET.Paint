@@ -6,15 +6,15 @@
         xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+        xmlns:service="clr-namespace:NET.Paint.Service"
         xmlns:selector="clr-namespace:NET.Paint.Selector"
         xmlns:component="clr-namespace:NET.Paint.View.Component"
         xmlns:local="clr-namespace:NET.Paint.View"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance Type=service:DrawingService, IsDesignTimeCreatable=True}"
         Title="{Binding Project.Title}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
     <Window.DataContext>
-        <service:DesktopViewModel />
+        <service:DrawingService />
     </Window.DataContext>
 
     <DockPanel>

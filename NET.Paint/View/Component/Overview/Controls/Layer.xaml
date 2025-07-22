@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:local="clr-namespace:NET.Paint.View.Component.Overview.Controls"
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"  
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Overview.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="100" d:Background="White">
@@ -52,13 +52,13 @@
         <ContentControl Content="{Binding}" VerticalAlignment="Center">
             <ContentControl.Resources>
                 <ResourceDictionary>
-                    <DataTemplate DataType="{x:Type structure:XVectorLayer}">
+                    <DataTemplate DataType="{x:Type structure:VectorLayerViewModel}">
                         <ContentPresenter ContentTemplate="{StaticResource VectorLayerToolIcon}" Width="20"/>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type structure:XRasterLayer}">
+                    <DataTemplate DataType="{x:Type structure:RasterLayerViewModel}">
                         <ContentPresenter ContentTemplate="{StaticResource RasterLayerToolIcon}" Width="20"/>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type structure:XHybridLayer}">
+                    <DataTemplate DataType="{x:Type structure:HybridLayerViewModel}">
                         <ContentPresenter ContentTemplate="{StaticResource HybridLayerToolIcon}" Width="20"/>
                     </DataTemplate>
                 </ResourceDictionary>

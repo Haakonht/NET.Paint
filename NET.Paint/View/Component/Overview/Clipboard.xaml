@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:utility="clr-namespace:NET.Paint.ViewModels.Drawing.Utility"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Overview.Controls"
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="200"
-             d:DataContext="{x:Static utility:XClipboard.Instance}" d:Background="White">
+             d:DataContext="{x:Static utility:ClipboardViewModel.Instance}" d:Background="White">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,14 +32,14 @@
                     <DataTemplate>
                         <ContentControl Content="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0">
                             <ContentControl.Resources>
-                                <DataTemplate DataType="{x:Type structure:XLayer}">
+                                <DataTemplate DataType="{x:Type structure:LayerViewModel}">
                                     <TreeView x:Name="ImageTree" BorderBrush="Transparent" Background="Transparent" ItemContainerStyle="{StaticResource StretchingTreeView}">
                                         <TreeViewItem ItemsSource="{Binding Shapes}">
                                             <TreeViewItem.Header>
                                                 <controls:Layer DataContext="{Binding}"/>
                                             </TreeViewItem.Header>
                                             <TreeViewItem.Items>
-                                                <DataTemplate DataType="{x:Type structure:XRenderable}">
+                                                <DataTemplate DataType="{x:Type structure:RenderableViewModel}">
                                                     <controls:Renderable DataContext="{Binding}"/>
                                                 </DataTemplate>
                                             </TreeViewItem.Items>
@@ -52,7 +52,7 @@
                                         </TreeView.Resources>
                                     </TreeView>
                                 </DataTemplate>
-                                <DataTemplate DataType="{x:Type structure:XRenderable}">
+                                <DataTemplate DataType="{x:Type structure:RenderableViewModel}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0"/>

@@ -1,29 +1,31 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Structure;
-using System.Collections.ObjectModel;
+using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 
-namespace NET.Paint.Drawing.Model.Shape
+namespace NET.Paint.ViewModels.Drawing.Shape
 {
     public class LineViewModel : StrokedShapeViewModel
     {
+        public required XLine Model { get; set; }
+
         public override XToolType Type => XToolType.Line;
 
         [Category("Position")]
         public Point Start
         {
-            get => Points[0];
-            set => Points[0] = value;
+            get => Model.Points[0];
+            set => Model.Points[0] = value;
         }
         [Category("Position")]
         public Point End
         {
-            get => Points[1];
-            set => Points[1] = value;
+            get => Model.Points[1];
+            set => Model.Points[1] = value;
         }
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -33,28 +35,32 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new LineViewModel
         {
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Points = new ObservableCollection<Point>(this.Points)
+            Model = new XLine
+            {
+                StrokeBrush = this.StrokeBrush,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                Points = new List<Point>(this.Points)
+            }
         };
     }
 
     public class PolylineViewModel : StrokedShapeViewModel
     {
+        public required XPolyline Model { get; set; }
+
         public override XToolType Type => XToolType.Pencil;
 
-        protected double _spacing = 13.0;
         [DisplayName("Resolution")]
-        public double PointSpacing
+        public double Spacing
         {
-            get => _spacing;
+            get => Model.Spacing;
             set
             {
-                if (value != _spacing && value > 9)
+                if (value != Model.Spacing && value > 9)
                 {
                     ShapeFactory.ResamplePoints(Points, value);
-                    SetProperty(ref _spacing, value);
+                    SetProperty(ref Model.Spacing, value);
                 }
             }
         }
@@ -63,39 +69,44 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new PolylineViewModel
         {
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Points = new ObservableCollection<Point>(this.Points),
-            PointSpacing = this.PointSpacing
+            Model = new XPolyline
+            {
+                StrokeBrush = this.StrokeBrush,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                Points = new List<Point>(this.Points),
+                Spacing = this.Spacing
+            }
         };
 
     }
 
     public class CurveViewModel : StrokedShapeViewModel, IControlPoints
     {
+        public required XCurve Model { get; set; }
+
         public override XToolType Type => XToolType.Curve;
 
         [Category("Position")]
         public Point Start
         {
-            get => Points[0];
-            set => Points[0] = value;
+            get => Model.Points[0];
+            set => Model.Points[0] = value;
         }
 
         [Category("Position")]
         public Point End
         {
-            get => Points[1];
-            set => Points[1] = value;
+            get => Model.Points[1];
+            set => Model.Points[1] = value;
         }
 
         [Category("Position")]
         [DisplayName("Control")]
         public Point Ctrl1
         {
-            get => Points[2];
-            set => Points[2] = value;
+            get => Model.Points[2];
+            set => Model.Points[2] = value;
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -108,13 +119,13 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new CurveViewModel
         {
-            Start = this.Start,
-            End = this.End,
-            Ctrl1 = this.Ctrl1,
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Points = new ObservableCollection<Point>(this.Points)
+            Model = new XCurve
+            {
+                StrokeBrush = this.StrokeBrush,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                Points = new List<Point>(this.Points)
+            }
         };
     }
 
@@ -123,8 +134,8 @@ namespace NET.Paint.Drawing.Model.Shape
         [Browsable(false)]
         public Point Ctrl2
         {
-            get => Points[3];
-            set => Points[3] = value;
+            get => Model.Points[3];
+            set => Model.Points[3] = value;
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -138,14 +149,13 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new BezierViewModel
         {
-            Start = this.Start,
-            End = this.End,
-            Ctrl1 = this.Ctrl1,
-            Ctrl2 = this.Ctrl2,
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            Points = new ObservableCollection<Point>(this.Points)
+            Model = new XBezier
+            {
+                StrokeBrush = this.StrokeBrush,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                Points = new List<Point>(this.Points)
+            }
         };
     }
 }

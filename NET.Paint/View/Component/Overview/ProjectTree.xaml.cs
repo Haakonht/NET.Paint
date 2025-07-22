@@ -1,10 +1,11 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Service;
 using NET.Paint.Resources.Extensions;
+using NET.Paint.Service;
+using NET.Paint.ViewModels.Drawing;
+using NET.Paint.ViewModels.Drawing.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,7 +36,7 @@ namespace NET.Paint.View.Component.Overview
 
         private void SelectNode(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 if (sender is FrameworkElement element)
                 {
@@ -73,7 +74,7 @@ namespace NET.Paint.View.Component.Overview
 
         private void Unselect(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is ImageViewModel activeImage)
                     service.ActiveImage.Selected.Clear();
@@ -105,7 +106,7 @@ namespace NET.Paint.View.Component.Overview
 
         private void TreeView_Drop(object sender, DragEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 var draggedImage = _draggedTreeViewItem?.DataContext as ImageViewModel;
                 var draggedLayer = _draggedTreeViewItem?.DataContext as LayerViewModel;
@@ -159,20 +160,20 @@ namespace NET.Paint.View.Component.Overview
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
-                ImageViewModel image = new ImageViewModel() { Title = "", IsEditing = true };
+                ImageViewModel image = new ImageViewModel() { Model = new XImage { Title = "" }, IsEditing = true };
                 service.Project.Images.Add(image);
             }
         }
 
         private void AddVectorLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is ImageViewModel image)
                 {
-                    LayerViewModel layer = new VectorLayerViewModel() { Title = "", IsEditing = true };
+                    LayerViewModel layer = new VectorLayerViewModel() { Model = new XVectorLayer { Title = "" }, IsEditing = true };
                     service.ActiveImage.Layers.Add(layer);
                 }
             }
@@ -180,11 +181,11 @@ namespace NET.Paint.View.Component.Overview
 
         private void AddHybridLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is ImageViewModel image)
                 {
-                    LayerViewModel layer = new HybridLayerViewModel() { Title = "", IsEditing = true };
+                    LayerViewModel layer = new HybridLayerViewModel() { Model = new XHybridLayer { Title = "" }, IsEditing = true };
                     service.ActiveImage.Layers.Add(layer);
                 }
             }
@@ -192,11 +193,11 @@ namespace NET.Paint.View.Component.Overview
 
         private void AddRasterLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null && DataContext is DesktopViewModel service)
+            if (DataContext != null && DataContext is DrawingService service)
             {
                 if (service.ActiveImage != null && service.ActiveImage is ImageViewModel image)
                 {
-                    LayerViewModel layer = new RasterLayerViewModel() { Title = "", IsEditing = true };
+                    LayerViewModel layer = new RasterLayerViewModel() { Model = new XRasterLayer { Title = "" }, IsEditing = true };
                     service.ActiveImage.Layers.Add(layer);
                 }
             }

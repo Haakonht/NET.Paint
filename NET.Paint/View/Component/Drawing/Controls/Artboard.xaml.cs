@@ -1,10 +1,10 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Shape;
-using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.ViewModels.Drawing;
+using NET.Paint.ViewModels.Drawing.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Drawing.Utility;
+using NET.Paint.ViewModels.Interface;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -76,7 +76,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                         if (Preview.Shape is PolylineViewModel pencil)
                         {
                             if (tools.PencilMode == XPencilMode.Add || tools.ActiveTool == XToolType.Selector)
-                                ShapeFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
+                                ShapeFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.Spacing);
                         }
 
                         else if (tools.ActiveTool == XToolType.Pencil && tools.PencilMode == XPencilMode.Remove)

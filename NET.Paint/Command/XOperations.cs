@@ -1,21 +1,16 @@
 ﻿using Microsoft.Win32;
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Drawing.Service;
-using NET.Paint.ViewModels;
+using NET.Paint.Service;
+using NET.Paint.ViewModels.Drawing.Structure;
 using NET.Paint.ViewModels.Drawing.Utility;
-using System.Collections.ObjectModel;
+using NET.Paint.ViewModels.Interface;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -504,10 +499,13 @@ namespace NET.Paint.Drawing.Command
             {
                 RasterLayerViewModel flattenedLayer = new RasterLayerViewModel
                 {
-                    Title = vectorLayer.Title,
-                    OffsetX = vectorLayer.OffsetX,
-                    OffsetY = vectorLayer.OffsetY,
-                    Bitmap = ShapeFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                    Model = new XRasterLayer
+                    {
+                        Title = vectorLayer.Title,
+                        OffsetX = vectorLayer.OffsetX,
+                        OffsetY = vectorLayer.OffsetY,
+                        Bitmap = ShapeFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                    },
                 };
 
                 int index = image.Layers.IndexOf(vectorLayer);
@@ -543,8 +541,15 @@ namespace NET.Paint.Drawing.Command
         {
             _service.Project = new ProjectViewModel
             {
-                Title = "New Project",
-                Images = new ObservableCollection<ImageViewModel>()
+                Model = new XProject
+                {
+                    Title = "Untitled Project",
+                    Description = "",
+                    Author = "",
+                    Created = DateTime.Now,
+                    Changed = DateTime.Now,
+                    Images = new List<XImage>()
+                }
             };
             _service.ActiveImage = null;
         }

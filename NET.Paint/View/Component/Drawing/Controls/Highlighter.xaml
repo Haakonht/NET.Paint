@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="NET.Paint.View.Component.Drawing.Controls.Highlighter"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
-             xmlns:interfaces="clr-namespace:NET.Paint.Drawing.Interface;assembly=NET.Paint.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
+             xmlns:interfaces="clr-namespace:NET.Paint.ViewModels.Interface"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters">
     <UserControl.Resources>
         <DataTemplate x:Key="RotateThumb">
@@ -29,15 +29,15 @@
                         <ResourceDictionary Source="../Resources/BoundingBox.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                     
-                    <DataTemplate DataType="{x:Type structure:XImage}">
+                    <DataTemplate DataType="{x:Type structure:ImageViewModel}">
                         <Label Background="Transparent" IsHitTestVisible="False"/>
                     </DataTemplate>
                     
-                    <DataTemplate DataType="{x:Type structure:XLayer}">
+                    <DataTemplate DataType="{x:Type structure:LayerViewModel}">
                         <Label Background="Transparent" IsHitTestVisible="False"/>
                     </DataTemplate>
 
-                    <DataTemplate DataType="{x:Type structure:XRenderable}">
+                    <DataTemplate DataType="{x:Type structure:RenderableViewModel}">
                         <ContentPresenter Content="{Binding}"/>
                     </DataTemplate>
                 </ResourceDictionary>

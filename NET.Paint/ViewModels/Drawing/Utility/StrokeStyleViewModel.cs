@@ -7,9 +7,5 @@ using System.Windows.Media;
 
 namespace NET.Paint.ViewModels.Drawing.Utility
 {
-    public class StrokeStyleViewModel
-    {
-        public string Name { get; set; }
-        public DoubleCollection DashArray { get; set; }
-    }
+
 }

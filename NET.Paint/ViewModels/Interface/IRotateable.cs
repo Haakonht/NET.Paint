@@ -1,7 +1,6 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 
-namespace NET.Paint.Drawing.Interface
+namespace NET.Paint.ViewModels.Interface
 {
     public interface IRotateable
     {

@@ -1,4 +1,4 @@
-﻿using NET.Paint.Drawing.Interface;
+﻿using NET.Paint.ViewModels.Interface;
 using System.Globalization;
 using System.Windows.Data;
 

@@ -1,7 +1,7 @@
-﻿using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model;
+﻿using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;

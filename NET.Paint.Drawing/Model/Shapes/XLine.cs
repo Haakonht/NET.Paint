@@ -11,7 +11,7 @@ namespace NET.Paint.Drawing.Model.Shape
     public class XPolyline : XStrokedShape
     {
         public override XToolType Type => XToolType.Pencil;
-        public double Spacing { get; set; } = 13.0;
+        public double Spacing = 13.0;
     }
 
     public class XCurve : XStrokedShape

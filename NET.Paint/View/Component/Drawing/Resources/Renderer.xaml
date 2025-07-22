@@ -1,17 +1,17 @@
-﻿    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing" xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters">
+﻿    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shape="clr-namespace:NET.Paint.ViewModels.Drawing.Shape" xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters">
 
-    <DataTemplate DataType="{x:Type shape:XPolyline}">
+    <DataTemplate DataType="{x:Type shape:PolygonViewModel}">
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
         <Polyline Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XLine}">
+    <DataTemplate DataType="{x:Type shape:LineViewModel}">
         <Line X1="{Binding Start.X}" Y1="{Binding Start.Y}" X2="{Binding End.X}" Y2="{Binding End.Y}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XCurve}">
+    <DataTemplate DataType="{x:Type shape:CurveViewModel}">
         <Path Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Path.Data>
                 <PathGeometry>
@@ -23,7 +23,7 @@
         </Path>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XBezier}">
+    <DataTemplate DataType="{x:Type shape:BezierViewModel}">
         <Path Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Path.Data>
                 <PathGeometry>
@@ -35,7 +35,7 @@
         </Path>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XCircle}">
+    <DataTemplate DataType="{x:Type shape:CircleViewModel}">
         <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillBrush}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Ellipse.RenderTransform>
                 <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
@@ -44,7 +44,7 @@
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type shape:XEllipse}">
+    <DataTemplate DataType="{x:Type shape:EllipseViewModel}">
         <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillBrush}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Ellipse.RenderTransform>
                 <TransformGroup>
@@ -56,7 +56,7 @@
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type shape:XSquare}">
+    <DataTemplate DataType="{x:Type shape:SquareViewModel}">
         <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillBrush}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
@@ -67,7 +67,7 @@
         </Rectangle>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XRectangle}">
+    <DataTemplate DataType="{x:Type shape:RectangleViewModel}">
         <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding StrokeBrush}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding FillBrush}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
@@ -78,7 +78,7 @@
         </Rectangle>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XCloud}">
+    <DataTemplate DataType="{x:Type shape:CloudViewModel}">
         <DataTemplate.Resources>
             <converters:SmoothCurveConverter x:Key="SmoothCurveConverter"/>
         </DataTemplate.Resources>
@@ -96,7 +96,7 @@
         </Path>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XPolygon}">
+    <DataTemplate DataType="{x:Type shape:PolygonViewModel}">
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
@@ -107,7 +107,7 @@
         </Polygon>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XText}">
+    <DataTemplate DataType="{x:Type shape:TextViewModel}">
         <DataTemplate.Resources>
             <converters:TextBoldConverter x:Key="BoolToFontWeightConverter"/>
             <converters:TextItalicConverter x:Key="BoolToFontStyleConverter"/>
@@ -129,7 +129,7 @@
         </TextBlock>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type shape:XBitmap}">
+    <DataTemplate DataType="{x:Type shape:BitmapViewModel}">
         <Image Source="{Binding Source}" Width="{Binding Width}" Height="{Binding Height}" Stretch="UniformToFill">
             <Image.RenderTransform>
                 <TransformGroup>
@@ -138,17 +138,6 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type shape:XEffect}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="Transparent" Stroke="Black" StrokeThickness="1" Effect="{Binding Effect}">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
-                    <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
     </DataTemplate>
 
 </ResourceDictionary>

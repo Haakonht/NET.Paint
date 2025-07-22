@@ -1,13 +1,13 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
 
-namespace NET.Paint.Drawing.Model.Shape
+namespace NET.Paint.ViewModels.Drawing.Shape
 {
     public abstract class PolygonViewModel : FilledShapeViewModel, IRotateable
     {
@@ -80,8 +80,8 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public int Rays
         {
-            get => Shape.Points;
-            set => SetProperty(ref Shape.Points, value);
+            get => Shape.Rays;
+            set => SetProperty(ref Shape.Rays, value);
         }
 
         public override object Clone() => new StarViewModel
@@ -97,6 +97,8 @@ namespace NET.Paint.Drawing.Model.Shape
 
     public class CloudViewModel : PolygonViewModel
     {
+        public XCloud Shape => (XCloud)Model;
+
         public override XPolygonStyle Style => XPolygonStyle.Cloud;
 
         public override object Clone() => new CloudViewModel

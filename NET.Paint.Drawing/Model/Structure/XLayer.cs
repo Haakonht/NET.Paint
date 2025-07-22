@@ -1,9 +1,4 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -18,23 +13,23 @@ namespace NET.Paint.Drawing.Model.Structure
         public double Rotation = 0;
     }
 
-    public class XVectorLayer : XLayer, IShapeLayer
+    public class XVectorLayer : XLayer
     {
         public override XLayerType Type => XLayerType.Vector;
-        public List<XRenderable> Shapes { get; set; } = new List<XRenderable>();
+        public List<XRenderable> Shapes = new List<XRenderable>();
     }
 
-    public class XRasterLayer : XLayer, IBitmapLayer
+    public class XRasterLayer : XLayer
     {
         public override XLayerType Type => XLayerType.Raster;
-        public BitmapSource Bitmap { get; set; } = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
+        public BitmapSource Bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
     }
 
-    public class XHybridLayer : XLayer, IShapeLayer, IBitmapLayer
+    public class XHybridLayer : XLayer
     {
         public override XLayerType Type => XLayerType.Hybrid;
-        public List<XRenderable> Shapes { get; set; } = new List<XRenderable>();
-        public BitmapSource Bitmap { get; set; } = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
+        public List<XRenderable> Shapes = new List<XRenderable>();
+        public BitmapSource Bitmap = new RenderTargetBitmap(100, 100, 96, 96, PixelFormats.Pbgra32);
         public int History = 5;
     }
 }

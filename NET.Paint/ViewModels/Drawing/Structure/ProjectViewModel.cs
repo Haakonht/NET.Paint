@@ -1,9 +1,10 @@
 ﻿using NET.Paint.Drawing.Helper;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
-namespace NET.Paint.Drawing.Model.Structure
+namespace NET.Paint.ViewModels.Drawing.Structure
 {
     public class ProjectViewModel : PropertyNotifier
     {

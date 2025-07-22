@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NET.Paint.View.Component.Overview"
-             xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
+             xmlns:structure="clr-namespace:NET.Paint.ViewModels.Drawing.Structure"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=structure:ImageViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,7 +33,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
             <ListBox ItemsSource="{Binding History}" BorderThickness="0">
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type structure:XRenderable}">
+                    <DataTemplate DataType="{x:Type structure:RenderableViewModel}">
                         <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource HistoryContextMenu}">
                             <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource ShapeSelector}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Type, Mode=OneWay}" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource HoverStyle}"/>

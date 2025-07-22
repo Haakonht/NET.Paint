@@ -1,14 +1,13 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
-using NET.Paint.ViewModels.Drawing.Utility;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Media;
 
-namespace NET.Paint.Drawing.Model.Structure
+namespace NET.Paint.ViewModels.Drawing.Structure
 {
     public abstract class RenderableViewModel : PropertyNotifier, ICloneable
     {
@@ -72,7 +71,7 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [Category("Stroke")]
         [DisplayName("Style")]
-        public DashStyle StrokeStyle
+        public DoubleCollection StrokeStyle
         {
             get => Shape.StrokeStyle;
             set => SetProperty(ref Shape.StrokeStyle, value);

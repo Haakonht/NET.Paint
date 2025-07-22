@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:shape="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
+                    xmlns:shape="clr-namespace:NET.Paint.ViewModels.Drawing.Shape"
                     xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
                     x:Class="NET.Paint.Resources.Handlers.PreviewHandler">
 
@@ -8,7 +8,7 @@
     <converters:TextItalicConverter x:Key="BoolToFontStyleConverter"/>
     <converters:TextDecorationsConverter x:Key="TextDecorationsConverter"/>
 
-    <DataTemplate DataType="{x:Type shape:XText}">
+    <DataTemplate DataType="{x:Type shape:TextViewModel}">
         <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
              FontFamily="{Binding FontFamily}" 
              FontSize="{Binding FontSize}" 

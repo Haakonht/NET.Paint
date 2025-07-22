@@ -1,7 +1,5 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Service;
 using NET.Paint.Helper;
 using NET.Paint.View.Component.Tools;
 using System.ComponentModel;
@@ -9,7 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AvalonDock;
-using AvalonDock.Layout;
+using NET.Paint.ViewModels.Drawing;
+using NET.Paint.Service;
+using NET.Paint.ViewModels.Drawing.Structure;
 
 namespace NET.Paint.View.Component
 {
@@ -25,7 +25,7 @@ namespace NET.Paint.View.Component
 
         private void ActiveContentChanged(object sender, EventArgs e)
         {
-            var context = DataContext as DesktopViewModel;
+            var context = DataContext as DrawingService;
 
             if (sender is DockingManager dockingManager)
             {
@@ -59,25 +59,25 @@ namespace NET.Paint.View.Component
             }
         }
 
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as DesktopViewModel).Preferences.PropertyChanged += Service_PropertyChanged;
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as DrawingService).Preferences.PropertyChanged += Service_PropertyChanged;
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var service = DataContext as DesktopViewModel;
+            var service = DataContext as DrawingService;
             if (sender is PreferencesViewModel preferences)
             {
                 switch(e.PropertyName)
                 {
-                    case nameof(DesktopViewModel.Preferences.ClipboardVisible):
+                    case nameof(DrawingService.Preferences.ClipboardVisible):
                         Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = preferences.ClipboardVisible);
                         break;
-                    case nameof(DesktopViewModel.Preferences.UndoVisible):
+                    case nameof(DrawingService.Preferences.UndoVisible):
                         Dispatcher.Invoke(() => UndoAnchorable.IsVisible = preferences.UndoVisible);
                         break;
-                    case nameof(DesktopViewModel.Preferences.ToolboxVisible):
+                    case nameof(DrawingService.Preferences.ToolboxVisible):
                         Dispatcher.Invoke(() => Toolbox.IsVisible = preferences.ToolboxVisible);
                         break;
-                    case nameof(DesktopViewModel.Preferences.PreferencesVisible):
+                    case nameof(DrawingService.Preferences.PreferencesVisible):
                         Dispatcher.Invoke(() =>
                         {
                             if (preferences.PreferencesVisible)
@@ -94,7 +94,7 @@ namespace NET.Paint.View.Component
                             }
                         });
                         break;
-                    case nameof(DesktopViewModel.Preferences.OverviewVisible):               
+                    case nameof(DrawingService.Preferences.OverviewVisible):               
                         Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = preferences.OverviewVisible);
                         if (!preferences.OverviewVisible)
                         {
@@ -111,7 +111,7 @@ namespace NET.Paint.View.Component
 
         private void OpenToolContextQuickSelect(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is DesktopViewModel service && service.Tools.ActiveTool == XToolType.Selector)
+            if (DataContext is DrawingService service && service.Tools.ActiveTool == XToolType.Selector)
                 ToolContextMenu.IsOpen = true;
             else
                 ToolContextQuickSelect.IsOpen = true;

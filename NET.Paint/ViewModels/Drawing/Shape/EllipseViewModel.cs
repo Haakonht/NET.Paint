@@ -1,17 +1,19 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Structure;
-using System.Collections.ObjectModel;
+using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 
-namespace NET.Paint.Drawing.Model.Shape
+namespace NET.Paint.ViewModels.Drawing.Shape
 {
     public class EllipseViewModel : FilledShapeViewModel, IRotateable
     {
+        public required XEllipse Model { get; set; }
+
         public override XToolType Type => XToolType.Ellipse;
-        public XEllipseStyle Style => XEllipseStyle.Ellipse;
+        public XEllipseStyle Style => Model.Style;
 
         public override Point Location => new Point(Points[0].X - RadiusX, Points[0].Y - RadiusY);
 
@@ -27,11 +29,10 @@ namespace NET.Paint.Drawing.Model.Shape
         public override double Width => RadiusX * 2;
         public override double Height => RadiusY * 2;
 
-        private double _rotation = 0;
         public double Rotation
         {
-            get => _rotation;
-            set => SetProperty(ref _rotation, value);
+            get => Model.Rotation;
+            set => SetProperty(ref Model.Rotation, value);
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -45,19 +46,24 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new EllipseViewModel
         {
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            StrokeBrush = this.StrokeBrush,
-            FillBrush = this.FillBrush,
-            Rotation = this.Rotation,
-            Points = new ObservableCollection<Point>(this.Points)
+            Model = new XEllipse
+            {
+                Style = XEllipseStyle.Ellipse,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                StrokeBrush = this.StrokeBrush,
+                FillBrush = this.FillBrush,
+                Points = new List<Point>(this.Points)
+            }
         };
     }
 
     public class CircleViewModel : FilledShapeViewModel
     {
+        public required XEllipse Model { get; set; }
+
         public override XToolType Type => XToolType.Ellipse;
-        public XEllipseStyle Style => XEllipseStyle.Circle;
+        public XEllipseStyle Style => Model.Style;
 
         public override Point Location => new Point(Points[0].X - Radius, Points[0].Y - Radius);
 
@@ -78,11 +84,15 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new CircleViewModel
         {
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            StrokeBrush = this.StrokeBrush,
-            FillBrush = this.FillBrush,
-            Points = new ObservableCollection<Point>(this.Points)
+            Model = new XEllipse
+            {
+                Style = XEllipseStyle.Circle,
+                StrokeThickness = this.StrokeThickness,
+                StrokeStyle = this.StrokeStyle,
+                StrokeBrush = this.StrokeBrush,
+                FillBrush = this.FillBrush,
+                Points = new List<Point>(this.Points)
+            }
         };
     }
 }

@@ -7,10 +7,10 @@
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Controls"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
-             xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
+             xmlns:service="clr-namespace:NET.Paint.Service"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
-             xmlns:colorTypes ="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}"
+             xmlns:colorTypes="clr-namespace:NET.Paint.ViewModels.Drawing.Utility"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=service:DrawingService, IsDesignTimeCreatable=True}"
              d:DesignHeight="200" d:DesignWidth="200">
     <UserControl.Resources>
         <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
@@ -24,7 +24,7 @@
         </UniformGrid>
         <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding Stroke}" Margin="0,-25,0,0">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type colorTypes:XSolid}">
+                <DataTemplate DataType="{x:Type colorTypes:SolidColorViewModel}">
                     <StackPanel DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">
@@ -48,19 +48,19 @@
                     </StackPanel>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type colorTypes:XGradient}">
+                <DataTemplate DataType="{x:Type colorTypes:GradientViewModel}">
                     <StackPanel>
                         <Label Content="Style" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <ComboBox ItemsSource="{x:Static options:XConstants.GradientStyleOptions}" 
                                   SelectedItem="{Binding DataContext.Tools.ActiveStrokeGradientStyle, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                         <ContentPresenter Content="{Binding}">
                             <ContentPresenter.Resources>
-                                <DataTemplate DataType="{x:Type colorTypes:XLinearGradient}">
+                                <DataTemplate DataType="{x:Type colorTypes:LinearGradientViewModel}">
                                     <StackPanel>
                                         <local:LinearGradient DataContext="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
-                                <DataTemplate DataType="{x:Type colorTypes:XRadialGradient}">
+                                <DataTemplate DataType="{x:Type colorTypes:RadialGradientViewModel}">
                                     <StackPanel>
                                         <local:RadialGradient DataContext="{Binding}"/>
                                     </StackPanel>

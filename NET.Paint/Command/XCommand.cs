@@ -1,7 +1,8 @@
-﻿using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Drawing.Mvvm;
-using NET.Paint.Drawing.Service;
+﻿using NET.Paint.Drawing.Mvvm;
+using NET.Paint.Service;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Drawing.Utility;
+using NET.Paint.ViewModels.Interface;
 using System.Windows.Input;
 
 namespace NET.Paint.Drawing.Command
@@ -9,7 +10,7 @@ namespace NET.Paint.Drawing.Command
     public class XCommand
     {
         public XOperations Operations { get; set; }
-        public XCommand( service) => Operations = new XOperations(service);
+        public XCommand(DrawingService service) => Operations = new XOperations(service);
 
         #region History Commands
 
@@ -161,13 +162,13 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteExportImage(object parameter)
         {
-            if (parameter is XImage image)
+            if (parameter is ImageViewModel image)
                 Operations.ExportImage(image);
             else if (Operations._service.ActiveImage != null)
                 Operations.ExportImage(Operations._service.ActiveImage);
         }
         private bool CanExecuteExportImage(object parameter) => 
-            parameter is XImage || Operations._service.ActiveImage != null;
+            parameter is ImageViewModel || Operations._service.ActiveImage != null;
 
         private ICommand _moveImage;
         public ICommand MoveImage
@@ -181,10 +182,10 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteMoveImage(object parameter)
         {
-            if (parameter is (XImage imageToMove, XImage targetImage))
+            if (parameter is (ImageViewModel imageToMove, ImageViewModel targetImage))
                 Operations.MoveImage(Operations._service.Project, imageToMove, targetImage);
         }
-        private bool CanExecuteMoveImage(object parameter) => parameter is (XImage, XImage);
+        private bool CanExecuteMoveImage(object parameter) => parameter is (ImageViewModel, ImageViewModel);
 
         #endregion
 
@@ -203,16 +204,16 @@ namespace NET.Paint.Drawing.Command
 
         private void ExecuteRemoveItem(object parameter)
         {
-            if (parameter is XImage image)
+            if (parameter is ImageViewModel image)
                 Operations.RemoveImage(image);
-            else if (parameter is XLayer layer)
+            else if (parameter is LayerViewModel layer)
                 Operations.RemoveLayer(layer);
-            else if (parameter is XRenderable renderable)
+            else if (parameter is RenderableViewModel renderable)
                 Operations.RemoveRenderable(renderable);          
         }
 
         private bool CanExecuteRemoveItem(object parameter) => 
-            parameter is XImage || parameter is XLayer || parameter is XRenderable;
+            parameter is ImageViewModel || parameter is LayerViewModel || parameter is RenderableViewModel;
 
         private ICommand _addItem;
         public ICommand AddItem
@@ -227,13 +228,13 @@ namespace NET.Paint.Drawing.Command
 
         private void ExecuteAddItem(object parameter)
         {
-            if (parameter is XImage image)
+            if (parameter is ImageViewModel image)
                 Operations.CreateImage(image);
-            else if (parameter is XLayer layer)
+            else if (parameter is LayerViewModel layer)
                 Operations.CreateLayer(layer);
         }
 
-        private bool CanExecuteAddItem(object parameter) => parameter is XImage || parameter is XLayer;
+        private bool CanExecuteAddItem(object parameter) => parameter is ImageViewModel || parameter is LayerViewModel;
 
         #endregion
 
@@ -251,11 +252,11 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteFlattenLayer(object parameter)
         {
-            if (parameter is XLayer layer)
+            if (parameter is LayerViewModel layer)
                 Operations.FlattenLayer(Operations._service.ActiveImage, layer);
         }
         private bool CanExecuteFlattenLayer(object parameter) => 
-            parameter is XVectorLayer && Operations._service.ActiveImage != null;
+            parameter is IShapeLayer && Operations._service.ActiveImage != null;
 
         private ICommand _moveLayer;
         public ICommand MoveLayer
@@ -269,11 +270,11 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteMoveLayer(object parameter)
         {
-            if (parameter is (XLayer layerToMove, XLayer targetLayer))
+            if (parameter is (LayerViewModel layerToMove, LayerViewModel targetLayer))
                 Operations.MoveLayer(Operations._service.ActiveImage, layerToMove, targetLayer);
         }
         private bool CanExecuteMoveLayer(object parameter) => 
-            parameter is (XLayer, XLayer) && Operations._service.ActiveImage != null;
+            parameter is (LayerViewModel, LayerViewModel) && Operations._service.ActiveImage != null;
 
         private ICommand _moveLayerToImage;
         public ICommand MoveLayerToImage
@@ -287,10 +288,10 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteMoveLayerToImage(object parameter)
         {
-            if (parameter is (XLayer layer, XImage targetImage))
+            if (parameter is (LayerViewModel layer, ImageViewModel targetImage))
                 Operations.MoveLayerToImage(Operations._service.Project, layer, targetImage);
         }
-        private bool CanExecuteMoveLayerToImage(object parameter) => parameter is (XLayer, XImage);
+        private bool CanExecuteMoveLayerToImage(object parameter) => parameter is (LayerViewModel, ImageViewModel);
 
         #endregion
 
@@ -308,11 +309,11 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteMoveShapeToLayer(object parameter)
         {
-            if (parameter is (XRenderable shape, XLayer targetLayer))
+            if (parameter is (RenderableViewModel shape, LayerViewModel targetLayer))
                 Operations.MoveShapeToLayer(Operations._service.ActiveImage, shape, targetLayer);
         }
         private bool CanExecuteMoveShapeToLayer(object parameter) => 
-            parameter is (XRenderable, XLayer) && Operations._service.ActiveImage != null;
+            parameter is (RenderableViewModel, LayerViewModel) && Operations._service.ActiveImage != null;
 
         private ICommand _moveShapeInFrontOfShape;
         public ICommand MoveShapeInFrontOfShape
@@ -326,11 +327,11 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecuteMoveShapeInFrontOfShape(object parameter)
         {
-            if (parameter is (XRenderable shapeToMove, XRenderable targetShape))
+            if (parameter is (RenderableViewModel shapeToMove, RenderableViewModel targetShape))
                 Operations.MoveShapeInFrontOfShape(Operations._service.ActiveImage, shapeToMove, targetShape);
         }
         private bool CanExecuteMoveShapeInFrontOfShape(object parameter) => 
-            parameter is (XRenderable, XRenderable) && Operations._service.ActiveImage != null;
+            parameter is (RenderableViewModel, RenderableViewModel) && Operations._service.ActiveImage != null;
 
         #endregion
     }

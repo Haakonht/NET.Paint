@@ -1,6 +1,4 @@
-﻿using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Drawing.Mvvm;
-using System.Windows;
+﻿using NET.Paint.Drawing.Mvvm;
 using System.Windows.Media;
 
 namespace NET.Paint.ViewModels.Drawing

@@ -2,12 +2,13 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Mvvm;
-using NET.Paint.ViewModels.Drawing;
 using NET.Paint.ViewModels.Drawing.Utility;
+using NET.Paint.ViewModels.Interface;
 
-namespace NET.Paint.Drawing.Model.Structure
+namespace NET.Paint.ViewModels.Drawing.Structure
 {
     public class ImageViewModel : PropertyNotifier, ICloneable
     {
@@ -54,7 +55,7 @@ namespace NET.Paint.Drawing.Model.Structure
             get
             {
                 if (_layers == null)
-                    _layers = new ObservableCollection<LayerViewModel>(Model.Layers.Select(x => x.Type == Constant.XLayerType.Vector ? new VectorLayerViewModel { Model = x } as LayerViewModel : x.Type == Constant.XLayerType.Hybrid ? new HybridLayerViewModel { Model = x } : new RasterLayerViewModel { Model = x }));
+                    _layers = new ObservableCollection<LayerViewModel>(Model.Layers.Select(x => x.Type == XLayerType.Vector ? new VectorLayerViewModel { Model = x } as LayerViewModel : x.Type == XLayerType.Hybrid ? new HybridLayerViewModel { Model = x } : new RasterLayerViewModel { Model = x }));
                 return _layers;
             }
             init => SetProperty(ref _layers, value);
@@ -106,7 +107,7 @@ namespace NET.Paint.Drawing.Model.Structure
         public object Clone() => new ImageViewModel
         {
             Model = this.Model,
-            Layers = new ObservableCollection<LayerViewModel>(Model.Layers.Select(x => x.Type == Constant.XLayerType.Vector ? new VectorLayerViewModel { Model = x } as LayerViewModel : x.Type == Constant.XLayerType.Hybrid ? new HybridLayerViewModel { Model = x } : new RasterLayerViewModel { Model = x })),
+            Layers = new ObservableCollection<LayerViewModel>(Model.Layers.Select(x => x.Type == XLayerType.Vector ? new VectorLayerViewModel { Model = x } as LayerViewModel : x.Type == XLayerType.Hybrid ? new HybridLayerViewModel { Model = x } : new RasterLayerViewModel { Model = x })),
             IsEditing = this.IsEditing,
             ActiveLayer = this.ActiveLayer
         };

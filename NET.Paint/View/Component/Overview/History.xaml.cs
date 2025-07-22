@@ -1,5 +1,5 @@
-﻿using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Windows;
 using System.Windows.Controls;
 

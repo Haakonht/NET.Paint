@@ -1,12 +1,13 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 
-namespace NET.Paint.Drawing.Model.Shape
+namespace NET.Paint.ViewModels.Drawing.Shape
 {
     public class RectangleViewModel : FilledShapeViewModel, IRotateable
     {
@@ -16,21 +17,19 @@ namespace NET.Paint.Drawing.Model.Shape
         public virtual XRectangleStyle Style => XRectangleStyle.Rectangle;
 
         [Category("Corner")]
-        private double _cornerRadius = 0;
         public double CornerRadius
         {
-            get => _cornerRadius; 
-            set => SetProperty(ref _cornerRadius, value);
+            get => Model.CornerRadius; 
+            set => SetProperty(ref Model.CornerRadius, value);
         }
 
         [Browsable(false)]
         public virtual Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
 
-        private double _rotation = 0;
         public double Rotation
         {
-            get => _rotation;
-            set => SetProperty(ref _rotation, value);
+            get => Model.Rotation;
+            set => SetProperty(ref Model.Rotation, value);
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -43,12 +42,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new RectangleViewModel
         {
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            CornerRadius = this.CornerRadius,
-            FillBrush = this.FillBrush,
-            Rotation = this.Rotation,
+            Model = this.Model,
             Points = new ObservableCollection<Point>(this.Points)
         };
     }
@@ -82,12 +76,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new SquareViewModel
         {
-            StrokeBrush = this.StrokeBrush,
-            StrokeThickness = this.StrokeThickness,
-            StrokeStyle = this.StrokeStyle,
-            CornerRadius = this.CornerRadius,
-            FillBrush = this.FillBrush,
-            Rotation = this.Rotation,
+            Model = this.Model,
             Points = new ObservableCollection<Point>(this.Points)
         };
     }

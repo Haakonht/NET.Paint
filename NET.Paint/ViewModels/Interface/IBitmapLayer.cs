@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 
-namespace NET.Paint.Drawing.Interface
+namespace NET.Paint.ViewModels.Interface
 {
     public interface IBitmapLayer
     {

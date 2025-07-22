@@ -1,14 +1,14 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.ViewModels.Drawing;
+using NET.Paint.ViewModels.Drawing.Shape;
+using NET.Paint.ViewModels.Drawing.Structure;
+using NET.Paint.ViewModels.Interface;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
@@ -24,56 +24,77 @@ namespace NET.Paint.Drawing.Factory
                     if (tools.PencilMode == XPencilMode.Add)
                         return new PolylineViewModel
                         {
-                            Points = new ObservableCollection<Point> { tools.ClickLocation },
-                            StrokeBrush = tools.StrokeBrush,
-                            StrokeThickness = tools.StrokeThickness,
-                            StrokeStyle = tools.StrokeStyle,
-                            PointSpacing = tools.PencilSpacing
+                            Model = new XPolyline
+                            {
+                                Points = new List<Point> { tools.ClickLocation },
+                                StrokeBrush = tools.StrokeBrush,
+                                StrokeThickness = tools.StrokeThickness,
+                                StrokeStyle = tools.StrokeStyle.DashArray,
+                                Spacing = tools.PencilSpacing
+                            }
                         };
                     return null;
                 case XToolType.Line:
                     return new LineViewModel
                     {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                        StrokeBrush = tools.StrokeBrush,
-                        StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        Model = new XLine
+                        {
+                            Points = new List<Point>() { tools.ClickLocation, tools.MouseLocation },
+                            StrokeBrush = tools.StrokeBrush,
+                            StrokeThickness = tools.StrokeThickness,
+                            StrokeStyle = tools.StrokeStyle.DashArray
+                        }
                     };
                 case XToolType.Curve:
                     return new CurveViewModel
                     {
-                        Points = CreateCurve(tools.ClickLocation, tools.MouseLocation),
-                        StrokeBrush = tools.StrokeBrush,
-                        StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        Model = new XCurve
+                        {
+                            Points = CreateCurve(tools.ClickLocation, tools.MouseLocation).ToList(),
+                            StrokeBrush = tools.StrokeBrush,
+                            StrokeThickness = tools.StrokeThickness,
+                            StrokeStyle = tools.StrokeStyle.DashArray
+                        }
+
                     };
                 case XToolType.Bezier:
                     return new BezierViewModel
                     {
-                        Points = CreateBezier(tools.ClickLocation, tools.MouseLocation),
-                        StrokeBrush = tools.StrokeBrush,
-                        StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        Model = new XBezier
+                        {
+                            Points = CreateBezier(tools.ClickLocation, tools.MouseLocation).ToList(),
+                            StrokeBrush = tools.StrokeBrush,
+                            StrokeThickness = tools.StrokeThickness,
+                            StrokeStyle = tools.StrokeStyle.DashArray
+                        }
                     };
                 case XToolType.Ellipse:
                     Point center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
                     if (tools.ActiveEllipse == XEllipseStyle.Circle)
                         return new CircleViewModel
                         {
-                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeBrush = tools.StrokeBrush,
-                            StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle
+                            Model = new XEllipse
+                            {
+                                Style = XEllipseStyle.Circle,
+                                Points = new List<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
+                                StrokeBrush = tools.StrokeBrush,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillBrush = tools.FillBrush,
+                                StrokeStyle = tools.StrokeStyle.DashArray
+                            }
                         };
                     else
                         return new EllipseViewModel
                         {
-                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
-                            StrokeBrush = tools.StrokeBrush,
-                            StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle
+                            Model = new XEllipse
+                            {
+                                Style = XEllipseStyle.Ellipse,
+                                Points = new List<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
+                                StrokeBrush = tools.StrokeBrush,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillBrush = tools.FillBrush,
+                                StrokeStyle = tools.StrokeStyle.DashArray
+                            }
                         };
                 case XToolType.Triangle:
                     return new TriangleViewModel
@@ -82,32 +103,40 @@ namespace NET.Paint.Drawing.Factory
                         StrokeBrush = tools.StrokeBrush,
                         StrokeThickness = tools.StrokeThickness,
                         FillBrush = tools.FillBrush,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle.DashArray
                     };
                 case XToolType.Rectangle:
                     if (tools.ActiveRectangle == XRectangleStyle.Square)
                     {
                         center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
                         return new SquareViewModel
-                        {
-                            Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeBrush = tools.StrokeBrush,
-                            StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle,
-                            CornerRadius = tools.Radius
+                        {   
+                            Model = new XRectangle
+                            {
+                                Style = XRectangleStyle.Square,
+                                Points = new List<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
+                                StrokeBrush = tools.StrokeBrush,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillBrush = tools.FillBrush,
+                                StrokeStyle = tools.StrokeStyle.DashArray,
+                                CornerRadius = tools.Radius
+                            }
                         };
                     }
 
                     else
                         return new RectangleViewModel
                         {
-                            Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                            StrokeBrush = tools.StrokeBrush,
-                            StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle,
-                            CornerRadius = tools.Radius
+                            Model = new XRectangle
+                            {
+                                Style = XRectangleStyle.Rectangle,
+                                Points = new List<Point>() { tools.ClickLocation, tools.MouseLocation },
+                                StrokeBrush = tools.StrokeBrush,
+                                StrokeThickness = tools.StrokeThickness,
+                                FillBrush = tools.FillBrush,
+                                StrokeStyle = tools.StrokeStyle.DashArray,
+                                CornerRadius = tools.Radius
+                            },
                         };
                 case XToolType.Polygon:
                     switch (tools.ActivePolygon)
@@ -119,7 +148,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle,
+                                StrokeStyle = tools.StrokeStyle.DashArray,
                                 Corners = tools.PolygonCorners
                             };
                         case XPolygonStyle.Star:
@@ -129,7 +158,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Heart:
                             return new HeartViewModel
@@ -138,7 +167,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Spiral:
                             return new SpiralViewModel
@@ -147,7 +176,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Cloud:
                             return new CloudViewModel
@@ -156,7 +185,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         default:
                             return new ArrowViewModel
@@ -165,40 +194,34 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeBrush = tools.StrokeBrush,
                                 StrokeThickness = tools.StrokeThickness,
                                 FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                     }
                 case XToolType.Text:
                     return new TextViewModel
                     {
-                        Points = new ObservableCollection<Point> { tools.MouseLocation },
-                        FontFamily = tools.FontFamily,
-                        FontSize = tools.FontSize,
-                        IsBold = tools.IsBold,
-                        IsItalic = tools.IsItalic,
-                        IsStrikethrough = tools.IsStrikethrough,
-                        IsUnderline = tools.IsUnderline,
-                        Text = ""
+                        Model = new XText
+                        {
+                            Points = new List<Point> { tools.MouseLocation },
+                            FontFamily = tools.FontFamily,
+                            FontSize = tools.FontSize,
+                            Bold = tools.IsBold,
+                            Italic = tools.IsItalic,
+                            Strikethrough = tools.IsStrikethrough,
+                            Underline = tools.IsUnderline,
+                            Text = ""
+                        }
                     };
                 case XToolType.Bitmap:
                     if (tools.ActiveBitmap == null)
                         return null;
                     return new BitmapViewModel
                     {
-                        Source = tools.ActiveBitmap,
-                        Scaling = tools.BitmapScaling,
-                        Points = new ObservableCollection<Point> { tools.ClickLocation, tools.MouseLocation },
-                    };
-                case XToolType.Effect:
-                    return new EffectViewModel
-                    {
-                        Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                        Effect = new DropShadowEffect
+                        Model = new XBitmap
                         {
-                            Color = Colors.Red,
-                            BlurRadius = 10,
-                            ShadowDepth = 2,
-                            Opacity = 1.0
+                            Source = tools.ActiveBitmap,
+                            Scaling = tools.BitmapScaling,
+                            Points = new List<Point> { tools.ClickLocation, tools.MouseLocation },
                         }
                     };
                 case XToolType.Selector:
@@ -207,21 +230,27 @@ namespace NET.Paint.Drawing.Factory
                         case XSelectionMode.Rectangle:
                             return new RectangleViewModel
                             {
-                                Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                                StrokeBrush = Brushes.Black,
-                                StrokeThickness = 2,
-                                FillBrush = Brushes.Transparent,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2],
-                                CornerRadius = 0,
+                                Model = new XRectangle
+                                {
+                                    StrokeBrush = Brushes.Black,
+                                    StrokeThickness = 2,
+                                    FillBrush = Brushes.Transparent,
+                                    StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                    CornerRadius = 0,
+                                    Points = new List<Point>() { tools.ClickLocation, tools.MouseLocation },
+                                }
                             };
                         case XSelectionMode.Lasso:
                             return new PolylineViewModel
                             {
-                                Points = new ObservableCollection<Point> { tools.ClickLocation },
-                                StrokeBrush = Brushes.Black,
-                                StrokeThickness = 2,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2],
-                                PointSpacing = 20
+                                Model = new XPolyline
+                                {
+                                    StrokeBrush = Brushes.Black,
+                                    StrokeThickness = 2,
+                                    StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                    Spacing = 20,
+                                    Points = new List<Point> { tools.ClickLocation },
+                                }
                             };
                         default:
                             return null;
