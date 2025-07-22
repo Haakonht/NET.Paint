@@ -45,7 +45,7 @@ namespace NET.Paint.View.Component.Overview.Converters
                         return "Star";
                     case ArrowViewModel:
                         return "Arrow";
-                    case CloudVIewModel:
+                    case CloudViewModel:
                         return "Cloud";
                     case SpiralViewModel:
                         return "Spiral";

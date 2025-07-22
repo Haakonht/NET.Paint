@@ -132,7 +132,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         private void CloudPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateCloudPreview();
         private void CreateCloudPreview()
         {
-            CloudPreview.Shape = new CloudVIewModel
+            CloudPreview.Shape = new CloudViewModel
             {
                 Points = ShapeFactory.CreateCloud(
                     new Point(0, 0),

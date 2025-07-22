@@ -29,110 +29,107 @@ namespace NET.Paint.Drawing.Model
 
         #region Mouse
 
-        private bool _drag = false;
-        private Point _clickLocation = new Point(0, 0);
-        private Point _mouseLocation = new Point(0, 0);
+        public bool Drag = false;
+        public Point ClickLocation = new Point(0, 0);
+        public Point MouseLocation = new Point(0, 0);
 
         #endregion
 
         #region Color
 
-        private Color _primaryColor = Colors.Black;
-        private Color _secondaryColor = Colors.LightGray;
-        
+        public Color PrimaryColor = Colors.Black;
+        public Color SecondaryColor = Colors.LightGray;
+
         #endregion
 
         #region Stroke
 
-        private XGradientStyle _activeStrokeGradientStyle = XGradientStyle.Linear;
-        private XColorType _activeStrokeType = XColorType.Solid;
-        private XStrokeStyle _strokeStyle = XConstants.StrokeStyleOptions.First(x => x.Name == "Solid");
-        private double _strokeThickness = 1.0;
+        public XGradientStyle ActiveStrokeGradientStyle = XGradientStyle.Linear;
+        public XColorType ActiveStrokeType = XColorType.Solid;
+        public DashStyle StrokeStyle = DashStyles.Solid;
+        public double StrokeThickness = 1.0;
 
 
         #endregion
 
         #region Fill
 
-        private XGradientStyle _activeFillGradientStyle = XGradientStyle.Linear;
-        private XColorType _activeFillType = XColorType.Solid;
+        public XGradientStyle _activeFillGradientStyle = XGradientStyle.Linear;
+        public XColorType _activeFillType = XColorType.Solid;
 
         #endregion
 
         #region Font
 
-        private FontFamily _fontFamily = new FontFamily("Arial");
+        public FontFamily _fontFamily = new FontFamily("Arial");
 
 
-        private double _fontSize = 20;
-        private bool _isBold = false;
-        private bool _isItalic = false;
-        private bool _isUnderline = false;
-        private bool _isStrikethrough = false;
+        public double _fontSize = 20;
+        public bool _isBold = false;
+        public bool _isItalic = false;
+        public bool _isUnderline = false;
+        public bool _isStrikethrough = false;
 
         #endregion
 
         #region Star
 
-        private int _starPoints = 5;
+        public int _starPoints = 5;
 
-        private double _starInnerRadiusRatio = 0.5;
+        public double _starInnerRadiusRatio = 0.5;
 
         #endregion
 
         #region Cloud
 
-        private int _cloudBumps = 8;
-        private double _bumpVariance = 0.3;
+        public int _cloudBumps = 8;
+        public double _bumpVariance = 0.3;
 
         #endregion
 
         #region RegularPolygon
 
-        private int _polygonCorners = 5;
+        public int _polygonCorners = 5;
 
         #endregion
 
         #region Polyline
 
-        private double _pencilSpacing = 13.0;
-        private double _eraserTolerance = 10.0;
+        public double _pencilSpacing = 13.0;
+        public double _eraserTolerance = 10.0;
 
         #endregion
 
         #region Arrow
 
-        private double _headLength = 30;
-
-        private double _headWidth = 20;
-
-        private double _tailWidth = 5;
+        public double _headLength = 30;
+        public double _headWidth = 20;
+        public double _tailWidth = 5;
 
         #endregion
 
         #region Spiral
 
-        private int _spiralSamples = 100;
-
-        private int _turns = 3;
+        public int _spiralSamples = 100;
+        public int _turns = 3;
 
         #endregion
 
         #region Heart
 
-        private int _heartSamples = 64;
+        public int _heartSamples = 64;
 
         #endregion
 
         #region Rectangle
 
-        private double _radius = 1;
+        public double _radius = 1;
 
         #endregion
 
         #region Bitmap
 
-        private ImageSource? _activeBitmap = null;
+        public ImageSource? ActiveBitmap = null;
 
         #endregion
 

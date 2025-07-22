@@ -10,6 +10,8 @@ namespace NET.Paint.Drawing.Model.Shape
 {
     public class RectangleViewModel : FilledShapeViewModel, IRotateable
     {
+        public required XRectangle Model { get; set; }
+
         public override XToolType Type => XToolType.Rectangle;
         public virtual XRectangleStyle Style => XRectangleStyle.Rectangle;
 

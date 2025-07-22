@@ -1,7 +1,8 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Helper;
-using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Mvvm;
+using NET.Paint.ViewModels.Drawing.Utility;
 using System.Windows;
 using System.Windows.Media;
 
@@ -11,111 +12,101 @@ namespace NET.Paint.ViewModels.Drawing
     {
         private static readonly Lazy<ToolsViewModel> _instance = new(() => new ToolsViewModel());
         public static ToolsViewModel Instance => _instance.Value;
+        
+        private XTools Model = new XTools();
         public ToolsViewModel() { }
 
         #region Tool
 
-        private XToolType _activeTool = XToolType.Line;
         public XToolType ActiveTool
         {
-            get => _activeTool;
+            get => Model.ActiveTool;
             set
             {
-                SetProperty(ref _activeTool, value);
+                SetProperty(ref Model.ActiveTool, value);
                 if (value != XToolType.Bitmap)
-                    SetProperty(ref _activeBitmap, null);
+                    SetProperty(ref Model.ActiveBitmap, null);
             }
         }
 
-        private XPolygonStyle _activePolygon = XPolygonStyle.Regular;
         public XPolygonStyle ActivePolygon
         {
-            get => _activePolygon;
-            set => SetProperty(ref _activePolygon, value);
+            get => Model.ActivePolygon;
+            set => SetProperty(ref Model.ActivePolygon, value);
         }
 
-        private XRectangleStyle _activeRectangle = XRectangleStyle.Rectangle;
         public XRectangleStyle ActiveRectangle
         {
-            get => _activeRectangle;
-            set => SetProperty(ref _activeRectangle, value);
+            get => Model.ActiveRectangle;
+            set => SetProperty(ref Model.ActiveRectangle, value);
         }
 
-        private XEllipseStyle _activeEllipse = XEllipseStyle.Ellipse;
         public XEllipseStyle ActiveEllipse
         {
-            get => _activeEllipse;
-            set => SetProperty(ref _activeEllipse, value);
+            get => Model.ActiveEllipse;
+            set => SetProperty(ref Model.ActiveEllipse, value);
         }
 
-        private XSelectionMode _selectionMode = XSelectionMode.Pointer;
         public XSelectionMode SelectionMode
         {
-            get => _selectionMode;
-            set => SetProperty(ref _selectionMode, value);
+            get => Model.SelectionMode;
+            set => SetProperty(ref Model.SelectionMode, value);
         }
 
-        private XPencilMode _pencilMode = XPencilMode.Add;
         public XPencilMode PencilMode
         {
-            get => _pencilMode;
-            set => SetProperty(ref _pencilMode, value);
+            get => Model.PencilMode;
+            set => SetProperty(ref Model.PencilMode, value);
         }
 
-        private XScalingMode _bitmapScaling = XScalingMode.Fit;
         public XScalingMode BitmapScaling
         {
-            get => _bitmapScaling;
-            set => SetProperty(ref _bitmapScaling, value);
+            get => Model.ScalingMode;
+            set => SetProperty(ref Model.ScalingMode, value);
         }
 
         #endregion
 
         #region Mouse
 
-        private bool _drag = false;
         public bool Drag
         {
-            get => _drag;
-            set => SetProperty(ref _drag, value);
+            get => Model.Drag;
+            set => SetProperty(ref Model.Drag, value);
         }
 
-        private Point _clickLocation = new Point(0, 0);
         public Point ClickLocation
         {
-            get => _clickLocation;
-            set => SetProperty(ref _clickLocation, value);
+            get => Model.ClickLocation;
+            set => SetProperty(ref Model.ClickLocation, value);
         }
 
-        private Point _mouseLocation = new Point(0, 0);
         public Point MouseLocation
         {
-            get => _mouseLocation;
-            set => SetProperty(ref _mouseLocation, value);
+            get => Model.MouseLocation;
+            set => SetProperty(ref Model.MouseLocation, value);
         }
 
         #endregion
 
         #region Color
 
-        private Color _primaryColor = Colors.Black;
         public Color PrimaryColor
         {
-            get => _primaryColor;
+            get => Model.PrimaryColor;
             set
             {
-                SetProperty(ref _primaryColor, value);
+                SetProperty(ref Model.PrimaryColor, value);
                 Stroke = XHelper.CreateColor(ActiveStrokeType, ActiveStrokeGradientStyle, value, SecondaryColor);
             }
         }
 
-        private Color _secondaryColor = Colors.LightGray;
         public Color SecondaryColor
         {
-            get => _secondaryColor;
+            get => Model.SecondaryColor;
             set
             {
-                SetProperty(ref _secondaryColor, value);
+                SetProperty(ref Model.SecondaryColor, value);
                 Fill = XHelper.CreateColor(ActiveFillType, ActiveFillGradientStyle, value, PrimaryColor);
             }
         }
@@ -124,24 +115,22 @@ namespace NET.Paint.ViewModels.Drawing
 
         #region Stroke
 
-        private XGradientStyle _activeStrokeGradientStyle = XGradientStyle.Linear;
         public XGradientStyle ActiveStrokeGradientStyle
         {
-            get => _activeStrokeGradientStyle;
+            get => Model.ActiveStrokeGradientStyle;
             set 
             {
-                SetProperty(ref _activeStrokeGradientStyle, value);
+                SetProperty(ref Model.ActiveStrokeGradientStyle, value);
                 Stroke = XHelper.CreateColor(ActiveStrokeType, value, PrimaryColor, SecondaryColor);
             }
         }
 
-        private XColorType _activeStrokeType = XColorType.Solid;
         public XColorType ActiveStrokeType
         {
-            get => _activeStrokeType;
+            get => Model.ActiveStrokeType;
             set
             {
-                SetProperty(ref _activeStrokeType, value);
+                SetProperty(ref Model.ActiveStrokeType, value);
                 Stroke = XHelper.CreateColor(value, ActiveStrokeGradientStyle, PrimaryColor, SecondaryColor);
             }
         }
@@ -153,15 +142,13 @@ namespace NET.Paint.ViewModels.Drawing
             set => SetProperty(ref _strokeStyle, value);
         }
 
-        private double _strokeThickness = 1.0;
         public double StrokeThickness
         {
-            get => _strokeThickness;
-            set => SetProperty(ref _strokeThickness, value);
+            get => Model.StrokeThickness;
+            set => SetProperty(ref Model.StrokeThickness, value);
         }
 
         private ColorViewModel _stroke = new SolidColorViewModel { Color = Colors.Black };
-
         public ColorViewModel Stroke
         {
             get => _stroke;

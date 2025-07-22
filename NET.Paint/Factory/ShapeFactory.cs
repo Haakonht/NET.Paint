@@ -150,7 +150,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Cloud:
-                            return new CloudVIewModel
+                            return new CloudViewModel
                             {
                                 Points = CreateCloud(tools.ClickLocation, tools.MouseLocation, tools.CloudBumps, tools.BumpVariance),
                                 StrokeBrush = tools.StrokeBrush,

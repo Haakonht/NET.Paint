@@ -1,67 +1,70 @@
 ﻿using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
     public class ProjectViewModel : PropertyNotifier
     {
-        private string _title = "Untitled Project";
+        public required XProject Model { get; set; }
+
         public string Title
         {
-            get => _title;
-            set => SetProperty(ref _title, value);
+            get => Model.Title;
+            set => SetProperty(ref Model.Title, value);
         }
 
-        private string _description = "";
         public string Description
         {
-            get => _description;
-            set => SetProperty(ref _description, value);
+            get => Model.Description;
+            set => SetProperty(ref Model.Description, value);
         }
 
-        private string _author = "";
         public string Author
         {
-            get => _author;
-            set => SetProperty(ref _author, value);
+            get => Model.Author;
+            set => SetProperty(ref Model.Author, value);
         }
 
-        private DateTime _created = DateTime.Now;
         public DateTime Created
         {
-            get => _created;
-            set => SetProperty(ref _created, value);
+            get => Model.Created;
+            set => SetProperty(ref Model.Created, value);
         }
 
-        public DateTime _changed = DateTime.Now;
         public DateTime Changed
         {
-            get => _changed;
-            set => SetProperty(ref _changed, value);
+            get => Model.Changed;
+            set => SetProperty(ref Model.Changed, value);
         }
 
-        private ObservableCollection<ImageViewModel> _images = new ObservableCollection<ImageViewModel>();
+        private ObservableCollection<ImageViewModel> _images;
         public ObservableCollection<ImageViewModel> Images
         {
-            get => _images;
+            get
+            {
+                if (_images == null)
+                    _images = new ObservableCollection<ImageViewModel>(Model.Images.Select(x => new ImageViewModel { Model = x }));
+                return _images;
+            }
             set => SetProperty(ref _images, value);
         }
 
-        [JsonIgnore]
-        public ObservableCollection<ImageSource> Bitmaps { get; set; } = new();      
-        public List<string> BitmapBase64
+        private ObservableCollection<ImageSource> _bitmaps;
+        public ObservableCollection<ImageSource> Bitmaps     
         {
-            get => Bitmaps.Select(XHelper.ImageSourceToBase64).ToList();
+            get
+            {
+                if (_bitmaps == null)
+                    _bitmaps = new ObservableCollection<ImageSource>(Model.BitmapsBase64.Select(x => XHelper.Base64ToImageSource(x)));
+                return _bitmaps;
+            }
             set
             {
-                Bitmaps.Clear();
+                Model.BitmapsBase64.Clear();
                 foreach (var b64 in value)
-                    Bitmaps.Add(XHelper.Base64ToImageSource(b64));
-                OnPropertyChanged(nameof(BitmapBase64));
-
+                    Model.BitmapsBase64.Add(XHelper.ImageSourceToBase64(b64));
             }
         }
     }

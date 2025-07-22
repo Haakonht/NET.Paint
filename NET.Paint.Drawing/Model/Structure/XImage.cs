@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Media;
-using NET.Paint.Drawing.Mvvm;
+﻿using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {

@@ -13,7 +13,7 @@ namespace NET.Paint.Drawing.Model.Structure
 {
     public abstract class LayerViewModel : PropertyNotifier, ICloneable
     {
-        public virtual XLayer Model { get; set; }
+        public required XLayer Model { get; set; }
 
         public string Title
         {
@@ -46,8 +46,6 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [Browsable(false)]
         public Point Offset => new Point(OffsetX, OffsetY);
-
-
 
         private bool _isVisible = true;
         [Browsable(false)]
@@ -94,7 +92,7 @@ namespace NET.Paint.Drawing.Model.Structure
             get
             {
                 if (_shapes == null)
-                    _shapes = new ObservableCollection<RenderableViewModel>((Model as XVectorLayer).Shapes.Select(x => new RenderableViewModel(x));
+                    _shapes = new ObservableCollection<RenderableViewModel>();
                 return _shapes;
             }
             set => SetProperty(ref _shapes, value);

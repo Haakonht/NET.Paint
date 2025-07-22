@@ -190,7 +190,7 @@ namespace NET.Paint.ViewModels
                 FillBrush = Brushes.Lavender
             });
 
-            sampleLayer1.Shapes.Add(new CloudVIewModel
+            sampleLayer1.Shapes.Add(new CloudViewModel
             {
                 Points = ShapeFactory.CreateCloud(new Point(350, 280), new Point(420, 330), 6, 0.4),
                 StrokeBrush = Brushes.Gray,

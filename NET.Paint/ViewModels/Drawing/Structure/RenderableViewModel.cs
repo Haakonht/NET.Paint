@@ -4,6 +4,7 @@ using NET.Paint.ViewModels.Drawing.Utility;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Media;
 
@@ -11,18 +12,26 @@ namespace NET.Paint.Drawing.Model.Structure
 {
     public abstract class RenderableViewModel : PropertyNotifier, ICloneable
     {
+        public XRenderable Model { get; private set; }
+
+        public RenderableViewModel(XRenderable model) => Model = model;
+
         [Browsable(false)]
         public abstract XToolType Type { get; }
 
-        private Guid _id = Guid.NewGuid();
-        public Guid Id => _id;
+        public Guid Id => Model.Id;
 
         private ObservableCollection<Point> _points;
         [Browsable(false)]
 
         public ObservableCollection<Point> Points
         {
-            get => _points;
+            get
+            {
+                if (_points == null)
+                    _points = new ObservableCollection<Point>(Model.Points);
+                return _points;
+            }
             init
             {
                 SetProperty(ref _points, value);
@@ -43,36 +52,37 @@ namespace NET.Paint.Drawing.Model.Structure
 
     public abstract class StrokedShapeViewModel : RenderableViewModel
     {
-        private Brush _strokeBrush;
+        private XStrokedShape Shape => (XStrokedShape)Model;
+
         [Category("Stroke")]
         [DisplayName("Color")]
         public Brush StrokeBrush
         {
-            get => _strokeBrush;
-            set => SetProperty(ref _strokeBrush, value);
+            get => Shape.StrokeBrush;
+            set => SetProperty(ref Shape.StrokeBrush, value);
         }
 
-        private double _strokeThickness;
         [Category("Stroke")]
         [DisplayName("Thickness")]
         public double StrokeThickness
         {
-            get => _strokeThickness;
-            set => SetProperty(ref _strokeThickness, value);
+            get => Shape.StrokeThickness;
+            set => SetProperty(ref Shape.StrokeThickness, value);
         }
 
-        private StrokeStyleViewModel _strokeStyle;
         [Category("Stroke")]
         [DisplayName("Style")]
-        public StrokeStyleViewModel StrokeStyle
+        public DashStyle StrokeStyle
         {
-            get => _strokeStyle;
-            set => SetProperty(ref _strokeStyle, value);
+            get => Shape.StrokeStyle;
+            set => SetProperty(ref Shape.StrokeStyle, value);
         }
     }
 
     public abstract class FilledShapeViewModel : StrokedShapeViewModel
     {
+        private XFilledShape Shape => (XFilledShape)Model;
+
         [DisplayName("Position")]
         public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
 
@@ -82,14 +92,12 @@ namespace NET.Paint.Drawing.Model.Structure
         [Category("Dimensions")]
         public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
-        private Brush _fillBrush;
-
         [Category("Fill")]
         [DisplayName("Color")]
         public Brush FillBrush
         {
-            get => _fillBrush;
-            set => SetProperty(ref _fillBrush, value);
+            get => Shape.FillBrush;
+            set => SetProperty(ref Shape.FillBrush, value);
         }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

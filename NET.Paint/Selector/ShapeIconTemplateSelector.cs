@@ -70,7 +70,7 @@ namespace NET.Paint.Selector
                 return HeartTemplate;
             if (item is SpiralViewModel)
                 return SpiralTemplate;
-            if (item is CloudVIewModel)
+            if (item is CloudViewModel)
                 return CloudTemplate;
 
             return base.SelectTemplate(item, container);
