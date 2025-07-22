@@ -3,18 +3,18 @@ using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace NET.Paint.Drawing.Model.Utility
+namespace NET.Paint.ViewModels.Drawing.Utility
 {
-    public class XUndo : PropertyNotifier
+    public class UndoViewModel : PropertyNotifier
     {
-        private ObservableCollection<XRenderable> _history = new ObservableCollection<XRenderable>();
-        public ObservableCollection<XRenderable> History => _history;
-        public void Push(XRenderable item)
+        private ObservableCollection<RenderableViewModel> _history = new ObservableCollection<RenderableViewModel>();
+        public ObservableCollection<RenderableViewModel> History => _history;
+        public void Push(RenderableViewModel item)
         {
             _history.Add(item);
             OnPropertyChanged(nameof(History));
         }
-        public XRenderable Pop()
+        public RenderableViewModel Pop()
         {
             var renderable = _history.Last();
             _history.Remove(renderable);
@@ -27,6 +27,6 @@ namespace NET.Paint.Drawing.Model.Utility
         {
             OnPropertyChanged(nameof(CanRedo));
         }
-        public XUndo() => _history.CollectionChanged += CollectionChanged;
+        public UndoViewModel() => _history.CollectionChanged += CollectionChanged;
     }
 }

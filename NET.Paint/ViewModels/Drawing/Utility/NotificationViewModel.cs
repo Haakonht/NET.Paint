@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET.Paint.Drawing.Model.Utility
+namespace NET.Paint.ViewModels.Drawing.Utility
 {
-    public class XNotification : PropertyNotifier
+    public class NotificationViewModel : PropertyNotifier
     {
         public XNotificationSource Source { get; init; }
         public string Message { get; init; }

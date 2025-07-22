@@ -11,7 +11,7 @@
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="235" d:Background="Transparent"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
 

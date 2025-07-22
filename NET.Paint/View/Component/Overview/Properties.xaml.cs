@@ -19,7 +19,7 @@ namespace NET.Paint.View.Component.Overview
         {
             if (sender is TabControl tabControl)
             {
-                if (DataContext is XImage image)
+                if (DataContext is ImageViewModel image)
                 {
                     if (image.Selected.Count == 1)
                         foreach (TabItem item in tabControl.FindVisualChildren<TabItem>())

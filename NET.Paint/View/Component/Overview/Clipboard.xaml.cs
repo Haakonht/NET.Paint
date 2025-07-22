@@ -30,13 +30,13 @@ namespace NET.Paint.View.Component.Overview
 
         private void Paste(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.Clipboard.Data != null)
+            if (DataContext is DesktopViewModel service && service.Clipboard.Data != null)
                 service.Command.Operations.Paste();
         }
 
         private void ClearClipboard(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service)
+            if (DataContext is DesktopViewModel service)
                 service.Command.Operations.ClearClipboard();
         }
     }

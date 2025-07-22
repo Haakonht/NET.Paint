@@ -3,9 +3,9 @@ using NET.Paint.Drawing.Mvvm;
 using System.Windows;
 using System.Windows.Media;
 
-namespace NET.Paint.Drawing.Model
+namespace NET.Paint.ViewModels.Drawing
 {
-    public class XConfiguration : PropertyNotifier
+    public class ConfigurationViewModel : PropertyNotifier
     {
 
         #region Zoom

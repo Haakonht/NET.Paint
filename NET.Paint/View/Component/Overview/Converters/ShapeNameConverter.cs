@@ -9,29 +9,29 @@ namespace NET.Paint.View.Component.Overview.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is XRenderable renderable)
+            if (value is RenderableViewModel renderable)
             {
                 switch (renderable)
                 {
-                    case XPolyline:
+                    case PolylineViewModel:
                         return "Pencil";
-                    case XLine:
+                    case LineViewModel:
                         return "Line";
-                    case XBezier:
+                    case BezierViewModel:
                         return "Bezier";
-                    case XCurve:
+                    case CurveViewModel:
                         return "Curve";
-                    case XCircle:
+                    case CircleViewModel:
                         return "Circle";
-                    case XEllipse:
+                    case EllipseViewModel:
                         return "Ellipse";
-                    case XTriangle:
+                    case TriangleViewModel:
                         return "Triangle";
-                    case XSquare:
+                    case SquareViewModel:
                         return "Square";
-                    case XRectangle:
+                    case RectangleViewModel:
                         return "Rectangle";
-                    case XRegular regular:
+                    case RegularPolygonViewModel regular:
                         switch (regular.Corners)
                         {
                             case 5: return "Pentagon";
@@ -39,19 +39,19 @@ namespace NET.Paint.View.Component.Overview.Converters
                             case 7: return "Heptagon";
                             case 8: return "Octagon";
                         } break;
-                    case XHeart:
+                    case HeartViewModel:
                         return "Heart";
-                    case XStar:
+                    case StarViewModel:
                         return "Star";
-                    case XArrow:
+                    case ArrowViewModel:
                         return "Arrow";
-                    case XCloud:
+                    case CloudVIewModel:
                         return "Cloud";
-                    case XSpiral:
+                    case SpiralViewModel:
                         return "Spiral";
-                    case XText:
+                    case TextViewModel:
                         return "Text";
-                    case XBitmap:
+                    case BitmapViewModel:
                         return "Bitmap";
                 }
             }

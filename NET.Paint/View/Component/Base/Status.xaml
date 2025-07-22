@@ -13,7 +13,7 @@
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <converter:ToolTypeVisibilityConverter x:Key="ToolTypeVisibilityConverter"/>
     </UserControl.Resources>

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace NET.Paint.Drawing.Model.Utility
+namespace NET.Paint.ViewModels.Drawing.Utility
 {
-    public class XStrokeStyle
+    public class StrokeStyleViewModel
     {
         public string Name { get; set; }
         public DoubleCollection DashArray { get; set; }

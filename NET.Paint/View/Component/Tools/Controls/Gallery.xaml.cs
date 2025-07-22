@@ -45,7 +45,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Button button && button.DataContext is ImageSource bitmap)
             {
-                if (XTools.Instance is XTools tools)
+                if (ToolsViewModel.Instance is ToolsViewModel tools)
                 {
                     tools.ActiveBitmap = bitmap;
                 }

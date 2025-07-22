@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    public class XProject : PropertyNotifier
+    public class ProjectViewModel : PropertyNotifier
     {
         private string _title = "Untitled Project";
         public string Title
@@ -43,8 +43,8 @@ namespace NET.Paint.Drawing.Model.Structure
             set => SetProperty(ref _changed, value);
         }
 
-        private ObservableCollection<XImage> _images = new ObservableCollection<XImage>();
-        public ObservableCollection<XImage> Images
+        private ObservableCollection<ImageViewModel> _images = new ObservableCollection<ImageViewModel>();
+        public ObservableCollection<ImageViewModel> Images
         {
             get => _images;
             set => SetProperty(ref _images, value);

@@ -8,7 +8,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200" d:Background="White"
-             d:DataContext="{d:DesignInstance Type={x:Type service:XService}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type={x:Type service:DesktopViewModel}, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <Style x:Key="ButtonRoundedCorner" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>

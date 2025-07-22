@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public class XRectangle : XFilled, IRotateable
+    public class RectangleViewModel : FilledShapeViewModel, IRotateable
     {
         public override XToolType Type => XToolType.Rectangle;
         public virtual XRectangleStyle Style => XRectangleStyle.Rectangle;
@@ -39,7 +39,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(CornerRadius));
         }
 
-        public override object Clone() => new XRectangle
+        public override object Clone() => new RectangleViewModel
         {
             StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
@@ -51,7 +51,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XSquare : XRectangle
+    public class SquareViewModel : RectangleViewModel
     {
         public override XRectangleStyle Style => XRectangleStyle.Square;
 
@@ -78,7 +78,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(CornerRadius));
         }
 
-        public override object Clone() => new XSquare
+        public override object Clone() => new SquareViewModel
         {
             StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,

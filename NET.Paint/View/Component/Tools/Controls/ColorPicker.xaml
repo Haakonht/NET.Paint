@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="200" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}"
              Loaded="HueSlider_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>

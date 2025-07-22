@@ -13,7 +13,7 @@
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Tools.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="41" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

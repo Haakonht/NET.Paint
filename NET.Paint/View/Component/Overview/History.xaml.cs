@@ -17,8 +17,8 @@ namespace NET.Paint.View.Component.Overview
 
         private void RestoreSpecific(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XImage image && sender is MenuItem item)
-                if (item.DataContext is XRenderable renderable && image.ActiveLayer is IShapeLayer shapeLayer)
+            if (DataContext is ImageViewModel image && sender is MenuItem item)
+                if (item.DataContext is RenderableViewModel renderable && image.ActiveLayer is IShapeLayer shapeLayer)
                     shapeLayer.Shapes.Add(renderable);
 
             RemoveFromHistory(sender, e);
@@ -26,8 +26,8 @@ namespace NET.Paint.View.Component.Overview
 
         private void RemoveFromHistory(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XImage image && sender is MenuItem item)
-                if (item.DataContext is XRenderable renderable)
+            if (DataContext is ImageViewModel image && sender is MenuItem item)
+                if (item.DataContext is RenderableViewModel renderable)
                     image.Undo.History.Remove(renderable);
         }
     }

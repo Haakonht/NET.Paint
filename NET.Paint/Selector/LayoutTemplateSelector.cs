@@ -10,7 +10,7 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is XImage)
+            if (item is ImageViewModel)
                 return DocumentTemplate;
 
             return base.SelectTemplate(item, container);

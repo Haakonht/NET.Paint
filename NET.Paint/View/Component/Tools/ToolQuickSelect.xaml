@@ -10,7 +10,7 @@
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

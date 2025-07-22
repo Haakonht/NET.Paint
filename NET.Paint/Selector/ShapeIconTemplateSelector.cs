@@ -29,25 +29,25 @@ namespace NET.Paint.Selector
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is XPolyline)
+            if (item is PolylineViewModel)
                 return PencilTemplate;
-            if (item is XLine)
+            if (item is LineViewModel)
                 return LineTemplate;
-            if (item is XBezier)
+            if (item is BezierViewModel)
                 return BezierTemplate;
-            if (item is XCurve)
+            if (item is CurveViewModel)
                 return CurveTemplate;
-            if (item is XCircle)
+            if (item is CircleViewModel)
                 return CircleTemplate;
-            if (item is XEllipse)
+            if (item is EllipseViewModel)
                 return EllipseTemplate;
-            if (item is XTriangle)
+            if (item is TriangleViewModel)
                 return TriangleTemplate;
-            if (item is XSquare square)
+            if (item is SquareViewModel square)
                     return SquareTemplate;
-            if (item is XRectangle rectangle)
+            if (item is RectangleViewModel rectangle)
                     return RectangleTemplate;
-            if (item is XRegular regular)
+            if (item is RegularPolygonViewModel regular)
             {
                 if (regular.Corners == 7)
                     return HeptagonTemplate;
@@ -58,19 +58,19 @@ namespace NET.Paint.Selector
                 else
                     return PentagonTemplate;
             }
-            if (item is XStar)
+            if (item is StarViewModel)
                 return StarTemplate;
-            if (item is XText)
+            if (item is TextViewModel)
                 return TextTemplate;
-            if (item is XBitmap)
+            if (item is BitmapViewModel)
                 return BitmapTemplate;
-            if (item is XArrow)
+            if (item is ArrowViewModel)
                 return ArrowTemplate;
-            if (item is XHeart)
+            if (item is HeartViewModel)
                 return HeartTemplate;
-            if (item is XSpiral)
+            if (item is SpiralViewModel)
                 return SpiralTemplate;
-            if (item is XCloud)
+            if (item is CloudVIewModel)
                 return CloudTemplate;
 
             return base.SelectTemplate(item, container);

@@ -11,10 +11,10 @@
         xmlns:component="clr-namespace:NET.Paint.View.Component"
         xmlns:local="clr-namespace:NET.Paint.View"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}"
         Title="{Binding Project.Title}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
     <Window.DataContext>
-        <service:XService />
+        <service:DesktopViewModel />
     </Window.DataContext>
 
     <DockPanel>

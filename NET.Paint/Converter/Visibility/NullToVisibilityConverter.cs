@@ -11,13 +11,13 @@ namespace NET.Paint.Converter
         {
             if (parameter is string param && param == "Invert")
             {
-                if (value != null && value is XRenderable)
+                if (value != null && value is RenderableViewModel)
                     return Visibility.Collapsed;
 
                 return Visibility.Visible;
             }
 
-            if (value != null && value is XRenderable)
+            if (value != null && value is RenderableViewModel)
                 return Visibility.Visible;
                     
             return Visibility.Collapsed;

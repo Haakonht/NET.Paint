@@ -5,6 +5,6 @@ namespace NET.Paint.Drawing.Interface
 {
     public interface IShapeLayer
     {
-        public ObservableCollection<XRenderable> Shapes { get; set; }
+        public List<XRenderable> Shapes { get; set; }
     }
 }

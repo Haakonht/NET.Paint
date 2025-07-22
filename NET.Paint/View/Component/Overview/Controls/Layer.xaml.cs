@@ -20,10 +20,10 @@ namespace NET.Paint.View.Component.Overview.Controls
         {
             if (sender is TextBox tb)
             {
-                if (tb.DataContext is XLayer layer)
+                if (tb.DataContext is LayerViewModel layer)
                     layer.IsEditing = false;
 
-                if (tb.DataContext is XImage image)
+                if (tb.DataContext is ImageViewModel image)
                     image.IsEditing = false;
             }
         }
@@ -41,10 +41,10 @@ namespace NET.Paint.View.Component.Overview.Controls
         {
             if ((e.Key == Key.Enter || e.Key == Key.Escape) && sender is TextBox tb)
             {
-                if (tb.DataContext is XLayer layer)
+                if (tb.DataContext is LayerViewModel layer)
                     layer.IsEditing = false;
 
-                if (tb.DataContext is XImage image)
+                if (tb.DataContext is ImageViewModel image)
                     image.IsEditing = false;
 
                 e.Handled = true;

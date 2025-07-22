@@ -12,7 +12,7 @@ using System.Windows.Media.Effects;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public class XText : XRenderable, IRotateable
+    public class TextViewModel : RenderableViewModel, IRotateable
     {
         public override XToolType Type => XToolType.Text;
 
@@ -111,7 +111,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Height));
         }
 
-        public override object Clone() => new XText
+        public override object Clone() => new TextViewModel
         {
             Location = this.Location,
             TextColor = this.TextColor,
@@ -126,7 +126,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XBitmap : XRenderable, IRotateable
+    public class BitmapViewModel : RenderableViewModel, IRotateable
     {
         public override XToolType Type => XToolType.Bitmap;
 
@@ -194,7 +194,7 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _scaling, value);
         }
 
-        public override object Clone() => new XBitmap
+        public override object Clone() => new BitmapViewModel
         {
             Source = this.Source,
             Scaling = this.Scaling,
@@ -204,7 +204,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XEffect : XRenderable
+    public class EffectViewModel : RenderableViewModel
     {
         public override XToolType Type => XToolType.Effect;
 
@@ -238,7 +238,7 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _effect, value);
         }
 
-        public override object Clone() => new XEffect
+        public override object Clone() => new EffectViewModel
         {
             Effect = this.Effect,
             Points = new ObservableCollection<Point>(this.Points)

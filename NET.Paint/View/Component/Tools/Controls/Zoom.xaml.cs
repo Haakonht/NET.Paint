@@ -28,7 +28,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void ResetZoom(object sender, RoutedEventArgs e)
         {
-            var context = DataContext as XConfiguration;
+            var context = DataContext as ConfigurationViewModel;
 
             if (context != null)
                 context.Zoom = 1.0;

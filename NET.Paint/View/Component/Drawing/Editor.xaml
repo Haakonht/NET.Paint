@@ -14,7 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}"
-             d:Tag="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:Tag="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

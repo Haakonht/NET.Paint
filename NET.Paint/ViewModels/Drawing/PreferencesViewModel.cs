@@ -1,8 +1,8 @@
 ﻿using NET.Paint.Drawing.Mvvm;
 
-namespace NET.Paint.Drawing.Model
+namespace NET.Paint.ViewModels.Drawing
 {
-    public class XPreferences : PropertyNotifier
+    public class PreferencesViewModel : PropertyNotifier
     {
         private bool _toolboxVisible = true;
         public bool ToolboxVisible

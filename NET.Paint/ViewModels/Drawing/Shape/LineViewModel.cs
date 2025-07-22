@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public class XLine : XStroked
+    public class LineViewModel : StrokedShapeViewModel
     {
         public override XToolType Type => XToolType.Line;
 
@@ -31,7 +31,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(End));
         }
 
-        public override object Clone() => new XLine
+        public override object Clone() => new LineViewModel
         {
             StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
@@ -40,7 +40,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XPolyline : XStroked
+    public class PolylineViewModel : StrokedShapeViewModel
     {
         public override XToolType Type => XToolType.Pencil;
 
@@ -53,7 +53,7 @@ namespace NET.Paint.Drawing.Model.Shape
             {
                 if (value != _spacing && value > 9)
                 {
-                    XFactory.ResamplePoints(Points, value);
+                    ShapeFactory.ResamplePoints(Points, value);
                     SetProperty(ref _spacing, value);
                 }
             }
@@ -61,7 +61,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
 
-        public override object Clone() => new XPolyline
+        public override object Clone() => new PolylineViewModel
         {
             StrokeBrush = this.StrokeBrush,
             StrokeThickness = this.StrokeThickness,
@@ -72,7 +72,7 @@ namespace NET.Paint.Drawing.Model.Shape
 
     }
 
-    public class XCurve : XStroked, IControlPoints
+    public class CurveViewModel : StrokedShapeViewModel, IControlPoints
     {
         public override XToolType Type => XToolType.Curve;
 
@@ -106,7 +106,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Ctrl1));
         }
 
-        public override object Clone() => new XCurve
+        public override object Clone() => new CurveViewModel
         {
             Start = this.Start,
             End = this.End,
@@ -118,7 +118,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XBezier : XCurve
+    public class BezierViewModel : CurveViewModel
     {
         [Browsable(false)]
         public Point Ctrl2
@@ -136,7 +136,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Ctrl2));
         }
 
-        public override object Clone() => new XBezier
+        public override object Clone() => new BezierViewModel
         {
             Start = this.Start,
             End = this.End,

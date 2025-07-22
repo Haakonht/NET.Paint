@@ -25,11 +25,11 @@ namespace NET.Paint.View.Component
 
         private void ActiveContentChanged(object sender, EventArgs e)
         {
-            var context = DataContext as XService;
+            var context = DataContext as DesktopViewModel;
 
             if (sender is DockingManager dockingManager)
             {
-                var document = dockingManager.ActiveContent as XImage;
+                var document = dockingManager.ActiveContent as ImageViewModel;
 
                 if (document != null && context != null)
                 {
@@ -59,25 +59,25 @@ namespace NET.Paint.View.Component
             }
         }
 
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as XService).Preferences.PropertyChanged += Service_PropertyChanged;
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as DesktopViewModel).Preferences.PropertyChanged += Service_PropertyChanged;
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var service = DataContext as XService;
-            if (sender is XPreferences preferences)
+            var service = DataContext as DesktopViewModel;
+            if (sender is PreferencesViewModel preferences)
             {
                 switch(e.PropertyName)
                 {
-                    case nameof(XService.Preferences.ClipboardVisible):
+                    case nameof(DesktopViewModel.Preferences.ClipboardVisible):
                         Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = preferences.ClipboardVisible);
                         break;
-                    case nameof(XService.Preferences.UndoVisible):
+                    case nameof(DesktopViewModel.Preferences.UndoVisible):
                         Dispatcher.Invoke(() => UndoAnchorable.IsVisible = preferences.UndoVisible);
                         break;
-                    case nameof(XService.Preferences.ToolboxVisible):
+                    case nameof(DesktopViewModel.Preferences.ToolboxVisible):
                         Dispatcher.Invoke(() => Toolbox.IsVisible = preferences.ToolboxVisible);
                         break;
-                    case nameof(XService.Preferences.PreferencesVisible):
+                    case nameof(DesktopViewModel.Preferences.PreferencesVisible):
                         Dispatcher.Invoke(() =>
                         {
                             if (preferences.PreferencesVisible)
@@ -94,7 +94,7 @@ namespace NET.Paint.View.Component
                             }
                         });
                         break;
-                    case nameof(XService.Preferences.OverviewVisible):               
+                    case nameof(DesktopViewModel.Preferences.OverviewVisible):               
                         Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = preferences.OverviewVisible);
                         if (!preferences.OverviewVisible)
                         {
@@ -111,7 +111,7 @@ namespace NET.Paint.View.Component
 
         private void OpenToolContextQuickSelect(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is XService service && service.Tools.ActiveTool == XToolType.Selector)
+            if (DataContext is DesktopViewModel service && service.Tools.ActiveTool == XToolType.Selector)
                 ToolContextMenu.IsOpen = true;
             else
                 ToolContextQuickSelect.IsOpen = true;

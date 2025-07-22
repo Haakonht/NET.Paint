@@ -35,11 +35,11 @@ namespace NET.Paint.View.Component.Drawing.Controls
         #region Point Thumbs
 
         private XSelectionMode _lastSelectionMode;
-        private void Thumb_MouseLeave(object sender, MouseEventArgs e) => XTools.Instance.SelectionMode = _lastSelectionMode;
+        private void Thumb_MouseLeave(object sender, MouseEventArgs e) => ToolsViewModel.Instance.SelectionMode = _lastSelectionMode;
         private void Thumb_MouseEnter(object sender, MouseEventArgs e)
         {
-            _lastSelectionMode = XTools.Instance.SelectionMode;
-            XTools.Instance.SelectionMode = XSelectionMode.Move;
+            _lastSelectionMode = ToolsViewModel.Instance.SelectionMode;
+            ToolsViewModel.Instance.SelectionMode = XSelectionMode.Move;
         }
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
@@ -63,7 +63,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
             var oldPoint = Points[index];
             
             // Check if we're dealing with an XEllipse and apply constraints
-            if (DataContext is XEllipse ellipse)
+            if (DataContext is EllipseViewModel ellipse)
             {
                 Point newPoint;
                 
@@ -88,7 +88,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                 
                 Points[index] = newPoint;
             }
-            else if (DataContext is XSquare square)
+            else if (DataContext is SquareViewModel square)
             {
                 Point newPoint;
                 
@@ -125,13 +125,13 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
         private void RotateThumb_MouseEnter(object sender, MouseEventArgs e)
         {
-            _lastSelectionMode = XTools.Instance.SelectionMode;
-            XTools.Instance.SelectionMode = XSelectionMode.Rotate;
+            _lastSelectionMode = ToolsViewModel.Instance.SelectionMode;
+            ToolsViewModel.Instance.SelectionMode = XSelectionMode.Rotate;
         }
 
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            if (sender is Thumb thumb && DataContext is XRenderable renderable)
+            if (sender is Thumb thumb && DataContext is RenderableViewModel renderable)
             {
                 if (renderable is IRotateable rotateable)
                 {
@@ -143,7 +143,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
         private void RotateThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (sender is Thumb thumb && DataContext is XRenderable renderable)
+            if (sender is Thumb thumb && DataContext is RenderableViewModel renderable)
             {
                 if (renderable is IRotateable rotateable)
                 {
@@ -218,7 +218,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
         {
             if (sender is TextBox text)
             {
-                if (text.DataContext is XText xText)
+                if (text.DataContext is TextViewModel xText)
                     xText.Text = text.Text;
             }
         }

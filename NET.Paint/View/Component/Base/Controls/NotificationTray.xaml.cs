@@ -17,20 +17,20 @@ namespace NET.Paint.View.Component.Base.Controls
 
         private void RemoveNotification(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.DataContext is XNotification notification)
-                if (DataContext is XService service)
+            if (sender is Button button && button.DataContext is NotificationViewModel notification)
+                if (DataContext is DesktopViewModel service)
                     service.Notifications.Remove(notification);
         }
 
         private void ToggleClipboard(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service)
+            if (DataContext is DesktopViewModel service)
                 service.Preferences.ClipboardVisible = !service.Preferences.ClipboardVisible;
         }
 
         private void ToggleUndo(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service)
+            if (DataContext is DesktopViewModel service)
                 service.Preferences.UndoVisible = !service.Preferences.UndoVisible;
         }
     }

@@ -36,8 +36,8 @@ namespace NET.Paint.View.Component.Base
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.Project != null)
-                service.Command.Operations.CreateImage(new XImage
+            if (DataContext is DesktopViewModel service && service.Project != null)
+                service.Command.Operations.CreateImage(new ImageViewModel
                 {
                     Title = $"Image {service.Project.Images.Count + 1}"
                 });
@@ -45,9 +45,9 @@ namespace NET.Paint.View.Component.Base
 
         private void AddVectorLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.ActiveImage != null)
+            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
             {
-                service.Command.Operations.CreateLayer(new XVectorLayer
+                service.Command.Operations.CreateLayer(new VectorLayerViewModel
                 {
                     Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
                 });
@@ -57,9 +57,9 @@ namespace NET.Paint.View.Component.Base
 
         private void AddHybridLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.ActiveImage != null)
+            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
             {
-                service.Command.Operations.CreateLayer(new XHybridLayer
+                service.Command.Operations.CreateLayer(new HybridLayerViewModel
                 {
                     Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
                 });
@@ -69,9 +69,9 @@ namespace NET.Paint.View.Component.Base
 
         private void AddRasterLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.ActiveImage != null)
+            if (DataContext is DesktopViewModel service && service.ActiveImage != null)
             {
-                service.Command.Operations.CreateLayer(new XRasterLayer
+                service.Command.Operations.CreateLayer(new RasterLayerViewModel
                 {
                     Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
                 });

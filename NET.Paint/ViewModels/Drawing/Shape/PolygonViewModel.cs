@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public abstract class XPolygon : XFilled, IRotateable
+    public abstract class PolygonViewModel : FilledShapeViewModel, IRotateable
     {
         public override XToolType Type => XToolType.Polygon;
         public abstract XPolygonStyle Style { get; }
@@ -41,12 +41,12 @@ namespace NET.Paint.Drawing.Model.Shape
         }
     }
 
-    public class XTriangle : XPolygon
+    public class TriangleViewModel : PolygonViewModel
     {
         public override XToolType Type => XToolType.Triangle;
         public override XPolygonStyle Style => XPolygonStyle.Triangle;
 
-        public override object Clone() => new XTriangle
+        public override object Clone() => new TriangleViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -57,7 +57,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XRegular : XPolygon
+    public class RegularPolygonViewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Regular;
 
@@ -68,7 +68,7 @@ namespace NET.Paint.Drawing.Model.Shape
             set => SetProperty(ref _corners, value);
         }
 
-        public override object Clone() => new XRegular
+        public override object Clone() => new RegularPolygonViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -80,11 +80,11 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XStar : XPolygon
+    public class StarViewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Star;
 
-        public override object Clone() => new XStar
+        public override object Clone() => new StarViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -95,11 +95,11 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XCloud : XPolygon
+    public class CloudVIewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Cloud;
 
-        public override object Clone() => new XCloud
+        public override object Clone() => new CloudVIewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -110,11 +110,11 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XHeart : XPolygon
+    public class HeartViewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Heart;
 
-        public override object Clone() => new XHeart
+        public override object Clone() => new HeartViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -125,10 +125,10 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XSpiral : XPolygon
+    public class SpiralViewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Spiral;
-        public override object Clone() => new XSpiral
+        public override object Clone() => new SpiralViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,
@@ -139,10 +139,10 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XArrow : XPolygon
+    public class ArrowViewModel : PolygonViewModel
     {
         public override XPolygonStyle Style => XPolygonStyle.Arrow;
-        public override object Clone() => new XArrow
+        public override object Clone() => new ArrowViewModel
         {
             Points = new ObservableCollection<Point>(this.Points),
             FillBrush = this.FillBrush,

@@ -5,6 +5,8 @@ using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
+using NET.Paint.ViewModels;
+using NET.Paint.ViewModels.Drawing.Utility;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -19,40 +21,40 @@ namespace NET.Paint.Drawing.Command
 {
     public class XOperations
     {
-        public XService _service;
-        public XOperations(XService service) => _service = service;
+        public DrawingService _service;
+        public XOperations(DrawingService service) => _service = service;
 
         #region Edit Operations
 
         public void Copy(object elementToCopy = null)
         {
-            XClipboard.Instance.IsCut = false;
-            XClipboard.Instance.Data.Clear();
+            ClipboardViewModel.Instance.IsCut = false;
+            ClipboardViewModel.Instance.Data.Clear();
 
             if (elementToCopy != null)
-                if (elementToCopy is XRenderable || elementToCopy is XLayer || elementToCopy is XImage)
-                    XClipboard.Instance.Data.Add(elementToCopy);
+                if (elementToCopy is RenderableViewModel || elementToCopy is LayerViewModel || elementToCopy is ImageViewModel)
+                    ClipboardViewModel.Instance.Data.Add(elementToCopy);
             else
                 foreach (var element in _service.ActiveImage.Selected)
-                    if (element is XRenderable || element is XLayer)
-                        XClipboard.Instance.Data.Add(element);
+                    if (element is RenderableViewModel || element is LayerViewModel)
+                        ClipboardViewModel.Instance.Data.Add(element);
 
             CreateNotification(XNotificationSource.Clipboard);
         }
 
         public void Cut(object elementToCut = null)
         {
-            XClipboard.Instance.IsCut = true;
-            XClipboard.Instance.Data.Clear();
+            ClipboardViewModel.Instance.IsCut = true;
+            ClipboardViewModel.Instance.Data.Clear();
 
             if (elementToCut != null)
             { 
-                XClipboard.Instance.Data.Add(elementToCut);
+                ClipboardViewModel.Instance.Data.Add(elementToCut);
 
-                if (elementToCut is XLayer layer)
+                if (elementToCut is LayerViewModel layer)
                     _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-                else if (elementToCut is XRenderable renderable)
+                else if (elementToCut is RenderableViewModel renderable)
                     (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
 
             }
@@ -63,14 +65,14 @@ namespace NET.Paint.Drawing.Command
 
                 foreach (var element in selectedElements)
                 {
-                    if (element is XRenderable || element is XLayer)
+                    if (element is RenderableViewModel || element is LayerViewModel)
                     {
-                        XClipboard.Instance.Data.Add(element);
+                        ClipboardViewModel.Instance.Data.Add(element);
 
-                        if (element is XLayer layer)
+                        if (element is LayerViewModel layer)
                             _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
 
-                        else if (element is XRenderable renderable)
+                        else if (element is RenderableViewModel renderable)
                             (_service.Project.Images.First(x => x.Layers.Any(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable))).Layers.First(l => l is IShapeLayer shapeLayer && shapeLayer.Shapes.Contains(renderable)) as IShapeLayer).Shapes.Remove(renderable);
 
                         indicesToRemove.Add(selectedElements.IndexOf(element));
@@ -86,33 +88,33 @@ namespace NET.Paint.Drawing.Command
 
         public void Paste(object? target = null)
         {
-            if (XClipboard.Instance.Data.Count > 0)
+            if (ClipboardViewModel.Instance.Data.Count > 0)
             {
                 if (_service.ActiveImage != null)
                 {
                     _service.ActiveImage.Selected.Clear();
-                    foreach (object item in XClipboard.Instance.Data)
+                    foreach (object item in ClipboardViewModel.Instance.Data)
                     {
-                        if (item is XImage image)
+                        if (item is ImageViewModel image)
                         {
-                            XImage pastedImage = image.Clone() as XImage;
+                            ImageViewModel pastedImage = image.Clone() as ImageViewModel;
                             pastedImage.Title = $"Copy of {pastedImage.Title}";
                             _service.Project.Images.Add(pastedImage);
                         }
-                        else if (item is XLayer layer)
+                        else if (item is LayerViewModel layer)
                         {
-                            XLayer pastedLayer = layer.Clone() as XLayer;
+                            LayerViewModel pastedLayer = layer.Clone() as LayerViewModel;
                             pastedLayer.Title = $"Copy of {pastedLayer.Title}";
-                            if (item is XVectorLayer vectorLayer)
-                                _service.ActiveImage.Layers.Add(pastedLayer as XVectorLayer);
-                            else if (item is XHybridLayer hybridLayer)
-                                _service.ActiveImage.Layers.Add(pastedLayer as XHybridLayer);
-                            else if (item is XRasterLayer rasterLayer)
-                                _service.ActiveImage.Layers.Add(pastedLayer as XRasterLayer);
+                            if (item is VectorLayerViewModel vectorLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as VectorLayerViewModel);
+                            else if (item is HybridLayerViewModel hybridLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as HybridLayerViewModel);
+                            else if (item is RasterLayerViewModel rasterLayer)
+                                _service.ActiveImage.Layers.Add(pastedLayer as RasterLayerViewModel);
                         } 
-                        else if (item is XRenderable renderable)
+                        else if (item is RenderableViewModel renderable)
                         {
-                            XRenderable pastedRenderable = renderable.Clone() as XRenderable;
+                            RenderableViewModel pastedRenderable = renderable.Clone() as RenderableViewModel;
                             if (target != null && target is IShapeLayer targetLayer)
                                 targetLayer.Shapes.Add(pastedRenderable);
                             else if (_service.ActiveImage.ActiveLayer is IShapeLayer activeLayer)
@@ -122,10 +124,10 @@ namespace NET.Paint.Drawing.Command
                         }
                     }
 
-                    if (XClipboard.Instance.IsCut)
+                    if (ClipboardViewModel.Instance.IsCut)
                     {
-                        XClipboard.Instance.Data.Clear();
-                        XClipboard.Instance.IsCut = false;
+                        ClipboardViewModel.Instance.Data.Clear();
+                        ClipboardViewModel.Instance.IsCut = false;
                         _service.Preferences.ClipboardVisible = false;
                     }
                     CreateNotification(XNotificationSource.Clipboard);
@@ -135,13 +137,13 @@ namespace NET.Paint.Drawing.Command
 
         public void ClearClipboard()
         {
-            XClipboard.Instance.Data.Clear();
-            XClipboard.Instance.IsCut = false;
+            ClipboardViewModel.Instance.Data.Clear();
+            ClipboardViewModel.Instance.IsCut = false;
         }
 
         public void Undo()
         {
-            if (_service.ActiveImage is XImage activeImage)
+            if (_service.ActiveImage is ImageViewModel activeImage)
             {
                 if (activeImage.ActiveLayer is IShapeLayer shapeLayer)
                 {
@@ -159,7 +161,7 @@ namespace NET.Paint.Drawing.Command
 
         public void Redo()
         {
-            if (_service.ActiveImage is XImage activeImage && activeImage.Undo.History.Any())
+            if (_service.ActiveImage is ImageViewModel activeImage && activeImage.Undo.History.Any())
             {
                 if (activeImage.ActiveLayer is IShapeLayer shapeLayer)
                 {
@@ -180,7 +182,7 @@ namespace NET.Paint.Drawing.Command
                 if (existingNotification != null)
                     _service.Notifications.Remove(existingNotification);
                 
-                _service.Notifications.Add(new XNotification
+                _service.Notifications.Add(new NotificationViewModel
                 {
                     Source = XNotificationSource.Clipboard,
                     Message = _service.Clipboard.Data.Count > 0 ? "Items added to clipboard." : "Clipboard emptied"
@@ -193,7 +195,7 @@ namespace NET.Paint.Drawing.Command
                 if (existingNotification != null)
                     _service.Notifications.Remove(existingNotification);
 
-                _service.Notifications.Add(new XNotification
+                _service.Notifications.Add(new NotificationViewModel
                 {
                     Source = XNotificationSource.History,
                     Message = _service.ActiveImage.Undo.History.Count > 0 ? "Items added to undo history." : "History emptied"
@@ -205,13 +207,13 @@ namespace NET.Paint.Drawing.Command
 
         #region Image Operations
 
-        public void CreateImage(XImage image)
+        public void CreateImage(ImageViewModel image)
         {
             _service.Project.Images.Add(image);
             _service.ActiveImage = image;
         }
 
-        public void RemoveImage(XImage image)
+        public void RemoveImage(ImageViewModel image)
         {
             foreach (var img in _service.Project.Images)
             {
@@ -278,7 +280,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void ExportImage(XImage image)
+        public void ExportImage(ImageViewModel image)
         {
             // 1. Show SaveFileDialog
             var dialog = new SaveFileDialog
@@ -379,7 +381,7 @@ namespace NET.Paint.Drawing.Command
 
         #region Tree Operations
 
-        public void MoveImage(XProject project, XImage imageToMove, XImage targetImage)
+        public void MoveImage(ProjectViewModel project, ImageViewModel imageToMove, ImageViewModel targetImage)
         {
             if (imageToMove == null || targetImage == null || ReferenceEquals(imageToMove, targetImage))
                 return;
@@ -396,7 +398,7 @@ namespace NET.Paint.Drawing.Command
             images.Insert(targetIndex, imageToMove);
         }
 
-        public void MoveLayerToImage(XProject project, XLayer layerToMove, XImage targetImage)
+        public void MoveLayerToImage(ProjectViewModel project, LayerViewModel layerToMove, ImageViewModel targetImage)
         {
             if (layerToMove == null || targetImage == null)
                 return;
@@ -409,7 +411,7 @@ namespace NET.Paint.Drawing.Command
             targetImage.Layers.Add(layerToMove);
         }
 
-        public void MoveLayer(XImage context, XLayer layerToMove, XLayer targetLayer)
+        public void MoveLayer(ImageViewModel context, LayerViewModel layerToMove, LayerViewModel targetLayer)
         {
             if (layerToMove == null || targetLayer == null || ReferenceEquals(layerToMove, targetLayer))
                 return;
@@ -429,7 +431,7 @@ namespace NET.Paint.Drawing.Command
             layers.Insert(targetIndex, layerToMove);
         }
 
-        public void MoveShapeToLayer(XImage context, XRenderable shapeToMove, XLayer targetLayer)
+        public void MoveShapeToLayer(ImageViewModel context, RenderableViewModel shapeToMove, LayerViewModel targetLayer)
         {
             if (shapeToMove == null || targetLayer == null)
                 return;
@@ -445,7 +447,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void MoveShapeInFrontOfShape(XImage context, XRenderable shapeToMove, XRenderable targetShape)
+        public void MoveShapeInFrontOfShape(ImageViewModel context, RenderableViewModel shapeToMove, RenderableViewModel targetShape)
         {
             if (shapeToMove == null || targetShape == null)
                 return;
@@ -471,7 +473,7 @@ namespace NET.Paint.Drawing.Command
 
         #region Layer Operations
 
-        public void CreateLayer(XLayer layer)
+        public void CreateLayer(LayerViewModel layer)
         {
             if (_service.ActiveImage != null)
             {
@@ -480,7 +482,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void RemoveLayer(XLayer layer)
+        public void RemoveLayer(LayerViewModel layer)
         {
             foreach (var image in _service.Project.Images)
             {
@@ -496,34 +498,33 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        public void FlattenLayer(XImage image, XLayer layer)
+        public void FlattenLayer(ImageViewModel image, LayerViewModel layer)
         {
-            if (layer is XVectorLayer vectorLayer)
+            if (layer is VectorLayerViewModel vectorLayer)
             {
-                XRasterLayer flattenedLayer = new XRasterLayer
+                RasterLayerViewModel flattenedLayer = new RasterLayerViewModel
                 {
                     Title = vectorLayer.Title,
                     OffsetX = vectorLayer.OffsetX,
                     OffsetY = vectorLayer.OffsetY,
-                    Bitmap = XFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                    Bitmap = ShapeFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
                 };
 
                 int index = image.Layers.IndexOf(vectorLayer);
                 image.Layers.Insert(index, flattenedLayer);
                 image.Layers.Remove(vectorLayer);
             }
-
         }
 
         #endregion
 
         #region Renderable Operations
 
-        public void RemoveRenderable(XRenderable renderable)
+        public void RemoveRenderable(RenderableViewModel renderable)
         {
             foreach (var image in _service.Project.Images)
             {
-                foreach (XVectorLayer layer in image.Layers.Where(x => x.Type == Constant.XLayerType.Vector))
+                foreach (IShapeLayer layer in image.Layers.Where(x => x is IShapeLayer))
                 {
                     if (layer.Shapes.Contains(renderable))
                     {
@@ -540,10 +541,10 @@ namespace NET.Paint.Drawing.Command
 
         public void CreateProject()
         {
-            _service.Project = new XProject
+            _service.Project = new ProjectViewModel
             {
                 Title = "New Project",
-                Images = new ObservableCollection<XImage>()
+                Images = new ObservableCollection<ImageViewModel>()
             };
             _service.ActiveImage = null;
         }

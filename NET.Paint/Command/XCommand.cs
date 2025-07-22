@@ -9,7 +9,7 @@ namespace NET.Paint.Drawing.Command
     public class XCommand
     {
         public XOperations Operations { get; set; }
-        public XCommand(XService service) => Operations = new XOperations(service);
+        public XCommand( service) => Operations = new XOperations(service);
 
         #region History Commands
 
@@ -87,7 +87,7 @@ namespace NET.Paint.Drawing.Command
         }
         private void ExecutePaste(object parameter) => Operations.Paste(parameter);
         private bool CanExecutePaste(object parameter) => 
-            XClipboard.Instance.CanPaste && Operations._service.ActiveImage?.ActiveLayer != null;
+            ClipboardViewModel.Instance.CanPaste && Operations._service.ActiveImage?.ActiveLayer != null;
 
         private ICommand _clearClipboard;
         public ICommand ClearClipboard
@@ -100,7 +100,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
         private void ExecuteClearClipboard(object parameter) => Operations.ClearClipboard();
-        private bool CanExecuteClearClipboard(object parameter) => XClipboard.Instance.Data.Count > 0;
+        private bool CanExecuteClearClipboard(object parameter) => ClipboardViewModel.Instance.Data.Count > 0;
 
         #endregion
 

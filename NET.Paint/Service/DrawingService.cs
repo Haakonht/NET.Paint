@@ -1,31 +1,31 @@
 ﻿using NET.Paint.Drawing.Command;
 using NET.Paint.Drawing.Helper;
-using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
+using NET.Paint.ViewModels.Drawing.Utility;
+using NET.Paint.ViewModels.Drawing;
 
-namespace NET.Paint.Drawing.Service
+namespace NET.Paint.ViewModels
 {
-    public class XService : PropertyNotifier
+    public class DrawingService : PropertyNotifier
     {
         private bool DEBUG = false;
 
-        private XProject _project;
-        public XProject Project
+        private ProjectViewModel _project;
+        public ProjectViewModel Project
         {
             get => _project;
             set => SetProperty(ref _project, value);
         }
 
-        private XImage? _activeImage = null;
-        public XImage? ActiveImage
+        private ImageViewModel? _activeImage = null;
+        public ImageViewModel? ActiveImage
         {
             get => _activeImage;
             set => SetProperty(ref _activeImage, value);
@@ -43,43 +43,43 @@ namespace NET.Paint.Drawing.Service
             set => SetProperty(ref _command, value);
         }
 
-        public ObservableCollection<XNotification> Notifications { get; } = new ObservableCollection<XNotification>();
-        public XClipboard Clipboard { get; } = XClipboard.Instance; 
-        public XTools Tools { get; } = XTools.Instance;
-        public XPreferences Preferences { get; } = new XPreferences
+        public ObservableCollection<NotificationViewModel> Notifications { get; } = new ObservableCollection<NotificationViewModel>();
+        public ClipboardViewModel Clipboard { get; } = ClipboardViewModel.Instance; 
+        public ToolsViewModel Tools { get; } = ToolsViewModel.Instance;
+        public PreferencesViewModel Preferences { get; } = new PreferencesViewModel
         {
             OverviewVisible = true,
             ToolboxVisible = true
         };
 
-        public XService()
+        public DrawingService()
         {
             // Create sample layers and shapes
-            var sampleLayer1 = new XVectorLayer { Title = "Demo Layer" };
+            var sampleLayer1 = new VectorLayerViewModel { Title = "Demo Layer" };
 
             // Row 1: Basic Stroked Shapes
-            sampleLayer1.Shapes.Add(new XLine
+            sampleLayer1.Shapes.Add(new LineViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(50, 50), new Point(120, 80) },
                 StrokeBrush = Brushes.Purple,
                 StrokeThickness = 3
             });
 
-            sampleLayer1.Shapes.Add(new XCurve
+            sampleLayer1.Shapes.Add(new CurveViewModel
             {
-                Points = XFactory.CreateCurve(new Point(150, 50), new Point(220, 80)),
+                Points = ShapeFactory.CreateCurve(new Point(150, 50), new Point(220, 80)),
                 StrokeBrush = Brushes.Orange,
                 StrokeThickness = 2
             });
 
-            sampleLayer1.Shapes.Add(new XBezier
+            sampleLayer1.Shapes.Add(new BezierViewModel
             {
-                Points = XFactory.CreateBezier(new Point(250, 50), new Point(320, 80)),
+                Points = ShapeFactory.CreateBezier(new Point(250, 50), new Point(320, 80)),
                 StrokeBrush = Brushes.Magenta,
                 StrokeThickness = 2
             });
 
-            sampleLayer1.Shapes.Add(new XPolyline
+            sampleLayer1.Shapes.Add(new PolylineViewModel
             {
                 Points = new ObservableCollection<Point>
                 {
@@ -92,7 +92,7 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Row 2: Basic Filled Shapes
-            sampleLayer1.Shapes.Add(new XRectangle
+            sampleLayer1.Shapes.Add(new RectangleViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(50, 120), new Point(120, 170) },
                 StrokeBrush = Brushes.Blue,
@@ -101,7 +101,7 @@ namespace NET.Paint.Drawing.Service
                 CornerRadius = 5
             });
 
-            sampleLayer1.Shapes.Add(new XSquare
+            sampleLayer1.Shapes.Add(new SquareViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(150, 120), new Point(200, 170) },
                 StrokeBrush = Brushes.Green,
@@ -110,7 +110,7 @@ namespace NET.Paint.Drawing.Service
                 CornerRadius = 0
             });
 
-            sampleLayer1.Shapes.Add(new XEllipse
+            sampleLayer1.Shapes.Add(new EllipseViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(230, 120), new Point(300, 120), new Point(230, 170) },
                 StrokeBrush = Brushes.Orange,
@@ -118,7 +118,7 @@ namespace NET.Paint.Drawing.Service
                 FillBrush = Brushes.LightYellow
             });
 
-            sampleLayer1.Shapes.Add(new XCircle
+            sampleLayer1.Shapes.Add(new CircleViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(330, 120), new Point(400, 120) },
                 StrokeBrush = Brushes.Red,
@@ -127,18 +127,18 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Row 3: Polygons
-            sampleLayer1.Shapes.Add(new XTriangle
+            sampleLayer1.Shapes.Add(new TriangleViewModel
             {
-                Points = XFactory.CreateRegularPolygon(new Point(50, 200), new Point(120, 250), 3),
+                Points = ShapeFactory.CreateRegularPolygon(new Point(50, 200), new Point(120, 250), 3),
                 StrokeBrush = Brushes.Green,
                 StrokeThickness = 2,
                 FillBrush = Brushes.LightGreen
             });
 
             // Pentagon (5-sided regular polygon)
-            sampleLayer1.Shapes.Add(new XRegular
+            sampleLayer1.Shapes.Add(new RegularPolygonViewModel
             {
-                Points = XFactory.CreateRegularPolygon(new Point(150, 200), new Point(220, 250), 5),
+                Points = ShapeFactory.CreateRegularPolygon(new Point(150, 200), new Point(220, 250), 5),
                 StrokeBrush = Brushes.DarkBlue,
                 StrokeThickness = 2,
                 FillBrush = Brushes.CornflowerBlue,
@@ -146,9 +146,9 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Hexagon (6-sided regular polygon)
-            sampleLayer1.Shapes.Add(new XRegular
+            sampleLayer1.Shapes.Add(new RegularPolygonViewModel
             {
-                Points = XFactory.CreateRegularPolygon(new Point(250, 200), new Point(320, 250), 6),
+                Points = ShapeFactory.CreateRegularPolygon(new Point(250, 200), new Point(320, 250), 6),
                 StrokeBrush = Brushes.DarkGreen,
                 StrokeThickness = 2,
                 FillBrush = Brushes.LightSeaGreen,
@@ -156,9 +156,9 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Octagon (8-sided regular polygon)
-            sampleLayer1.Shapes.Add(new XRegular
+            sampleLayer1.Shapes.Add(new RegularPolygonViewModel
             {
-                Points = XFactory.CreateRegularPolygon(new Point(350, 200), new Point(420, 250), 8),
+                Points = ShapeFactory.CreateRegularPolygon(new Point(350, 200), new Point(420, 250), 8),
                 StrokeBrush = Brushes.DarkRed,
                 StrokeThickness = 2,
                 FillBrush = Brushes.LightSalmon,
@@ -166,48 +166,48 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Row 4: Special Polygons
-            sampleLayer1.Shapes.Add(new XStar
+            sampleLayer1.Shapes.Add(new StarViewModel
             {
-                Points = XFactory.CreateStar(new Point(50, 280), new Point(120, 330), 5, 0.4),
+                Points = ShapeFactory.CreateStar(new Point(50, 280), new Point(120, 330), 5, 0.4),
                 StrokeBrush = Brushes.Gold,
                 StrokeThickness = 2,
                 FillBrush = Brushes.Yellow
             });
 
-            sampleLayer1.Shapes.Add(new XHeart
+            sampleLayer1.Shapes.Add(new HeartViewModel
             {
-                Points = XFactory.CreateHeart(new Point(150, 280), new Point(220, 330), 32),
+                Points = ShapeFactory.CreateHeart(new Point(150, 280), new Point(220, 330), 32),
                 StrokeBrush = Brushes.DarkRed,
                 StrokeThickness = 2,
                 FillBrush = Brushes.Red
             });
 
-            sampleLayer1.Shapes.Add(new XSpiral
+            sampleLayer1.Shapes.Add(new SpiralViewModel
             {
-                Points = XFactory.CreateSpiral(new Point(250, 280), new Point(320, 330), 3, 50),
+                Points = ShapeFactory.CreateSpiral(new Point(250, 280), new Point(320, 330), 3, 50),
                 StrokeBrush = Brushes.Indigo,
                 StrokeThickness = 2,
                 FillBrush = Brushes.Lavender
             });
 
-            sampleLayer1.Shapes.Add(new XCloud
+            sampleLayer1.Shapes.Add(new CloudVIewModel
             {
-                Points = XFactory.CreateCloud(new Point(350, 280), new Point(420, 330), 6, 0.4),
+                Points = ShapeFactory.CreateCloud(new Point(350, 280), new Point(420, 330), 6, 0.4),
                 StrokeBrush = Brushes.Gray,
                 StrokeThickness = 2,
                 FillBrush = Brushes.LightGray
             });
 
             // Row 5: Arrow and Text
-            sampleLayer1.Shapes.Add(new XArrow
+            sampleLayer1.Shapes.Add(new ArrowViewModel
             {
-                Points = XFactory.CreateArrow(new Point(50, 360), new Point(150, 390), 15, 8, 3),
+                Points = ShapeFactory.CreateArrow(new Point(50, 360), new Point(150, 390), 15, 8, 3),
                 StrokeBrush = Brushes.DarkSlateBlue,
                 StrokeThickness = 2,
                 FillBrush = Brushes.SlateBlue
             });
 
-            sampleLayer1.Shapes.Add(new XText
+            sampleLayer1.Shapes.Add(new TextViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(200, 360) },
                 Text = "Sample Text",
@@ -218,7 +218,7 @@ namespace NET.Paint.Drawing.Service
             });
 
             // Create sample images with layers
-            var sampleImage1 = new XImage
+            var sampleImage1 = new ImageViewModel
             {
                 Title = "Demo Image",
                 Width = 600,
@@ -229,7 +229,7 @@ namespace NET.Paint.Drawing.Service
             sampleImage1.Layers.Clear();
             sampleImage1.Layers.Add(sampleLayer1);
 
-            var sampleImage2 = new XImage
+            var sampleImage2 = new ImageViewModel
             {
                 Title = "Test Image",
                 Width = 1000,
@@ -238,19 +238,19 @@ namespace NET.Paint.Drawing.Service
             };
 
             // Set up the project with images and add some random bitmaps
-            Project = new XProject
+            Project = new ProjectViewModel
             {
                 Title = "Design-Time Project",
                 Description = "Sample project for design-time preview",
                 Author = "Designer",
-                Images = new ObservableCollection<XImage> { sampleImage1, sampleImage2 }
+                Images = new ObservableCollection<ImageViewModel> { sampleImage1, sampleImage2 }
             };
 
             //for (int i = 0; i < 5; i++)
             Project.Bitmaps.Add(XHelper.CreateRandomBitmap(200, 200));
 
             // Add a bitmap shape if random bitmaps are available
-            sampleLayer1.Shapes.Add(new XBitmap
+            sampleLayer1.Shapes.Add(new BitmapViewModel
             {
                 Points = new ObservableCollection<Point> { new Point(350, 360), new Point(420, 410) },
                 Source = Project.Bitmaps.First(), // Will reference the first bitmap in the project

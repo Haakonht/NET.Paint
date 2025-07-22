@@ -13,7 +13,7 @@
              xmlns:colorTypes ="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200" d:Background="White"
-             d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=service:DesktopViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
     </UserControl.Resources>

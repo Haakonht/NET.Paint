@@ -8,7 +8,7 @@
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
-             d:DataContext="{d:DesignInstance Type={x:Type service:XService}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type={x:Type service:DesktopViewModel}, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <DataTemplate x:Key="ClipboardTemplate">
             <Button Content="{ma:MaterialIconExt Kind=ClipboardOutline}" Background="Transparent" BorderBrush="Transparent" Click="ToggleClipboard" Height="18" Width="18" Margin="2.5,2.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>

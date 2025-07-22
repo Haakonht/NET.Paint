@@ -14,15 +14,15 @@ using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.Drawing.Factory
 {
-    public static class XFactory
+    public static class ShapeFactory
     {
-        public static XRenderable? CreateShape(XTools tools)
+        public static RenderableViewModel? CreateShape(ToolsViewModel tools)
         {
             switch (tools.ActiveTool)
             {
                 case XToolType.Pencil:
                     if (tools.PencilMode == XPencilMode.Add)
-                        return new XPolyline
+                        return new PolylineViewModel
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation },
                             StrokeBrush = tools.StrokeBrush,
@@ -32,7 +32,7 @@ namespace NET.Paint.Drawing.Factory
                         };
                     return null;
                 case XToolType.Line:
-                    return new XLine
+                    return new LineViewModel
                     {
                         Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                         StrokeBrush = tools.StrokeBrush,
@@ -40,7 +40,7 @@ namespace NET.Paint.Drawing.Factory
                         StrokeStyle = tools.StrokeStyle
                     };
                 case XToolType.Curve:
-                    return new XCurve
+                    return new CurveViewModel
                     {
                         Points = CreateCurve(tools.ClickLocation, tools.MouseLocation),
                         StrokeBrush = tools.StrokeBrush,
@@ -48,7 +48,7 @@ namespace NET.Paint.Drawing.Factory
                         StrokeStyle = tools.StrokeStyle
                     };
                 case XToolType.Bezier:
-                    return new XBezier
+                    return new BezierViewModel
                     {
                         Points = CreateBezier(tools.ClickLocation, tools.MouseLocation),
                         StrokeBrush = tools.StrokeBrush,
@@ -58,7 +58,7 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Ellipse:
                     Point center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
                     if (tools.ActiveEllipse == XEllipseStyle.Circle)
-                        return new XCircle
+                        return new CircleViewModel
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
                             StrokeBrush = tools.StrokeBrush,
@@ -67,7 +67,7 @@ namespace NET.Paint.Drawing.Factory
                             StrokeStyle = tools.StrokeStyle
                         };
                     else
-                        return new XEllipse
+                        return new EllipseViewModel
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
                             StrokeBrush = tools.StrokeBrush,
@@ -76,7 +76,7 @@ namespace NET.Paint.Drawing.Factory
                             StrokeStyle = tools.StrokeStyle
                         };
                 case XToolType.Triangle:
-                    return new XTriangle
+                    return new TriangleViewModel
                     {
                         Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 3),
                         StrokeBrush = tools.StrokeBrush,
@@ -88,7 +88,7 @@ namespace NET.Paint.Drawing.Factory
                     if (tools.ActiveRectangle == XRectangleStyle.Square)
                     {
                         center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
-                        return new XSquare
+                        return new SquareViewModel
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
                             StrokeBrush = tools.StrokeBrush,
@@ -100,7 +100,7 @@ namespace NET.Paint.Drawing.Factory
                     }
 
                     else
-                        return new XRectangle
+                        return new RectangleViewModel
                         {
                             Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                             StrokeBrush = tools.StrokeBrush,
@@ -113,7 +113,7 @@ namespace NET.Paint.Drawing.Factory
                     switch (tools.ActivePolygon)
                     {
                         case XPolygonStyle.Regular:
-                            return new XRegular
+                            return new RegularPolygonViewModel
                             {
                                 Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, tools.PolygonCorners),
                                 StrokeBrush = tools.StrokeBrush,
@@ -123,7 +123,7 @@ namespace NET.Paint.Drawing.Factory
                                 Corners = tools.PolygonCorners
                             };
                         case XPolygonStyle.Star:
-                            return new XStar
+                            return new StarViewModel
                             {
                                 Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.StarPoints, tools.StarInnerRadiusRatio),
                                 StrokeBrush = tools.StrokeBrush,
@@ -132,7 +132,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Heart:
-                            return new XHeart
+                            return new HeartViewModel
                             {
                                 Points = CreateHeart(tools.ClickLocation, tools.MouseLocation, tools.HeartSamples),
                                 StrokeBrush = tools.StrokeBrush,
@@ -141,7 +141,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Spiral:
-                            return new XSpiral
+                            return new SpiralViewModel
                             {
                                 Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, tools.SpiralSamples),
                                 StrokeBrush = tools.StrokeBrush,
@@ -150,7 +150,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeStyle = tools.StrokeStyle
                             };
                         case XPolygonStyle.Cloud:
-                            return new XCloud
+                            return new CloudVIewModel
                             {
                                 Points = CreateCloud(tools.ClickLocation, tools.MouseLocation, tools.CloudBumps, tools.BumpVariance),
                                 StrokeBrush = tools.StrokeBrush,
@@ -159,7 +159,7 @@ namespace NET.Paint.Drawing.Factory
                                 StrokeStyle = tools.StrokeStyle
                             };
                         default:
-                            return new XArrow
+                            return new ArrowViewModel
                             {
                                 Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
                                 StrokeBrush = tools.StrokeBrush,
@@ -169,7 +169,7 @@ namespace NET.Paint.Drawing.Factory
                             };
                     }
                 case XToolType.Text:
-                    return new XText
+                    return new TextViewModel
                     {
                         Points = new ObservableCollection<Point> { tools.MouseLocation },
                         FontFamily = tools.FontFamily,
@@ -183,14 +183,14 @@ namespace NET.Paint.Drawing.Factory
                 case XToolType.Bitmap:
                     if (tools.ActiveBitmap == null)
                         return null;
-                    return new XBitmap
+                    return new BitmapViewModel
                     {
                         Source = tools.ActiveBitmap,
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation, tools.MouseLocation },
                     };
                 case XToolType.Effect:
-                    return new XEffect
+                    return new EffectViewModel
                     {
                         Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                         Effect = new DropShadowEffect
@@ -205,7 +205,7 @@ namespace NET.Paint.Drawing.Factory
                     switch (tools.SelectionMode)
                     {
                         case XSelectionMode.Rectangle:
-                            return new XRectangle
+                            return new RectangleViewModel
                             {
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                                 StrokeBrush = Brushes.Black,
@@ -215,7 +215,7 @@ namespace NET.Paint.Drawing.Factory
                                 CornerRadius = 0,
                             };
                         case XSelectionMode.Lasso:
-                            return new XPolyline
+                            return new PolylineViewModel
                             {
                                 Points = new ObservableCollection<Point> { tools.ClickLocation },
                                 StrokeBrush = Brushes.Black,
@@ -537,7 +537,7 @@ namespace NET.Paint.Drawing.Factory
             return lastAddedPoint;
         }
 
-        public static void RemovePencilPoints(XLayer layer, Point mouseLocation, double tolerance)
+        public static void RemovePencilPoints(LayerViewModel layer, Point mouseLocation, double tolerance)
         {
             if (layer != null && layer is IShapeLayer shapeLayer)
             {
@@ -545,7 +545,7 @@ namespace NET.Paint.Drawing.Factory
 
                 foreach (var pencilShape in pencilShapes)
                 {
-                    if (pencilShape is XPolyline pencil)
+                    if (pencilShape is PolylineViewModel pencil)
                     {
                         var pointsToRemove = pencil.Points.Where(p => (p - mouseLocation).Length <= tolerance).ToList();
                         foreach (var point in pointsToRemove)
@@ -636,7 +636,7 @@ namespace NET.Paint.Drawing.Factory
             return new Point(xNew, yNew);
         }
 
-        public static RenderTargetBitmap FlattenLayerToBitmap(IEnumerable<XRenderable> shapes, double width, double height, double dpi = 96)
+        public static RenderTargetBitmap FlattenLayerToBitmap(IEnumerable<RenderableViewModel> shapes, double width, double height, double dpi = 96)
         {
             if (shapes == null)
                 throw new ArgumentNullException(nameof(shapes));
@@ -683,7 +683,7 @@ namespace NET.Paint.Drawing.Factory
             return renderTargetBitmap;
         }
 
-        public static RenderTargetBitmap AddShapeToBitmap(ImageSource bitmap, XRenderable shape, double width, double height, double dpi = 96)
+        public static RenderTargetBitmap AddShapeToBitmap(ImageSource bitmap, RenderableViewModel shape, double width, double height, double dpi = 96)
         {
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));

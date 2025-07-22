@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
-    public class XEllipse : XFilled, IRotateable
+    public class EllipseViewModel : FilledShapeViewModel, IRotateable
     {
         public override XToolType Type => XToolType.Ellipse;
         public XEllipseStyle Style => XEllipseStyle.Ellipse;
@@ -43,7 +43,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Location));
         }
 
-        public override object Clone() => new XEllipse
+        public override object Clone() => new EllipseViewModel
         {
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
@@ -54,7 +54,7 @@ namespace NET.Paint.Drawing.Model.Shape
         };
     }
 
-    public class XCircle : XFilled
+    public class CircleViewModel : FilledShapeViewModel
     {
         public override XToolType Type => XToolType.Ellipse;
         public XEllipseStyle Style => XEllipseStyle.Circle;
@@ -76,7 +76,7 @@ namespace NET.Paint.Drawing.Model.Shape
             OnPropertyChanged(nameof(Radius));
         }
 
-        public override object Clone() => new XCircle
+        public override object Clone() => new CircleViewModel
         {
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,

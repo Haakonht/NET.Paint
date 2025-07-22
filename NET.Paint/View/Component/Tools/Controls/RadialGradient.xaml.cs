@@ -35,7 +35,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Ellipse ellipse)
             {
-                if (DataContext is XRadialGradient radialFill)
+                if (DataContext is RadialGradientViewModel radialFill)
                 {
                     Point clickedPoint = Mouse.GetPosition(ellipse);
 
@@ -75,13 +75,13 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (DataContext is XRadialGradient)
+            if (DataContext is RadialGradientViewModel)
                 UpdatePreview();
         }
 
         private void UpdatePreview()
         {
-            if (DataContext is XRadialGradient radialFill)
+            if (DataContext is RadialGradientViewModel radialFill)
             {
                 if (PreviewEllipse == null) return;
 
@@ -158,7 +158,7 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             if (sender is Thumb thumb && thumb.DataContext is XGradientStop gradientStop)
             {
-                if (DataContext is XGradient gradientFill)
+                if (DataContext is GradientViewModel gradientFill)
                 {
                     gradientFill.GradientStops.Remove(gradientStop);
                     UpdatePreview();
@@ -171,7 +171,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void PreviewBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is XGradient gradientFill)
+            if (DataContext is GradientViewModel gradientFill)
             {
                 double offset = e.GetPosition((IInputElement)sender).X / ((Border)sender).ActualWidth;
 
