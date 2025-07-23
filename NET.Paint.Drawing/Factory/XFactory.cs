@@ -1,8 +1,10 @@
 ﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Model.Utility;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,9 +27,9 @@ namespace NET.Paint.Drawing.Factory
                         return new XPolyline
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation },
-                            StrokeBrush = tools.StrokeBrush,
+                            Stroke = tools.Stroke,
                             StrokeThickness = tools.StrokeThickness,
-                            StrokeStyle = tools.StrokeStyle,
+                            StrokeStyle = tools.StrokeStyle.DashArray,
                             PointSpacing = tools.PencilSpacing
                         };
                     return null;
@@ -35,25 +37,25 @@ namespace NET.Paint.Drawing.Factory
                     return new XLine
                     {
                         Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                        StrokeBrush = tools.StrokeBrush,
+                        Stroke = tools.Stroke,
                         StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle.DashArray
                     };
                 case XToolType.Curve:
                     return new XCurve
                     {
                         Points = CreateCurve(tools.ClickLocation, tools.MouseLocation),
-                        StrokeBrush = tools.StrokeBrush,
+                        Stroke = tools.Stroke,
                         StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle.DashArray
                     };
                 case XToolType.Bezier:
                     return new XBezier
                     {
                         Points = CreateBezier(tools.ClickLocation, tools.MouseLocation),
-                        StrokeBrush = tools.StrokeBrush,
+                        Stroke = tools.Stroke,
                         StrokeThickness = tools.StrokeThickness,
-                        StrokeStyle = tools.StrokeStyle
+                        StrokeStyle = tools.StrokeStyle.DashArray
                     };
                 case XToolType.Ellipse:
                     Point center = new Point((tools.ClickLocation.X + tools.MouseLocation.X) / 2, (tools.ClickLocation.Y + tools.MouseLocation.Y) / 2);
@@ -61,28 +63,28 @@ namespace NET.Paint.Drawing.Factory
                         return new XCircle
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeBrush = tools.StrokeBrush,
+                            Stroke = tools.Stroke,
                             StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle
+                            Fill = tools.Fill,
+                            StrokeStyle = tools.StrokeStyle.DashArray
                         };
                     else
                         return new XEllipse
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y), new Point(center.X, tools.MouseLocation.Y) },
-                            StrokeBrush = tools.StrokeBrush,
+                            Stroke = tools.Stroke,
                             StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle
+                            Fill = tools.Fill,
+                            StrokeStyle = tools.StrokeStyle.DashArray
                         };
                 case XToolType.Triangle:
                     return new XTriangle
                     {
                         Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, 3),
-                        StrokeBrush = tools.StrokeBrush,
+                        Stroke = tools.Stroke,
                         StrokeThickness = tools.StrokeThickness,
-                        FillBrush = tools.FillBrush,
-                        StrokeStyle = tools.StrokeStyle
+                        Fill = tools.Fill,
+                        StrokeStyle = tools.StrokeStyle.DashArray
                     };
                 case XToolType.Rectangle:
                     if (tools.ActiveRectangle == XRectangleStyle.Square)
@@ -91,10 +93,10 @@ namespace NET.Paint.Drawing.Factory
                         return new XSquare
                         {
                             Points = new ObservableCollection<Point>() { center, new Point(tools.MouseLocation.X, center.Y) },
-                            StrokeBrush = tools.StrokeBrush,
+                            Stroke = tools.Stroke,
                             StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle,
+                            Fill = tools.Fill,
+                            StrokeStyle = tools.StrokeStyle.DashArray,
                             CornerRadius = tools.Radius
                         };
                     }
@@ -103,10 +105,10 @@ namespace NET.Paint.Drawing.Factory
                         return new XRectangle
                         {
                             Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                            StrokeBrush = tools.StrokeBrush,
+                            Stroke = tools.Stroke,
                             StrokeThickness = tools.StrokeThickness,
-                            FillBrush = tools.FillBrush,
-                            StrokeStyle = tools.StrokeStyle,
+                            Fill = tools.Fill,
+                            StrokeStyle = tools.StrokeStyle.DashArray,
                             CornerRadius = tools.Radius
                         };
                 case XToolType.Polygon:
@@ -116,63 +118,63 @@ namespace NET.Paint.Drawing.Factory
                             return new XRegular
                             {
                                 Points = CreateRegularPolygon(tools.ClickLocation, tools.MouseLocation, tools.PolygonCorners),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle,
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray,
                                 Corners = tools.PolygonCorners
                             };
                         case XPolygonStyle.Star:
                             return new XStar
                             {
                                 Points = CreateStar(tools.ClickLocation, tools.MouseLocation, tools.StarPoints, tools.StarInnerRadiusRatio),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Heart:
                             return new XHeart
                             {
                                 Points = CreateHeart(tools.ClickLocation, tools.MouseLocation, tools.HeartSamples),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Spiral:
                             return new XSpiral
                             {
                                 Points = CreateSpiral(tools.ClickLocation, tools.MouseLocation, tools.Turns, tools.SpiralSamples),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         case XPolygonStyle.Cloud:
                             return new XCloud
                             {
                                 Points = CreateCloud(tools.ClickLocation, tools.MouseLocation, tools.CloudBumps, tools.BumpVariance),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                         default:
                             return new XArrow
                             {
                                 Points = CreateArrow(tools.ClickLocation, tools.MouseLocation, tools.HeadLength, tools.HeadWidth, tools.TailWidth),
-                                StrokeBrush = tools.StrokeBrush,
+                                Stroke = tools.Stroke,
                                 StrokeThickness = tools.StrokeThickness,
-                                FillBrush = tools.FillBrush,
-                                StrokeStyle = tools.StrokeStyle
+                                Fill = tools.Fill,
+                                StrokeStyle = tools.StrokeStyle.DashArray
                             };
                     }
                 case XToolType.Text:
                     return new XText
                     {
                         Points = new ObservableCollection<Point> { tools.MouseLocation },
-                        FontFamily = tools.FontFamily,
+                        FontFamily = tools.FontFamily.Source,
                         FontSize = tools.FontSize,
                         IsBold = tools.IsBold,
                         IsItalic = tools.IsItalic,
@@ -185,7 +187,7 @@ namespace NET.Paint.Drawing.Factory
                         return null;
                     return new XBitmap
                     {
-                        Source = tools.ActiveBitmap,
+                        Bitmap = XHelper.ImageSourceToBase64(tools.ActiveBitmap),
                         Scaling = tools.BitmapScaling,
                         Points = new ObservableCollection<Point> { tools.ClickLocation, tools.MouseLocation },
                     };
@@ -208,19 +210,18 @@ namespace NET.Paint.Drawing.Factory
                             return new XRectangle
                             {
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                                StrokeBrush = Brushes.Black,
+                                Stroke = new XSolid { Color = Colors.Black },
                                 StrokeThickness = 2,
-                                FillBrush = Brushes.Transparent,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
                                 CornerRadius = 0,
                             };
                         case XSelectionMode.Lasso:
                             return new XPolyline
                             {
                                 Points = new ObservableCollection<Point> { tools.ClickLocation },
-                                StrokeBrush = Brushes.Black,
+                                Stroke = new XSolid { Color = Colors.Black },
                                 StrokeThickness = 2,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2],
+                                StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
                                 PointSpacing = 20
                             };
                         default:
@@ -687,6 +688,53 @@ namespace NET.Paint.Drawing.Factory
         {
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
+
+            var root = new Canvas
+            {
+                Width = width,
+                Height = height,
+                Background = bitmap == null ? Brushes.Transparent : new ImageBrush(bitmap)
+            };
+
+            var contentPresenter = new ContentPresenter
+            {
+                Content = shape
+            };
+            root.Children.Add(contentPresenter);
+
+            // Use a pack URI if needed
+            var resourceDictionary = new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Resources/Renderer.xaml", UriKind.Absolute)
+            };
+            root.Resources.MergedDictionaries.Add(resourceDictionary);
+
+            root.Measure(new Size(width, height));
+            root.Arrange(new Rect(0, 0, width, height));
+            root.UpdateLayout();
+
+            var renderTargetBitmap = new RenderTargetBitmap(
+                (int)width,
+                (int)height,
+                dpi,
+                dpi,
+                PixelFormats.Pbgra32);
+
+            renderTargetBitmap.Render(root);
+
+            return renderTargetBitmap;
+        }
+
+        public static RenderTargetBitmap AddShapeToBitmap(string bitmapBase64, XRenderable shape, double width, double height, double dpi = 96)
+        {
+            if (shape == null)
+                throw new ArgumentNullException(nameof(shape));
+
+            ImageSource bitmap = null;
+            if (!string.IsNullOrEmpty(bitmapBase64))
+            {
+                bitmap = XHelper.Base64ToImageSource(bitmapBase64);
+            }
 
             var root = new Canvas
             {

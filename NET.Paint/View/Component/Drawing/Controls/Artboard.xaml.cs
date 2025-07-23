@@ -1,5 +1,6 @@
 ﻿using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
@@ -84,15 +85,19 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
                         else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {
-                            if (image.Selected.Count == 0)
-                                MoveLayer(tools, image);
-                            else
-                                MoveSelected(tools, image);
+                            if (tools.Drag)
+                            {
+                                if (image.Selected.Count == 0)
+                                    MoveLayer(tools, image);
+                                else
+                                    MoveSelected(tools, image);
+                            }
+
                         }
 
                         else
                             if (tools.Drag)
-                            Preview.Shape = XFactory.CreateShape(tools);
+                                Preview.Shape = XFactory.CreateShape(tools);
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
@@ -128,7 +133,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                     var shape = hybridLayer.Shapes.FirstOrDefault();
                                     if (shape != null)
                                     {
-                                        hybridLayer.Bitmap = XFactory.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height);
+                                        hybridLayer.Bitmap = XHelper.ImageSourceToBase64(XFactory.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height));
                                         hybridLayer.Shapes.Remove(shape);
                                     }
                                 }
@@ -139,7 +144,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
                                 else if (image.ActiveLayer is XRasterLayer rasterLayer)
-                                    rasterLayer.Bitmap = XFactory.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height);
+                                    rasterLayer.Bitmap = XHelper.ImageSourceToBase64(XFactory.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height));
                             }
 
                             tools.Drag = false;

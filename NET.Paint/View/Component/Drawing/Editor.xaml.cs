@@ -20,12 +20,9 @@ namespace NET.Paint.View.Component.Drawing
     /// </summary>
     public partial class Editor : UserControl
     {
-
         public Editor()
         {
             InitializeComponent();
         }
-
-       
     }
 }

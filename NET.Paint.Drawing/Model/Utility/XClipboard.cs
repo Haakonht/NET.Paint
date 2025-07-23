@@ -11,7 +11,7 @@ namespace NET.Paint.Drawing.Model.Utility
         public static XClipboard Instance => _instance.Value;
         private XClipboard() => Data.CollectionChanged += (s, e) => OnPropertyChanged(nameof(CanPaste));
         
-        public ObservableCollection<object> Data { get; } = new ObservableCollection<object>();
+        public ObservableCollection<XObject> Data { get; } = new ObservableCollection<XObject>();
 
         public bool CanPaste => Data.Count > 0 && !Data.Any(item => item is XImage);
 

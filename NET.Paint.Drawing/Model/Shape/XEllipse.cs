@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Constant;
+﻿using MessagePack;
+using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using System.Collections.ObjectModel;
@@ -8,31 +9,48 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
+    [MessagePackObject]
     public class XEllipse : XFilled, IRotateable
     {
+        [Key(1)]
         public override XToolType Type => XToolType.Ellipse;
+
+        [Key(7)]
         public XEllipseStyle Style => XEllipseStyle.Ellipse;
 
-        public override Point Location => new Point(Points[0].X - RadiusX, Points[0].Y - RadiusY);
-
-        [Browsable(false)]
-        public Point Center => Points[0];
-
-        [Category("Dimensions")]
-        public double RadiusX => Math.Abs(Points[1].X - Points[0].X);
-        
-        [Category("Dimensions")]
-        public double RadiusY => Math.Abs(Points[2].Y - Points[0].Y);
-        
-        public override double Width => RadiusX * 2;
-        public override double Height => RadiusY * 2;
-
-        private double _rotation = 0;
+        [Key(8)]
         public double Rotation
         {
             get => _rotation;
             set => SetProperty(ref _rotation, value);
         }
+        private double _rotation = 0;
+
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public override Point Location => new Point(Points[0].X - RadiusX, Points[0].Y - RadiusY);
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public override double Width => RadiusX * 2;
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public override double Height => RadiusY * 2;
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public Point Center => Points[0];
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public double RadiusX => Math.Abs(Points[1].X - Points[0].X);
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public double RadiusY => Math.Abs(Points[2].Y - Points[0].Y);
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -47,25 +65,44 @@ namespace NET.Paint.Drawing.Model.Shape
         {
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            StrokeBrush = this.StrokeBrush,
-            FillBrush = this.FillBrush,
+            Stroke = this.Stroke,
+            Fill = this.Fill,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };
+
+        #endregion
     }
 
+    [MessagePackObject]
     public class XCircle : XFilled
     {
+        [Key(1)]
         public override XToolType Type => XToolType.Ellipse;
+
+        [Key(7)]
         public XEllipseStyle Style => XEllipseStyle.Circle;
 
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
+        [Browsable(false)]
         public override Point Location => new Point(Points[0].X - Radius, Points[0].Y - Radius);
 
-        [Category("Dimensions")]
-        public double Radius => Math.Sqrt(Math.Pow(Points[1].X - Points[0].X, 2) + Math.Pow(Points[1].Y - Points[0].Y, 2));
+        [IgnoreMember]
+        [Browsable(false)]
         public override double Width => Radius * 2;
+
+        [IgnoreMember]
+        [Browsable(false)]
         public override double Height => Radius * 2;
 
+        [IgnoreMember]
+        [Browsable(false)]
+        public double Radius => Math.Sqrt(Math.Pow(Points[1].X - Points[0].X, 2) + Math.Pow(Points[1].Y - Points[0].Y, 2));
+
+        [IgnoreMember]
+        [Browsable(false)]
         public Point Center => Points[0];
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -80,9 +117,11 @@ namespace NET.Paint.Drawing.Model.Shape
         {
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
-            StrokeBrush = this.StrokeBrush,
-            FillBrush = this.FillBrush,
+            Stroke = this.Stroke,
+            Fill = this.Fill,
             Points = new ObservableCollection<Point>(this.Points)
         };
+
+        #endregion
     }
 }

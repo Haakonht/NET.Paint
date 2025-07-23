@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Constant;
+﻿using MessagePack;
+using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
@@ -9,22 +10,28 @@ using System.Windows;
 
 namespace NET.Paint.Drawing.Model.Shape
 {
+    [MessagePackObject]
     public class XLine : XStroked
     {
+        [Key(1)]
         public override XToolType Type => XToolType.Line;
 
-        [Category("Position")]
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
         public Point Start
         {
             get => Points[0];
             set => Points[0] = value;
         }
-        [Category("Position")]
+
+        [IgnoreMember]
         public Point End
         {
             get => Points[1];
             set => Points[1] = value;
         }
+
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Start));
@@ -33,19 +40,22 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XLine
         {
-            StrokeBrush = this.StrokeBrush,
+            Stroke = this.Stroke,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
         };
+
+        #endregion
     }
 
+    [MessagePackObject]
     public class XPolyline : XStroked
     {
+        [Key(1)]
         public override XToolType Type => XToolType.Pencil;
 
-        protected double _spacing = 13.0;
-        [DisplayName("Resolution")]
+        [Key(6)]
         public double PointSpacing
         {
             get => _spacing;
@@ -58,40 +68,50 @@ namespace NET.Paint.Drawing.Model.Shape
                 }
             }
         }
+        protected double _spacing = 13.0;
+
+        #region Volatile - Not Serialized
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
 
         public override object Clone() => new XPolyline
         {
-            StrokeBrush = this.StrokeBrush,
+            Stroke = this.Stroke,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points),
             PointSpacing = this.PointSpacing
         };
 
+        #endregion
     }
 
+    [MessagePackObject]
     public class XCurve : XStroked, IControlPoints
     {
+        [Key(1)]
         public override XToolType Type => XToolType.Curve;
 
-        [Category("Position")]
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
+        [Browsable(false)]
         public Point Start
         {
             get => Points[0];
             set => Points[0] = value;
         }
 
-        [Category("Position")]
+        [IgnoreMember]
+        [Browsable(false)]
         public Point End
         {
             get => Points[1];
             set => Points[1] = value;
         }
 
-        [Category("Position")]
-        [DisplayName("Control")]
+        [IgnoreMember]
+        [Browsable(false)]
         public Point Ctrl1
         {
             get => Points[2];
@@ -111,15 +131,24 @@ namespace NET.Paint.Drawing.Model.Shape
             Start = this.Start,
             End = this.End,
             Ctrl1 = this.Ctrl1,
-            StrokeBrush = this.StrokeBrush,
+            Stroke = this.Stroke,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
         };
+
+        #endregion
     }
 
+    [MessagePackObject]
     public class XBezier : XCurve
     {
+        [Key(1)]
+        public override XToolType Type => XToolType.Bezier;
+
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
         [Browsable(false)]
         public Point Ctrl2
         {
@@ -142,10 +171,12 @@ namespace NET.Paint.Drawing.Model.Shape
             End = this.End,
             Ctrl1 = this.Ctrl1,
             Ctrl2 = this.Ctrl2,
-            StrokeBrush = this.StrokeBrush,
+            Stroke = this.Stroke,
             StrokeThickness = this.StrokeThickness,
             StrokeStyle = this.StrokeStyle,
             Points = new ObservableCollection<Point>(this.Points)
         };
+
+        #endregion
     }
 }

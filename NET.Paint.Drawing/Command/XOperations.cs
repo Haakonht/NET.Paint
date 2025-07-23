@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
+using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
@@ -13,7 +14,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
 
 namespace NET.Paint.Drawing.Command
 {
@@ -31,11 +31,11 @@ namespace NET.Paint.Drawing.Command
 
             if (elementToCopy != null)
                 if (elementToCopy is XRenderable || elementToCopy is XLayer || elementToCopy is XImage)
-                    XClipboard.Instance.Data.Add(elementToCopy);
+                    XClipboard.Instance.Data.Add(elementToCopy as XObject);
             else
                 foreach (var element in _service.ActiveImage.Selected)
                     if (element is XRenderable || element is XLayer)
-                        XClipboard.Instance.Data.Add(element);
+                        XClipboard.Instance.Data.Add(element as XObject);
 
             CreateNotification(XNotificationSource.Clipboard);
         }
@@ -47,7 +47,7 @@ namespace NET.Paint.Drawing.Command
 
             if (elementToCut != null)
             { 
-                XClipboard.Instance.Data.Add(elementToCut);
+                XClipboard.Instance.Data.Add(elementToCut as XObject);
 
                 if (elementToCut is XLayer layer)
                     _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
@@ -65,7 +65,7 @@ namespace NET.Paint.Drawing.Command
                 {
                     if (element is XRenderable || element is XLayer)
                     {
-                        XClipboard.Instance.Data.Add(element);
+                        XClipboard.Instance.Data.Add(element as XObject);
 
                         if (element is XLayer layer)
                             _service.Project.Images.First(x => x.Layers.Contains(layer)).Layers.Remove(layer);
@@ -93,13 +93,7 @@ namespace NET.Paint.Drawing.Command
                     _service.ActiveImage.Selected.Clear();
                     foreach (object item in XClipboard.Instance.Data)
                     {
-                        if (item is XImage image)
-                        {
-                            XImage pastedImage = image.Clone() as XImage;
-                            pastedImage.Title = $"Copy of {pastedImage.Title}";
-                            _service.Project.Images.Add(pastedImage);
-                        }
-                        else if (item is XLayer layer)
+                        if (item is XLayer layer)
                         {
                             XLayer pastedLayer = layer.Clone() as XLayer;
                             pastedLayer.Title = $"Copy of {pastedLayer.Title}";
@@ -330,7 +324,7 @@ namespace NET.Paint.Drawing.Command
 
                     if (layer is IBitmapLayer bitmapLayer)
                     {
-                       layerCanvas.Background = new ImageBrush(bitmapLayer.Bitmap)
+                       layerCanvas.Background = new ImageBrush(XHelper.Base64ToImageSource(bitmapLayer.Bitmap))
                        {
                            Stretch = Stretch.None
                        };
@@ -505,7 +499,7 @@ namespace NET.Paint.Drawing.Command
                     Title = vectorLayer.Title,
                     OffsetX = vectorLayer.OffsetX,
                     OffsetY = vectorLayer.OffsetY,
-                    Bitmap = XFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
+                    Bitmap = XHelper.ImageSourceToBase64(XFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height))
                 };
 
                 int index = image.Layers.IndexOf(vectorLayer);

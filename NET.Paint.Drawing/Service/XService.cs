@@ -61,21 +61,21 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XLine
             {
                 Points = new ObservableCollection<Point> { new Point(50, 50), new Point(120, 80) },
-                StrokeBrush = Brushes.Purple,
+                Stroke = new XSolid { Color = Colors.Purple },
                 StrokeThickness = 3
             });
 
             sampleLayer1.Shapes.Add(new XCurve
             {
                 Points = XFactory.CreateCurve(new Point(150, 50), new Point(220, 80)),
-                StrokeBrush = Brushes.Orange,
+                Stroke = new XSolid { Color = Colors.Orange },
                 StrokeThickness = 2
             });
 
             sampleLayer1.Shapes.Add(new XBezier
             {
                 Points = XFactory.CreateBezier(new Point(250, 50), new Point(320, 80)),
-                StrokeBrush = Brushes.Magenta,
+                Stroke = new XSolid { Color = Colors.Magenta },
                 StrokeThickness = 2
             });
 
@@ -86,7 +86,7 @@ namespace NET.Paint.Drawing.Service
                     new Point(350, 50), new Point(355, 55), new Point(365, 60),
                     new Point(375, 65), new Point(390, 70), new Point(400, 75), new Point(420, 80)
                 },
-                StrokeBrush = Brushes.Brown,
+                Stroke = new XSolid { Color = Colors.Brown },
                 StrokeThickness = 2,
                 PointSpacing = 5
             });
@@ -95,53 +95,53 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XRectangle
             {
                 Points = new ObservableCollection<Point> { new Point(50, 120), new Point(120, 170) },
-                StrokeBrush = Brushes.Blue,
+                Stroke = new XSolid { Color = Colors.Blue },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightBlue,
+                Fill = new XSolid { Color = Colors.LightBlue },
                 CornerRadius = 5
             });
 
             sampleLayer1.Shapes.Add(new XSquare
             {
                 Points = new ObservableCollection<Point> { new Point(150, 120), new Point(200, 170) },
-                StrokeBrush = Brushes.Green,
+                Stroke = new XSolid { Color = Colors.Green },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightGreen,
+                Fill = new XSolid { Color = Colors.LightGreen },
                 CornerRadius = 0
             });
 
             sampleLayer1.Shapes.Add(new XEllipse
             {
                 Points = new ObservableCollection<Point> { new Point(230, 120), new Point(300, 120), new Point(230, 170) },
-                StrokeBrush = Brushes.Orange,
+                Stroke = new XSolid { Color = Colors.Orange },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightYellow
+                Fill = new XSolid { Color = Colors.LightYellow }
             });
 
             sampleLayer1.Shapes.Add(new XCircle
             {
                 Points = new ObservableCollection<Point> { new Point(330, 120), new Point(400, 120) },
-                StrokeBrush = Brushes.Red,
+                Stroke = new XSolid { Color = Colors.Red },
                 StrokeThickness = 2,
-                FillBrush = Brushes.Pink
+                Fill = new XSolid { Color = Colors.Pink }
             });
 
             // Row 3: Polygons
             sampleLayer1.Shapes.Add(new XTriangle
             {
                 Points = XFactory.CreateRegularPolygon(new Point(50, 200), new Point(120, 250), 3),
-                StrokeBrush = Brushes.Green,
+                Stroke = new XSolid { Color = Colors.Green },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightGreen
+                Fill = new XSolid { Color = Colors.LightGreen }
             });
 
             // Pentagon (5-sided regular polygon)
             sampleLayer1.Shapes.Add(new XRegular
             {
                 Points = XFactory.CreateRegularPolygon(new Point(150, 200), new Point(220, 250), 5),
-                StrokeBrush = Brushes.DarkBlue,
+                Stroke = new XSolid { Color = Colors.DarkBlue },
                 StrokeThickness = 2,
-                FillBrush = Brushes.CornflowerBlue,
+                Fill = new XSolid { Color = Colors.CornflowerBlue },
                 Corners = 5
             });
 
@@ -149,9 +149,9 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XRegular
             {
                 Points = XFactory.CreateRegularPolygon(new Point(250, 200), new Point(320, 250), 6),
-                StrokeBrush = Brushes.DarkGreen,
+                Stroke = new XSolid { Color = Colors.DarkGreen },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightSeaGreen,
+                Fill = new XSolid { Color = Colors.LightSeaGreen },
                 Corners = 6
             });
 
@@ -159,9 +159,9 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XRegular
             {
                 Points = XFactory.CreateRegularPolygon(new Point(350, 200), new Point(420, 250), 8),
-                StrokeBrush = Brushes.DarkRed,
+                Stroke = new XSolid { Color = Colors.DarkRed },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightSalmon,
+                Fill = new XSolid { Color = Colors.LightSalmon },
                 Corners = 8
             });
 
@@ -169,52 +169,52 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XStar
             {
                 Points = XFactory.CreateStar(new Point(50, 280), new Point(120, 330), 5, 0.4),
-                StrokeBrush = Brushes.Gold,
+                Stroke = new XSolid { Color = Colors.Gold },
                 StrokeThickness = 2,
-                FillBrush = Brushes.Yellow
+                Fill = new XSolid { Color = Colors.Yellow }
             });
 
             sampleLayer1.Shapes.Add(new XHeart
             {
                 Points = XFactory.CreateHeart(new Point(150, 280), new Point(220, 330), 32),
-                StrokeBrush = Brushes.DarkRed,
+                Stroke = new XSolid { Color = Colors.DarkRed },
                 StrokeThickness = 2,
-                FillBrush = Brushes.Red
+                Fill = new XSolid { Color = Colors.Red }
             });
 
             sampleLayer1.Shapes.Add(new XSpiral
             {
                 Points = XFactory.CreateSpiral(new Point(250, 280), new Point(320, 330), 3, 50),
-                StrokeBrush = Brushes.Indigo,
+                Stroke = new XSolid { Color = Colors.Indigo },
                 StrokeThickness = 2,
-                FillBrush = Brushes.Lavender
+                Fill = new XSolid { Color = Colors.Lavender }
             });
 
             sampleLayer1.Shapes.Add(new XCloud
             {
                 Points = XFactory.CreateCloud(new Point(350, 280), new Point(420, 330), 6, 0.4),
-                StrokeBrush = Brushes.Gray,
+                Stroke = new XSolid { Color = Colors.Gray },
                 StrokeThickness = 2,
-                FillBrush = Brushes.LightGray
+                Fill = new XSolid { Color = Colors.LightGray }
             });
 
             // Row 5: Arrow and Text
             sampleLayer1.Shapes.Add(new XArrow
             {
                 Points = XFactory.CreateArrow(new Point(50, 360), new Point(150, 390), 15, 8, 3),
-                StrokeBrush = Brushes.DarkSlateBlue,
+                Stroke = new XSolid { Color = Colors.DarkSlateBlue },
                 StrokeThickness = 2,
-                FillBrush = Brushes.SlateBlue
+                Fill = new XSolid { Color = Colors.SlateBlue }
             });
 
             sampleLayer1.Shapes.Add(new XText
             {
                 Points = new ObservableCollection<Point> { new Point(200, 360) },
                 Text = "Sample Text",
-                FontFamily = new FontFamily("Arial"),
+                FontFamily = "Arial",
                 FontSize = 16,
                 IsBold = true,
-                TextColor = Brushes.DarkBlue
+                TextColor = new XSolid { Color = Colors.DarkBlue }
             });
 
             // Create sample images with layers
@@ -253,7 +253,7 @@ namespace NET.Paint.Drawing.Service
             sampleLayer1.Shapes.Add(new XBitmap
             {
                 Points = new ObservableCollection<Point> { new Point(350, 360), new Point(420, 410) },
-                Source = Project.Bitmaps.First(), // Will reference the first bitmap in the project
+                Bitmap = XHelper.ImageSourceToBase64(Project.Bitmaps.First()), // Will reference the first bitmap in the project
                 Scaling = XScalingMode.Fit
             });
 

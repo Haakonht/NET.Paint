@@ -50,10 +50,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     new Point(50, 50),
                     XTools.Instance.PolygonCorners
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
 
@@ -69,10 +69,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.HeadWidth,
                     XTools.Instance.TailWidth
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
 
@@ -87,10 +87,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.Turns,
                     XTools.Instance.SpiralSamples
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
 
@@ -105,10 +105,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.StarPoints,
                     XTools.Instance.StarInnerRadiusRatio
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
 
@@ -122,10 +122,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     new Point(60, 60),
                     XTools.Instance.HeartSamples
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
 
@@ -140,10 +140,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                     XTools.Instance.CloudBumps,
                     XTools.Instance.BumpVariance
                 ),
-                FillBrush = Brushes.LightGray,
-                StrokeBrush = Brushes.Black,
+                Fill = new XSolid { Color = Colors.LightGray },
+                Stroke = new XSolid { Color = Colors.Black },
                 StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle
+                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
             };
         }
     }

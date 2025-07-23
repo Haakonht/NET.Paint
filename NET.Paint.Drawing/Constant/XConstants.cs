@@ -19,25 +19,10 @@ namespace NET.Paint.Drawing.Constant
             XGradientStyle.Radial
         };
 
-        public static List<FontFamily> FontFamilyOptions => Fonts.SystemFontFamilies.ToList();
+        public static List<string> FontFamilyOptions => Fonts.SystemFontFamilies.Select(f => f.Source).OrderBy(f => f).ToList();
         public static List<double> FontSizeOptions => new List<double> 
         { 
-            8, 
-            9, 
-            10, 
-            11, 
-            12, 
-            14, 
-            16, 
-            18, 
-            20, 
-            22, 
-            24, 
-            26, 
-            28, 
-            36, 
-            48, 
-            72 
+            8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 
         };     
     }
 }

@@ -1,26 +1,26 @@
-﻿using NET.Paint.Drawing.Constant;
+﻿using MessagePack;
+using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
-using NET.Paint.Drawing.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
-    public abstract class XRenderable : PropertyNotifier, ICloneable
+    [Union(0, typeof(XText))]
+    [Union(1, typeof(XBitmap))]
+    [MessagePackObject]
+    public abstract class XRenderable : XObject, ICloneable
     {
+        [IgnoreMember]
         [Browsable(false)]
         public abstract XToolType Type { get; }
 
-        private Guid _id = Guid.NewGuid();
-        public Guid Id => _id;
-
-        private ObservableCollection<Point> _points;
+        [Key(2)]
         [Browsable(false)]
-
         public ObservableCollection<Point> Points
         {
             get => _points;
@@ -30,6 +30,9 @@ namespace NET.Paint.Drawing.Model.Structure
                 _points.CollectionChanged += CollectionChanged;
             }
         }
+        private ObservableCollection<Point> _points;
+
+        #region Volatile - Not Serialized
 
         public XRenderable()
         {
@@ -40,58 +43,70 @@ namespace NET.Paint.Drawing.Model.Structure
         public virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(Points));
 
         public abstract object Clone();
+
+        #endregion
     }
 
+    [Union(0, typeof(XLine))]
+    [Union(1, typeof(XPolyline))]
+    [Union(2, typeof(XBezier))]
+    [Union(3, typeof(XCurve))]
+    [MessagePackObject]
     public abstract class XStroked : XRenderable
     {
-        private Brush _strokeBrush;
-        [Category("Stroke")]
-        [DisplayName("Color")]
-        public Brush StrokeBrush
+        [Key(3)]
+        public XColor Stroke
         {
-            get => _strokeBrush;
-            set => SetProperty(ref _strokeBrush, value);
+            get => _stroke;
+            set => SetProperty(ref _stroke, value);
         }
+        private XColor _stroke;
 
-        private double _strokeThickness;
-        [Category("Stroke")]
-        [DisplayName("Thickness")]
+        [Key(4)]
         public double StrokeThickness
         {
             get => _strokeThickness;
             set => SetProperty(ref _strokeThickness, value);
         }
+        private double _strokeThickness;
 
-        private XStrokeStyle _strokeStyle;
-        [Category("Stroke")]
-        [DisplayName("Style")]
-        public XStrokeStyle StrokeStyle
+
+        [Key(5)]
+        public DoubleCollection StrokeStyle
         {
             get => _strokeStyle;
             set => SetProperty(ref _strokeStyle, value);
         }
+        private DoubleCollection _strokeStyle;
     }
 
+    [Union(0, typeof(XCircle))]
+    [Union(1, typeof(XEllipse))]
+    [Union(2, typeof(XTriangle))]
+    [Union(3, typeof(XSquare))]
+    [Union(4, typeof(XRectangle))]
+    [Union(5, typeof(XPolygon))]
+    [MessagePackObject]
     public abstract class XFilled : XStroked
     {
-        [DisplayName("Position")]
+        [Key(6)]
+        public XColor Fill
+        {
+            get => _fill;
+            set => SetProperty(ref _fill, value);
+        }
+        private XColor _fill;
+
+        #region Volatile - Not Serialized
+
+        [IgnoreMember]
         public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
 
-        [Category("Dimensions")]
+        [IgnoreMember]
         public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
 
-        [Category("Dimensions")]
+        [IgnoreMember]
         public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
-
-        private Brush _fillBrush;
-
-        [Category("Fill")]
-        [DisplayName("Color")]
-        public Brush FillBrush
-        {
-            get => _fillBrush;
-            set => SetProperty(ref _fillBrush, value);
-        }
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -100,5 +115,7 @@ namespace NET.Paint.Drawing.Model.Structure
             OnPropertyChanged(nameof(Width));
             OnPropertyChanged(nameof(Height));
         }
+
+        #endregion
     }
 }

@@ -29,24 +29,25 @@ namespace NET.Paint.View.Component
 
             if (sender is DockingManager dockingManager)
             {
-                var document = dockingManager.ActiveContent as XImage;
-
-                if (document != null && context != null)
+                if (dockingManager.ActiveContent is XImage document)
                 {
-                    context.ActiveImage = document;
-
-                    if (context.ActiveImage != null)
+                    if (document != null && context != null)
                     {
-                        PreferencesAnchorable.IsVisible = context.Preferences.PreferencesVisible;
-                        PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
-                        ClipboardAnchorable.IsVisible = context.Preferences.ClipboardVisible;
-                        UndoAnchorable.IsVisible = context.Preferences.UndoVisible;
-                        ProjectTree.SetActiveImage(context.ActiveImage);
+                        context.ActiveImage = document;
 
-                        context.ActiveImage.Selected.CollectionChanged += (s, e) =>
+                        if (context.ActiveImage != null)
                         {
-                            Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
-                        };
+                            PreferencesAnchorable.IsVisible = context.Preferences.PreferencesVisible;
+                            PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
+                            ClipboardAnchorable.IsVisible = context.Preferences.ClipboardVisible;
+                            UndoAnchorable.IsVisible = context.Preferences.UndoVisible;
+                            ProjectTree.SetActiveImage(context.ActiveImage);
+
+                            context.ActiveImage.Selected.CollectionChanged += (s, e) =>
+                            {
+                                Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0);
+                            };
+                        }
                     }
                 }
                 else
