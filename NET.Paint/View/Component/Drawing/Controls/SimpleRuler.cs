@@ -61,10 +61,10 @@ namespace NET.Paint.View.Component.Drawing.Controls
             double thickness = Orientation == Orientation.Horizontal ? ActualHeight : ActualWidth;
 
             // Background
-            dc.DrawRectangle(Brushes.LightGray, null, new Rect(0, 0, ActualWidth, ActualHeight));
+            dc.DrawRectangle(Brushes.Transparent, null, new Rect(0, 0, ActualWidth, ActualHeight));
 
-            Pen pen = new Pen(Brushes.DimGray, 1);
-            Pen mediumPen = new Pen(Brushes.IndianRed, 1);
+            Pen pen = new Pen(Brushes.Black, 1);
+            Pen mediumPen = new Pen(Brushes.Red, 1);
 
             for (double pos = 0; pos < length; pos += Scale)
             {
@@ -89,7 +89,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             FlowDirection.LeftToRight,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.DimGray,
+                            Brushes.Black,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
                         dc.DrawText(label, new Point(pos + 2, thickness - tickLength - 2));
@@ -102,7 +102,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             FlowDirection.LeftToRight,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.IndianRed,
+                            Brushes.Red,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
                         dc.DrawText(label, new Point(pos + 2, thickness - tickLength - 7));
@@ -124,7 +124,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             FlowDirection.RightToLeft,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.DimGray,
+                            Brushes.Black,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
                         dc.PushTransform(new RotateTransform(-90, thickness - tickLength - label.Height - 5, pos));
@@ -139,7 +139,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             FlowDirection.RightToLeft,
                             new Typeface("Segoe UI"),
                             10,
-                            Brushes.IndianRed,
+                            Brushes.Red,
                             VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
                         dc.PushTransform(new RotateTransform(-90, thickness - tickLength - label.Height - 5, pos));

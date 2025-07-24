@@ -1,0 +1,57 @@
+﻿using NET.Paint.Drawing.Model.Shape;
+using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Model.Utility;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+namespace NET.Paint.View.Component.Property.Controls
+{
+    /// <summary>
+    /// Interaction logic for PropertyGrid.xaml
+    /// </summary>
+    public partial class PropertyGrid : UserControl, INotifyPropertyChanged
+    {
+        public static readonly DependencyProperty SelectedObjectProperty =
+            DependencyProperty.Register("SelectedObject", typeof(XObject), typeof(PropertyGrid), new PropertyMetadata(new XText
+            {
+                Points = new ObservableCollection<Point> { new Point(200, 360) },
+                Text = "Sample Text",
+                FontFamily = "Arial",
+                FontSize = 16,
+                IsBold = true,
+                TextColor = new XSolid { Color = Colors.DarkBlue }
+            }));
+
+        public object SelectedObject
+        {
+            get { return GetValue(SelectedObjectProperty); }
+            set 
+            { 
+                SetValue(SelectedObjectProperty, value);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Properties)));
+            }
+        }
+
+        public static readonly DependencyProperty ShowHeaderProperty =
+            DependencyProperty.Register("ShowHeader", typeof(bool), typeof(PropertyGrid), new PropertyMetadata(true));
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool ShowHeader
+        {
+            get { return (bool)GetValue(ShowHeaderProperty); }
+            set { SetValue(ShowHeaderProperty, value); }
+        }
+
+        public IEnumerable<PropertyInfo> Properties { get => DataContext.GetType().GetProperties().ToList(); }
+
+        public PropertyGrid()
+        {
+            InitializeComponent();
+        }
+    }
+}

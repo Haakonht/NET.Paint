@@ -25,7 +25,28 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="EditorGrid" Background="LightGray">
+    <Grid x:Name="EditorGrid">
+        <Grid.Background>
+            <DrawingBrush ViewportUnits="Absolute" Viewport="0,0,8,8" TileMode="Tile">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="White">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,8,8"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="LightGray">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <RectangleGeometry Rect="0,0,4,4"/>
+                                    <RectangleGeometry Rect="4,4,4,4"/>
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="15"/>
@@ -44,8 +65,8 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <controls:SimpleRuler Height="20" Margin="1,0,-2,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <controls:SimpleRuler Width="20" Margin="0,1,0,-2" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Height="20" Margin="2,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Width="20" Margin="0,2,0,0" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
                 <controls:Artboard Grid.Row="1" Grid.Column="1" DataContext="{Binding}"/>
 
                 <Grid.LayoutTransform>

@@ -60,6 +60,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
         }
 
         private void MouseUp(object sender, MouseButtonEventArgs e) => MouseMove(sender, e);
+
         private void MouseMove(object sender, MouseEventArgs e)
         {
             var image = DataContext as XImage;
@@ -92,7 +93,6 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                 else
                                     MoveSelected(tools, image);
                             }
-
                         }
 
                         else
@@ -113,9 +113,10 @@ namespace NET.Paint.View.Component.Drawing.Controls
                     }
                     else if (tools.ActiveTool != XToolType.Text)
                     {
-                        if (Preview.Shape != null)
+                        // Only process shape completion if we have a preview shape AND we were dragging
+                        if (Preview.Shape != null && tools.Drag)
                         {
-                            if (tools.ActiveTool == XToolType.Selector)
+                            if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode != XSelectionMode.Pointer)
                             {
                                 if (tools.SelectionMode == XSelectionMode.Lasso)
                                     LassoSelect(image);

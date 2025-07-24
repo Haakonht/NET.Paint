@@ -43,7 +43,7 @@
     </UserControl.Resources>
 
     <Grid Background="DimGray">
-        <dock:DockingManager x:Name="DockingManager" Background="#DDFFFFFF" DocumentsSource="{Binding Project.Images}" ActiveContent="{Binding ActiveImage}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+        <dock:DockingManager x:Name="DockingManager" Background="#DDFFFFFF" DocumentsSource="{Binding Project.Images}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
             <dock:DockingManager.Resources>
                 <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}"/>
             </dock:DockingManager.Resources>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Property.Controls.PropertyGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Property.Controls"
+             xmlns:shapes="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="200" d:Background="White"
+             d:DataContext="{d:DesignInstance Type={x:Type shapes:XText}, IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="LightGray" BorderBrush="#FFBBBBBB" BorderThickness="1">
+            <TextBlock Text="Properties" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+        </Border>
+        <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Properties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <UniformGrid Columns="2" Background="White">
+                        <TextBlock Text="{Binding Name}" Width="80" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center"/>
+                    </UniformGrid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Border Grid.Row="2" Background="LightGray"/>
+    </Grid>
+</UserControl>

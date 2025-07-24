@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Overview.Converters"
              xmlns:genericConverters="clr-namespace:NET.Paint.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="50" d:DesignWidth="250" d:Background="White">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

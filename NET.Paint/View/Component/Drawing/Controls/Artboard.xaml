@@ -55,7 +55,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border BorderBrush="DimGray" BorderThickness="10" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}">
+    <Border BorderBrush="Black" BorderThickness="2" Background="{Binding Background, Converter={StaticResource ColorToBrushConverter}}">
 
         <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp">
             <Grid.Cursor>
