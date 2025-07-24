@@ -174,6 +174,7 @@ namespace NET.Paint.Drawing.Factory
                     return new XText
                     {
                         Points = new ObservableCollection<Point> { tools.MouseLocation },
+                        TextColor = tools.Stroke,
                         FontFamily = tools.FontFamily.Source,
                         FontSize = tools.FontSize,
                         IsBold = tools.IsBold,

@@ -4,15 +4,16 @@
                     xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
                     x:Class="NET.Paint.Resources.Handlers.PreviewHandler">
 
+    <converters:XColorToBrushConverter x:Key="XColorToBrushConverter"/>
     <converters:TextBoldConverter x:Key="BoolToFontWeightConverter"/>
     <converters:TextItalicConverter x:Key="BoolToFontStyleConverter"/>
     <converters:TextDecorationsConverter x:Key="TextDecorationsConverter"/>
 
     <DataTemplate DataType="{x:Type shape:XText}">
-        <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Margin="-3,0,0,0" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
              FontFamily="{Binding FontFamily}" 
              FontSize="{Binding FontSize}" 
-             Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}" 
+             Foreground="{Binding TextColor, Converter={StaticResource XColorToBrushConverter}}" 
              FontWeight="{Binding IsBold, Converter={StaticResource BoolToFontWeightConverter}}" 
              FontStyle="{Binding IsItalic, Converter={StaticResource BoolToFontStyleConverter}}" 
              Loaded="Preview_Loaded">
