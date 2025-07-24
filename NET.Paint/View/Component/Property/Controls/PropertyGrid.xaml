@@ -3,11 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:local="clr-namespace:NET.Paint.View.Component.Property.Controls"
              xmlns:shapes="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
+             xmlns:color="clr-namespace:NET.Paint.View.Component.Tools.Controls"
+             xmlns:selectors="clr-namespace:NET.Paint.Selector"
+             xmlns:converters="clr-namespace:NET.Paint.View.Component.Property.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="200" d:Background="White"
+             d:DesignHeight="300" d:DesignWidth="500" d:Background="White"
              d:DataContext="{d:DesignInstance Type={x:Type shapes:XText}, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <converters:ObjectToPropertyInfoConverter x:Key="ObjectToPropertyInfoConverter"/>
+        
+        <!-- Editor templates -->
+        <DataTemplate x:Key="BoolTemplate">
+            <Border BorderBrush="DimGray" BorderThickness="1">
+                <CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StringTemplate">
+            <TextBox Text="{Binding Value}" VerticalAlignment="Center" BorderBrush="DimGray"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ColorTemplate">
+            <color:ColorPicker SelectedColor="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="PointTemplate">
+            <TextBlock Text="{Binding Value}" VerticalAlignment="Center"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumberTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="18"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="18"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="{icons:MaterialIconExt Kind=Decrement}" Grid.Column="0" Height="18"/>
+                <TextBox Text="{Binding Value}" VerticalAlignment="Center" Grid.Column="1" TextAlignment="Center"/>
+                <Button Content="{icons:MaterialIconExt Kind=Increment}" Grid.Column="2" Height="18"/>
+            </Grid>
+        </DataTemplate>
+
+        <selectors:PropertyEditorTemplateSelector x:Key="PropertyEditorTemplateSelector" 
+                                                  StringTemplate="{StaticResource StringTemplate}" 
+                                                  ColorTemplate="{StaticResource ColorTemplate}" 
+                                                  BooleanTemplate="{StaticResource BoolTemplate}" 
+                                                  PointTemplate="{StaticResource PointTemplate}"
+                                                  NumberTemplate="{StaticResource NumberTemplate}"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -15,18 +62,28 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="LightGray" BorderBrush="#FFBBBBBB" BorderThickness="1">
-            <TextBlock Text="Properties" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+            <TextBlock Text="{Binding Path=Type}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
         </Border>
-        <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Properties}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <UniformGrid Columns="2" Background="White">
-                        <TextBlock Text="{Binding Name}" Width="80" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center"/>
-                    </UniformGrid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Border Grid.Row="1" BorderThickness="0,1,0,1" BorderBrush="Black">
+            <ScrollViewer MaxHeight="200" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5,0">
+                <ItemsControl ItemsSource="{Binding Path=., Converter={StaticResource ObjectToPropertyInfoConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="2" Background="White" Visibility="{Binding CanWrite, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Border BorderBrush="LightGray" BorderThickness="1">
+                                    <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" IsEnabled="False" Margin="2,0,0,0"/>
+                                </Border>
+                                <ContentControl Content="{Binding}" 
+                                              ContentTemplateSelector="{StaticResource PropertyEditorTemplateSelector}" 
+                                              VerticalAlignment="Stretch" 
+                                              HorizontalAlignment="Stretch"/>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
         <Border Grid.Row="2" Background="LightGray"/>
     </Grid>
 </UserControl>

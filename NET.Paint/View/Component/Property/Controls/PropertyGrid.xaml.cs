@@ -47,7 +47,7 @@ namespace NET.Paint.View.Component.Property.Controls
             set { SetValue(ShowHeaderProperty, value); }
         }
 
-        public IEnumerable<PropertyInfo> Properties { get => DataContext.GetType().GetProperties().ToList(); }
+        public ObservableCollection<PropertyInfo> Properties { get => new ObservableCollection<PropertyInfo>(DataContext.GetType().GetProperties().ToList()); }
 
         public PropertyGrid()
         {
