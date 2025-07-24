@@ -26,7 +26,7 @@
         </UniformGrid>
         <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding Fill}" Margin="0,-25,0,0">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type colorTypes:XSolid}">
+                <DataTemplate DataType="{x:Type colorTypes:XSolidColor}">
                     <StackPanel DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <Label Content="Color" Padding="0" Margin="2,0,0,2" FontSize="10"/>
                         <Border BorderThickness="1" BorderBrush="Black">

@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Utility
 {
-    [Union(0, typeof(XSolid))]
+    [Union(0, typeof(XSolidColor))]
     [Union(1, typeof(XGradient))]
     [MessagePackObject]
     public abstract class XColor : PropertyNotifier
@@ -17,7 +17,7 @@ namespace NET.Paint.Drawing.Model.Utility
     }
 
     [MessagePackObject]
-    public class XSolid : XColor
+    public class XSolidColor : XColor
     {
         [Key(0)]
         public override XColorType Type => XColorType.Solid;
@@ -102,7 +102,7 @@ namespace NET.Paint.Drawing.Model.Utility
 
             return xColor switch
             {
-                XSolid solid => new SolidColorBrush(solid.Color),
+                XSolidColor solid => new SolidColorBrush(solid.Color),
                 XLinearGradient linearGradient => CreateLinearGradientBrush(linearGradient),
                 XRadialGradient radialGradient => CreateRadialGradientBrush(radialGradient),
                 _ => null

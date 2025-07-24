@@ -211,7 +211,7 @@ namespace NET.Paint.Drawing.Factory
                             return new XRectangle
                             {
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
-                                Stroke = new XSolid { Color = Colors.Black },
+                                Stroke = new XSolidColor { Color = Colors.Black },
                                 StrokeThickness = 2,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
                                 CornerRadius = 0,
@@ -220,7 +220,7 @@ namespace NET.Paint.Drawing.Factory
                             return new XPolyline
                             {
                                 Points = new ObservableCollection<Point> { tools.ClickLocation },
-                                Stroke = new XSolid { Color = Colors.Black },
+                                Stroke = new XSolidColor { Color = Colors.Black },
                                 StrokeThickness = 2,
                                 StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
                                 PointSpacing = 20

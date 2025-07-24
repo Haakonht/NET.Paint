@@ -45,13 +45,13 @@ namespace NET.Paint.View.Component
                             PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                         }
                     }
-                }
-                else
-                {
-                    PreferencesAnchorable.IsVisible = false;
-                    PropertiesAnchorable.IsVisible = false;
-                    ClipboardAnchorable.IsVisible = false;
-                    UndoAnchorable.IsVisible = false;
+                    else
+                    {
+                        PreferencesAnchorable.IsVisible = false;
+                        PropertiesAnchorable.IsVisible = false;
+                        ClipboardAnchorable.IsVisible = false;
+                        UndoAnchorable.IsVisible = false;
+                    }
                 }
             }
         }

@@ -12,6 +12,21 @@ namespace NET.Paint.Drawing.Model.Structure
 {
     [Union(0, typeof(XText))]
     [Union(1, typeof(XBitmap))]
+    [Union(2, typeof(XLine))]
+    [Union(3, typeof(XPolyline))]
+    [Union(4, typeof(XBezier))]
+    [Union(5, typeof(XCurve))]
+    [Union(6, typeof(XCircle))]
+    [Union(7, typeof(XEllipse))]
+    [Union(8, typeof(XTriangle))]
+    [Union(9, typeof(XSquare))]
+    [Union(10, typeof(XRectangle))]
+    [Union(11, typeof(XRegular))]
+    [Union(12, typeof(XStar))]
+    [Union(13, typeof(XHeart))]
+    [Union(14, typeof(XCloud))]
+    [Union(15, typeof(XArrow))]
+    [Union(16, typeof(XSpiral))]
     [MessagePackObject]
     public abstract class XRenderable : XObject, ICloneable
     {

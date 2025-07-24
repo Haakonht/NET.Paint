@@ -109,6 +109,7 @@
 
     public enum  XNotificationSource
     {
+        Project,
         Clipboard,
         History,
         Selection,

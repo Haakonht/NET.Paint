@@ -1,16 +1,18 @@
 ﻿using MessagePack;
+using MessagePack.Formatters;
 using MessagePack.Resolvers;
 using NET.Paint.Drawing.Model.Structure;
 using System.IO;
 
 namespace NET.Paint.Drawing.Helper
 {
-    public static class XStorageService
+    public static class XStorage
     {
         private static readonly MessagePackSerializerOptions Options =
             MessagePackSerializerOptions.Standard
                 .WithResolver(CompositeResolver.Create(
-                    StandardResolver.Instance
+                    [ new PointFormatter(), new ColorFormatter(), new DoubleCollectionFormatter() ],
+                    [ StandardResolver.Instance ]
                 ));
 
         public static async Task SaveProjectAsync(XProject project, string filePath)

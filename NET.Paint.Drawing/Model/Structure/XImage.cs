@@ -44,15 +44,19 @@ namespace NET.Paint.Drawing.Model.Structure
         private double _height = 1080;
 
         [Key(4)]
-        public Color Background
+        public XColor Background
         {
             get => _background;
             set => SetProperty(ref _background, value);
         }
-        private Color _background = Colors.White;
+        private XColor _background = new XSolidColor { Color = Colors.White };
 
         [Key(5)]
-        public ObservableCollection<XLayer> Layers => _layers;
+        public ObservableCollection<XLayer> Layers
+        {
+            get => _layers;
+            set => SetProperty(ref _layers, value);
+        }
         private ObservableCollection<XLayer> _layers = new ObservableCollection<XLayer>() { new XVectorLayer { Title = "Background" } };
 
         #region Volatile - Not Serialized

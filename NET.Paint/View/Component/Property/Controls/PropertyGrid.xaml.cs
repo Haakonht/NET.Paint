@@ -23,7 +23,7 @@ namespace NET.Paint.View.Component.Property.Controls
                 FontFamily = "Arial",
                 FontSize = 16,
                 IsBold = true,
-                TextColor = new XSolid { Color = Colors.DarkBlue }
+                TextColor = new XSolidColor { Color = Colors.DarkBlue }
             }));
 
         public object SelectedObject

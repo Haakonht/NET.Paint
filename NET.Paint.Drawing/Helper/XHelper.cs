@@ -78,7 +78,7 @@ namespace NET.Paint.Drawing.Helper
         public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, Color primaryColor, Color secondaryColor)
         {
             if (activeColorType == XColorType.Solid)
-                return new XSolid { Color = primaryColor };
+                return new XSolidColor { Color = primaryColor };
             else 
                 if (activeGradientStyle == XGradientStyle.Linear)
                 {

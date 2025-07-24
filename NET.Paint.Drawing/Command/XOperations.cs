@@ -166,7 +166,7 @@ namespace NET.Paint.Drawing.Command
             }
         }
 
-        private void CreateNotification(XNotificationSource source)
+        private void CreateNotification(XNotificationSource source, string message = "")
         {
             if (source == XNotificationSource.Clipboard)
             {
@@ -191,6 +191,19 @@ namespace NET.Paint.Drawing.Command
                 {
                     Source = XNotificationSource.History,
                     Message = _service.ActiveImage.Undo.History.Count > 0 ? "Items added to undo history." : "History emptied"
+                });
+            }
+
+            if (source == XNotificationSource.Project)
+            {
+                var existingNotification = _service.Notifications.FirstOrDefault(n => n.Source == XNotificationSource.Project);
+                if (existingNotification != null)
+                    _service.Notifications.Remove(existingNotification);
+
+                _service.Notifications.Add(new XNotification
+                {
+                    Source = XNotificationSource.Project,
+                    Message = message
                 });
             }
         }
@@ -292,7 +305,7 @@ namespace NET.Paint.Drawing.Command
             {
                 Width = image.Width,
                 Height = image.Height,
-                Background = new SolidColorBrush(image.Background)
+                Background = image.Background.ToBrush()
             };
 
             var resourceDictionary = new ResourceDictionary
@@ -544,12 +557,67 @@ namespace NET.Paint.Drawing.Command
 
         public void OpenProject()
         {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "NET Paint Project (*.npp)|*.npp|All files (*.*)|*.*",
+                DefaultExt = ".npp",
+                Title = "Open Project"
+            };
 
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var project = XStorage.LoadProject(dialog.FileName);
+                    _service.Project = project;
+
+                    // Set the first image as active if available
+                    if (project.Images.Count > 0)
+                    {
+                        _service.ActiveImage = project.Images.First();
+                    }
+                    else
+                    {
+                        _service.ActiveImage = null;
+                    }
+
+                    CreateNotification(XNotificationSource.Project, $"Project '{Path.GetFileNameWithoutExtension(dialog.FileName)}' opened successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to open project: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         public void SaveProject()
         {
+            if (_service.Project == null)
+            {
+                MessageBox.Show("No project to save.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            var dialog = new SaveFileDialog
+            {
+                Filter = "NET Paint Project (*.npp)|*.npp|All files (*.*)|*.*",
+                DefaultExt = ".npp",
+                FileName = _service.Project.Title,
+                Title = "Save Project"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    XStorage.SaveProject(_service.Project, dialog.FileName);
+                    CreateNotification(XNotificationSource.Project, $"Project '{Path.GetFileNameWithoutExtension(dialog.FileName)}' saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to save project: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         #endregion

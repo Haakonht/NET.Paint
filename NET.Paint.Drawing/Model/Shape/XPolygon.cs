@@ -16,12 +16,13 @@ namespace NET.Paint.Drawing.Model.Shape
     [Union(4, typeof(XCloud))]
     [Union(5, typeof(XArrow))]
     [Union(6, typeof(XSpiral))]
+    [MessagePackObject]
     public abstract class XPolygon : XFilled, IRotateable
     {
         [Key(1)]
         public override XToolType Type => XToolType.Polygon;
 
-        [Key(8)]
+        [IgnoreMember]
         public abstract XPolygonStyle Style { get; }
 
         [Key(7)]

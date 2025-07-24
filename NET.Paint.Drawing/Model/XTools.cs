@@ -160,7 +160,7 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _strokeThickness, value);
         }
 
-        private XColor _stroke = new XSolid { Color = Colors.Black };
+        private XColor _stroke = new XSolidColor { Color = Colors.Black };
 
         public XColor Stroke
         {
@@ -172,7 +172,7 @@ namespace NET.Paint.Drawing.Model
         {
             get             
             {
-                if (Stroke is XSolid solidFill)
+                if (Stroke is XSolidColor solidFill)
                     return new SolidColorBrush(solidFill.Color);
                 else if (Stroke is XLinearGradient linearGradient)
                     return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
@@ -208,7 +208,7 @@ namespace NET.Paint.Drawing.Model
             }
         }
 
-        private XColor _fill = new XSolid { Color = Colors.LightGray };
+        private XColor _fill = new XSolidColor { Color = Colors.LightGray };
 
         public XColor Fill
         {
@@ -220,7 +220,7 @@ namespace NET.Paint.Drawing.Model
         {
             get
             {
-                if (Fill is XSolid solidFill)
+                if (Fill is XSolidColor solidFill)
                     return new SolidColorBrush(solidFill.Color);
                 else if (Fill is XLinearGradient linearGradient)
                     return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
