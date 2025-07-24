@@ -78,11 +78,11 @@ namespace NET.Paint.View.Component.Drawing.Controls
                         if (Preview.Shape is XPolyline pencil)
                         {
                             if (tools.PencilMode == XPencilMode.Add || tools.ActiveTool == XToolType.Selector)
-                                XFactory.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
+                                XFactory.Tools.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
                         }
 
                         else if (tools.ActiveTool == XToolType.Pencil && tools.PencilMode == XPencilMode.Remove)
-                            XFactory.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
+                            XFactory.Tools.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
 
                         else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {
@@ -131,7 +131,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                     var shape = hybridLayer.Shapes.FirstOrDefault();
                                     if (shape != null)
                                     {
-                                        hybridLayer.Bitmap = XHelper.ImageSourceToBase64(XFactory.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height));
+                                        hybridLayer.Bitmap = XFactory.Bitmap.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height);
                                         hybridLayer.Shapes.Remove(shape);
                                     }
                                 }
@@ -142,7 +142,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
                                 else if (image.ActiveLayer is XRasterLayer rasterLayer)
-                                    rasterLayer.Bitmap = XHelper.ImageSourceToBase64(XFactory.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height));
+                                    rasterLayer.Bitmap = XFactory.Bitmap.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height);
                             }
 
                             tools.Drag = false;

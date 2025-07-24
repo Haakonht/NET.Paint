@@ -143,10 +143,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <ContentPresenter x:Name="Previewer" 
-                  Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                  HorizontalAlignment="Center" 
-                  VerticalAlignment="Center">
+            <ContentPresenter x:Name="Previewer" Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" IsHitTestVisible="False">
                 <ContentPresenter.Resources>
                     <ResourceDictionary Source="../Resources/Preview.xaml"/>
                 </ContentPresenter.Resources>

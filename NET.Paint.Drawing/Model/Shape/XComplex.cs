@@ -157,20 +157,20 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XToolType Type => XToolType.Bitmap;
         
         [Key(3)]
-        public Point ClipOffset
+        public Point Offset
         {
-            get => _clipOffset;
-            set => SetProperty(ref _clipOffset, value);
+            get => _offset;
+            set => SetProperty(ref _offset, value);
         }
-        private Point _clipOffset = new Point(0, 0);
+        private Point _offset = new Point(0, 0);
 
         [Key(4)]
-        public string Bitmap
+        public ImageSource Source
         {
             get => _bitmap;
             set => SetProperty(ref _bitmap, value);
         }
-        private string _bitmap = null;
+        private ImageSource _bitmap = null;
 
         [Key(5)]
         public XScalingMode Scaling
@@ -222,9 +222,9 @@ namespace NET.Paint.Drawing.Model.Shape
 
         public override object Clone() => new XBitmap
         {
-            Bitmap = this.Bitmap,
+            Source = this.Source.Clone(),
             Scaling = this.Scaling,
-            ClipOffset = this.ClipOffset,
+            Offset = this.Offset,
             Rotation = this.Rotation,
             Points = new ObservableCollection<Point>(this.Points)
         };

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Win32;
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Interface;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
+using NET.Paint.Drawing.Persistence;
 using NET.Paint.Drawing.Service;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -305,7 +305,7 @@ namespace NET.Paint.Drawing.Command
             {
                 Width = image.Width,
                 Height = image.Height,
-                Background = image.Background.ToBrush()
+                Background = Brushes.White
             };
 
             var resourceDictionary = new ResourceDictionary
@@ -337,7 +337,7 @@ namespace NET.Paint.Drawing.Command
 
                     if (layer is IBitmapLayer bitmapLayer)
                     {
-                       layerCanvas.Background = new ImageBrush(XHelper.Base64ToImageSource(bitmapLayer.Bitmap))
+                       layerCanvas.Background = new ImageBrush(bitmapLayer.Bitmap)
                        {
                            Stretch = Stretch.None
                        };
@@ -512,7 +512,7 @@ namespace NET.Paint.Drawing.Command
                     Title = vectorLayer.Title,
                     OffsetX = vectorLayer.OffsetX,
                     OffsetY = vectorLayer.OffsetY,
-                    Bitmap = XHelper.ImageSourceToBase64(XFactory.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height))
+                    Bitmap = XFactory.Bitmap.FlattenLayerToBitmap(vectorLayer.Shapes, (int)image.Width, (int)image.Height)
                 };
 
                 int index = image.Layers.IndexOf(vectorLayer);

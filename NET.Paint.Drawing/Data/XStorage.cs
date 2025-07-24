@@ -1,17 +1,17 @@
 ﻿using MessagePack;
-using MessagePack.Formatters;
 using MessagePack.Resolvers;
 using NET.Paint.Drawing.Model.Structure;
+using NET.Paint.Drawing.Persistence.Formatters;
 using System.IO;
 
-namespace NET.Paint.Drawing.Helper
+namespace NET.Paint.Drawing.Persistence
 {
     public static class XStorage
     {
         private static readonly MessagePackSerializerOptions Options =
             MessagePackSerializerOptions.Standard
                 .WithResolver(CompositeResolver.Create(
-                    [ new PointFormatter(), new ColorFormatter(), new DoubleCollectionFormatter() ],
+                    [ new PointFormatter(), new ColorFormatter(), new DoubleCollectionFormatter(), new ImageSourceFormatter() ],
                     [ StandardResolver.Instance ]
                 ));
 

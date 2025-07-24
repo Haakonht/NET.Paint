@@ -1,41 +1,13 @@
-﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Utility;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NET.Paint.Drawing.Helper
 {
-    public class XHelper
+    public static class XHelper
     {
-        public static string ImageSourceToBase64(ImageSource image)
-        {
-            if (image is BitmapSource bitmapSource)
-            {
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-                using var ms = new MemoryStream();
-                encoder.Save(ms);
-                return Convert.ToBase64String(ms.ToArray());
-            }
-            return string.Empty;
-        }
-
-        public static ImageSource Base64ToImageSource(string base64)
-        {
-            var bytes = Convert.FromBase64String(base64);
-            var image = new BitmapImage();
-            using var ms = new MemoryStream(bytes);
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.StreamSource = ms;
-            image.EndInit();
-            image.Freeze();
-            return image;
-        }
+        #region Bitmap
 
         public static ImageSource CreateRandomBitmap(int width, int height)
         {
@@ -73,39 +45,8 @@ namespace NET.Paint.Drawing.Helper
 
             renderTarget.Render(visual);
             return renderTarget;
-        }
+        }      
 
-        public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, Color primaryColor, Color secondaryColor)
-        {
-            if (activeColorType == XColorType.Solid)
-                return new XSolidColor { Color = primaryColor };
-            else 
-                if (activeGradientStyle == XGradientStyle.Linear)
-                {
-                    return new XLinearGradient
-                    {
-                        StartPoint = new Point(0, 0),
-                        EndPoint = new Point(1, 0),
-                        GradientStops = new ObservableCollection<XGradientStop>
-                        {
-                            new XGradientStop { Color = secondaryColor, Offset = 0 },
-                            new XGradientStop { Color = primaryColor, Offset = 1 }
-                        }
-                    };
-                }
-                else
-                {
-                    return new XRadialGradient
-                    {
-                        Center = new Point(0.5, 0.5),
-                        Radius = 0.5,
-                        GradientStops = new ObservableCollection<XGradientStop>
-                        {
-                            new XGradientStop { Color = secondaryColor, Offset = 0 },
-                            new XGradientStop { Color = primaryColor, Offset = 1 }
-                        }
-                    };
-                }
-        }
+        #endregion       
     }
 }

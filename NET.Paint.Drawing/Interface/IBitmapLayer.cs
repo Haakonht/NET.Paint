@@ -1,7 +1,9 @@
-﻿namespace NET.Paint.Drawing.Interface
+﻿using System.Windows.Media;
+
+namespace NET.Paint.Drawing.Interface
 {
     public interface IBitmapLayer
     {
-        public string Bitmap { get; set; }
+        public ImageSource Bitmap { get; set; }
     }
 }

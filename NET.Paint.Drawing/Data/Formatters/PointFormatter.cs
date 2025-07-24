@@ -2,7 +2,7 @@
 using MessagePack.Formatters;
 using System.Windows;
 
-namespace NET.Paint.Drawing.Helper
+namespace NET.Paint.Drawing.Persistence.Formatters
 {
     public class PointFormatter : IMessagePackFormatter<Point>
     {

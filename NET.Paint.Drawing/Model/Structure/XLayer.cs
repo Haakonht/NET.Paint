@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Model.Structure
 {
@@ -143,12 +144,12 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [Key(6)]
         [Browsable(false)]
-        public string Bitmap
+        public ImageSource Bitmap
         {
             get => _bitmap;
             set => SetProperty(ref _bitmap, value);
         }
-        private string _bitmap;
+        private ImageSource _bitmap;
 
         #region Volatile - Not Serialized
         
@@ -191,12 +192,12 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [Key(8)]
         [Browsable(false)]  
-        public string Bitmap
+        public ImageSource Bitmap
         {
             get => _bitmap;
             set => SetProperty(ref _bitmap, value);
         }
-        private string _bitmap;
+        private ImageSource _bitmap;
 
         #region Volatile - Not Serialized
 

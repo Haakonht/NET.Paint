@@ -1,5 +1,4 @@
 ﻿using MessagePack;
-using NET.Paint.Drawing.Helper;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
@@ -61,21 +60,12 @@ namespace NET.Paint.Drawing.Model.Structure
 
         [IgnoreMember]
         [Browsable(false)]
-        public ObservableCollection<ImageSource> Bitmaps { get; set; } = new();
-
-        [IgnoreMember]
-        [Browsable(false)]
-        public List<string> BitmapBase64
+        public ObservableCollection<ImageSource> Bitmaps 
         {
-            get => Bitmaps.Select(XHelper.ImageSourceToBase64).ToList();
-            set
-            {
-                Bitmaps.Clear();
-                foreach (var b64 in value)
-                    Bitmaps.Add(XHelper.Base64ToImageSource(b64));
-                OnPropertyChanged(nameof(Bitmaps));
-            }
-        }
+            get => _bitmaps;
+            set => SetProperty(ref _bitmaps, value);
+        } 
+        private ObservableCollection<ImageSource> _bitmaps = new ObservableCollection<ImageSource>();
 
         #endregion
     }

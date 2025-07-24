@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Factory;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
@@ -45,15 +46,15 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             RegularPreview.Shape = new XRegular
             {
-                Points = XFactory.CreateRegularPolygon(
+                Points = XFactory.Tools.CreateRegularPolygon(
                     new Point(0, 10),
                     new Point(50, 50),
                     XTools.Instance.PolygonCorners
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -62,17 +63,17 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             ArrowPreview.Shape = new XArrow
             {
-                Points = XFactory.CreateArrow(
+                Points = XFactory.Tools.CreateArrow(
                     new Point(0, 0 + (XTools.Instance.HeadWidth / 2)),
                     new Point(120, 0 + (XTools.Instance.HeadWidth / 2)),
                     XTools.Instance.HeadLength,
                     XTools.Instance.HeadWidth,
                     XTools.Instance.TailWidth
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -81,17 +82,17 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             SpiralPreview.Shape = new XSpiral
             {
-                Points = XFactory.CreateSpiral(
+                Points = XFactory.Tools.CreateSpiral(
                     new Point(0, 0),
                     new Point(70, 70),
                     XTools.Instance.Turns,
                     XTools.Instance.SpiralSamples
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
-            };
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+    };
         }
 
         private void StarPreviewChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => CreateStarPreview();
@@ -99,16 +100,16 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             StarPreview.Shape = new XStar
             {
-                Points = XFactory.CreateStar(
+                Points = XFactory.Tools.CreateStar(
                     new Point(0, 10),
                     new Point(60, 60),
                     XTools.Instance.StarPoints,
                     XTools.Instance.StarInnerRadiusRatio
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -117,15 +118,15 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             HeartPreview.Shape = new XHeart
             {
-                Points = XFactory.CreateHeart(
+                Points = XFactory.Tools.CreateHeart(
                     new Point(0, 0),
                     new Point(60, 60),
                     XTools.Instance.HeartSamples
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -134,17 +135,17 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             CloudPreview.Shape = new XCloud
             {
-                Points = XFactory.CreateCloud(
+                Points = XFactory.Tools.CreateCloud(
                     new Point(0, 0),
                     new Point(60, 60),
                     XTools.Instance.CloudBumps,
                     XTools.Instance.BumpVariance
                 ),
-                Fill = new XSolidColor { Color = Colors.LightGray },
-                Stroke = new XSolidColor { Color = Colors.Black },
-                StrokeThickness = XTools.Instance.StrokeThickness,
-                StrokeStyle = XTools.Instance.StrokeStyle.DashArray
-            };
+                Fill = XFactory.Color.CreateColor(Colors.LightGray),
+                Stroke = XFactory.Color.CreateColor(Colors.Black),
+                StrokeThickness = 1,
+                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+    };
         }
     }
 }

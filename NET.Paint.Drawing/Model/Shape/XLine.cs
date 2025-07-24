@@ -63,7 +63,7 @@ namespace NET.Paint.Drawing.Model.Shape
             {
                 if (value != _spacing && value > 9)
                 {
-                    XFactory.ResamplePoints(Points, value);
+                    XFactory.Tools.ResamplePoints(Points, value);
                     SetProperty(ref _spacing, value);
                 }
             }
