@@ -67,7 +67,7 @@ namespace NET.Paint.Drawing.Model.Structure
     [Union(2, typeof(XBezier))]
     [Union(3, typeof(XCurve))]
     [MessagePackObject]
-    public abstract class XStroked : XRenderable
+    public abstract class XStrokedRenderable : XRenderable
     {
         [Key(3)]
         public XColor Stroke
@@ -102,7 +102,7 @@ namespace NET.Paint.Drawing.Model.Structure
     [Union(4, typeof(XRectangle))]
     [Union(5, typeof(XPolygon))]
     [MessagePackObject]
-    public abstract class XFilled : XStroked
+    public abstract class XFilledRenderable : XStrokedRenderable
     {
         [Key(6)]
         public XColor Fill

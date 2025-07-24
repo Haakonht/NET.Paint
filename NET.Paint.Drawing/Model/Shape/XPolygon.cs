@@ -17,7 +17,7 @@ namespace NET.Paint.Drawing.Model.Shape
     [Union(5, typeof(XArrow))]
     [Union(6, typeof(XSpiral))]
     [MessagePackObject]
-    public abstract class XPolygon : XFilled, IRotateable
+    public abstract class XPolygon : XFilledRenderable, IRotateable
     {
         [Key(1)]
         public override XToolType Type => XToolType.Polygon;

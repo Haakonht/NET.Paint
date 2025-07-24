@@ -11,7 +11,7 @@ using System.Windows;
 namespace NET.Paint.Drawing.Model.Shape
 {
     [MessagePackObject]
-    public class XLine : XStroked
+    public class XLine : XStrokedRenderable
     {
         [Key(1)]
         public override XToolType Type => XToolType.Line;
@@ -50,7 +50,7 @@ namespace NET.Paint.Drawing.Model.Shape
     }
 
     [MessagePackObject]
-    public class XPolyline : XStroked
+    public class XPolyline : XStrokedRenderable
     {
         [Key(1)]
         public override XToolType Type => XToolType.Pencil;
@@ -87,7 +87,7 @@ namespace NET.Paint.Drawing.Model.Shape
     }
 
     [MessagePackObject]
-    public class XCurve : XStroked, IControlPoints
+    public class XCurve : XStrokedRenderable, IControlPoints
     {
         [Key(1)]
         public override XToolType Type => XToolType.Curve;
