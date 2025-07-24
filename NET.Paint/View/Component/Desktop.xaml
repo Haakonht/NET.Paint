@@ -58,7 +58,7 @@
 
                     <dock:LayoutPanel Orientation="Horizontal" DockHeight="*">
                         <dock:LayoutAnchorablePane DockWidth="41" DockMinWidth="41">
-                            <dock:LayoutAnchorable x:Name="Toolbox" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
+                            <dock:LayoutAnchorable x:Name="ToolboxAnchorable" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
                                 <toolComponents:ToolBox DataContext="{Binding}"/>
                             </dock:LayoutAnchorable>
                         </dock:LayoutAnchorablePane>

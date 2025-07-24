@@ -1,12 +1,12 @@
 ﻿using NET.Paint.Drawing.Command;
+using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Factory;
 using NET.Paint.Drawing.Helper;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Mvvm;
-using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Factory;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
@@ -15,7 +15,7 @@ namespace NET.Paint.Drawing.Service
 {
     public class XService : PropertyNotifier
     {
-        private bool DEBUG = false;
+        private bool DebugMode = false;
 
         private XProject _project;
         public XProject Project
@@ -52,8 +52,14 @@ namespace NET.Paint.Drawing.Service
             ToolboxVisible = true
         };
 
-        public XService()
+        public XService() => InitDebug();
+
+        #region Debug
+
+        public void InitDebug()
         {
+            if (!DebugMode) return;
+
             // Create sample layers and shapes
             var sampleLayer1 = new XVectorLayer { Title = "Demo Layer" };
 
@@ -259,9 +265,8 @@ namespace NET.Paint.Drawing.Service
 
             // Set the active image and layer
             ActiveImage = sampleImage1;
-
-            // Initialize the command object
-            Command = new XCommand(this);
         }
+
+        #endregion
     }
 }

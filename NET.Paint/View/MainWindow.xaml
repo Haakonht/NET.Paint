@@ -12,7 +12,7 @@
         xmlns:local="clr-namespace:NET.Paint.View"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}"
-        Title="{Binding Project.Title}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
+        Title="{Binding Project.Title, FallbackValue='NET.Paint', TargetNullValue='NET.Paint'}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
     <Window.DataContext>
         <service:XService />
     </Window.DataContext>

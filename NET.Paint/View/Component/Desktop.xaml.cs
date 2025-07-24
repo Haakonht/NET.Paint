@@ -21,6 +21,11 @@ namespace NET.Paint.View.Component
         public Desktop()
         {
             InitializeComponent();
+
+            PreferencesAnchorable.IsVisible = false;
+            PropertiesAnchorable.IsVisible = false;
+            ClipboardAnchorable.IsVisible = false;
+            UndoAnchorable.IsVisible = false;
         }
 
         private void ActiveContentChanged(object sender, EventArgs e)
@@ -45,13 +50,6 @@ namespace NET.Paint.View.Component
                             PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                         }
                     }
-                    else
-                    {
-                        PreferencesAnchorable.IsVisible = false;
-                        PropertiesAnchorable.IsVisible = false;
-                        ClipboardAnchorable.IsVisible = false;
-                        UndoAnchorable.IsVisible = false;
-                    }
                 }
             }
         }
@@ -72,7 +70,7 @@ namespace NET.Paint.View.Component
                         Dispatcher.Invoke(() => UndoAnchorable.IsVisible = preferences.UndoVisible);
                         break;
                     case nameof(XService.Preferences.ToolboxVisible):
-                        Dispatcher.Invoke(() => Toolbox.IsVisible = preferences.ToolboxVisible);
+                        Dispatcher.Invoke(() => ToolboxAnchorable.IsVisible = preferences.ToolboxVisible);
                         break;
                     case nameof(XService.Preferences.PreferencesVisible):
                         Dispatcher.Invoke(() =>

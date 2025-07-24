@@ -194,7 +194,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
             {
                 if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {
-                    var hitResult = VisualTreeHelper.HitTest(artboard, tools.ClickLocation);
+                    var hitResult = VisualTreeHelper.HitTest(artboard, new Point(tools.ClickLocation.X + image.ActiveLayer.OffsetX, tools.ClickLocation.Y + image.ActiveLayer.OffsetY));
                     XRenderable hitObject = null;
 
                     if (hitResult?.VisualHit is Shape shape)
