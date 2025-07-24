@@ -145,11 +145,17 @@
             </ItemsControl>
             <ContentPresenter x:Name="Previewer" 
                   Content="{Binding Preview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                  HorizontalAlignment="Left" 
-                  VerticalAlignment="Top">
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center">
                 <ContentPresenter.Resources>
                     <ResourceDictionary Source="../Resources/Preview.xaml"/>
                 </ContentPresenter.Resources>
+                <ContentPresenter.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding ActiveLayer.Rotation}" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
+                        <TranslateTransform X="{Binding ActiveLayer.OffsetX}" Y="{Binding ActiveLayer.OffsetY}"/>
+                    </TransformGroup>
+                </ContentPresenter.RenderTransform>
             </ContentPresenter>
         </Grid>
     </Border>

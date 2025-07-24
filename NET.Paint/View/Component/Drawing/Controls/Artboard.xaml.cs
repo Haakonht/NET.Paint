@@ -86,13 +86,10 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
                         else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {
-                            if (tools.Drag)
-                            {
-                                if (image.Selected.Count == 0)
-                                    MoveLayer(tools, image);
-                                else
-                                    MoveSelected(tools, image);
-                            }
+                            if (image.Selected.Count == 0)
+                                MoveLayer(tools, image);
+                            else
+                                MoveSelected(tools, image);
                         }
 
                         else
