@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:options="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
@@ -31,7 +30,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="SelectorToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Selection Mode" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                     <UniformGrid Columns="3" Height="25">
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.SelectionMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XSelectionMode.Pointer}}" ContentTemplate="{StaticResource PointerToolIcon}" GroupName="SelectorMode"/>
@@ -42,7 +41,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="PencilToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Mode" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                     <UniformGrid Columns="2" Height="25">
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolylineMode.Add}}" ContentTemplate="{StaticResource PencilToolIcon}" GroupName="PencilMode"/>
@@ -74,7 +73,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="StarToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding StarPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -101,7 +100,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="ArrowToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding ArrowPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -139,7 +138,7 @@
 
 
             <DataTemplate x:Key="TextToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Font / Size" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -160,7 +159,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="CloudToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding CloudPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -187,7 +186,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="SpiralToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding SpiralPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -214,7 +213,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="HeartToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding HeartPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -232,7 +231,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="RegularToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <ContentPresenter Content="{Binding RegularPreview.Shape, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -250,7 +249,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="RectangleToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Preview" Padding="0" Margin="2,2,0,2" FontSize="10"/>
                     <Border BorderBrush="DimGray" Background="White" BorderThickness="1" Height="75" Margin="0,5,0,0">
                         <Rectangle Stroke="Black" Fill="LightGray" StrokeThickness="1" Height="60" Width="60" RadiusX="{Binding Tools.Radius}" RadiusY="{Binding Tools.Radius}"/>
@@ -271,7 +270,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="BitmapToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <Label Content="Bitmap Scaling:" Padding="0" Margin="2,0,0,2"/>
                     <UniformGrid Columns="3" Height="25">
                         <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.BitmapScaling, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XScalingMode.Original}}" Content="{ma:MaterialIconExt Kind=Compress}" GroupName="SelectorMode"/>
@@ -284,7 +283,7 @@
             <selector:PolygonTemplateSelector x:Key="PolygonSelector" RegularTemplate="{StaticResource RegularToolTemplate}"  StarTemplate="{StaticResource StarToolTemplate}" HeartTemplate="{StaticResource HeartToolTemplate}" ArrowTemplate="{StaticResource ArrowToolTemplate}" SpiralTemplate="{StaticResource SpiralToolTemplate}" CloudTemplate="{StaticResource CloudToolTemplate}" EmptyTemplate="{StaticResource Empty}"/>
 
             <DataTemplate x:Key="PolygonToolTemplate">
-                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
+                <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}">
                     <ComboBox SelectedValue="{Binding Tools.ActivePolygon}" SelectedValuePath="Tag" Height="25">
                         <ComboBoxItem Tag="{x:Static options:XPolygonStyle.Regular}">
                             <ComboBoxItem.Content>
@@ -348,6 +347,6 @@
     </UserControl.Resources>
     
     <Grid>
-        <ContentControl Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolCustomTemplateSelector}"/>
+        <ContentControl Content="{Binding Tools.ActiveTool}" ContentTemplateSelector="{StaticResource ToolCustomTemplateSelector}" Tag="{Binding Tools}"/>
     </Grid>
 </UserControl>

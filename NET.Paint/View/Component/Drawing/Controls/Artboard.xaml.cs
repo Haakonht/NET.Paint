@@ -51,7 +51,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                 {
                     SingleSelect(sender, tools, image);
                 }
-                else
+                else if (tools.ClickLocation.HasValue)
                     Preview.Shape = XFactory.CreateShape(tools);
             }
         }
@@ -88,7 +88,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                 MoveSelected(tools, image);
                         }
 
-                        else
+                        else if(tools.ClickLocation.HasValue)
                             Preview.Shape = XFactory.CreateShape(tools);
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
@@ -118,7 +118,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                     tools.SelectionMode = XSelectionMode.Pointer;
                             }
 
-                            if (tools.ActiveTool != XToolType.Selector)
+                            if (tools.ActiveTool != XToolType.Selector && Preview.Shape.Points.Distinct().Count() > 1)
                             {
                                 if (image.ActiveLayer is XHybridLayer hybridLayer)
                                 {
@@ -143,7 +143,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                             tools.Drag = false;
                         }
 
-                        tools.ClickLocation = new Point(0, 0);
+                        tools.ClickLocation = null;
                     }
                 }
             }
@@ -167,7 +167,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
         private void MoveSelected(XTools tools, XImage image)
         {
             if (tools.ClickLocation == null) return;
-            Vector delta = tools.MouseLocation - tools.ClickLocation;
+            Vector delta = tools.MouseLocation - tools.ClickLocation.Value;
 
             foreach (XRenderable selected in image.Selected.OfType<XRenderable>())
             {
@@ -189,7 +189,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
             {
                 if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {
-                    var hitResult = VisualTreeHelper.HitTest(artboard, new Point(tools.ClickLocation.X + image.ActiveLayer.OffsetX, tools.ClickLocation.Y + image.ActiveLayer.OffsetY));
+                    var hitResult = VisualTreeHelper.HitTest(artboard, new Point(tools.ClickLocation.Value.X + image.ActiveLayer.OffsetX, tools.ClickLocation.Value.Y + image.ActiveLayer.OffsetY));
                     XRenderable hitObject = null;
 
                     if (hitResult?.VisualHit is Shape shape)

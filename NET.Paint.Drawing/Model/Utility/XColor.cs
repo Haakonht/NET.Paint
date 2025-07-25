@@ -10,10 +10,12 @@ namespace NET.Paint.Drawing.Model.Utility
     [Union(0, typeof(XSolidColor))]
     [Union(1, typeof(XGradient))]
     [MessagePackObject]
-    public abstract class XColor : PropertyNotifier
+    public abstract class XColor : PropertyNotifier, ICloneable
     {
         [IgnoreMember]
         public abstract XColorType Type { get; }
+
+        public abstract object Clone();
     }
 
     [MessagePackObject]
@@ -29,6 +31,8 @@ namespace NET.Paint.Drawing.Model.Utility
             set => SetProperty(ref _color, value);
         }
         private Color _color;
+
+        public override object Clone() => new XSolidColor { Color = this.Color };
     }
 
     [Union(0, typeof(XLinearGradient))]
@@ -78,6 +82,20 @@ namespace NET.Paint.Drawing.Model.Utility
 
         [Key(4)]
         public Point EndPoint { get; set; } = new Point(1, 0);
+
+        public override object Clone()
+        {
+            var clone = new XLinearGradient
+            {
+                StartPoint = this.StartPoint,
+                EndPoint = this.EndPoint
+            };
+            foreach (var stop in GradientStops)
+            {
+                clone.GradientStops.Add(new XGradientStop { Color = stop.Color, Offset = stop.Offset });
+            }
+            return clone;
+        }
     }
 
     [MessagePackObject]
@@ -91,6 +109,20 @@ namespace NET.Paint.Drawing.Model.Utility
 
         [Key(4)]
         public double Radius { get; set; }
+
+        public override object Clone()
+        {
+            var clone = new XRadialGradient
+            {
+                Center = this.Center,
+                Radius = this.Radius
+            };
+            foreach (var stop in GradientStops)
+            {
+                clone.GradientStops.Add(new XGradientStop { Color = stop.Color, Offset = stop.Offset });
+            }
+            return clone;
+        }
     }
 
     public static class XColorExtensions

@@ -81,8 +81,8 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _drag, value);
         }
 
-        private Point _clickLocation = new Point(0, 0);
-        public Point ClickLocation
+        private Point? _clickLocation = null;
+        public Point? ClickLocation
         {
             get => _clickLocation;
             set => SetProperty(ref _clickLocation, value);
@@ -169,20 +169,6 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _stroke, value);
         }
 
-        public Brush StrokeBrush
-        {
-            get             
-            {
-                if (Stroke is XSolidColor solidFill)
-                    return new SolidColorBrush(solidFill.Color);
-                else if (Stroke is XLinearGradient linearGradient)
-                    return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
-                else if (Stroke is XRadialGradient radialGradient)
-                    return new RadialGradientBrush(new GradientStopCollection(radialGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))));
-                return Brushes.Transparent;
-            }
-        }
-
         #endregion
 
         #region Fill
@@ -215,20 +201,6 @@ namespace NET.Paint.Drawing.Model
         {
             get => _fill;
             set => SetProperty(ref _fill, value);
-        }
-
-        public Brush FillBrush
-        {
-            get
-            {
-                if (Fill is XSolidColor solidFill)
-                    return new SolidColorBrush(solidFill.Color);
-                else if (Fill is XLinearGradient linearGradient)
-                    return new LinearGradientBrush(new GradientStopCollection(linearGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))), linearGradient.StartPoint, linearGradient.EndPoint);
-                else if (Fill is XRadialGradient radialGradient)
-                    return new RadialGradientBrush(new GradientStopCollection(radialGradient.GradientStops.Select(x => new GradientStop(x.Color, x.Offset))));
-                return Brushes.Transparent;
-            }
         }
 
         #endregion
