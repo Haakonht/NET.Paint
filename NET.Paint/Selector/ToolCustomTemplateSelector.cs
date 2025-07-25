@@ -26,7 +26,7 @@ namespace NET.Paint.Selector
                 {
                     case XToolType.Selector:
                         return SelectorTemplate;
-                    case XToolType.Pencil:
+                    case XToolType.Polyline:
                         return PencilTemplate;
                     case XToolType.Line:
                         return LineTemplate;

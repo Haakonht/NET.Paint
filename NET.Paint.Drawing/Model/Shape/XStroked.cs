@@ -53,7 +53,7 @@ namespace NET.Paint.Drawing.Model.Shape
     public class XPolyline : XStrokedRenderable
     {
         [Key(1)]
-        public override XToolType Type => XToolType.Pencil;
+        public override XToolType Type => XToolType.Polyline;
 
         [Key(6)]
         public double PointSpacing

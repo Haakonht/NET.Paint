@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace NET.Paint.View.Component.Tools
+namespace NET.Paint.View.Component.Editor
 {
     /// <summary>
     /// Interaction logic for ToolContextSlim.xaml
     /// </summary>
-    public partial class ToolContext : UserControl, INotifyPropertyChanged
+    public partial class EditorContextMenu : UserControl, INotifyPropertyChanged
     {
         private int _contextIndex = 0;
         public int ContextIndex
@@ -22,7 +22,7 @@ namespace NET.Paint.View.Component.Tools
             }
         }
 
-        public ToolContext()
+        public EditorContextMenu()
         {
             InitializeComponent();
         }

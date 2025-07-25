@@ -13,7 +13,7 @@
     public enum XToolType
     {
         Selector,
-        Pencil,
+        Polyline,
         Line,
         Curve,
         Bezier,
@@ -90,7 +90,7 @@
         Lasso
     }
 
-    public enum XPencilMode
+    public enum XPolylineMode
     {
         Add,
         Remove

@@ -25,7 +25,7 @@ namespace NET.Paint.View.Component.Drawing.Converters
                                 default:
                                     return Cursors.Cross;
                             }
-                        case XToolType.Pencil:
+                        case XToolType.Polyline:
                             return Cursors.Pen;
                         default:
                             return Cursors.Cross;

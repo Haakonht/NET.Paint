@@ -25,7 +25,9 @@
                 <ResourceDictionary Source="../../Resources/Styles/Anchorables.xaml"/>
                 <ResourceDictionary Source="../../Resources/ToolIcons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
+            <converters:AnchorableEnabledConverter x:Key="AnchorableEnabledConverter"/>
+
             <DataTemplate x:Key="Header">
                 <TextBlock Text="{Binding Content.Title}" Margin="5,0"/>
             </DataTemplate>
@@ -67,7 +69,7 @@
                     <dock:LayoutPanel Orientation="Horizontal" DockHeight="*">
                         <dock:LayoutAnchorablePane DockWidth="41" DockMinWidth="41">
                             <dock:LayoutAnchorable x:Name="ToolboxAnchorable" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
-                                <toolComponents:ToolBox DataContext="{Binding}"/>
+                                <toolComponents:ToolBox DataContext="{Binding}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
                             </dock:LayoutAnchorable>
                         </dock:LayoutAnchorablePane>
 
@@ -76,22 +78,22 @@
                         <dock:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="225" DockMinWidth="225">
                             <dock:LayoutAnchorablePane DockHeight="6*" >
                                 <dock:LayoutAnchorable Title="Overview" x:Name="ProjectTreeAnchorable" CanDockAsTabbedDocument="False">
-                                    <overviewComponents:ProjectTree x:Name="ProjectTree" DataContext="{Binding}"/>
+                                    <overviewComponents:ProjectTree x:Name="ProjectTree" DataContext="{Binding}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
                                 </dock:LayoutAnchorable>
                             </dock:LayoutAnchorablePane>
                             <dock:LayoutAnchorablePane DockHeight="1.0*">
                                 <dock:LayoutAnchorable Title="Undo" x:Name="UndoAnchorable" CanDockAsTabbedDocument="False">
-                                    <overviewComponents:History DataContext="{Binding ActiveImage}"/>
+                                    <overviewComponents:History DataContext="{Binding ActiveImage}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
                                 </dock:LayoutAnchorable>
                             </dock:LayoutAnchorablePane>
                             <dock:LayoutAnchorablePane DockHeight="0.5*" DockMinHeight="50">
                                 <dock:LayoutAnchorable Title="Clipboard" x:Name="ClipboardAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
-                                    <overviewComponents:Clipboard DataContext="{Binding}"/>
+                                    <overviewComponents:Clipboard DataContext="{Binding}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
                                 </dock:LayoutAnchorable>
                             </dock:LayoutAnchorablePane>
                             <dock:LayoutAnchorablePane DockHeight="3*" DockMinHeight="200">
                                 <dock:LayoutAnchorable Title="Properties" x:Name="PropertiesAnchorable" CanDockAsTabbedDocument="False" IsVisible="False">
-                                    <overviewComponents:Properties DataContext="{Binding ActiveImage}"/>
+                                    <overviewComponents:Properties DataContext="{Binding ActiveImage}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
                                 </dock:LayoutAnchorable>
                             </dock:LayoutAnchorablePane>
                         </dock:LayoutAnchorablePaneGroup>

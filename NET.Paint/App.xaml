@@ -12,6 +12,7 @@
         <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converter:ValueGreaterThanConverter x:Key="ValueGreaterThanConverter"/>
         <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
+        <converter:NullToBoolConverter x:Key="NullToBoolConverter"/>
 
         <Style TargetType="TextBlock" x:Key="HoverStyle">
             <Setter Property="FontWeight" Value="Normal"/>

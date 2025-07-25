@@ -13,15 +13,22 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Service
 {
-    public class XService : PropertyNotifier
+    public class XService : PropertyNotifier, IDisposable
     {
-        private bool DebugMode = true;
+        public XService() => InitDebug();
 
-        private XProject _project;
+        private XProject _project = null;
         public XProject Project
         {
             get => _project;
-            set => SetProperty(ref _project, value);
+            set
+            {
+                if (_project != null)
+                    _project.Images.CollectionChanged -= OnProjectImagesChanged;
+                SetProperty(ref _project, value);
+                if (_project != null)
+                    _project.Images.CollectionChanged += OnProjectImagesChanged;
+            }
         }
 
         private XImage? _activeImage = null;
@@ -52,9 +59,38 @@ namespace NET.Paint.Drawing.Service
             ToolboxVisible = true
         };
 
-        public XService() => InitDebug();
+        #region Project
+
+        private bool _disposed = false;
+
+        private void OnProjectImagesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Project));
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed && disposing)
+            {
+                if (_project != null)
+                {
+                    _project.Images.CollectionChanged -= OnProjectImagesChanged;
+                }
+                _disposed = true;
+            }
+        }
+
+        #endregion
 
         #region Debug
+
+        private bool DebugMode = false;
 
         public void InitDebug()
         {

@@ -53,6 +53,15 @@
             </DataTemplate>
 
             <DataTemplate x:Key="PointCollectionTemplate">
+                <ComboBox ItemsSource="{Binding Value}" SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="5,1,0,0" VerticalAlignment="Center" FontSize="11">
+                                [X: <Run Text="{Binding X}"/>, Y: <Run Text="{Binding Y}"/>]
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </DataTemplate>
 
             <DataTemplate x:Key="StrokeStyleTemplate">

@@ -20,8 +20,8 @@ namespace NET.Paint.Drawing.Factory
         {
             switch (tools.ActiveTool)
             {
-                case XToolType.Pencil:
-                    if (tools.PencilMode == XPencilMode.Add)
+                case XToolType.Polyline:
+                    if (tools.PolylineMode == XPolylineMode.Add)
                         return new XPolyline
                         {
                             Points = new ObservableCollection<Point> { tools.ClickLocation },
@@ -211,6 +211,7 @@ namespace NET.Paint.Drawing.Factory
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                                 Stroke = new XSolidColor { Color = Colors.Black },
                                 StrokeThickness = 2,
+                                Fill = new XSolidColor { Color = System.Windows.Media.Color.FromArgb(51, 255, 255, 255) },
                                 StrokeStyle = XOptions.StrokeStyleOptions[2].DashArray,
                                 CornerRadius = 0,
                             };
@@ -515,7 +516,7 @@ namespace NET.Paint.Drawing.Factory
                 return new ObservableCollection<Point>() { start, end, ctrl1, ctrl2 };
             }
 
-            public static Point? CreatePencilPoints(ObservableCollection<Point> points, Point? lastAddedPoint, Point currentPos, double spacing)
+            public static Point? CreatePolylinePoints(ObservableCollection<Point> points, Point? lastAddedPoint, Point currentPos, double spacing)
             {
                 if (lastAddedPoint == null)
                 {
@@ -541,11 +542,11 @@ namespace NET.Paint.Drawing.Factory
                 return lastAddedPoint;
             }
 
-            public static void RemovePencilPoints(XLayer layer, Point mouseLocation, double tolerance)
+            public static void RemovePolylinePoints(XLayer layer, Point mouseLocation, double tolerance)
             {
                 if (layer != null && layer is IShapeLayer shapeLayer)
                 {
-                    var pencilShapes = shapeLayer.Shapes.Where(x => x.Type == XToolType.Pencil).ToList();
+                    var pencilShapes = shapeLayer.Shapes.Where(x => x.Type == XToolType.Polyline).ToList();
 
                     foreach (var pencilShape in pencilShapes)
                     {
@@ -756,7 +757,7 @@ namespace NET.Paint.Drawing.Factory
                 // Use a pack URI if needed
                 var resourceDictionary = new ResourceDictionary
                 {
-                    Source = new Uri("pack://application:,,,/Resources/Renderer.xaml", UriKind.Absolute)
+                    Source = new Uri("pack://application:,,,/View/Component/Drawing/Resources/Renderer.xaml", UriKind.Absolute)
                 };
                 root.Resources.MergedDictionaries.Add(resourceDictionary);
 

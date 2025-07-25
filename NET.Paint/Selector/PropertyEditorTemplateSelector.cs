@@ -1,4 +1,5 @@
 ﻿using NET.Paint.Drawing.Model.Utility;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,6 +11,7 @@ namespace NET.Paint.Selector
     {
         public DataTemplate FontTemplate { get; set; }
         public DataTemplate StrokeStyleTemplate { get; set; }
+        public DataTemplate PointsCollectionTemplate { get; set; }
         public DataTemplate? NumberTemplate { get; set; }
         public DataTemplate? StringTemplate { get; set; }
         public DataTemplate? BooleanTemplate { get; set; }
@@ -45,6 +47,9 @@ namespace NET.Paint.Selector
 
                 if (propertyType == typeof(DoubleCollection))
                     return StrokeStyleTemplate;
+
+                if (propertyType == typeof(ObservableCollection<Point>))
+                    return PointsCollectionTemplate;
             }
 
             return StringTemplate; // Default fallback

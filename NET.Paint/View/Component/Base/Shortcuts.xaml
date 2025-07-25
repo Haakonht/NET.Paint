@@ -15,78 +15,85 @@
     
     <DockPanel Margin="5,0">
         <StackPanel Orientation="Horizontal">
-            <Button Height="25" Width="25" ToolTip="New Project" Command="{Binding Command.CreateProject}">
+            <Button Height="25" Width="25" ToolTip="New project" Command="{Binding Command.CreateProject}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="FilePlusOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" Margin="5,0" ToolTip="Open Project" Command="{Binding Command.OpenProject}">
+            <Button Height="25" Width="25" Margin="5,0" ToolTip="Open project" Command="{Binding Command.OpenProject}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="FolderFileOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Save Project" Command="{Binding Command.SaveProject}">
+            <Button Height="25" Width="25" ToolTip="Save project" Command="{Binding Command.SaveProject}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="ContentSaveAddOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" Margin="5,0" ToolTip="Export Image" Command="{Binding Command.ExportImage}">
+            <Button Height="25" Width="25" Margin="5,0" ToolTip="Export image" Command="{Binding Command.ExportImage}">
+                <Button.Content>
+                    <ma:MaterialIcon Kind="FileExportOutline"/>
+                </Button.Content>
+            </Button>
+            <Button Height="25" Width="25" ToolTip="Export image" IsEnabled="False">
+                <Button.Content>
+                    <ma:MaterialIcon Kind="PrinterOutline"/>
+                </Button.Content>
+            </Button>
+            <Separator Margin="30,0,0,0"/>
+            
+            <Button Height="25" Width="25" ToolTip="Add new image" Click="AddImage" IsEnabled="{Binding Project, Converter={StaticResource NullToBoolConverter}}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="FileImagePlusOutline"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Add Image" Click="AddImage">
-                <Button.Content>
-                    <ma:MaterialIcon Kind="ImagePlusOutline"/>
-                </Button.Content>
-            </Button>
-            <Button x:Name="AddLayerBtn" Margin="5,0" Height="25" Width="25" ToolTip="Add Layer" Click="OpenLayerQuickSelect">
+            <Button x:Name="AddLayerBtn" Margin="5,0" Height="25" Width="25" ToolTip="Add new layer" Click="OpenLayerQuickSelect" IsEnabled="{Binding ActiveImage, Converter={StaticResource NullToBoolConverter}}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="LayersPlus"/>
                 </Button.Content>
             </Button>
-            <Separator Margin="20,0,0,0"/>
+            <Separator Margin="25,0,0,0"/>
 
-            <Button Height="25" Width="25" ToolTip="Undo" Command="{Binding Command.Undo}">
+            <Button Height="25" Width="25" ToolTip="Undo last" Command="{Binding Command.Undo}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="UndoVariant"/>
                 </Button.Content>
             </Button>
-            <Button Margin="5,0" Height="25" Width="25" ToolTip="Redo" Command="{Binding Command.Redo}">
+            <Button Margin="5,0" Height="25" Width="25" ToolTip="Redo last" Command="{Binding Command.Redo}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="RedoVariant"/>
                 </Button.Content>
             </Button>
-            <Separator Margin="20,0,0,0"/>
+            <Separator Margin="25,0,0,0"/>
 
-            <Button Height="25" Width="25" ToolTip="Cut" Command="{Binding Command.Cut}">
+            <Button Height="25" Width="25" ToolTip="Cut selection" Command="{Binding Command.Cut}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="ContentCut"/>
                 </Button.Content>
             </Button>
-            <Button Margin="5,0" Height="25" Width="25" ToolTip="Copy" Command="{Binding Command.Copy}"> 
+            <Button Margin="5,0" Height="25" Width="25" ToolTip="Copy selection" Command="{Binding Command.Copy}"> 
                 <Button.Content>
                     <ma:MaterialIcon Kind="ContentCopy"/>
                 </Button.Content>
             </Button>
-            <Button Height="25" Width="25" ToolTip="Paste" Command="{Binding Command.Paste}">
+            <Button Height="25" Width="25" ToolTip="Paste from clipboard" Command="{Binding Command.Paste}">
                 <Button.Content>
                     <ma:MaterialIcon Kind="ContentPaste"/>
                 </Button.Content>
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <ToggleButton Height="25" Width="25" ToolTip="Toggle Toolbox" IsChecked="{Binding Preferences.ToolboxVisible}">
+            <ToggleButton Height="25" Width="25" ToolTip="Toggle toolbox" IsChecked="{Binding Preferences.ToolboxVisible}">
                 <ToggleButton.Content>
                     <ma:MaterialIcon Kind="ToolboxOutline"/>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton Margin="5,0" Height="25" Width="25" ToolTip="Toggle Overview" IsChecked="{Binding Preferences.OverviewVisible}">
+            <ToggleButton Margin="5,0" Height="25" Width="25" ToolTip="Toggle overview" IsChecked="{Binding Preferences.OverviewVisible}">
                 <ToggleButton.Content>
                     <ma:MaterialIcon Kind="ViewDashboardOutline"/>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton Height="25" Width="25" ToolTip="Toggle Preferences" IsChecked="{Binding Preferences.PreferencesVisible}">
+            <ToggleButton Height="25" Width="25" ToolTip="Toggle preferences" IsChecked="{Binding Preferences.PreferencesVisible}">
                 <ToggleButton.Content>
                     <ma:MaterialIcon Kind="SettingsOutline"/>
                 </ToggleButton.Content>
@@ -95,9 +102,9 @@
             <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="35" VerticalOffset="5">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseLayerQuickSelect">
                     <StackPanel Orientation="Horizontal" Height="25">
-                        <Button Width="25" ToolTip="Add Vector Layer" ContentTemplate="{StaticResource VectorLayerToolIcon}" Click="AddVectorLayer"/>
-                        <Button Margin="5,0" Width="25" ToolTip="Add Hybrid Layer" ContentTemplate="{StaticResource HybridLayerToolIcon}" Click="AddHybridLayer"/>
-                        <Button Width="25" ToolTip="Add Raster Layer" ContentTemplate="{StaticResource RasterLayerToolIcon}" Click="AddRasterLayer"/>
+                        <Button Width="25" ToolTip="New vector layer" ContentTemplate="{StaticResource VectorLayerToolIcon}" Click="AddVectorLayer"/>
+                        <Button Margin="5,0" Width="25" ToolTip="New hybrid layer" ContentTemplate="{StaticResource HybridLayerToolIcon}" Click="AddHybridLayer"/>
+                        <Button Width="25" ToolTip="New raster layer" ContentTemplate="{StaticResource RasterLayerToolIcon}" Click="AddRasterLayer"/>
                     </StackPanel>
                 </Border>
             </Popup>

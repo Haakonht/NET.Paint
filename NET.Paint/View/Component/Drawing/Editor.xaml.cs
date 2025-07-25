@@ -1,19 +1,9 @@
 ﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Factory;
-using NET.Paint.Drawing.Interface;
-using NET.Paint.Drawing.Model;
-using NET.Paint.Drawing.Model.Shape;
-using NET.Paint.Drawing.Model.Structure;
-using NET.Paint.Drawing.Model.Utility;
 using NET.Paint.Drawing.Service;
-using NET.Paint.View.Component.Drawing.Controls;
-using NET.Paint.View.Component.Tools;
+using NET.Paint.View.Component.Editor;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using XSelectionMode = NET.Paint.Drawing.Constant.XSelectionMode;
 
 namespace NET.Paint.View.Component.Drawing
 {

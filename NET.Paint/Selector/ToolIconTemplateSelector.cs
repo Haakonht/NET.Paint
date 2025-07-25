@@ -23,7 +23,7 @@ namespace NET.Paint.Selector
             {
                 switch (type)
                 {
-                    case XToolType.Pencil:
+                    case XToolType.Polyline:
                         return PencilTemplate;
                     case XToolType.Line:
                         return LineTemplate;

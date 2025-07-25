@@ -6,15 +6,15 @@
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
-        <Polyline Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
+        <Polyline Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XLine}">
-        <Line X1="{Binding Start.X}" Y1="{Binding Start.Y}" X2="{Binding End.X}" Y2="{Binding End.Y}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}"/>
+        <Line X1="{Binding Start.X}" Y1="{Binding Start.Y}" X2="{Binding End.X}" Y2="{Binding End.Y}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XCurve}">
-        <Path Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Path Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle}">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="{Binding Start}">
@@ -26,7 +26,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XBezier}">
-        <Path Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Path Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle}">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="{Binding Start}">
@@ -38,7 +38,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XCircle}">
-        <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle}">
             <Ellipse.RenderTransform>
                 <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
             </Ellipse.RenderTransform>
@@ -47,7 +47,7 @@
 
 
     <DataTemplate DataType="{x:Type shape:XEllipse}">
-        <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Ellipse Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle}">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
@@ -59,7 +59,7 @@
 
 
     <DataTemplate DataType="{x:Type shape:XSquare}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
@@ -70,7 +70,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type shape:XRectangle}">
-        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" StrokeDashArray="{Binding StrokeStyle}">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform X="{Binding Location.X}" Y="{Binding Location.Y}"/>
@@ -84,7 +84,7 @@
         <DataTemplate.Resources>
             <converters:SmoothCurveConverter x:Key="SmoothCurveConverter"/>
         </DataTemplate.Resources>
-        <Path Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Path Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" StrokeDashArray="{Binding StrokeStyle}">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="{Binding Points[0]}" IsClosed="True">
@@ -102,7 +102,7 @@
         <DataTemplate.Resources>
             <converters:PointCollectionConverter x:Key="PointCollectionConverter"/>
         </DataTemplate.Resources>
-        <Polygon Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle.DashArray}">
+        <Polygon Points="{Binding Points, Converter={StaticResource PointCollectionConverter}}" Stroke="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" StrokeThickness="{Binding StrokeThickness}" Fill="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" StrokeDashArray="{Binding StrokeStyle}">
             <Polygon.RenderTransform>
                 <RotateTransform CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}" Angle="{Binding Rotation}"/>
             </Polygon.RenderTransform>

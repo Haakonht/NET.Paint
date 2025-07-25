@@ -1,25 +1,21 @@
-﻿using Material.Icons.WPF;
-using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Service;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using System.Xml.Linq;
 
-namespace NET.Paint.View.Component.Tools
+namespace NET.Paint.View.Component.Editor
 {
-    public partial class ToolQuickSelect : UserControl
+    public partial class EditorContextQuickSelect : UserControl
     {
         // Define routed events
         public static readonly RoutedEvent OpenToolContextRequestedEvent =
-            EventManager.RegisterRoutedEvent("OpenToolContextRequested", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToolQuickSelect));
+            EventManager.RegisterRoutedEvent("OpenToolContextRequested", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EditorContextQuickSelect));
 
         public static readonly RoutedEvent CloseToolContextRequestedEvent =
-            EventManager.RegisterRoutedEvent("CloseToolContextRequested", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToolQuickSelect));
+            EventManager.RegisterRoutedEvent("CloseToolContextRequested", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EditorContextQuickSelect));
 
         public static readonly RoutedEvent OpenSpecificToolContextEvent =
-            EventManager.RegisterRoutedEvent("OpenSpecificToolContext", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToolQuickSelect));
+            EventManager.RegisterRoutedEvent("OpenSpecificToolContext", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EditorContextQuickSelect));
 
         public event RoutedEventHandler OpenToolContextRequested
         {
@@ -39,7 +35,7 @@ namespace NET.Paint.View.Component.Tools
             remove { RemoveHandler(OpenSpecificToolContextEvent, value); }
         }
 
-        public ToolQuickSelect()
+        public EditorContextQuickSelect()
         {
             InitializeComponent();
         }

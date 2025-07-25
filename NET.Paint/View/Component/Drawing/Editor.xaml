@@ -6,7 +6,7 @@
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             xmlns:tools="clr-namespace:NET.Paint.View.Component.Tools"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Editor"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
@@ -81,12 +81,12 @@
                 <Border.Background>
                     <SolidColorBrush Color="LightGray" Opacity="0.8"/>
                 </Border.Background>
-                <tools:ToolContext DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" x:Name="ToolContext"/>
+                <local:EditorContextMenu DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" x:Name="ToolContext"/>
             </Border>
         </Popup>
 
         <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="50" VerticalOffset="-50" AllowsTransparency="True">
-            <tools:ToolQuickSelect DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
+            <local:EditorContextQuickSelect DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
         </Popup>
 
         <ToggleButton x:Name="DetailsEnabledBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>

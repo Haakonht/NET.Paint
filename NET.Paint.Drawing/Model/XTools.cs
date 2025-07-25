@@ -56,8 +56,8 @@ namespace NET.Paint.Drawing.Model
             set => SetProperty(ref _selectionMode, value);
         }
 
-        private XPencilMode _pencilMode = XPencilMode.Add;
-        public XPencilMode PencilMode
+        private XPolylineMode _pencilMode = XPolylineMode.Add;
+        public XPolylineMode PolylineMode
         {
             get => _pencilMode;
             set => SetProperty(ref _pencilMode, value);

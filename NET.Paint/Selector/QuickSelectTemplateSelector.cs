@@ -22,7 +22,7 @@ namespace NET.Paint.Selector
                     case XToolType.Line:
                     case XToolType.Curve:
                     case XToolType.Bezier:
-                    case XToolType.Pencil:
+                    case XToolType.Polyline:
                         return DoubleTemplate;
                     case XToolType.Selector:
                         return SingleTemplate;

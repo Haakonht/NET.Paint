@@ -45,10 +45,10 @@
                 <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=DataContext}">
                     <Label Content="Mode" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                     <UniformGrid Columns="2" Height="25">
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}" ContentTemplate="{StaticResource PencilToolIcon}" GroupName="PencilMode"/>
-                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}" ContentTemplate="{StaticResource EraserToolIcon}" GroupName="PencilMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolylineMode.Add}}" ContentTemplate="{StaticResource PencilToolIcon}" GroupName="PencilMode"/>
+                        <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Tools.PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XPolylineMode.Remove}}" ContentTemplate="{StaticResource EraserToolIcon}" GroupName="PencilMode"/>
                     </UniformGrid>
-                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Add}}">
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPolylineMode.Add}}">
                         <Label Content="Spacing" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -59,7 +59,7 @@
                             <TextBlock Text="{Binding Tools.PencilSpacing}" Width="20" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
                         </Grid>
                     </StackPanel>
-                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPencilMode.Remove}}">
+                    <StackPanel Visibility="{Binding Tools.PencilMode, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static options:XPolylineMode.Remove}}">
                         <Label Content="Tolerance" Padding="0" FontSize="10" Margin="2,2,0,2"/>
                         <Grid>
                             <Grid.ColumnDefinitions>

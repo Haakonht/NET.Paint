@@ -26,7 +26,7 @@
                     <Run Text="{Binding Tools.ActiveTool}" FontWeight="SemiBold"/>
                 </TextBlock>
             </StatusBarItem>
-            <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.PencilMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Pencil}}"/>
+            <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.PencilMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polyline}}"/>
             <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.SelectionMode}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Selector}}"/>
             <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActivePolygon}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Polygon}}"/>
             <StatusBarItem Margin="0,-1,0,0" Content="{Binding Tools.ActiveEllipse}" ContentStringFormat="[{0}]" FontSize="13" Visibility="{Binding Tools.ActiveTool, Converter={StaticResource ToolTypeVisibilityConverter}, ConverterParameter={x:Static constant:XToolType.Ellipse}}"/>

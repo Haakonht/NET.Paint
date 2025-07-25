@@ -39,7 +39,7 @@
         <DockPanel LastChildFill="True" Margin="5">
             <StackPanel DockPanel.Dock="Top">
                 <RadioButton x:Name="SelectorToolSelect" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding SelectionMode}" ContentTemplateSelector="{StaticResource SelectorTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Selector}}" GroupName="SelectedTool" Height="25" Click="OpenSelectorQuickSelect"/>
-                <RadioButton x:Name="PencilToolSelect" Margin="0,5" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding PencilMode}" ContentTemplateSelector="{StaticResource PencilTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Pencil}}" GroupName="SelectedTool" Height="25" Click="OpenPencilQuickSelect"/>
+                <RadioButton x:Name="PencilToolSelect" Margin="0,5" Style="{StaticResource {x:Type ToggleButton}}" Content="{Binding PencilMode}" ContentTemplateSelector="{StaticResource PencilTemplateSelector}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Polyline}}" GroupName="SelectedTool" Height="25" Click="OpenPencilQuickSelect"/>
                 <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource LineToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Line}}" GroupName="SelectedTool" Height="25"/>
                 <RadioButton Margin="0,5" Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource CurveToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Curve}}" GroupName="SelectedTool" Height="25"/>
                 <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource BezierToolIcon}" IsChecked="{Binding ActiveTool, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XToolType.Bezier}}" GroupName="SelectedTool" Height="25"/>
@@ -55,7 +55,8 @@
             <StackPanel DockPanel.Dock="Bottom">
                 <ToggleButton x:Name="GridToolSelect" Height="25" ContentTemplate="{StaticResource GridToolIcon}" IsChecked="{Binding IsOpen, ElementName=GridQuickSelect}"/>
                 <ToggleButton Margin="0,5" x:Name="ZoomToolSelect" Height="25" ContentTemplate="{StaticResource ZoomToolIcon}" IsChecked="{Binding IsOpen, ElementName=ZoomQuickSelect}"/>
-                <ToggleButton x:Name="RulerToolSelect" Height="25" ContentTemplate="{StaticResource RulerToolIcon}" IsChecked="{Binding IsOpen, ElementName=RulerQuickSelect}"/>
+                <ToggleButton Height="25" ContentTemplate="{StaticResource RulerToolIcon}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ActiveImage.Configuration.RulerEnabled}"/>
+                <ToggleButton x:Name="RulerToolSelect" Height="25" ContentTemplate="{StaticResource RulerToolIcon}" IsChecked="{Binding IsOpen, ElementName=RulerQuickSelect}" Visibility="Collapsed"/>
             </StackPanel>
 
             <Grid>
@@ -117,8 +118,8 @@
         <Popup x:Name="PencilQuickSelect" PlacementTarget="{Binding ElementName=PencilToolSelect}" Placement="Left" StaysOpen="False" HorizontalOffset="5" VerticalOffset="-5">
             <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="ClosePencilQuickSelect">
                 <StackPanel Width="25">
-                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource PencilToolIcon}" IsChecked="{Binding PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XPencilMode.Add}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
-                    <RadioButton Margin="0,5,0,0" Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource EraserToolIcon}" IsChecked="{Binding PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XPencilMode.Remove}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
+                    <RadioButton Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource PencilToolIcon}" IsChecked="{Binding PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XPolylineMode.Add}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
+                    <RadioButton Margin="0,5,0,0" Style="{StaticResource {x:Type ToggleButton}}" ContentTemplate="{StaticResource EraserToolIcon}" IsChecked="{Binding PencilMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static constants:XPolylineMode.Remove}, Mode=TwoWay}" GroupName="RectangleSelect" Height="25"/>
                 </StackPanel>
             </Border>
         </Popup>

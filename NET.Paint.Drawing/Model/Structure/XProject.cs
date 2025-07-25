@@ -1,4 +1,5 @@
 ﻿using MessagePack;
+using NET.Paint.Drawing.Service;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;

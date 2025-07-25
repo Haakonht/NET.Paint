@@ -32,8 +32,8 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
             if (image != null && XTools.Instance is XTools tools)
             {
-                tools.ClickLocation = e.GetPosition(sender as UIElement);
-                tools.ClickLocation = new Point(tools.ClickLocation.X - image.ActiveLayer!.OffsetX, tools.ClickLocation.Y - image.ActiveLayer!.OffsetY);
+                var mouseClick = e.GetPosition(sender as UIElement);
+                tools.ClickLocation = new Point(mouseClick.X - image.ActiveLayer!.OffsetX, mouseClick.Y - image.ActiveLayer!.OffsetY);
 
                 if (tools.ActiveTool == XToolType.Text)
                 {
@@ -47,15 +47,12 @@ namespace NET.Paint.View.Component.Drawing.Controls
                     else
                         Preview.Shape = XFactory.CreateShape(tools);
                 }
-                else if (tools.ActiveTool == XToolType.Selector)
+                else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {
-                    if (tools.SelectionMode == XSelectionMode.Pointer)
-                        SingleSelect(sender, tools, image);
-                    else
-                        Preview.Shape = XFactory.CreateShape(tools);
+                    SingleSelect(sender, tools, image);
                 }
                 else
-                    tools.Drag = true;
+                    Preview.Shape = XFactory.CreateShape(tools);
             }
         }
 
@@ -70,19 +67,18 @@ namespace NET.Paint.View.Component.Drawing.Controls
                 Point mousePosition = e.GetPosition(sender as UIElement);
                 tools.MouseLocation = new Point(mousePosition.X - image.ActiveLayer!.OffsetX, mousePosition.Y - image.ActiveLayer!.OffsetY);
 
-                // Vector tools
                 if (image.ActiveLayer != null && image.ActiveLayer is XLayer layer)
                 {
                     if (e.LeftButton == MouseButtonState.Pressed)
                     {
-                        if (Preview.Shape is XPolyline pencil)
-                        {
-                            if (tools.PencilMode == XPencilMode.Add || tools.ActiveTool == XToolType.Selector)
-                                XFactory.Tools.CreatePencilPoints(pencil.Points, pencil.Points.LastOrDefault(), tools.MouseLocation, pencil.PointSpacing);
-                        }
+                        if (tools.ActiveTool == XToolType.Polyline && tools.PolylineMode == XPolylineMode.Add && Preview.Shape is XPolyline polyline)
+                            XFactory.Tools.CreatePolylinePoints(polyline.Points, polyline.Points.LastOrDefault(), tools.MouseLocation, polyline.PointSpacing);
 
-                        else if (tools.ActiveTool == XToolType.Pencil && tools.PencilMode == XPencilMode.Remove)
-                            XFactory.Tools.RemovePencilPoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
+                        else if (tools.ActiveTool == XToolType.Polyline && tools.PolylineMode == XPolylineMode.Remove)
+                            XFactory.Tools.RemovePolylinePoints(image.ActiveLayer, tools.MouseLocation, tools.EraserTolerance);
+
+                        else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Lasso && Preview.Shape is XPolyline lasso)
+                            XFactory.Tools.CreatePolylinePoints(lasso.Points, lasso.Points.LastOrDefault(), tools.MouseLocation, lasso.PointSpacing);
 
                         else if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                         {
@@ -93,8 +89,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                         }
 
                         else
-                            if (tools.Drag)
-                                Preview.Shape = XFactory.CreateShape(tools);
+                            Preview.Shape = XFactory.CreateShape(tools);
                     }
                     else if (e.XButton1 == MouseButtonState.Pressed)
                     {
@@ -110,8 +105,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
                     }
                     else if (tools.ActiveTool != XToolType.Text)
                     {
-                        // Only process shape completion if we have a preview shape AND we were dragging
-                        if (Preview.Shape != null && tools.Drag)
+                        if (Preview.Shape != null)
                         {
                             if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode != XSelectionMode.Pointer)
                             {
@@ -124,31 +118,32 @@ namespace NET.Paint.View.Component.Drawing.Controls
                                     tools.SelectionMode = XSelectionMode.Pointer;
                             }
 
-                            if (image.ActiveLayer is XHybridLayer hybridLayer)
-                            {
-                                if (hybridLayer.Shapes.Count > hybridLayer.History - 1)
-                                {
-                                    var shape = hybridLayer.Shapes.FirstOrDefault();
-                                    if (shape != null)
-                                    {
-                                        hybridLayer.Bitmap = XFactory.Bitmap.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height);
-                                        hybridLayer.Shapes.Remove(shape);
-                                    }
-                                }
-                            }
-
                             if (tools.ActiveTool != XToolType.Selector)
                             {
+                                if (image.ActiveLayer is XHybridLayer hybridLayer)
+                                {
+                                    if (hybridLayer.Shapes.Count > hybridLayer.History - 1)
+                                    {
+                                        var shape = hybridLayer.Shapes.FirstOrDefault();
+                                        if (shape != null)
+                                        {
+                                            hybridLayer.Bitmap = XFactory.Bitmap.AddShapeToBitmap(hybridLayer.Bitmap, shape, image.Width, image.Height);
+                                            hybridLayer.Shapes.Remove(shape);
+                                        }
+                                    }
+                                }
+
                                 if (image.ActiveLayer is IShapeLayer vectorLayer)
                                     vectorLayer.Shapes.Add(Preview.Shape);
                                 else if (image.ActiveLayer is XRasterLayer rasterLayer)
                                     rasterLayer.Bitmap = XFactory.Bitmap.AddShapeToBitmap(rasterLayer.Bitmap, Preview.Shape, image.Width, image.Height);
                             }
-
-                            tools.Drag = false;
-                            tools.ClickLocation = new Point(0, 0);
+                            
                             Preview.Shape = null;
+                            tools.Drag = false;
                         }
+
+                        tools.ClickLocation = new Point(0, 0);
                     }
                 }
             }

@@ -28,12 +28,12 @@ namespace NET.Paint.Selector
                     case XEllipseStyle.Ellipse:
                         return OddTemplate;
                 }
-            else if (item is XPencilMode pencilMode)
+            else if (item is XPolylineMode pencilMode)
                 switch (pencilMode)
                 {
-                    case XPencilMode.Add:
+                    case XPolylineMode.Add:
                         return EvenTemplate;
-                    case XPencilMode.Remove:
+                    case XPolylineMode.Remove:
                         return OddTemplate;
                 }
             else if (item is bool boolean)
