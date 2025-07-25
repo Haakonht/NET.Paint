@@ -15,7 +15,7 @@ namespace NET.Paint.Drawing.Service
 {
     public class XService : PropertyNotifier
     {
-        private bool DebugMode = false;
+        private bool DebugMode = true;
 
         private XProject _project;
         public XProject Project

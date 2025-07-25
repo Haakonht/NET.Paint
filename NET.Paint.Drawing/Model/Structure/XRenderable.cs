@@ -35,7 +35,8 @@ namespace NET.Paint.Drawing.Model.Structure
         public abstract XToolType Type { get; }
 
         [Key(2)]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Points")]
         public ObservableCollection<Point> Points
         {
             get => _points;

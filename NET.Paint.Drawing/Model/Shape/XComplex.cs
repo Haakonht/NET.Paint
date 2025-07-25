@@ -20,6 +20,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XToolType Type => XToolType.Text;
 
         [Key(3)]
+        [Category("Appearance")]
+        [DisplayName("Text Content")]
         public string Text
         {
             get => _text;
@@ -34,6 +36,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private string _text = "";
 
         [Key(4)]
+        [Category("Appearance")]
+        [DisplayName("Font")]
         public string FontFamily
         {
             get => _fontFamily;
@@ -42,6 +46,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private string _fontFamily = "Arial";
 
         [Key(5)]
+        [Category("Appearance")]
+        [DisplayName("Font Size")]
         public double FontSize
         {
             get => _fontSize;
@@ -55,6 +61,8 @@ namespace NET.Paint.Drawing.Model.Shape
 
 
         [Key(6)]
+        [Category("Style")]
+        [DisplayName("Bold")]
         public bool IsBold
         {
             get => _isBold;
@@ -63,6 +71,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private bool _isBold = false;
 
         [Key(7)]
+        [Category("Style")]
+        [DisplayName("Italic")]
         public bool IsItalic
         {
             get => _isItalic;
@@ -71,6 +81,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private bool _isItalic = false;
 
         [Key(8)]
+        [Category("Style")]
+        [DisplayName("Underline")]
         public bool IsUnderline
         {
             get => _isUnderline;
@@ -79,6 +91,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private bool _isUnderline = false;
 
         [Key(9)]
+        [Category("Style")]
+        [DisplayName("Strikethrough")]
         public bool IsStrikethrough
         {
             get => _isStrikethrough;
@@ -87,14 +101,18 @@ namespace NET.Paint.Drawing.Model.Shape
         private bool _isStrikethrough = false;
 
         [Key(10)]
+        [Category("Appearance")]
+        [DisplayName("Text Color")]
         public XColor TextColor
         {
             get => _textColor;
             set => SetProperty(ref _textColor, value);
         }
-        private XColor _textColor;
+        private XColor _textColor = new XSolidColor { Color = Colors.Red };
 
         [Key(11)]
+        [Category("Layout")]
+        [DisplayName("Rotation")]
         public double Rotation
         {
             get => _rotation;

@@ -7,7 +7,7 @@
              xmlns:converter="clr-namespace:NET.Paint.Converter"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
-             xmlns:controls="clr-namespace:NET.Paint.View.Component.Property.Controls"
+             xmlns:propertyGrid="clr-namespace:NET.Paint.View.Component.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}">
@@ -20,7 +20,7 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <controls:PropertyGrid DataContext="{Binding}" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <propertyGrid:PropertyGrid DataContext="{Binding}" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

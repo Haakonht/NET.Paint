@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace NET.Paint.View.Component.Property.Controls
+namespace NET.Paint.View.Component.Properties
 {
     /// <summary>
     /// Interaction logic for PropertyGrid.xaml

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Properties.Controls.ColorEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:pickers="clr-namespace:NET.Paint.View.Component.Tools.Controls"
+             xmlns:converters="clr-namespace:NET.Paint.View.Component.Tools.Converters"
+             xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
+             xmlns:colorTypes="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
+    <UserControl.Resources>
+        <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel Grid.Row="1" DataContext="{Binding}" Background="White">
+            <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding}" Margin="0,-25,0,0">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type colorTypes:XSolidColor}">
+                        <StackPanel>
+                            <pickers:ColorCanvas SelectedColor="{Binding Color, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type colorTypes:XGradient}">
+                        <ContentPresenter Content="{Binding}">
+                            <ContentPresenter.Resources>
+                                <DataTemplate DataType="{x:Type colorTypes:XLinearGradient}">
+                                    <StackPanel>
+                                        <pickers:LinearGradient DataContext="{Binding Path=., Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type colorTypes:XRadialGradient}">
+                                    <StackPanel>
+                                        <pickers:RadialGradient DataContext="{Binding Path=., Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
+        </StackPanel>
+    </Grid>
+</UserControl>

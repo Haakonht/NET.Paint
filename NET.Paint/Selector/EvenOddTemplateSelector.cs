@@ -40,9 +40,9 @@ namespace NET.Paint.Selector
                 switch (boolean)
                 {
                     case true:
-                        return EvenTemplate;
-                    case false:
                         return OddTemplate;
+                    case false:
+                        return EvenTemplate;
                 }
 
             return EmptyTemplate;
