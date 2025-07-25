@@ -35,7 +35,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Editor">
-                <drawingComponents:Editor DataContext="{Binding}" MouseRightButtonDown="OpenToolContextQuickSelect"/>
+                <drawingComponents:Editor DataContext="{Binding}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             </DataTemplate>
 
             <selectors:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
@@ -119,18 +119,5 @@
                 </dock:LayoutRoot.FloatingWindows>
             </dock:LayoutRoot>
         </dock:DockingManager>
-
-        <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30">
-            <Border BorderBrush="Black" BorderThickness="1">
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity="0.8"/>
-                </Border.Background>
-                <toolComponents:ToolContext DataContext="{Binding}" x:Name="ToolContext"/>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="50" VerticalOffset="-50" AllowsTransparency="True">
-            <toolComponents:ToolQuickSelect DataContext="{Binding}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
-        </Popup>
     </Grid>
 </UserControl>

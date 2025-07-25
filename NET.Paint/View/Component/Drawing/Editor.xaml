@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:tools="clr-namespace:NET.Paint.View.Component.Tools"
              xmlns:active="clr-namespace:NET.Paint.Drawing.Model;assembly=NET.Paint.Drawing"
              xmlns:selector="clr-namespace:NET.Paint.Selector"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Drawing.Controls"
@@ -25,7 +26,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="EditorGrid">
+    <Grid x:Name="EditorGrid" MouseRightButtonDown="OpenToolContextQuickSelect">
         <Grid.Background>
             <DrawingBrush ViewportUnits="Absolute" Viewport="0,0,8,8" TileMode="Tile">
                 <DrawingBrush.Drawing>
@@ -65,8 +66,8 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <controls:SimpleRuler Height="20" Margin="2,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
-                <controls:SimpleRuler Width="20" Margin="0,2,0,0" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Source={x:Static active:XTools.Instance}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Height="20" Margin="2,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom" Scale="1" Value="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}, Path=MouseLocation.X}" Grid.Column="1" Grid.Row="0" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
+                <controls:SimpleRuler Width="20" Margin="0,2,0,0" Orientation="Vertical" HorizontalAlignment="Right" Scale="1" Value="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}, Path=MouseLocation.Y}" Grid.Column="0" Grid.Row="1" Visibility="{Binding Configuration.RulerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" ClipToBounds="True"/>
                 <controls:Artboard Grid.Row="1" Grid.Column="1" DataContext="{Binding}"/>
 
                 <Grid.LayoutTransform>
@@ -74,6 +75,19 @@
                 </Grid.LayoutTransform>
             </Grid>
         </ScrollViewer>
+
+        <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30">
+            <Border BorderBrush="Black" BorderThickness="1">
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity="0.8"/>
+                </Border.Background>
+                <tools:ToolContext DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" x:Name="ToolContext"/>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="50" VerticalOffset="-50" AllowsTransparency="True">
+            <tools:ToolQuickSelect DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
+        </Popup>
 
         <ToggleButton x:Name="DetailsEnabledBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>
 

@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using static NET.Paint.View.Component.Property.Converters.ObjectToPropertyInfoConverter;
 
 namespace NET.Paint.View.Component.Properties
 {

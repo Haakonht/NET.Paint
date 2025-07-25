@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static NET.Paint.View.Component.Property.Converters.ObjectToPropertyInfoConverter;
+using static NET.Paint.View.Component.Properties.Converters.ObjectToPropertyInfoConverter;
 
 namespace NET.Paint.View.Component.Properties.Controls
 {

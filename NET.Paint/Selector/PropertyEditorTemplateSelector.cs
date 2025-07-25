@@ -1,19 +1,15 @@
-﻿using NET.Paint.Drawing.Constant;
-using NET.Paint.Drawing.Model.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NET.Paint.Drawing.Model.Utility;
 using System.Windows;
 using System.Windows.Controls;
-using static NET.Paint.View.Component.Property.Converters.ObjectToPropertyInfoConverter;
+using System.Windows.Media;
+using static NET.Paint.View.Component.Properties.Converters.ObjectToPropertyInfoConverter;
 
 namespace NET.Paint.Selector
 {
     public class PropertyEditorTemplateSelector : DataTemplateSelector
     {
         public DataTemplate FontTemplate { get; set; }
+        public DataTemplate StrokeStyleTemplate { get; set; }
         public DataTemplate? NumberTemplate { get; set; }
         public DataTemplate? StringTemplate { get; set; }
         public DataTemplate? BooleanTemplate { get; set; }
@@ -46,6 +42,9 @@ namespace NET.Paint.Selector
 
                 if (propertyType == typeof(Point) || propertyType == typeof(Point?))
                     return PointTemplate;
+
+                if (propertyType == typeof(DoubleCollection))
+                    return StrokeStyleTemplate;
             }
 
             return StringTemplate; // Default fallback

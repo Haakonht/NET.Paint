@@ -190,7 +190,7 @@ namespace NET.Paint.View.Component.Drawing.Controls
 
         private void SingleSelect(object sender, XTools tools, XImage image)
         {
-            if (sender is Grid artboard)
+            if (sender is UIElement artboard)
             {
                 if (tools.ActiveTool == XToolType.Selector && tools.SelectionMode == XSelectionMode.Pointer)
                 {

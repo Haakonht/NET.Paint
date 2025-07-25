@@ -8,11 +8,11 @@
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Properties.Controls"
              xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
-             xmlns:converters="clr-namespace:NET.Paint.View.Component.Property.Converters"
+             xmlns:converters="clr-namespace:NET.Paint.View.Component.Properties.Converters"
              xmlns:drawingConverters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="210" d:Background="White"
-             d:DataContext="{d:DesignInstance Type={x:Type shapes:XText}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type={x:Type shapes:XEllipse}, IsDesignTimeCreatable=True}">
              
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,6 +23,7 @@
             
             <converters:ObjectToPropertyInfoConverter x:Key="ObjectToPropertyInfoConverter"/>
             <drawingConverters:XColorToBrushConverter x:Key="XColorToBrushConverter"/>
+            <converters:DashArrayToStrokeStyleConverter x:Key="DashArrayToStrokeStyleConverter"/>
 
             <!-- Editor templates -->
             <DataTemplate x:Key="BoolTemplate">
@@ -54,6 +55,16 @@
             <DataTemplate x:Key="PointCollectionTemplate">
             </DataTemplate>
 
+            <DataTemplate x:Key="StrokeStyleTemplate">
+                <ComboBox ItemsSource="{x:Static constants:XOptions.StrokeStyleOptions}" SelectedItem="{Binding Value, Converter={StaticResource DashArrayToStrokeStyleConverter}, Mode=TwoWay}" Padding="0" VerticalContentAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Margin="5,1,0,0" VerticalAlignment="Center" FontSize="11"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </DataTemplate>
+
             <DataTemplate x:Key="FontTemplate">
                 <ComboBox ItemsSource="{x:Static constants:XOptions.FontFamilyOptions}" SelectedItem="{Binding Value, Mode=TwoWay}" Padding="0" VerticalContentAlignment="Center">
                     <ComboBox.ItemTemplate>
@@ -69,12 +80,9 @@
             </DataTemplate>
 
             <selectors:PropertyEditorTemplateSelector x:Key="PropertyEditorTemplateSelector" 
-                                                  StringTemplate="{StaticResource StringTemplate}" 
-                                                  ColorTemplate="{StaticResource ColorTemplate}" 
-                                                  BooleanTemplate="{StaticResource BoolTemplate}" 
-                                                  PointTemplate="{StaticResource PointTemplate}"
-                                                  NumberTemplate="{StaticResource NumberTemplate}"
-                                                  FontTemplate="{StaticResource FontTemplate}"/>
+                        StringTemplate="{StaticResource StringTemplate}" ColorTemplate="{StaticResource ColorTemplate}" BooleanTemplate="{StaticResource BoolTemplate}" 
+                        PointTemplate="{StaticResource PointTemplate}" NumberTemplate="{StaticResource NumberTemplate}" FontTemplate="{StaticResource FontTemplate}"
+                        StrokeStyleTemplate="{StaticResource StrokeStyleTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Data;
 
-namespace NET.Paint.View.Component.Property.Converters
+namespace NET.Paint.View.Component.Properties.Converters
 {
     public class ObjectToPropertyInfoConverter : IValueConverter
     {

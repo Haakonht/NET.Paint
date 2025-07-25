@@ -56,15 +56,14 @@
     </UserControl.Resources>
 
     <Border BorderBrush="Black" BorderThickness="2" Background="{Binding Background, Converter={StaticResource XColorToBrushConverter}}">
-
-        <Grid Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp">
-            <Grid.Cursor>
+        <Canvas Width="{Binding Width}" Height="{Binding Height}" ClipToBounds="True" Background="{StaticResource GridBrush}" MouseLeftButtonDown="MouseDown" MouseMove="MouseMove" MouseLeftButtonUp="MouseUp">
+            <Canvas.Cursor>
                 <MultiBinding Converter="{StaticResource CursorConverter}">
                     <Binding Source="{x:Static tools:XTools.Instance}" Path="ActiveTool"/>
                     <Binding Source="{x:Static tools:XTools.Instance}" Path="SelectionMode"/>
                 </MultiBinding>
-            </Grid.Cursor>
-
+            </Canvas.Cursor>
+            
             <ItemsControl ItemsSource="{Binding Layers}">
                 <ItemsControl.Resources>
                     <DataTemplate DataType="{x:Type structure:XVectorLayer}">
@@ -149,11 +148,11 @@
                 </ContentPresenter.Resources>
                 <ContentPresenter.RenderTransform>
                     <TransformGroup>
-                        <RotateTransform Angle="{Binding ActiveLayer.Rotation}" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
-                        <TranslateTransform X="{Binding ActiveLayer.OffsetX}" Y="{Binding ActiveLayer.OffsetY}"/>
+                        <RotateTransform Angle="{Binding DataContext.ActiveLayer.Rotation, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        <TranslateTransform X="{Binding DataContext.ActiveLayer.OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding DataContext.ActiveLayer.OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                     </TransformGroup>
                 </ContentPresenter.RenderTransform>
             </ContentPresenter>
-        </Grid>
+        </Canvas>
     </Border>
 </UserControl>
