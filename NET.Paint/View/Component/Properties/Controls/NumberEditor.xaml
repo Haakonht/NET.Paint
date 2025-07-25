@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Properties.Controls.NumberEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Properties.Controls"
+             xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="{icons:MaterialIconExt Kind=Decrement}" Grid.Column="0" Height="20" Click="DecrementButton_Click" Tag="{Binding}"/>
+        <Border BorderBrush="DimGray" BorderThickness="1" Grid.Column="1">
+            <TextBox Text="{Binding Value, UpdateSourceTrigger=LostFocus}" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" PreviewTextInput="NumberValidationTextBox"/>
+        </Border>
+        <Button Content="{icons:MaterialIconExt Kind=Increment}" Grid.Column="2" Height="20"  Click="IncrementButton_Click" Tag="{Binding}"/>
+    </Grid>
+</UserControl>

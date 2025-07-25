@@ -12,13 +12,13 @@
         xmlns:local="clr-namespace:NET.Paint.View"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}"
-        Title="{Binding Project.Title, FallbackValue='NET.Paint', TargetNullValue='NET.Paint'}" Height="1000" Width="1600" Background="LightGray" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
+        Title="{Binding Project.Title, FallbackValue='NET.Paint', TargetNullValue='NET.Paint'}" Height="1000" Width="1600" Background="WhiteSmoke" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
     <Window.DataContext>
         <service:XService />
     </Window.DataContext>
 
     <DockPanel>
-        <Border Background="LightGray" Height="30" VerticalAlignment="Top" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" DockPanel.Dock="Top">
+        <Border Background="WhiteSmoke" Height="30" VerticalAlignment="Top" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" DockPanel.Dock="Top">
             <DockPanel VerticalAlignment="Center">
                 <!-- Icon -->
                 <ma:MaterialIcon Kind="AxisArrow" DockPanel.Dock="Left" Margin="5,0,5,0" Height="25" Width="25" VerticalAlignment="Center"/>

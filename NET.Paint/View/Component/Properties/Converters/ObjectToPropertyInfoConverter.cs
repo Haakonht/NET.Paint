@@ -51,11 +51,16 @@ namespace NET.Paint.View.Component.Property.Converters
         {
             private readonly object _instance;
             private readonly PropertyInfo _propertyInfo;
+            private object _currentValue;
 
             public PropertyWrapper(object instance, PropertyInfo propertyInfo)
             {
                 _instance = instance;
                 _propertyInfo = propertyInfo;
+                _currentValue = _propertyInfo.GetValue(_instance);
+                
+                // Subscribe to property changes if the value implements INotifyPropertyChanged
+                SubscribeToValueChanges(_currentValue);
             }
 
             public string Name => _propertyInfo.Name;
@@ -72,8 +77,138 @@ namespace NET.Paint.View.Component.Property.Converters
                 {
                     if (_propertyInfo.CanWrite)
                     {
-                        _propertyInfo.SetValue(_instance, value);
+                        var oldValue = _currentValue;
+                        
+                        // Unsubscribe from old value
+                        UnsubscribeFromValueChanges(oldValue);
+                        
+                        // Convert the value to the target property type
+                        var convertedValue = ConvertToTargetType(value, _propertyInfo.PropertyType);
+                        
+                        _propertyInfo.SetValue(_instance, convertedValue);
+                        _currentValue = convertedValue;
+                        
+                        // Subscribe to new value
+                        SubscribeToValueChanges(_currentValue);
+                        
+                        // Notify the PropertyWrapper Value change
                         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+                        
+                        // CRITICAL: Also notify the parent object that this property changed
+                        // This ensures the artboard bindings get updated
+                        if (_instance is INotifyPropertyChanged instanceWithNotification)
+                        {
+                            // Use reflection to call the protected OnPropertyChanged method
+                            var instanceType = _instance.GetType();
+                            var onPropertyChangedMethod = instanceType.GetMethod("OnPropertyChanged", 
+                                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                                null,
+                                new[] { typeof(string) },
+                                null);
+                            
+                            if (onPropertyChangedMethod != null)
+                            {
+                                onPropertyChangedMethod.Invoke(_instance, new object[] { _propertyInfo.Name });
+                            }
+                        }
+                    }
+                }
+            }
+
+            private object ConvertToTargetType(object value, Type targetType)
+            {
+                if (value is string stringValue)
+                    return ConvertFromString(stringValue, targetType);
+
+                return value;
+            }
+
+            private object ConvertFromString(string stringValue, Type targetType)
+            {
+                if (string.IsNullOrEmpty(stringValue))
+                {
+                    // Return default value for value types, null for reference types
+                    return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
+                }
+
+                try
+                {
+                    if (targetType == typeof(bool))
+                        return bool.Parse(stringValue);
+                    
+                    if (targetType == typeof(int))
+                        return int.Parse(stringValue, CultureInfo.InvariantCulture);
+                    
+                    if (targetType == typeof(double))
+                        return double.Parse(stringValue, CultureInfo.InvariantCulture);
+                    
+                    if (targetType == typeof(float))
+                        return float.Parse(stringValue, CultureInfo.InvariantCulture);
+                    
+                    if (targetType == typeof(decimal))
+                        return decimal.Parse(stringValue, CultureInfo.InvariantCulture);
+                    
+                    if (targetType == typeof(DateTime))
+                        return DateTime.Parse(stringValue, CultureInfo.InvariantCulture);
+                    
+                    if (targetType == typeof(string))
+                        return stringValue;
+
+                    if (targetType.IsEnum)
+                        return Enum.Parse(targetType, stringValue, true);
+
+                    // Try using TypeConverter for complex types
+                    var converter = TypeDescriptor.GetConverter(targetType);
+                    if (converter != null && converter.CanConvertFrom(typeof(string)))
+                    {
+                        return converter.ConvertFromString(null, CultureInfo.InvariantCulture, stringValue);
+                    }
+
+                    return System.Convert.ChangeType(stringValue, targetType, CultureInfo.InvariantCulture);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to convert '{stringValue}' to {targetType.Name}: {ex.Message}");
+                    
+                    return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
+                }
+            }
+
+            private void SubscribeToValueChanges(object value)
+            {
+                if (value is INotifyPropertyChanged notifiable)
+                {
+                    notifiable.PropertyChanged += OnValuePropertyChanged;
+                }
+            }
+
+            private void UnsubscribeFromValueChanges(object value)
+            {
+                if (value is INotifyPropertyChanged notifiable)
+                {
+                    notifiable.PropertyChanged -= OnValuePropertyChanged;
+                }
+            }
+
+            private void OnValuePropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                // Forward the property change notification for the Value property
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+                
+                // CRITICAL: When XColor internal properties change (like XSolidColor.Color),
+                // we need to notify the parent shape that its property (like Stroke, Fill) changed
+                if (_instance is INotifyPropertyChanged instanceWithNotification)
+                {
+                    var instanceType = _instance.GetType();
+                    var onPropertyChangedMethod = instanceType.GetMethod("OnPropertyChanged", 
+                        BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                        null,
+                        new[] { typeof(string) },
+                        null);
+                    
+                    if (onPropertyChangedMethod != null)
+                    {
+                        onPropertyChangedMethod.Invoke(_instance, new object[] { _propertyInfo.Name });
                     }
                 }
             }

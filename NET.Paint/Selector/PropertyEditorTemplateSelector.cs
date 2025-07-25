@@ -13,6 +13,7 @@ namespace NET.Paint.Selector
 {
     public class PropertyEditorTemplateSelector : DataTemplateSelector
     {
+        public DataTemplate FontTemplate { get; set; }
         public DataTemplate? NumberTemplate { get; set; }
         public DataTemplate? StringTemplate { get; set; }
         public DataTemplate? BooleanTemplate { get; set; }
@@ -35,7 +36,10 @@ namespace NET.Paint.Selector
                     return NumberTemplate;
 
                 if (propertyType == typeof(string))
-                    return StringTemplate;
+                    if (wrapper.Name == "FontFamily" || wrapper.Name == "Font")
+                        return FontTemplate;
+                    else
+                        return StringTemplate;
 
                 if (propertyType == typeof(XColor))
                     return ColorTemplate;

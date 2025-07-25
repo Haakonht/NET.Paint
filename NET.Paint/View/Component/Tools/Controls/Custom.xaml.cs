@@ -54,7 +54,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -73,7 +73,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -91,7 +91,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
     };
         }
 
@@ -109,7 +109,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -126,7 +126,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
             };
         }
 
@@ -144,7 +144,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 Fill = XFactory.Color.CreateColor(Colors.LightGray),
                 Stroke = XFactory.Color.CreateColor(Colors.Black),
                 StrokeThickness = 1,
-                StrokeStyle = XConstants.StrokeStyleOptions.First().DashArray
+                StrokeStyle = XOptions.StrokeStyleOptions.First().DashArray
     };
         }
     }

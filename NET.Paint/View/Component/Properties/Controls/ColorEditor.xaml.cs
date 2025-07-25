@@ -1,28 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using NET.Paint.Drawing.Model.Utility;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NET.Paint.View.Component.Properties.Controls
 {
     /// <summary>
     /// Interaction logic for ColorEditor.xaml
     /// </summary>
-    public partial class ColorEditor : UserControl
+    public partial class ColorEditor : UserControl, INotifyPropertyChanged
     {
+        public static readonly DependencyProperty XColorValueProperty =
+            DependencyProperty.Register("XColorValue", typeof(XColor), typeof(ColorEditor),
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnXColorValueChanged));
+
+        public XColor XColorValue
+        {
+            get { return (XColor)GetValue(XColorValueProperty); }
+            set { SetValue(XColorValueProperty, value); }
+        }
+
+        private static void OnXColorValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorEditor editor)
+            {
+                editor.PropertyChanged?.Invoke(editor, new PropertyChangedEventArgs(nameof(XColorValue)));
+            }
+        }
+
         public ColorEditor()
         {
             InitializeComponent();
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -13,7 +13,7 @@ namespace NET.Paint.View.Component.Tools.Controls
     {
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorCanvas), 
-                new PropertyMetadata(Colors.Black, OnSelectedColorChanged));
+                new FrameworkPropertyMetadata(Colors.Black, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedColorChanged));
 
         public Color SelectedColor 
         {
@@ -21,13 +21,22 @@ namespace NET.Paint.View.Component.Tools.Controls
             set { SetValue(SelectedColorProperty, value); }
         }
 
+        // Add this event declaration near the top of the class
+        public event RoutedPropertyChangedEventHandler<Color>? SelectedColorChanged;
+
         private static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ColorCanvas colorPicker)
+            if (d is ColorCanvas colorCanvas)
             {
-                colorPicker.UpdateUIFromSelectedColor();
+                colorCanvas.UpdateUIFromSelectedColor();
+                
+                // Fire the SelectedColorChanged event
+                colorCanvas.SelectedColorChanged?.Invoke(colorCanvas, 
+                    new RoutedPropertyChangedEventArgs<Color>((Color)e.OldValue, (Color)e.NewValue));
             }
         }
+
+        private bool _isUpdatingFromUI = false;
 
         public ColorCanvas()
         {
@@ -57,6 +66,8 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void UpdateSLFromMousePosition(Border border, Point position)
         {
+            if (_isUpdatingFromUI) return;
+
             // Calculate saturation (0 to 1, left to right)
             double saturation = Math.Max(0, Math.Min(1, position.X / border.ActualWidth));
 
@@ -71,12 +82,14 @@ namespace NET.Paint.View.Component.Tools.Controls
             double hue = HueSlider.Value;
             double alpha = AlphaSlider.Value;
 
+            _isUpdatingFromUI = true;
             SelectedColor = ColorHelper.HSLtoARGB(hue, saturation, lightness, alpha);
+            _isUpdatingFromUI = false;
         }
 
         private void HueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (IsLoaded)
+            if (IsLoaded && !_isUpdatingFromUI)
             {
                 UpdateSelectedColorFromUI();
             }
@@ -84,7 +97,7 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void AlphaSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (IsLoaded)
+            if (IsLoaded && !_isUpdatingFromUI)
             {
                 UpdateSelectedColorFromUI();
             }
@@ -92,6 +105,8 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void UpdateSelectedColorFromUI()
         {
+            if (_isUpdatingFromUI) return;
+
             // Get current HSL values
             var hsl = SelectedColor.ARGBtoHSLA();
             
@@ -100,7 +115,9 @@ namespace NET.Paint.View.Component.Tools.Controls
             double alpha = AlphaSlider.Value;
             
             // Keep current saturation and lightness
+            _isUpdatingFromUI = true;
             SelectedColor = ColorHelper.HSLtoARGB(hue, hsl.S, hsl.L, alpha);
+            _isUpdatingFromUI = false;
         }
 
         private void HueSlider_Loaded(object sender, RoutedEventArgs e)
@@ -114,8 +131,12 @@ namespace NET.Paint.View.Component.Tools.Controls
 
         private void UpdateUIFromSelectedColor()
         {
+            if (_isUpdatingFromUI) return;
+
             if (SelectedColor != null && SLBorder.ActualWidth > 0 && SLBorder.ActualHeight > 0)
             {
+                _isUpdatingFromUI = true;
+
                 var color = SelectedColor.ARGBtoHSLA();
                 
                 // Set slider values
@@ -129,6 +150,8 @@ namespace NET.Paint.View.Component.Tools.Controls
                 // Update the indicator position (subtract 5 to center the 10px indicator)
                 Canvas.SetLeft(SLIndicator, x - 5);
                 Canvas.SetTop(SLIndicator, y - 5);
+
+                _isUpdatingFromUI = false;
             }
         }
     }

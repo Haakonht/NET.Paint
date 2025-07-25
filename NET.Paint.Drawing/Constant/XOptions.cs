@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace NET.Paint.Drawing.Constant
 {
-    public static class XConstants
+    public static class XOptions
     {
         public static List<XStrokeStyle> StrokeStyleOptions = new List<XStrokeStyle>
         {

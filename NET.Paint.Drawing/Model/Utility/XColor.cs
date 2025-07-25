@@ -23,7 +23,12 @@ namespace NET.Paint.Drawing.Model.Utility
         public override XColorType Type => XColorType.Solid;
 
         [Key(1)]
-        public Color Color { get; set; }
+        public Color Color 
+        { 
+            get => _color;
+            set => SetProperty(ref _color, value);
+        }
+        private Color _color;
     }
 
     [Union(0, typeof(XLinearGradient))]

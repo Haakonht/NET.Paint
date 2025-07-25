@@ -211,7 +211,7 @@ namespace NET.Paint.Drawing.Factory
                                 Points = new ObservableCollection<Point>() { tools.ClickLocation, tools.MouseLocation },
                                 Stroke = new XSolidColor { Color = Colors.Black },
                                 StrokeThickness = 2,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
+                                StrokeStyle = XOptions.StrokeStyleOptions[2].DashArray,
                                 CornerRadius = 0,
                             };
                         case XSelectionMode.Lasso:
@@ -220,7 +220,7 @@ namespace NET.Paint.Drawing.Factory
                                 Points = new ObservableCollection<Point> { tools.ClickLocation },
                                 Stroke = new XSolidColor { Color = Colors.Black },
                                 StrokeThickness = 2,
-                                StrokeStyle = XConstants.StrokeStyleOptions[2].DashArray,
+                                StrokeStyle = XOptions.StrokeStyleOptions[2].DashArray,
                                 PointSpacing = 20
                             };
                         default:

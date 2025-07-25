@@ -15,7 +15,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <StackPanel Grid.Row="1" DataContext="{Binding}" Background="White">
+        <StackPanel Grid.Row="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=XColorValue}" Background="White">
             <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding}" Margin="0,-25,0,0">
                 <ContentPresenter.Resources>
                     <DataTemplate DataType="{x:Type colorTypes:XSolidColor}">

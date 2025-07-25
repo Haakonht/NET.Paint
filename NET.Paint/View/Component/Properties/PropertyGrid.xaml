@@ -6,6 +6,7 @@
              xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:shapes="clr-namespace:NET.Paint.Drawing.Model.Shape;assembly=NET.Paint.Drawing"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Properties.Controls"
+             xmlns:constants="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Property.Converters"
              xmlns:drawingConverters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
@@ -17,6 +18,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/Styles/Expanders.xaml"/>
+                <ResourceDictionary Source="../../../Resources/Styles/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <converters:ObjectToPropertyInfoConverter x:Key="ObjectToPropertyInfoConverter"/>
@@ -37,20 +39,10 @@
 
             <DataTemplate x:Key="ColorTemplate">
                 <Grid>
-                    <ToggleButton x:Name="ColorBtn" 
-                                  Background="{Binding Value, Converter={StaticResource XColorToBrushConverter}}" 
-                                  BorderBrush="DimGray" 
-                                  BorderThickness="1" 
-                                  IsChecked="False"/>
+                    <ToggleButton x:Name="ColorBtn" Background="{Binding Value, Converter={StaticResource XColorToBrushConverter}, Mode=TwoWay}" BorderBrush="DimGray" BorderThickness="1" IsChecked="False" Style="{StaticResource ToggleBtnNoCheckedStyle}"/>
 
-                    <Popup Width="200" Height="250" 
-                           Placement="Top" 
-                           StaysOpen="False" 
-                           PlacementTarget="{Binding ElementName=ColorBtn}" 
-                           IsOpen="{Binding ElementName=ColorBtn, Path=IsChecked}">
-                        <controls:ColorEditor Margin="0,22,0,0" 
-                                            DataContext="{Binding Value}" 
-                                            VerticalAlignment="Center"/>
+                    <Popup Width="200" Height="250"  Placement="Top" StaysOpen="False" PlacementTarget="{Binding ElementName=ColorBtn}" IsOpen="{Binding ElementName=ColorBtn, Path=IsChecked}">
+                        <controls:ColorEditor Margin="0,22,0,0" XColorValue="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center"/>
                     </Popup>
                 </Grid>
             </DataTemplate>
@@ -62,19 +54,18 @@
             <DataTemplate x:Key="PointCollectionTemplate">
             </DataTemplate>
 
+            <DataTemplate x:Key="FontTemplate">
+                <ComboBox ItemsSource="{x:Static constants:XOptions.FontFamilyOptions}" SelectedItem="{Binding Value, Mode=TwoWay}" Padding="0" VerticalContentAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontFamily="{Binding}" Margin="5,1,0,0" VerticalAlignment="Center" FontSize="11"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </DataTemplate>
+            
             <DataTemplate x:Key="NumberTemplate">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="{icons:MaterialIconExt Kind=Decrement}" Grid.Column="0" Height="20"/>
-                    <Border BorderBrush="DimGray" BorderThickness="1" Grid.Column="1">
-                        <TextBox Text="{Binding Value}" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent"/>
-                    </Border>
-                    <Button Content="{icons:MaterialIconExt Kind=Increment}" Grid.Column="2" Height="20"/>
-                </Grid>
+                <controls:NumberEditor DataContext="{Binding}"/>
             </DataTemplate>
 
             <selectors:PropertyEditorTemplateSelector x:Key="PropertyEditorTemplateSelector" 
@@ -82,7 +73,8 @@
                                                   ColorTemplate="{StaticResource ColorTemplate}" 
                                                   BooleanTemplate="{StaticResource BoolTemplate}" 
                                                   PointTemplate="{StaticResource PointTemplate}"
-                                                  NumberTemplate="{StaticResource NumberTemplate}"/>
+                                                  NumberTemplate="{StaticResource NumberTemplate}"
+                                                  FontTemplate="{StaticResource FontTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -104,8 +96,7 @@
                         <Expander Style="{StaticResource CategoryExpanderStyle}" IsExpanded="True">
                             <!-- Category Header -->
                             <Expander.Header>
-                                <TextBlock Text="{Binding CategoryName}" FontWeight="Bold" Foreground="White" 
-                                          Margin="5,2" FontSize="11"/>
+                                <TextBlock Text="{Binding CategoryName}" FontWeight="Bold" Foreground="White" Margin="5,2" FontSize="11"/>
                             </Expander.Header>
                             
                             <!-- Properties in this category -->
@@ -135,11 +126,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Height="20" Background="Transparent">
-                                                <ContentControl Content="{Binding}"
-                                                          IsEnabled="{Binding CanWrite}"
-                                                          ContentTemplateSelector="{StaticResource PropertyEditorTemplateSelector}" 
-                                                          VerticalAlignment="Stretch" 
-                                                          HorizontalAlignment="Stretch"/>
+                                                <ContentControl Content="{Binding}" IsEnabled="{Binding CanWrite}" ContentTemplateSelector="{StaticResource PropertyEditorTemplateSelector}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

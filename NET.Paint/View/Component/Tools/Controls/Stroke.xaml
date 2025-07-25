@@ -51,7 +51,7 @@
                 <DataTemplate DataType="{x:Type colorTypes:XGradient}">
                     <StackPanel>
                         <Label Content="Style" Padding="0" Margin="2,0,0,2" FontSize="10"/>
-                        <ComboBox ItemsSource="{x:Static options:XConstants.GradientStyleOptions}" 
+                        <ComboBox ItemsSource="{x:Static options:XOptions.GradientStyleOptions}" 
                                   SelectedItem="{Binding DataContext.Tools.ActiveStrokeGradientStyle, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                         <ContentPresenter Content="{Binding}">
                             <ContentPresenter.Resources>
@@ -81,7 +81,7 @@
             <TextBlock Grid.Column="1" Text="{Binding StrokeThickness, StringFormat='{}{0:F1}'}" VerticalAlignment="Center" Margin="5,0,0,0"/>
         </Grid>
         <Label Content="Style" Padding="0" Margin="2,2,0,2" FontSize="10"/>
-        <ComboBox ItemsSource="{x:Static options:XConstants.StrokeStyleOptions}" SelectedItem="{Binding StrokeStyle}" Height="25">
+        <ComboBox ItemsSource="{x:Static options:XOptions.StrokeStyleOptions}" SelectedItem="{Binding StrokeStyle}" Height="25">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="2" Height="20">

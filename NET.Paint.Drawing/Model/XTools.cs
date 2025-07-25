@@ -147,7 +147,7 @@ namespace NET.Paint.Drawing.Model
             }
         }
 
-        private XStrokeStyle _strokeStyle = XConstants.StrokeStyleOptions.First(x => x.Name == "Solid");
+        private XStrokeStyle _strokeStyle = XOptions.StrokeStyleOptions.First(x => x.Name == "Solid");
         public XStrokeStyle StrokeStyle
         {
             get => _strokeStyle;

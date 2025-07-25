@@ -42,10 +42,18 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="DimGray">
-        <dock:DockingManager x:Name="DockingManager" Background="#DDFFFFFF" DocumentsSource="{Binding Project.Images}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+    <Grid Background="LightGray">
+        <dock:DockingManager x:Name="DockingManager" Background="WhiteSMoke" DocumentsSource="{Binding Project.Images}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
             <dock:DockingManager.Resources>
-                <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}"/>
+                <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Margin" Value="2.5,0,0,0"/>
+                </Style>
+                <Style TargetType="dock:LayoutAnchorableControl">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                </Style>
             </dock:DockingManager.Resources>
 
             <dock:LayoutRoot>
