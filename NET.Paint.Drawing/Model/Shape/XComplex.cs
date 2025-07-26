@@ -123,7 +123,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Location")]
         public Point Location
         {
             get => Points[0];
@@ -131,15 +132,18 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Center")]
         public Point Center => new Point(Location.X + (Width / 2), Location.Y + (Height / 2));
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Width")]
         public double Width => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, TextColor.ToBrush()).Width;
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Height")]
         public double Height => new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily.ToString()), FontSize, TextColor.ToBrush()).Height;
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -175,6 +179,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XToolType Type => XToolType.Bitmap;
         
         [Key(3)]
+        [Category("Layout")]
+        [DisplayName("Offset")]
         public Point Offset
         {
             get => _offset;
@@ -183,6 +189,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private Point _offset = new Point(0, 0);
 
         [Key(4)]
+        [Category("Bitmap")]
+        [DisplayName("Source")]
         public ImageSource Source
         {
             get => _bitmap;
@@ -191,6 +199,8 @@ namespace NET.Paint.Drawing.Model.Shape
         private ImageSource _bitmap = null;
 
         [Key(5)]
+        [Category("Bitmap")]
+        [DisplayName("Scaling")]
         public XScalingMode Scaling
         {
             get => _scaling;
@@ -200,6 +210,8 @@ namespace NET.Paint.Drawing.Model.Shape
 
 
         [Key(6)]
+        [Category("Layout")]
+        [DisplayName("Rotation")]
         public double Rotation
         {
             get => _rotation;
@@ -210,7 +222,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Location")]
         public Point Location
         {
             get => Points[0];
@@ -218,15 +231,18 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Width")]
         public double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
         
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Height")]
         public double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Center")]
         public Point Center => new Point(Location.X + (Width / 2), Location.Y + (Height / 2));
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -257,6 +273,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XToolType Type => XToolType.Effect;
 
         [Key(3)]
+        [Category("Effect")]
+        [DisplayName("Effect")]
         public Effect Effect
         {
             get => _effect;
@@ -272,15 +290,18 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Location")]
         public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Width")]
         public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Height")]
         public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -19,6 +19,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
+        [Category("Layout")]
+        [DisplayName("Start")]
         public Point Start
         {
             get => Points[0];
@@ -26,6 +28,8 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [IgnoreMember]
+        [Category("Layout")]
+        [DisplayName("End")]
         public Point End
         {
             get => Points[1];
@@ -56,6 +60,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XToolType Type => XToolType.Polyline;
 
         [Key(6)]
+        [Category("Shape")]
+        [DisplayName("Spacing")]
         public double PointSpacing
         {
             get => _spacing;
@@ -95,7 +101,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Start")]
         public Point Start
         {
             get => Points[0];
@@ -103,7 +110,8 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("End")]
         public Point End
         {
             get => Points[1];
@@ -111,7 +119,8 @@ namespace NET.Paint.Drawing.Model.Shape
         }
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Ctrl 1")]
         public Point Ctrl1
         {
             get => Points[2];
@@ -149,7 +158,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Ctrl 2")]
         public Point Ctrl2
         {
             get => Points[3];

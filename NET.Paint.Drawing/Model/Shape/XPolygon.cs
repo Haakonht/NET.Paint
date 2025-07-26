@@ -26,6 +26,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public abstract XPolygonStyle Style { get; }
 
         [Key(7)]
+        [Category("Layout")]
+        [DisplayName("Rotation")]
         public double Rotation
         {
             get => _rotation;
@@ -36,7 +38,8 @@ namespace NET.Paint.Drawing.Model.Shape
         #region Volatile - Not Serialized
 
         [IgnoreMember]
-        [Browsable(false)]
+        [Category("Layout")]
+        [DisplayName("Center")]
         public Point Center => new Point((Points.Min(p => p.X) + Points.Max(p => p.X)) / 2, (Points.Min(p => p.Y) + Points.Max(p => p.Y)) / 2);
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -79,6 +82,8 @@ namespace NET.Paint.Drawing.Model.Shape
         public override XPolygonStyle Style => XPolygonStyle.Regular;
 
         [Key(9)]
+        [Category("Shape")]
+        [DisplayName("Corners")]
         public int Corners
         {
             get => _corners;

@@ -75,7 +75,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 ViewboxUnits = BrushMappingMode.Absolute,
             };
 
-            MyBorder.Background = visualBrush;
+            GridColorBtn.Background = visualBrush;
         }
     }
 }

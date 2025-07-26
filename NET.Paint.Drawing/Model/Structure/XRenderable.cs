@@ -71,6 +71,8 @@ namespace NET.Paint.Drawing.Model.Structure
     public abstract class XStrokedRenderable : XRenderable
     {
         [Key(3)]
+        [Category("Stroke")]
+        [DisplayName("Color")]
         public XColor Stroke
         {
             get => _stroke;
@@ -79,6 +81,8 @@ namespace NET.Paint.Drawing.Model.Structure
         private XColor _stroke;
 
         [Key(4)]
+        [Category("Stroke")]
+        [DisplayName("Thickness")]
         public double StrokeThickness
         {
             get => _strokeThickness;
@@ -88,6 +92,8 @@ namespace NET.Paint.Drawing.Model.Structure
 
 
         [Key(5)]
+        [Category("Stroke")]
+        [DisplayName("Style")]
         public DoubleCollection StrokeStyle
         {
             get => _strokeStyle;
@@ -106,6 +112,8 @@ namespace NET.Paint.Drawing.Model.Structure
     public abstract class XFilledRenderable : XStrokedRenderable
     {
         [Key(6)]
+        [Category("Fill")]
+        [DisplayName("Color")]
         public XColor Fill
         {
             get => _fill;
@@ -116,12 +124,15 @@ namespace NET.Paint.Drawing.Model.Structure
         #region Volatile - Not Serialized
 
         [IgnoreMember]
+        [Browsable(false)]
         public virtual Point Location => new Point(Points.Min(p => p.X), Points.Min(p => p.Y));
 
         [IgnoreMember]
+        [Browsable(false)]
         public virtual double Width => Points.Max(p => p.X) - Points.Min(p => p.X);
 
         [IgnoreMember]
+        [Browsable(false)]
         public virtual double Height => Points.Max(p => p.Y) - Points.Min(p => p.Y);
 
         public override void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:NET.Paint.View.Component.Tools.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200" d:Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../../../Resources/Styles/Buttons.xaml"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -19,8 +22,10 @@
         <Slider Grid.Row="1" Grid.Column="1" Margin="0,5,0,0"  Orientation="Vertical" HorizontalAlignment="Right" Minimum="10" Maximum="100" Value="{Binding GridHeight}" TickFrequency="5" IsSnapToTickEnabled="True" IsDirectionReversed="True"/>
         <CheckBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding GridEnabled}"/>
         <Grid Grid.Row="1" Grid.Column="0" Margin="0,5,5,0">
-             <!--<xctk:ColorPicker ShowDropDownButton="False" Background="White" BorderBrush="Transparent" SelectedColor="{Binding GridColor}" Foreground="Transparent" DisplayColorTooltip="False"/>-->
-            <Border x:Name="MyBorder" BorderBrush="DimGray" BorderThickness="1" Grid.Row="1" Grid.Column="0" IsHitTestVisible="False"/>
+            <ToggleButton x:Name="GridColorBtn" Style="{StaticResource ToggleBtnNoCheckedStyle}" Background="Transparent" IsChecked="False"/>
         </Grid>
+        <Popup Width="200" Height="250" Placement="Top" StaysOpen="False" PlacementTarget="{Binding ElementName=GridColorBtn}" IsOpen="{Binding ElementName=GridColorBtn, Path=IsChecked}">
+            <local:ColorCanvas SelectedColor="{Binding GridColor, Mode=TwoWay}" VerticalAlignment="Center"/>
+        </Popup>
     </Grid>
 </UserControl>

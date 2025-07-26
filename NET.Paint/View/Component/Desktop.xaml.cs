@@ -1,15 +1,16 @@
-﻿using NET.Paint.Drawing.Constant;
+﻿using AvalonDock;
+using AvalonDock.Layout;
+using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Model;
 using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using NET.Paint.Helper;
+using NET.Paint.View.Component.Dialog;
 using NET.Paint.View.Component.Tools;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AvalonDock;
-using AvalonDock.Layout;
 
 namespace NET.Paint.View.Component
 {
@@ -54,7 +55,29 @@ namespace NET.Paint.View.Component
             }
         }
 
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => (DataContext as XService).Preferences.PropertyChanged += Service_PropertyChanged;
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (DataContext is XService service)
+            {
+                service.Preferences.PropertyChanged += Service_PropertyChanged;
+
+                if (service.ActiveImage != null)
+                    service.ActiveImage.PropertyChanged += ActiveImage_PropertyChanged;
+            }
+        }
+
+        private void ActiveImage_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is XImage image)
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(XImage.Selected):
+                        Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected.Count > 0);
+                        break;
+                }
+            }
+        }
 
         private void Service_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {

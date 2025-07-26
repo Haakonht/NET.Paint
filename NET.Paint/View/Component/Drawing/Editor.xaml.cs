@@ -65,5 +65,16 @@ namespace NET.Paint.View.Component.Drawing
             ToolContextMenu.IsOpen = false;
             e.Handled = true;
         }
+
+        private void EditorGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (DetailsEnabledBtn.IsChecked.HasValue && DetailsEnabledBtn.IsChecked.Value)
+            {
+                var mousePosition = e.GetPosition(sender as UIElement);
+
+                QuickDetails.HorizontalOffset = mousePosition.X + 160;
+                QuickDetails.VerticalOffset = mousePosition.Y + 10;
+            }
+        }
     }
 }

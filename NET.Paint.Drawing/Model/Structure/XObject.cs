@@ -8,8 +8,12 @@ namespace NET.Paint.Drawing.Model.Structure
     public class XObject : PropertyNotifier
     {
         [Key(0)]
-        [DisplayName("Identifier")]
+        [Browsable(false)]
         public Guid Id => _id;
         private Guid _id = Guid.NewGuid();
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public string ShortId => Id.ToString().Split('-')[0];
     }
 }

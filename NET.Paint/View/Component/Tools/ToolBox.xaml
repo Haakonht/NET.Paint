@@ -75,7 +75,7 @@
         </Popup>
 
         <Popup x:Name="GridQuickSelect" PlacementTarget="{Binding ElementName=GridToolSelect}" Placement="Left" StaysOpen="False" HorizontalOffset="5" VerticalOffset="-115">
-            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="7.5" MouseLeave="CloseGridQuickSelect" DataContext="{Binding DataContext.ActiveImage, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="7.5" DataContext="{Binding DataContext.ActiveImage, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <controls:Grid Width="150" DataContext="{Binding Configuration}"/>
             </Border>
         </Popup>

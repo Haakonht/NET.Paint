@@ -17,7 +17,16 @@ namespace NET.Paint.Drawing.Service
     {
         public XService() => InitDebug();
 
-        private XProject _project = null;
+        public XRenderable Test { get; } = new XRectangle
+        {
+            Points = new ObservableCollection<Point> { new Point(50, 120), new Point(120, 170) },
+            Stroke = XFactory.Color.CreateColor(Colors.Blue),
+            StrokeThickness = 2,
+            Fill = XFactory.Color.CreateColor(Colors.LightBlue),
+            CornerRadius = 5
+        };
+
+private XProject _project = null;
         public XProject Project
         {
             get => _project;
