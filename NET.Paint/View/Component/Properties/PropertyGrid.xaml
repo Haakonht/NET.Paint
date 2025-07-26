@@ -12,14 +12,15 @@
              xmlns:drawingConverters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="210" d:Background="White"
-             d:DataContext="{d:DesignInstance Type={x:Type shapes:XText}, IsDesignTimeCreatable=True}">
+             d:DesignHeight="250" d:DesignWidth="210" d:Background="White"
+             d:DataContext="{d:DesignInstance Type={x:Type service:XService}, IsDesignTimeCreatable=True}">
              
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Resources/Styles/Expanders.xaml"/>
                 <ResourceDictionary Source="../../../Resources/Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="../../../Resources/Styles/ScrollViewers.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <converters:ObjectToPropertyInfoConverter x:Key="ObjectToPropertyInfoConverter"/>
@@ -64,7 +65,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="StrokeStyleTemplate">
-                <ComboBox ItemsSource="{x:Static constants:XOptions.StrokeStyleOptions}" SelectedItem="{Binding Value, Converter={StaticResource DashArrayToStrokeStyleConverter}, Mode=TwoWay}" Padding="0" VerticalContentAlignment="Center">
+                <ComboBox ItemsSource="{x:Static constants:XOptions.StrokeStyleOptions}" SelectedItem="{Binding Value, Converter={StaticResource DashArrayToStrokeStyleConverter}, Mode=TwoWay}" Padding="5,0,0,0" VerticalContentAlignment="Center">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="11"/>
@@ -94,12 +95,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Background="#555555" Height="30" Grid.Row="0">
+        <Grid Background="#666666" Height="30" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -109,7 +110,7 @@
             <TextBlock Text="{Binding ShortId, Mode=OneWay, StringFormat=({0})}" Foreground="White" FontWeight="Light" TextTrimming="WordEllipsis" Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center"/>
         </Grid>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Style="{StaticResource SlimScrollViewer}">
             <!-- Category Groups -->
             <ItemsControl ItemsSource="{Binding Path=., Converter={StaticResource ObjectToPropertyInfoConverter}}">
                 <ItemsControl.ItemTemplate>

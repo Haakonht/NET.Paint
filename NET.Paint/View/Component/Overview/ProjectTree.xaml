@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="../../../Resources/ShapeIcons.xaml"/>
                 <ResourceDictionary Source="../../../Resources/ToolIcons.xaml"/>
                 <ResourceDictionary Source="Resources/StretchingTreeView.xaml"/>
+                <ResourceDictionary Source="../../../Resources/Styles/ScrollViewers.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ContextMenu x:Key="ImageContextMenu" DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}">
@@ -68,8 +69,12 @@
     </UserControl.Resources>
     
     <Border BorderBrush="LightGray">
-        <StackPanel HorizontalAlignment="Stretch">
-            <Grid Height="20" Margin="-2,0">
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Height="20" Margin="-2,0" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -86,8 +91,8 @@
                     <ToggleButton Content="{icons:MaterialIconExt Kind=ImageOffOutline}" Width="20" Background="White" />
                 </StackPanel>
             </Grid>
-            <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" DataContext="{Binding Project}" Margin="0,2,0,0">
-                <TreeView x:Name="ImageTree" ItemsSource="{Binding Images}" BorderBrush="Transparent" Background="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}">
+            <ScrollViewer MouseDown="Unselect" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,2,0,0" Grid.Row="1" Style="{StaticResource SlimScrollViewer}">
+                <TreeView x:Name="ImageTree" DataContext="{Binding Project}"  ItemsSource="{Binding Images}" BorderBrush="Transparent" Background="Transparent" Margin="0,-1,0,0" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown" MouseMove="TreeView_MouseMove" DragEnter="TreeView_DragOver" Drop="TreeView_Drop" AllowDrop="True" ItemContainerStyle="{StaticResource StretchingTreeView}" Style="{StaticResource NoScrollTreeView}"> 
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Layers}" DataType="{x:Type structure:XImage}">
                             <controls:Image DataContext="{Binding}" ContextMenu="{StaticResource ImageContextMenu}" MouseDown="SelectNode"/>
@@ -111,6 +116,6 @@
                     </TreeView.Resources>
                 </TreeView>
             </ScrollViewer>
-        </StackPanel>
+        </Grid>
     </Border>
 </UserControl>
