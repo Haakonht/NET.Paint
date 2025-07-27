@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="NET.Paint.View.Component.Dialog.Image"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:NET.Paint.View.Component.Dialog"
+        xmlns:icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:tools="clr-namespace:NET.Paint.View.Component.Tools.Controls"
+        mc:Ignorable="d" Height="210" Width="200" d:Background="White">
+    <Grid>
+        <StackPanel Margin="5">
+            <Label Content="Title" FontSize="10" Margin="2,0,0,2" Padding="0"/>
+            <TextBox Text="Insert title here" Height="25"/>
+            <Label Content="Width" FontSize="10" Margin="2,2,0,2" Padding="0"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="{icons:MaterialIconExt Kind=Decrement}" Grid.Column="0" Height="25" Click="DecrementButton_Click" Tag="{Binding}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1" Grid.Column="1">
+                    <TextBox Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" PreviewTextInput="NumberValidationTextBox"/>
+                </Border>
+                <Button Content="{icons:MaterialIconExt Kind=Increment}" Grid.Column="2" Height="25"  Click="IncrementButton_Click" Tag="{Binding}"/>
+            </Grid>
+            <Label Content="Height" FontSize="10" Margin="2,2,0,2" Padding="0"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="{icons:MaterialIconExt Kind=Decrement}" Grid.Column="0" Height="25" Click="DecrementButton_Click" Tag="{Binding}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1" Grid.Column="1">
+                    <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" PreviewTextInput="NumberValidationTextBox"/>
+                </Border>
+                <Button Content="{icons:MaterialIconExt Kind=Increment}" Grid.Column="2" Height="25"  Click="IncrementButton_Click" Tag="{Binding}"/>
+            </Grid>
+            <Label Content="Background" FontSize="10" Margin="2,2,0,2" Padding="0"/>
+            <tools:ColorPicker Height="25"/>
+            <UniformGrid Columns="2" Margin="0,7,0,0">
+                <Button Content="Create" Padding="5,0" Height="25" Background="DarkOliveGreen" Foreground="White"/>
+                <Button Content="Cancel" Padding="5,0" Height="25" Background="DarkRed" Foreground="White"/>
+            </UniformGrid>
+        </StackPanel>
+    </Grid>
+</UserControl>

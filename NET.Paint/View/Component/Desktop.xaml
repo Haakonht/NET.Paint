@@ -45,7 +45,18 @@
     </UserControl.Resources>
 
     <Grid Background="LightGray">
-        <dock:DockingManager x:Name="DockingManager" Background="WhiteSMoke" DocumentsSource="{Binding Project.Images}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <dock:DockingManager Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="DockingManager" Background="WhiteSMoke" DocumentsSource="{Binding Project.Images}" ActiveContentChanged="ActiveContentChanged" DocumentHeaderTemplate="{StaticResource Header}" DocumentPaneMenuItemHeaderTemplate="{StaticResource Title}" LayoutItemTemplateSelector="{StaticResource LayoutSelector}" Grid.Row="0" Grid.Column="0">
             <dock:DockingManager.Resources>
                 <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneTitleStyle}">
                     <Setter Property="Background" Value="White"/>
@@ -105,20 +116,43 @@
                         </dock:LayoutAnchorable>
                     </dock:LayoutAnchorablePane>
                 </dock:LayoutPanel>
-
-                <dock:LayoutRoot.FloatingWindows>
-                    <dock:LayoutAnchorableFloatingWindow>
-                        <dock:LayoutAnchorablePaneGroup>
-                            <dock:LayoutAnchorablePane>
-                                <dock:LayoutAnchorable x:Name="PreferencesAnchorable" Title="Preferences" IsVisible="False"
-                                                   CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" CanDockAsTabbedDocument="False"
-                                                   FloatingHeight="540" FloatingWidth="250">
+            </dock:LayoutRoot>
+        </dock:DockingManager>
+        <dock:DockingManager Grid.Row="1" Grid.Column="1">
+            <dock:DockingManager.Resources>
+                <Style TargetType="dock:AnchorablePaneTitle" BasedOn="{StaticResource AnchorablePaneDialogStyle}">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Style>
+                <Style TargetType="dock:LayoutAnchorableControl">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Style>
+            </dock:DockingManager.Resources>
+            <dock:LayoutRoot>
+                <dock:LayoutPanel Orientation="Horizontal" CanDock="False">
+                    <dock:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="220" DockHeight="Auto">
+                        <dock:LayoutAnchorablePane DockHeight="200">
+                            <dock:LayoutAnchorable x:Name="PreferencesDialog" Title="Preferences" IsVisible="False" Hiding="Dialog_Closing" CanAutoHide="False" CanHide="False" CanFloat="False">
+                                <Border BorderBrush="Black" BorderThickness="0.5" Background="White" Margin="1">
                                     <dialogComponents:Preferences DataContext="{Binding}"/>
-                                </dock:LayoutAnchorable>
-                            </dock:LayoutAnchorablePane>
-                        </dock:LayoutAnchorablePaneGroup>
-                    </dock:LayoutAnchorableFloatingWindow>
-                </dock:LayoutRoot.FloatingWindows>
+                                </Border>
+                            </dock:LayoutAnchorable>
+                        </dock:LayoutAnchorablePane>
+                        <dock:LayoutAnchorablePane DockHeight="200">
+                            <dock:LayoutAnchorable x:Name="ImageDialog" Title="New Image" IsVisible="False" Hiding="Dialog_Closing" CanAutoHide="False" CanHide="False" CanFloat="False">
+                                <Border BorderBrush="Black" BorderThickness="0.5" Background="White" Margin="1">
+                                    <dialogComponents:Image DataContext="{Binding}"/>
+                                </Border>
+                            </dock:LayoutAnchorable>
+                        </dock:LayoutAnchorablePane>
+                        <dock:LayoutAnchorablePane DockHeight="200">
+                            <dock:LayoutAnchorable x:Name="ProjectDialog" Title="New Project" IsVisible="False" Hiding="Dialog_Closing" CanAutoHide="False" CanFloat="False">
+                                <Border BorderBrush="Black" BorderThickness="0.5" Background="White" Margin="3">
+                                    <dialogComponents:Project DataContext="{Binding}"/>
+                                </Border>
+                            </dock:LayoutAnchorable>
+                        </dock:LayoutAnchorablePane>
+                    </dock:LayoutAnchorablePaneGroup>
+                </dock:LayoutPanel>
             </dock:LayoutRoot>
         </dock:DockingManager>
     </Grid>

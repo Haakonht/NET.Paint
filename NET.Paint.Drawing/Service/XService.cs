@@ -26,7 +26,7 @@ namespace NET.Paint.Drawing.Service
             CornerRadius = 5
         };
 
-private XProject _project = null;
+        private XProject _project = null;
         public XProject Project
         {
             get => _project;

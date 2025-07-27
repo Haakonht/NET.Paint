@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using NET.Paint.Drawing.Service;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -28,5 +29,15 @@ namespace NET.Paint.View.Component.Tools
         private void CloseGridQuickSelect(object sender, RoutedEventArgs e) => GridQuickSelect.IsOpen = false;
         private void CloseZoomQuickSelect(object sender, RoutedEventArgs e) => ZoomQuickSelect.IsOpen = false;
         private void CloseRulerQuickSelect(object sender, RoutedEventArgs e) => RulerQuickSelect.IsOpen = false;
+
+        private void SwapColor(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+            {
+                var temp = service.Tools.PrimaryColor;
+                service.Tools.PrimaryColor = service.Tools.SecondaryColor;
+                service.Tools.SecondaryColor = temp;
+            }
+        }
     }
 }

@@ -8,11 +8,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../../Resources/Styles/Buttons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:ContrastColorConverter x:Key="ContrastColorConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=.}">
-        <ToggleButton x:Name="ColorPickerToggle" Background="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}}" IsChecked="{Binding IsOpen, Mode=TwoWay}">
+        <ToggleButton x:Name="ColorPickerToggle" Background="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}}" IsChecked="{Binding IsOpen, Mode=TwoWay}" Style="{StaticResource ToggleBtnNoCheckedStyle}">
             <TextBlock Text="{Binding SelectedColor}" Foreground="{Binding SelectedColor, Converter={StaticResource ContrastColorConverter}}" Visibility="{Binding NameVisibility, Mode=TwoWay}"/>
         </ToggleButton>
 

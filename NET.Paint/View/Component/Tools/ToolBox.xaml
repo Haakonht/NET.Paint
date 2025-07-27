@@ -60,10 +60,11 @@
             </StackPanel>
 
             <Grid>
-                <StackPanel Height="90">
-                    <controls:ColorPicker SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed"/>
-                    <ToggleButton x:Name="ThicknessToolSelect" Height="25" ContentTemplate="{StaticResource ThicknessToolIcon}" IsChecked="{Binding IsOpen, ElementName=ThicknessQuickSelect}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,5"/>
-                    <controls:ColorPicker SelectedColor="{Binding SecondaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed"/>
+                <StackPanel Height="115">
+                    <ToggleButton x:Name="ThicknessToolSelect" Height="25" ContentTemplate="{StaticResource ThicknessToolIcon}" IsChecked="{Binding IsOpen, ElementName=ThicknessQuickSelect}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <controls:ColorPicker SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5"/>
+                    <Button Content="{icons:MaterialIconExt Kind=Refresh}" Height="25" Click="SwapColor"/>
+                    <controls:ColorPicker SelectedColor="{Binding SecondaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5,0,0"/>
                 </StackPanel>
             </Grid>
         </DockPanel>

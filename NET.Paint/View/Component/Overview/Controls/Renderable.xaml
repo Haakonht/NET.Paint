@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="../../../../Resources/ShapeIcons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:ShapeNameConverter x:Key="ShapeNameConverter"/>
+            <converters:ObjectNameConverter x:Key="ShapeNameConverter"/>
             <converters:ShapeSelectedConverter x:Key="ShapeSelectedConverter"/>
 
             <Style x:Key="ActiveHoverStyle" TargetType="TextBlock" BasedOn="{StaticResource HoverStyle}">

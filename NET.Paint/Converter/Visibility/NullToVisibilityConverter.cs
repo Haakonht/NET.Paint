@@ -14,12 +14,20 @@ namespace NET.Paint.Converter
                 if (value != null && value is XRenderable)
                     return Visibility.Collapsed;
 
+                if (value != null && value is string valStr)
+                    if (!string.IsNullOrEmpty(valStr))
+                        return Visibility.Collapsed;
+
                 return Visibility.Visible;
             }
 
             if (value != null && value is XRenderable)
                 return Visibility.Visible;
-                    
+                
+            if (value != null && value is string str)
+                if (!string.IsNullOrEmpty(str))
+                    return Visibility.Visible;
+
             return Visibility.Collapsed;
         }
 

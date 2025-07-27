@@ -80,5 +80,13 @@ namespace NET.Paint.View.Component.Base
         }
 
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+            {
+                service.Preferences.ProjectDialogVisible = true;
+            }
+        }
     }
 }

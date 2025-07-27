@@ -113,8 +113,6 @@ namespace NET.Paint.Drawing.Model.Structure
         [Browsable(false)]
         public XConfiguration Configuration { get; } = new XConfiguration();
 
-        public XImage() => Selected.CollectionChanged += (s, e) => OnPropertyChanged(nameof(Selected));
-
         #endregion
     }
 }

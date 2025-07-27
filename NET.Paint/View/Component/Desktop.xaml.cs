@@ -11,6 +11,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Collections.Specialized;
+using AvalonDock.Controls;
 
 namespace NET.Paint.View.Component
 {
@@ -19,11 +21,18 @@ namespace NET.Paint.View.Component
     /// </summary>
     public partial class Desktop : UserControl
     {
+        private XImage _currentDocument;
+
         public Desktop()
         {
             InitializeComponent();
 
-            PreferencesAnchorable.IsVisible = false;
+            // Dialogs
+            PreferencesDialog.IsVisible = false;
+            ImageDialog.IsVisible = false;
+            ProjectDialog.IsVisible = false;
+
+            // Anchorables
             PropertiesAnchorable.IsVisible = false;
             ClipboardAnchorable.IsVisible = false;
             UndoAnchorable.IsVisible = false;
@@ -39,19 +48,48 @@ namespace NET.Paint.View.Component
                 {
                     if (document != null && context != null)
                     {
+                        // Unsubscribe from previous document's events
+                        UnsubscribeFromCurrentDocument();
+
                         context.ActiveImage = document;
+                        _currentDocument = document;
 
                         if (context.ActiveImage != null)
                         {
-                            PreferencesAnchorable.IsVisible = context.Preferences.PreferencesVisible;
+                            PreferencesDialog.IsVisible = context.Preferences.PreferencesDialogVisible;
                             PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
                             ClipboardAnchorable.IsVisible = context.Preferences.ClipboardVisible;
                             UndoAnchorable.IsVisible = context.Preferences.UndoVisible;
                             ProjectTree.SetActiveImage(context.ActiveImage);
-                            PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
+                            
+                            // Subscribe to new document's events
+                            document.Selected.CollectionChanged += Document_Selected_CollectionChanged;
                         }
                     }
                 }
+                else
+                {
+                    // No active document, unsubscribe from current
+                    UnsubscribeFromCurrentDocument();
+                }
+            }
+        }
+
+        private void Document_Selected_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var context = DataContext as XService;
+            if (context?.ActiveImage != null)
+            {
+                PropertiesAnchorable.IsVisible = context.ActiveImage.Selected.Count > 0;
+            }
+        }
+
+        private void UnsubscribeFromCurrentDocument()
+        {
+            if (_currentDocument != null)
+            {
+                _currentDocument.Selected.CollectionChanged -= Document_Selected_CollectionChanged;
+                _currentDocument = null;
             }
         }
 
@@ -60,22 +98,6 @@ namespace NET.Paint.View.Component
             if (DataContext is XService service)
             {
                 service.Preferences.PropertyChanged += Service_PropertyChanged;
-
-                if (service.ActiveImage != null)
-                    service.ActiveImage.PropertyChanged += ActiveImage_PropertyChanged;
-            }
-        }
-
-        private void ActiveImage_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (sender is XImage image)
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(XImage.Selected):
-                        Dispatcher.Invoke(() => PropertiesAnchorable.IsVisible = image.Selected.Count > 0);
-                        break;
-                }
             }
         }
 
@@ -95,22 +117,14 @@ namespace NET.Paint.View.Component
                     case nameof(XService.Preferences.ToolboxVisible):
                         Dispatcher.Invoke(() => ToolboxAnchorable.IsVisible = preferences.ToolboxVisible);
                         break;
-                    case nameof(XService.Preferences.PreferencesVisible):
-                        Dispatcher.Invoke(() =>
-                        {
-                            if (preferences.PreferencesVisible)
-                            {
-                                AnchorableHelper.CenterAnchorableOnApplication(PreferencesAnchorable);
-                                PreferencesAnchorable.IsVisible = true;
-                                if (!PreferencesAnchorable.IsFloating)
-                                    PreferencesAnchorable.Float();
-                            }
-                            else
-                            {
-                                PreferencesAnchorable.Dock();
-                                PreferencesAnchorable.IsVisible = false;
-                            }
-                        });
+                    case nameof(XService.Preferences.PreferencesDialogVisible):
+                        Dispatcher.Invoke(() => PreferencesDialog.IsVisible = preferences.PreferencesDialogVisible);
+                        break;
+                    case nameof(XService.Preferences.ImageDialogVisible):
+                        Dispatcher.Invoke(() => ImageDialog.IsVisible = preferences.ImageDialogVisible);
+                        break;
+                    case nameof(XService.Preferences.ProjectDialogVisible):
+                        Dispatcher.Invoke(() => ProjectDialog.IsVisible = preferences.ProjectDialogVisible);
                         break;
                     case nameof(XService.Preferences.OverviewVisible):               
                         Dispatcher.Invoke(() => ProjectTreeAnchorable.IsVisible = preferences.OverviewVisible);
@@ -125,6 +139,21 @@ namespace NET.Paint.View.Component
                         break;
                 }
             }
+        }
+
+        private void Dialog_Closing(object sender, CancelEventArgs e)
+        {
+            if (DataContext is XService service && sender is LayoutAnchorable anchorable)
+            {
+                service.Preferences.PreferencesDialogVisible = false;
+                service.Preferences.ImageDialogVisible = false;
+                service.Preferences.ProjectDialogVisible = false;
+            }
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnsubscribeFromCurrentDocument();
         }
     }
 }

@@ -10,6 +10,7 @@
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:converters="clr-namespace:NET.Paint.View.Component.Properties.Converters"
              xmlns:drawingConverters="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
+             xmlns:overviewConverters="clr-namespace:NET.Paint.View.Component.Overview.Converters"
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="210" d:Background="White"
@@ -22,7 +23,8 @@
                 <ResourceDictionary Source="../../../Resources/Styles/Buttons.xaml"/>
                 <ResourceDictionary Source="../../../Resources/Styles/ScrollViewers.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
+            <overviewConverters:ObjectNameConverter x:Key="ObjectNameConverter"/>
             <converters:ObjectToPropertyInfoConverter x:Key="ObjectToPropertyInfoConverter"/>
             <drawingConverters:XColorToBrushConverter x:Key="XColorToBrushConverter"/>
             <converters:DashArrayToStrokeStyleConverter x:Key="DashArrayToStrokeStyleConverter"/>
@@ -106,7 +108,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Type, Mode=OneWay}" Foreground="White" FontWeight="Bold" Grid.Column="0" Margin="5,0,0,0" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=., Converter={StaticResource ObjectNameConverter}, Mode=OneWay}" Foreground="White" FontWeight="Bold" Grid.Column="0" Margin="5,0,0,0" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding ShortId, Mode=OneWay, StringFormat=({0})}" Foreground="White" FontWeight="Light" TextTrimming="WordEllipsis" Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center"/>
         </Grid>
 

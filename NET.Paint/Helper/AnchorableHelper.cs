@@ -5,7 +5,7 @@ namespace NET.Paint.Helper
 {
     public static class AnchorableHelper
     {
-        public static void CenterAnchorableOnApplication(LayoutAnchorable anchorable)
+        public static Point CenterAnchorableOnApplication()
         {
             var mainWindow = Application.Current.MainWindow;
             if (mainWindow != null)
@@ -18,9 +18,9 @@ namespace NET.Paint.Helper
                 centerX = Math.Max(0, centerX);
                 centerY = Math.Max(0, centerY);
 
-                anchorable.FloatingLeft = centerX - (anchorable.FloatingWidth / 2);
-                anchorable.FloatingTop = centerY - (anchorable.FloatingHeight / 2);
+                return new Point(centerX, centerY);
             }
+            return new Point(0, 0);
         }
     }
 }

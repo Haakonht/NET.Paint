@@ -5,10 +5,26 @@ using System.Windows.Data;
 
 namespace NET.Paint.View.Component.Overview.Converters
 {
-    public class ShapeNameConverter : IValueConverter
+    public class ObjectNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is XImage image)
+                return "Image";
+
+            if (value is XLayer layer)
+            {
+                switch (layer)
+                {
+                    case XVectorLayer:
+                        return "Vector Layer";
+                    case XRasterLayer:
+                        return "Raster Layer";
+                    case XHybridLayer:
+                        return "Hybrid Layer";
+                }
+            }
+
             if (value is XRenderable renderable)
             {
                 switch (renderable)
