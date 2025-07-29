@@ -18,13 +18,22 @@
     </UserControl.Resources>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=.}">
-        <ToggleButton x:Name="ColorPickerToggle" Background="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}}" IsChecked="{Binding IsOpen, Mode=TwoWay}" Style="{StaticResource ToggleBtnNoCheckedStyle}">
-            <TextBlock Text="{Binding SelectedColor}" Foreground="{Binding SelectedColor, Converter={StaticResource ContrastColorConverter}}" Visibility="{Binding NameVisibility, Mode=TwoWay}"/>
+        <ToggleButton x:Name="ColorPickerToggle" Background="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}}" IsChecked="{Binding IsOpen, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{StaticResource ToggleBtnNoCheckedStyle}" Click="ColorPickerToggle_Click">
+            <TextBlock Text="{Binding SelectedColor}" Foreground="{Binding SelectedColor, Converter={StaticResource ContrastColorConverter}}" Visibility="{Binding NameVisibility, Mode=TwoWay}" IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=ColorPickerToggle}" Value="True">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </ToggleButton>
 
-        <Popup Width="200" StaysOpen="False" AllowsTransparency="True" IsOpen="{Binding IsOpen, Mode=TwoWay}" Placement="Top" PlacementTarget="{Binding ElementName=ColorPickerToggle}" HorizontalOffset="18">
-            <local:ColorCanvas SelectedColor="{Binding SelectedColor, Mode=TwoWay}" 
-                    MouseLeftButtonDown="Popup_MouseLeftButtonDown"
+        <Popup Width="200" x:Name="ColorCanvasPopup" StaysOpen="False" AllowsTransparency="True" IsOpen="false" Placement="Top" PlacementTarget="{Binding ElementName=ColorPickerToggle}" HorizontalOffset="18">
+            <local:ColorCanvas SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                     MouseRightButtonDown="Popup_MouseRightButtonDown"
                     MouseMove="Popup_MouseMove"
                     MouseWheel="Popup_MouseWheel"/>

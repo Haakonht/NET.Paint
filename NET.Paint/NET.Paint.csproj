@@ -30,7 +30,7 @@
     <Compile Update="View\Component\Tools\Controls\RadialGradient.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Component\Tools\ToolBox.xaml.cs">
+    <Compile Update="View\Component\Tools\ToolBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

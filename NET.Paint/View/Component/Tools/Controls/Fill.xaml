@@ -32,19 +32,6 @@
                         <Border BorderThickness="1" BorderBrush="Black">
                             <Grid Height="25" DataContext="{Binding Tools}"> 
                                 <local:ColorPicker SelectedColor="{Binding SecondaryColor}" IsOpen="False"/>
-                               <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding SecondaryColor, Converter={StaticResource ColorToBrushConverter}}" IsHitTestVisible="False"/>
-                                <TextBlock Text="{Binding SecondaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="{Binding SecondaryColor, Converter={StaticResource ContrastColorConverter}}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="Normal"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=FillColorPicker}" Value="True">
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
                             </Grid>
                         </Border>
                     </StackPanel>

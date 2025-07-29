@@ -60,5 +60,16 @@ namespace NET.Paint.Drawing.Model
         }
 
         #endregion
+
+        #region Toolbox
+
+        private bool _isToolboxExpanded = false;
+        public bool IsToolboxExpanded
+        {
+            get => _isToolboxExpanded;
+            set => SetProperty(ref _isToolboxExpanded, value);
+        }
+
+        #endregion
     }
 }

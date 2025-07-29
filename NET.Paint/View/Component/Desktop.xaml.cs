@@ -108,6 +108,12 @@ namespace NET.Paint.View.Component
             {
                 switch(e.PropertyName)
                 {
+                    case nameof(XService.Preferences.IsToolboxExpanded):
+                        if (service.Preferences.IsToolboxExpanded)
+                            Dispatcher.Invoke(() => ToolboxPane.DockWidth = new GridLength(200, GridUnitType.Pixel));
+                        else
+                            Dispatcher.Invoke(() => ToolboxPane.DockWidth = new GridLength(41, GridUnitType.Pixel));
+                        break;
                     case nameof(XService.Preferences.ClipboardVisible):
                         Dispatcher.Invoke(() => ClipboardAnchorable.IsVisible = preferences.ClipboardVisible);
                         break;

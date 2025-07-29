@@ -1,6 +1,5 @@
 ﻿using AvalonDock.Layout;
 using NET.Paint.View.Component.Overview;
-using NET.Paint.View.Component.Tools;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,7 +17,7 @@ namespace NET.Paint.View.Component.Base.Converters
         {
             if (item is LayoutAnchorable anchorable)
             {
-                var toolBoxComponent = anchorable.Content as ToolBox;
+                var toolBoxComponent = anchorable.Content as Tools.ToolBar;
                 if (toolBoxComponent != null)
                     return ToolBoxTemplate;
 

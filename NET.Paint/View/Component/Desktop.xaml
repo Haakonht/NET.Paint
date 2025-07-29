@@ -41,6 +41,16 @@
             </DataTemplate>
 
             <selectors:LayoutTemplateSelector x:Key="LayoutSelector" DocumentTemplate="{StaticResource Editor}" />
+
+            <DataTemplate x:Key="ToolbarTemplate">
+                <toolComponents:ToolBar DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ToolboxTemplate">
+                <toolComponents:ToolBox DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
+            </DataTemplate>
+
+            <selectors:EvenOddTemplateSelector x:Key="ToolboxTemplateSelector" OddTemplate="{StaticResource ToolboxTemplate}" EvenTemplate="{StaticResource ToolbarTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -78,9 +88,9 @@
                     </dock:LayoutAnchorablePane>
 
                     <dock:LayoutPanel Orientation="Horizontal" DockHeight="*">
-                        <dock:LayoutAnchorablePane DockWidth="41" DockMinWidth="41">
+                        <dock:LayoutAnchorablePane x:Name="ToolboxPane" DockWidth="41" DockMinWidth="41">
                             <dock:LayoutAnchorable x:Name="ToolboxAnchorable" CanFloat="True" CanClose="False" CanHide="False" CanAutoHide="False" Title="Tools" CanDockAsTabbedDocument="False">
-                                <toolComponents:ToolBox DataContext="{Binding}" IsEnabled="{Binding Project, Converter={StaticResource AnchorableEnabledConverter}}"/>
+                                <ContentPresenter Content="{Binding Preferences.IsToolboxExpanded}" ContentTemplateSelector="{StaticResource ToolboxTemplateSelector}"/>
                             </dock:LayoutAnchorable>
                         </dock:LayoutAnchorablePane>
 

@@ -44,9 +44,15 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             InitializeComponent();
         }
+
         private void Popup_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
         private void Popup_MouseRightButtonDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
         private void Popup_MouseMove(object sender, MouseEventArgs e) => e.Handled = true;
         private void Popup_MouseWheel(object sender, MouseWheelEventArgs e) => e.Handled = true;
+
+        private void ColorPickerToggle_Click(object sender, RoutedEventArgs e)
+        {
+            ColorCanvasPopup.IsOpen = !ColorCanvasPopup.IsOpen;
+        }
     }
 }
