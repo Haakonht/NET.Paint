@@ -19,7 +19,9 @@
                 </Thumb.Template>
             </Thumb>
         </DataTemplate>
-      
+
+        <converters:RotateVisibileConverter x:Key="RotateVisibileConverter"/>
+        <converters:ThumbVisibleConverter x:Key="ThumbVisibleConverter"/>
     </UserControl.Resources>
     <Canvas>
         <ContentPresenter Content="{Binding}">
@@ -76,11 +78,18 @@
                            Margin="-6,-6,0,0" Cursor="SizeAll"
                            DragDelta="Thumb_DragDelta" 
                            MouseEnter="Thumb_MouseEnter"
-                           MouseLeave="Thumb_MouseLeave"/>
+                           MouseLeave="Thumb_MouseLeave">
+                        <Thumb.Visibility>
+                            <MultiBinding Converter="{StaticResource ThumbVisibleConverter}">
+                                <Binding />
+                                <Binding RelativeSource="{RelativeSource AncestorType=UserControl}" Path="DataContext"/>
+                            </MultiBinding>
+                        </Thumb.Visibility>
+                    </Thumb>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Center.Y}" Canvas.Left="{Binding Center.X}"/>
+        <ContentControl ContentTemplate="{StaticResource RotateThumb}" Canvas.Top="{Binding Center.Y}" Canvas.Left="{Binding Center.X}" Visibility="{Binding Converter={StaticResource RotateVisibileConverter}, Path=.}"/>
     </Canvas>
 </UserControl>

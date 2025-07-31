@@ -39,5 +39,11 @@ namespace NET.Paint.View.Component.Tools
                 service.Tools.SecondaryColor = temp;
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+                service.Preferences.IsToolboxExpanded = !service.Preferences.IsToolboxExpanded;
+        }
     }
 }

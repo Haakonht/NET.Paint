@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NET.Paint.Drawing.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace NET.Paint.View.Component.Tools
         public ToolBox()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is XService service)
+                service.Preferences.IsToolboxExpanded = !service.Preferences.IsToolboxExpanded;
         }
     }
 }
