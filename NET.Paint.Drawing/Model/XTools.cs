@@ -97,32 +97,6 @@ namespace NET.Paint.Drawing.Model
 
         #endregion
 
-        #region Color
-
-        private Color _primaryColor = Colors.Black;
-        public Color PrimaryColor
-        {
-            get => _primaryColor;
-            set
-            {
-                SetProperty(ref _primaryColor, value);
-                Stroke = XFactory.Color.CreateColor(ActiveStrokeType, ActiveStrokeGradientStyle, value, SecondaryColor);
-            }
-        }
-
-        private Color _secondaryColor = Colors.LightGray;
-        public Color SecondaryColor
-        {
-            get => _secondaryColor;
-            set
-            {
-                SetProperty(ref _secondaryColor, value);
-                Fill = XFactory.Color.CreateColor(ActiveFillType, ActiveFillGradientStyle, value, PrimaryColor);
-            }
-        }
-
-        #endregion
-
         #region Stroke
 
         private XGradientStyle _activeStrokeGradientStyle = XGradientStyle.Linear;
@@ -132,7 +106,7 @@ namespace NET.Paint.Drawing.Model
             set 
             {
                 SetProperty(ref _activeStrokeGradientStyle, value);
-                Stroke = XFactory.Color.CreateColor(ActiveStrokeType, value, PrimaryColor, SecondaryColor);
+                Stroke = XFactory.Color.CreateColor(ActiveStrokeType, value, Stroke, Fill);
             }
         }
 
@@ -143,7 +117,7 @@ namespace NET.Paint.Drawing.Model
             set
             {
                 SetProperty(ref _activeStrokeType, value);
-                Stroke = XFactory.Color.CreateColor(value, ActiveStrokeGradientStyle, PrimaryColor, SecondaryColor);
+                Stroke = XFactory.Color.CreateColor(value, ActiveStrokeGradientStyle, Stroke, Fill);
             }
         }
 
@@ -180,7 +154,7 @@ namespace NET.Paint.Drawing.Model
             set
             {
                 SetProperty(ref _activeFillGradientStyle, value);
-                Fill = XFactory.Color.CreateColor(ActiveFillType, value, SecondaryColor, PrimaryColor);
+                Fill = XFactory.Color.CreateColor(ActiveFillType, value, Fill, Stroke);
             }
         }
 
@@ -191,7 +165,7 @@ namespace NET.Paint.Drawing.Model
             set
             {
                 SetProperty(ref _activeFillType, value);
-                Fill = XFactory.Color.CreateColor(value, ActiveFillGradientStyle, SecondaryColor, PrimaryColor);
+                Fill = XFactory.Color.CreateColor(value, ActiveFillGradientStyle, Fill, Stroke);
             }
         }
 

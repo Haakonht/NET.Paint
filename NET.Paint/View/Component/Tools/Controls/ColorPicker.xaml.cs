@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using NET.Paint.Drawing.Model.Utility;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,12 +12,12 @@ namespace NET.Paint.View.Component.Tools.Controls
     public partial class ColorPicker : UserControl
     {
         public static readonly DependencyProperty SelectedColorProperty =
-             DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorPicker),
-                 new PropertyMetadata(Colors.Black));
+             DependencyProperty.Register("SelectedColor", typeof(XColor), typeof(ColorPicker),
+                 new PropertyMetadata(new XSolidColor { Color = Colors.Black }));
 
-        public Color SelectedColor
+        public XColor SelectedColor
         {
-            get { return (Color)GetValue(SelectedColorProperty); }
+            get { return (XColor)GetValue(SelectedColorProperty); }
             set { SetValue(SelectedColorProperty, value); }
         }
 

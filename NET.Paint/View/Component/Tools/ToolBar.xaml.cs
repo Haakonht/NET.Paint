@@ -34,9 +34,9 @@ namespace NET.Paint.View.Component.Tools
         {
             if (DataContext is XService service)
             {
-                var temp = service.Tools.PrimaryColor;
-                service.Tools.PrimaryColor = service.Tools.SecondaryColor;
-                service.Tools.SecondaryColor = temp;
+                var temp = service.Tools.Stroke;
+                service.Tools.Stroke = service.Tools.Fill;
+                service.Tools.Fill = temp;
             }
         }
 

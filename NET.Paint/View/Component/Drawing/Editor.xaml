@@ -13,7 +13,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:structure="clr-namespace:NET.Paint.Drawing.Model.Structure;assembly=NET.Paint.Drawing"
              mc:Ignorable="d" 
-             d:DesignHeight="1200" d:DesignWidth="1200"
+             d:DesignHeight="1200" d:DesignWidth="1200" x:Name="EditorComponent"
              d:DataContext="{d:DesignInstance Type=structure:XImage, IsDesignTimeCreatable=True}"
              d:Tag="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
@@ -76,17 +76,17 @@
             </Grid>
         </ScrollViewer>
 
-        <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30">
+        <Popup x:Name="ToolContextMenu" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint" HorizontalOffset="100" VerticalOffset="-30" Panel.ZIndex="9999999">
             <Border BorderBrush="Black" BorderThickness="1">
                 <Border.Background>
                     <SolidColorBrush Color="LightGray" Opacity="0.8"/>
                 </Border.Background>
-                <local:EditorContextMenu DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" x:Name="ToolContext"/>
+                <local:EditorContextMenu DataContext="{Binding Tag, ElementName=EditorComponent}" x:Name="ToolContext"/>
             </Border>
         </Popup>
 
-        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="50" VerticalOffset="-50" AllowsTransparency="True">
-            <local:EditorContextQuickSelect DataContext="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
+        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="-50" VerticalOffset="-50" AllowsTransparency="True">
+            <local:EditorContextQuickSelect DataContext="{Binding Tag, ElementName=EditorComponent}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
         </Popup>
 
         <ToggleButton x:Name="DetailsEnabledBtn" Content="{icons:MaterialIconExt Kind=Details}" Margin="-1,-1,0,0" Height="16" Width="16" Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1.2,1.2,1,1"/>

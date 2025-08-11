@@ -99,7 +99,7 @@ namespace NET.Paint.Drawing.Service
 
         #region Debug
 
-        private bool DebugMode = false;
+        private bool DebugMode = true;
 
         public void InitDebug()
         {

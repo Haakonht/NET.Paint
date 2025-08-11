@@ -33,7 +33,7 @@
                 </TabItem>
                 <TabItem Header="Stroke">
                     <Grid Background="White">
-                        <controls:Stroke Width="165" Margin="5"/>
+                        <controls:Stroke Width="165" Margin="5" DataContext="{Binding Tools}"/>
                     </Grid>
                 </TabItem>
             </TabControl>
@@ -51,12 +51,12 @@
                 </TabItem>
                 <TabItem Header="Stroke">
                     <Grid Background="White">
-                        <controls:Stroke Width="165" Margin="5"/>
+                        <controls:Stroke Width="165" Margin="5" DataContext="{Binding Tools}"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Fill">
                     <Grid Background="White">
-                        <controls:Fill Width="165" Margin="5"/>
+                        <controls:Fill Width="165" Margin="5" DataContext="{Binding Tools}"/>
                     </Grid>
                 </TabItem>
             </TabControl>
@@ -79,12 +79,12 @@
                 </TabItem>
                 <TabItem Header="Stroke">
                     <Grid Background="White">
-                        <controls:Stroke Width="165" Margin="5"/>
+                        <controls:Stroke Width="165" Margin="5" DataContext="{Binding Tools}"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Fill">
                     <Grid Background="White">
-                        <controls:Fill Width="165" Margin="5"/>
+                        <controls:Fill Width="165" Margin="5" DataContext="{Binding Tools}"/>
                     </Grid>
                 </TabItem>
             </TabControl>

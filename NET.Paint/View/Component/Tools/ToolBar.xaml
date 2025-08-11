@@ -66,9 +66,9 @@
                 </StackPanel>
 
                 <StackPanel Height="95">
-                    <controls:ColorPicker SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5"/>
+                    <controls:ColorPicker SelectedColor="{Binding Stroke, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5"/>
                     <Button Content="{icons:MaterialIconExt Kind=Cached}" Height="25" Click="SwapColor"/>
-                    <controls:ColorPicker SelectedColor="{Binding SecondaryColor, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5,0,0"/>
+                    <controls:ColorPicker SelectedColor="{Binding Fill, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5,0,0"/>
                 </StackPanel>
             </DockPanel>
         

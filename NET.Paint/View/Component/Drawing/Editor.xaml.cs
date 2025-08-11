@@ -53,6 +53,7 @@ namespace NET.Paint.View.Component.Drawing
 
             ToolContextMenu.IsOpen = true;
             ToolContextQuickSelect.IsOpen = false;
+            ToolContextMenu.Focus();
         }
 
         private void OnCloseToolContextRequested(object sender, RoutedEventArgs e)

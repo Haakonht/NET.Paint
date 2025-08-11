@@ -24,5 +24,10 @@ namespace NET.Paint.View.Component.Tools.Controls
         {
             InitializeComponent();
         }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Console.WriteLine($"Stroke control visibility changed: {e.NewValue}");
+        }
     }
 }

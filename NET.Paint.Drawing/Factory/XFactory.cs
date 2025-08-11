@@ -648,11 +648,14 @@ namespace NET.Paint.Drawing.Factory
 
         public static class Color
         {
-            public static XColor CreateColor(System.Windows.Media.Color primaryColor) => new XSolidColor { Color = primaryColor };
-            public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, System.Windows.Media.Color primaryColor, System.Windows.Media.Color secondaryColor)
+            public static XColor CreateColor(System.Windows.Media.Color color) => new XSolidColor { Color = color };
+            public static XColor CreateColor(XColorType activeColorType, XGradientStyle activeGradientStyle, XColor primary, XColor secondary)
             {
                 if (activeColorType == XColorType.Solid)
-                    return new XSolidColor { Color = primaryColor };
+                {
+                    return new XSolidColor { Color = primary.ToColor() };
+                }
+
                 else
                     if (activeGradientStyle == XGradientStyle.Linear)
                 {
@@ -662,8 +665,8 @@ namespace NET.Paint.Drawing.Factory
                         EndPoint = new Point(1, 0),
                         GradientStops = new ObservableCollection<XGradientStop>
                         {
-                            new XGradientStop { Color = secondaryColor, Offset = 0 },
-                            new XGradientStop { Color = primaryColor, Offset = 1 }
+                            new XGradientStop { Color = secondary.ToColor(), Offset = 0 },
+                            new XGradientStop { Color = primary.ToColor(), Offset = 1 }
                         }
                     };
                 }
@@ -675,8 +678,8 @@ namespace NET.Paint.Drawing.Factory
                         Radius = 0.5,
                         GradientStops = new ObservableCollection<XGradientStop>
                         {
-                            new XGradientStop { Color = secondaryColor, Offset = 0 },
-                            new XGradientStop { Color = primaryColor, Offset = 1 }
+                            new XGradientStop { Color = secondary.ToColor(), Offset = 0 },
+                            new XGradientStop { Color = primary.ToColor(), Offset = 1 }
                         }
                     };
                 }

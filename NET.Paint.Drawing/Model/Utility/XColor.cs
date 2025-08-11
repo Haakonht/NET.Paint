@@ -146,13 +146,13 @@ namespace NET.Paint.Drawing.Model.Utility
             };
         }
 
-        public static Color ToColor(this XColor xColor, bool isFill = false)
+        public static Color ToColor(this XColor xColor)
         {
             return xColor switch
             {
                 XSolidColor solid => solid.Color,
-                XLinearGradient linearGradient => isFill ? linearGradient.GradientStops.Last().Color : linearGradient.GradientStops.First().Color,
-                XRadialGradient radialGradient => isFill ? radialGradient.GradientStops.Last().Color : radialGradient.GradientStops.First().Color,
+                XLinearGradient linearGradient => linearGradient.GradientStops.OrderBy(x => x.Offset).Last().Color,
+                XRadialGradient radialGradient => radialGradient.GradientStops.OrderBy(x => x.Offset).Last().Color,
                 _ => Colors.Transparent
             };
         }

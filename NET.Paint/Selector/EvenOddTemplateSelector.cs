@@ -44,8 +44,16 @@ namespace NET.Paint.Selector
                     case false:
                         return EvenTemplate;
                 }
+            else if (item is XColorType colorType)
+                switch (colorType)
+                {
+                    case XColorType.Solid:
+                        return EvenTemplate;
+                    case XColorType.Gradient:
+                        return OddTemplate;
+            }
 
-            return EmptyTemplate;
+                return EmptyTemplate;
         }
     }
 }
