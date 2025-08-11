@@ -144,7 +144,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 // If the thumb was not being dragged, treat it as a click
                 if (!_isThumbDragging)
                 {
-                    var colorPicker = GeneralHelper.FindVisualChild<ColorPicker>(thumb);
+                    var colorPicker = GeneralHelper.FindVisualChild<Popup>(thumb);
                     if (colorPicker != null)
                     {
                         colorPicker.IsOpen = !colorPicker.IsOpen;
@@ -184,6 +184,10 @@ namespace NET.Paint.View.Component.Tools.Controls
                 e.Handled = true;
             }
         }
+
+        private void Popup_MouseRightButtonDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
+        private void Popup_MouseMove(object sender, MouseEventArgs e) => e.Handled = true;
+        private void Popup_MouseWheel(object sender, MouseWheelEventArgs e) => e.Handled = true;
 
     }
 }

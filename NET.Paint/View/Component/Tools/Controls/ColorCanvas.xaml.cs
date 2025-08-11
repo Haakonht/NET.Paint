@@ -50,6 +50,7 @@ namespace NET.Paint.View.Component.Tools.Controls
                 UpdateSLFromMousePosition(border, e.GetPosition(border));
                 border.CaptureMouse();
             }
+            e.Handled = true;
         }
 
         private void SLSelector_MouseMove(object sender, MouseEventArgs e)

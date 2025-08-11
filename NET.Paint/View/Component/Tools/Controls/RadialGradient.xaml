@@ -22,8 +22,10 @@
 
             <ControlTemplate x:Key="GradientStopThumbTemplate" TargetType="{x:Type Thumb}">
                 <Grid Background="Transparent">
-                    <local:ColorPicker x:Name="ColorPicker" Width="0" Height="0" IsHitTestVisible="False" SelectedColor="{Binding Color, Mode=TwoWay}"/>
-                    <Polygon Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Stroke="Black" StrokeThickness="1" Points="0,0 10,0 10,15 5,20 0,15"/>
+                    <Popup Width="200" x:Name="ColorCanvasPopup" StaysOpen="False" AllowsTransparency="True" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=GradientStopButton}" HorizontalOffset="18">
+                        <local:ColorCanvas SelectedColor="{Binding Color, Mode=TwoWay}" MouseRightButtonDown="Popup_MouseRightButtonDown" MouseMove="Popup_MouseMove" MouseWheel="Popup_MouseWheel"/>
+                    </Popup>
+                    <Polygon x:Name="GradientStopButton"  Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Stroke="Black" StrokeThickness="1" Points="0,0 10,0 10,15 5,20 0,15"/>
                 </Grid>
             </ControlTemplate>
 
