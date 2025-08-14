@@ -30,7 +30,8 @@
     {
         Vector,
         Raster,
-        Hybrid
+        Hybrid,
+        Diagram
     }
 
     public enum XColorType
