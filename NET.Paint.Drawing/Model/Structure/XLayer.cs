@@ -1,6 +1,7 @@
 ﻿using MessagePack;
 using NET.Paint.Drawing.Constant;
 using NET.Paint.Drawing.Interface;
+using NET.Paint.Drawing.Model.Diagram;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -215,6 +216,46 @@ namespace NET.Paint.Drawing.Model.Structure
             OffsetY = OffsetY,
             Shapes = new ObservableCollection<XRenderable>(Shapes.Select(shape => (XRenderable)shape.Clone())),
             Bitmap = this.Bitmap
+        };
+
+        #endregion
+    }
+
+    [MessagePackObject]
+    public class XDiagramLayer : XLayer
+    {
+        [Key(1)]
+        public override XLayerType Type => XLayerType.Diagram;
+
+        [Key(6)]
+        public ObservableCollection<XRenderable> Shapes
+        {
+            get => _shapes;
+            set => SetProperty(ref _shapes, value);
+        }
+        private ObservableCollection<XRenderable> _shapes = new ObservableCollection<XRenderable>();
+
+        [Key(7)]
+        public ObservableCollection<XConnection> Connections
+        {
+            get => _connections;
+            set => SetProperty(ref _connections, value);
+        }
+        private ObservableCollection<XConnection> _connections = new ObservableCollection<XConnection>();
+
+        #region Volatile
+
+        [IgnoreMember]
+        [Browsable(false)]
+        public override bool CanUndo => Shapes.Count > 0;
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(CanUndo));
+        public XDiagramLayer() => _shapes.CollectionChanged += CollectionChanged;
+        public override object Clone() => new XDiagramLayer
+        {
+            Title = Title,
+            OffsetX = OffsetX,
+            OffsetY = OffsetY,
+            Shapes = new ObservableCollection<XRenderable>(Shapes.Select(shape => (XRenderable)shape.Clone()))
         };
 
         #endregion
