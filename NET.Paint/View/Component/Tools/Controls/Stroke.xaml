@@ -19,8 +19,8 @@
     <StackPanel Grid.Row="1" DataContext="{Binding}" Background="White">
         <Label Content="Type" Padding="0" Margin="2,2,0,2" FontSize="10"/>
         <UniformGrid>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRoundedOutline}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Solid}}"/>
-            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Gradient}}"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=SquareRoundedOutline}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Solid}}" PreviewMouseDown="SolidButton"/>
+            <RadioButton Height="25" Style="{StaticResource {x:Type ToggleButton}}" GroupName="StrokeTypeSelect" Content="{icons:MaterialIconExt Kind=GradientHorizontal}" IsChecked="{Binding ActiveStrokeType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static options:XColorType.Gradient}}" PreviewMouseDown="GradientButton"/>
         </UniformGrid>
         <ContentPresenter x:Name="SolidGradientPresenter" Content="{Binding Stroke}" Margin="0,-25,0,0">
             <ContentPresenter.Resources>

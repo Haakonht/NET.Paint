@@ -85,7 +85,7 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="-50" VerticalOffset="-50" AllowsTransparency="True">
+        <Popup x:Name="ToolContextQuickSelect" StaysOpen="False" Placement="MousePoint" HorizontalOffset="50" VerticalOffset="-50" AllowsTransparency="True">
             <local:EditorContextQuickSelect DataContext="{Binding Tag, ElementName=EditorComponent}" Width="100" Height="100" MouseRightButtonUp="CloseToolContextQuickSelect" MouseLeave="CloseToolContextQuickSelect" OpenToolContextRequested="OnOpenToolContextRequested" OpenSpecificToolContext="OnOpenSpecificToolContext" CloseToolContextRequested="OnCloseToolContextRequested"/>
         </Popup>
 

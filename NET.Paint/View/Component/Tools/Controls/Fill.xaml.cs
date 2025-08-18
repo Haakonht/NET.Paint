@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,22 @@ namespace NET.Paint.View.Component.Tools.Controls
         public Fill()
         {
             InitializeComponent();
+        }
+
+        private void SolidButton(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is XTools tools)
+            {
+                tools.ActiveFillType = XColorType.Solid;
+            }
+        }
+
+        private void GradientButton(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is XTools tools)
+            {
+                tools.ActiveFillType = XColorType.Gradient;
+            }
         }
     }
 }

@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=.}">
-        <ToggleButton x:Name="ColorPickerToggle" Background="{Binding SelectedColor.Color, Converter={StaticResource ColorToBrushConverter}}" IsChecked="{Binding IsOpen, Mode=TwoWay}">
+        <Button x:Name="ColorPickerToggle" Background="{Binding SelectedColor.Color, Converter={StaticResource ColorToBrushConverter}}" PreviewMouseDown="ColorPickerToggle_Click">
             <TextBlock Text="{Binding SelectedColor.Color}" Foreground="{Binding SelectedColor.Color, Converter={StaticResource ContrastColorConverter}}" Visibility="{Binding NameVisibility, Mode=TwoWay}" IsHitTestVisible="False">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
@@ -30,7 +30,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-        </ToggleButton>
+        </Button>
 
         <Popup Width="200" x:Name="ColorCanvasPopup" StaysOpen="False" AllowsTransparency="True" IsOpen="{Binding IsOpen, Mode=TwoWay}" Placement="Top" PlacementTarget="{Binding ElementName=ColorPickerToggle}" HorizontalOffset="18">
             <local:ColorCanvas SelectedColor="{Binding SelectedColor.Color, Mode=TwoWay}"

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model;
+using NET.Paint.Drawing.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +28,20 @@ namespace NET.Paint.View.Component.Tools.Controls
             InitializeComponent();
         }
 
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void SolidButton(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine($"Stroke control visibility changed: {e.NewValue}");
+            if (DataContext is XTools tools)
+            {
+                tools.ActiveStrokeType = XColorType.Solid;
+            }
+        }
+
+        private void GradientButton(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is XTools tools)
+            {
+                tools.ActiveStrokeType = XColorType.Gradient;
+            }
         }
     }
 }

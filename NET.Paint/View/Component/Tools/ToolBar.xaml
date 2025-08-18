@@ -11,6 +11,7 @@
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing"
              xmlns:selectors="clr-namespace:NET.Paint.Selector"
              xmlns:controls="clr-namespace:NET.Paint.View.Component.Tools.Controls"
+             xmlns:drawing="clr-namespace:NET.Paint.View.Component.Drawing.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="41" d:Background="White"
              d:DataContext="{d:DesignInstance Type=service:XService, IsDesignTimeCreatable=True}">
@@ -33,6 +34,8 @@
                                    EvenTemplate="{StaticResource CircleToolIcon}" OddTemplate="{StaticResource EllipseToolIcon}"/>
             <selectors:EvenOddTemplateSelector x:Key="PencilTemplateSelector" EmptyTemplate="{StaticResource PencilToolIcon}"
                                    EvenTemplate="{StaticResource PencilToolIcon}" OddTemplate="{StaticResource EraserToolIcon}"/>
+
+            <drawing:XColorToBrushConverter x:Key="XColorToBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -66,9 +69,15 @@
                 </StackPanel>
 
                 <StackPanel Height="95">
-                    <controls:ColorPicker SelectedColor="{Binding Stroke, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5"/>
+                    <Grid Height="25" Margin="0,5">
+                        <controls:ColorPicker SelectedColor="{Binding Stroke, Mode=TwoWay}" Height="25" NameVisibility="Collapsed"/>
+                        <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Stroke, Converter={StaticResource XColorToBrushConverter}}" IsHitTestVisible="False"/>
+                    </Grid>
                     <Button Content="{icons:MaterialIconExt Kind=Cached}" Height="25" Click="SwapColor"/>
-                    <controls:ColorPicker SelectedColor="{Binding Fill, Mode=TwoWay}" Height="25" NameVisibility="Collapsed" Margin="0,5,0,0"/>
+                    <Grid Height="25" Margin="0,5">
+                        <controls:ColorPicker SelectedColor="{Binding Fill, Mode=TwoWay}" Height="25" NameVisibility="Collapsed"/>
+                        <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Fill, Converter={StaticResource XColorToBrushConverter}}" IsHitTestVisible="False"/>
+                    </Grid>
                 </StackPanel>
             </DockPanel>
         
