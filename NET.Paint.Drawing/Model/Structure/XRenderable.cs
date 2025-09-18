@@ -1,5 +1,6 @@
 ﻿using MessagePack;
 using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Diagram;
 using NET.Paint.Drawing.Model.Shape;
 using NET.Paint.Drawing.Model.Utility;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace NET.Paint.Drawing.Model.Structure
     [Union(14, typeof(XCloud))]
     [Union(15, typeof(XArrow))]
     [Union(16, typeof(XSpiral))]
+    [Union(17, typeof(XConnection))]
     [MessagePackObject]
     public abstract class XRenderable : XObject, ICloneable
     {

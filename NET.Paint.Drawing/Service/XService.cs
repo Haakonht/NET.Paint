@@ -26,7 +26,7 @@ namespace NET.Paint.Drawing.Service
             CornerRadius = 5
         };
 
-private XProject _project = null;
+        private XProject _project = null;
         public XProject Project
         {
             get => _project;
@@ -60,7 +60,7 @@ private XProject _project = null;
         }
 
         public ObservableCollection<XNotification> Notifications { get; } = new ObservableCollection<XNotification>();
-        public XClipboard Clipboard { get; } = XClipboard.Instance; 
+        public XClipboard Clipboard { get; } = XClipboard.Instance;
         public XTools Tools { get; } = XTools.Instance;
         public XPreferences Preferences { get; } = new XPreferences
         {
@@ -99,12 +99,34 @@ private XProject _project = null;
 
         #region Debug
 
-        private bool DebugMode = false;
+        public enum DebugMode
+        {
+            Vector,
+            Diagram
+        }
+
+        private bool debugEnabled = true;
+        private DebugMode debugMode = DebugMode.Diagram;
 
         public void InitDebug()
         {
-            if (!DebugMode) return;
+            if (!debugEnabled) return;
 
+            switch (debugMode)
+            {
+                case DebugMode.Vector:
+                    DebugVector();
+                    break;
+                case DebugMode.Diagram:
+                    DebugDiagram();
+                    break;
+            }
+        }
+
+        #region Vector
+
+        public void DebugVector()
+        {
             // Create sample layers and shapes
             var sampleLayer1 = new XVectorLayer { Title = "Demo Layer" };
 
@@ -311,6 +333,62 @@ private XProject _project = null;
             // Set the active image and layer
             ActiveImage = sampleImage1;
         }
+
+        #endregion
+
+        #region Diagram
+
+        public void DebugDiagram()
+        {
+            // Create sample layers and shapes
+            var sampleLayer1 = new XDiagramLayer { Title = "Demo Diagram Layer" };
+
+            sampleLayer1.Shapes.Add(new XRectangle
+            {
+                Points = new ObservableCollection<Point> { new Point(50, 120), new Point(120, 170) },
+                Stroke = XFactory.Color.CreateColor(Colors.Blue),
+                StrokeThickness = 2,
+                Fill = XFactory.Color.CreateColor(Colors.LightBlue),
+                CornerRadius = 5
+            });
+
+            sampleLayer1.Shapes.Add(new XRectangle
+            {
+                Points = new ObservableCollection<Point> { new Point(200, 120), new Point(270, 170) },
+                Stroke = XFactory.Color.CreateColor(Colors.Green),
+                StrokeThickness = 2,
+                Fill = XFactory.Color.CreateColor(Colors.LightGreen),
+                CornerRadius = 5
+            });
+
+            var sampleImage1 = new XImage
+            {
+                Title = "Demo Image",
+                Width = 600,
+                Height = 600,
+                Background = XFactory.Color.CreateColor(Colors.White),
+                ActiveLayer = sampleLayer1
+            };
+            sampleImage1.Layers.Clear();
+            sampleImage1.Layers.Add(sampleLayer1);
+
+            // Set up the project with images and add some random bitmaps
+            Project = new XProject
+            {
+                Title = "Design-Time Project",
+                Description = "Sample project for design-time preview",
+                Author = "Designer",
+                Images = new ObservableCollection<XImage> { sampleImage1 }
+            };
+
+            //for (int i = 0; i < 5; i++)
+            Project.Bitmaps.Add(XHelper.CreateRandomBitmap(200, 200));
+
+            // Set the active image and layer
+            ActiveImage = sampleImage1;
+        }
+
+        #endregion
 
         #endregion
     }

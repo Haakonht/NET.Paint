@@ -82,6 +82,22 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XDiagramLayer}">
+                        <ItemsControl ItemsSource="{Binding Shapes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Visibility="{Binding Visibility}">
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="{Binding Rotation}" CenterX="{Binding DataContext.Center.X, RelativeSource={RelativeSource AncestorType=UserControl}}" CenterY="{Binding DataContext.Center.Y,  RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}"/>
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                    </Canvas>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type structure:XRasterLayer}">
                         <Canvas>
                             <Image Source="{Binding Bitmap}" Visibility="{Binding Visibility}">

@@ -1,4 +1,5 @@
-﻿using NET.Paint.Drawing.Model.Structure;
+﻿using NET.Paint.Drawing.Constant;
+using NET.Paint.Drawing.Model.Structure;
 using NET.Paint.Drawing.Service;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,40 +44,34 @@ namespace NET.Paint.View.Component.Base
                 });
         }
 
-        private void AddVectorLayer(object sender, RoutedEventArgs e)
+        private void AddLayer(object sender, RoutedEventArgs e)
         {
-            if (DataContext is XService service && service.ActiveImage != null)
+            if (DataContext is XService service && service.ActiveImage != null && sender is Button btn)
             {
-                service.Command.Operations.CreateLayer(new XVectorLayer
+                if (Enum.IsDefined(typeof(XLayerType), btn.Tag))
                 {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
-                });
-                LayerQuickSelect.IsOpen = false;
+                    XLayer layer = null;
+                    switch ((XLayerType)btn.Tag)
+                    {
+                        case XLayerType.Vector:
+                            layer = new XVectorLayer();
+                            break;
+                        case XLayerType.Raster:
+                            layer = new XRasterLayer();
+                            break;
+                        case XLayerType.Hybrid:
+                            layer = new XHybridLayer();
+                            break;
+                        case XLayerType.Diagram:
+                            layer = new XDiagramLayer();
+                            break;
+                    }
+                    layer.Title = $"Layer {service.ActiveImage.Layers.Count + 1}";
+                    service.Command.Operations.CreateLayer(layer);
+                }
             }
-        }
 
-        private void AddHybridLayer(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is XService service && service.ActiveImage != null)
-            {
-                service.Command.Operations.CreateLayer(new XHybridLayer
-                {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
-                });
-                LayerQuickSelect.IsOpen = false;
-            }
-        }
-
-        private void AddRasterLayer(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is XService service && service.ActiveImage != null)
-            {
-                service.Command.Operations.CreateLayer(new XRasterLayer
-                {
-                    Title = $"Layer {service.ActiveImage.Layers.Count + 1}"
-                });
-                LayerQuickSelect.IsOpen = false;
-            }
+            LayerQuickSelect.IsOpen = false;
         }
 
         #endregion

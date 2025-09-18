@@ -61,6 +61,9 @@
                     <DataTemplate DataType="{x:Type structure:XHybridLayer}">
                         <ContentPresenter ContentTemplate="{StaticResource HybridLayerToolIcon}" Width="20"/>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type structure:XDiagramLayer}">
+                        <ContentPresenter ContentTemplate="{StaticResource DiagramLayerToolIcon}" Width="20"/>
+                    </DataTemplate>
                 </ResourceDictionary>
             </ContentControl.Resources>
         </ContentControl>

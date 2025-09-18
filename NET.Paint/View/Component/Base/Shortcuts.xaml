@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ma="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF" 
+             xmlns:types="clr-namespace:NET.Paint.Drawing.Constant;assembly=NET.Paint.Drawing"
              xmlns:utility="clr-namespace:NET.Paint.Drawing.Model.Utility;assembly=NET.Paint.Drawing" 
              xmlns:service="clr-namespace:NET.Paint.Drawing.Service;assembly=NET.Paint.Drawing" 
              xmlns:converter="clr-namespace:NET.Paint.Converter" 
@@ -99,12 +100,13 @@
                 </ToggleButton.Content>
             </ToggleButton>
 
-            <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="35" VerticalOffset="5">
+            <Popup x:Name="LayerQuickSelect" PlacementTarget="{Binding ElementName=AddLayerBtn}" Placement="Bottom" StaysOpen="False" HorizontalOffset="45" VerticalOffset="5">
                 <Border Background="White" BorderBrush="Black" BorderThickness="1" Padding="5" MouseLeave="CloseLayerQuickSelect">
                     <StackPanel Orientation="Horizontal" Height="25">
-                        <Button Width="25" ToolTip="New vector layer" ContentTemplate="{StaticResource VectorLayerToolIcon}" Click="AddVectorLayer"/>
-                        <Button Margin="5,0" Width="25" ToolTip="New hybrid layer" ContentTemplate="{StaticResource HybridLayerToolIcon}" Click="AddHybridLayer"/>
-                        <Button Width="25" ToolTip="New raster layer" ContentTemplate="{StaticResource RasterLayerToolIcon}" Click="AddRasterLayer"/>
+                        <Button Width="25" ToolTip="New vector layer" ContentTemplate="{StaticResource VectorLayerToolIcon}" Tag="{x:Static types:XLayerType.Vector}" Click="AddLayer"/>
+                        <Button Margin="5,0" Width="25" ToolTip="New hybrid layer" ContentTemplate="{StaticResource HybridLayerToolIcon}" Tag="{x:Static types:XLayerType.Hybrid}" Click="AddLayer"/>
+                        <Button Width="25" ToolTip="New raster layer" ContentTemplate="{StaticResource RasterLayerToolIcon}" Tag="{x:Static types:XLayerType.Raster}" Click="AddLayer"/>
+                        <Button Margin="5,0" Width="25" ToolTip="New diagram layer" ContentTemplate="{StaticResource DiagramLayerToolIcon}" Tag="{x:Static types:XLayerType.Diagram}" Click="AddLayer"/>
                     </StackPanel>
                 </Border>
             </Popup>

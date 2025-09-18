@@ -23,20 +23,29 @@
         Polygon,
         Text,
         Bitmap,
-        Effect
+        Effect,
+        Connection
     }
 
     public enum XLayerType
     {
         Vector,
         Raster,
-        Hybrid
+        Hybrid,
+        Diagram
     }
 
     public enum XColorType
     {
         Solid,
         Gradient
+    }
+
+    public enum XConnectionType
+    {
+        None,
+        One,
+        Many
     }
 
     #endregion
